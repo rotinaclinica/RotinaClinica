@@ -1,8 +1,8 @@
 import Mux from "@mux/mux-node";
 
 export const mux = new Mux({
-  tokenId: process.env.MUX_TOKEN_ID!,
-  tokenSecret: process.env.MUX_TOKEN_SECRET!,
+  tokenId: process.env.MUX_TOKEN_ID ?? "placeholder",
+  tokenSecret: process.env.MUX_TOKEN_SECRET ?? "placeholder",
 });
 
 export async function createMuxUploadUrl() {

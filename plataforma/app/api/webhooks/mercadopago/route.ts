@@ -5,7 +5,7 @@ import { grantAccess } from "@/lib/entitlements";
 import { sendPurchaseConfirmation } from "@/lib/email";
 
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN!,
+  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN ?? "placeholder",
 });
 
 export async function POST(req: NextRequest) {

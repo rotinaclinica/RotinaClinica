@@ -5,8 +5,8 @@ import "./globals.css";
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
 export const metadata: Metadata = {
-  title: { default: "Plataforma", template: "%s | Plataforma" },
-  description: "Cursos e produtos digitais",
+  title: { default: "Rotina Clínica", template: "%s | Rotina Clínica" },
+  description: "Cursos e materiais digitais para profissionais da saúde",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
