@@ -41,11 +41,21 @@ const benefits = [
   },
 ];
 
-const planItems = [
+const monthlyItems = [
   "+200 prescrições prontas",
   "Casos clínicos semanais",
   "Cursos e videoaulas",
-  "Ebooks e materiais exclusivos",
+  "Ebooks e materiais de apoio",
+  "Cancele quando quiser",
+];
+
+const annualItems = [
+  "Tudo do plano mensal",
+  "+200 prescrições prontas",
+  "Casos clínicos semanais",
+  "Cursos e videoaulas",
+  "Ebooks e materiais de apoio",
+  "Equivale a 4 meses grátis",
   "Cancele quando quiser",
 ];
 
@@ -150,7 +160,7 @@ export default function AssinaturaPage() {
               </div>
               <p className="text-[#9ec4de] text-sm mb-7">por mês · cancele quando quiser</p>
               <ul className="space-y-3 mb-8 flex-1">
-                {planItems.map((item) => (
+                {monthlyItems.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-white/85">
                     <Check />
                     {item}
@@ -177,7 +187,7 @@ export default function AssinaturaPage() {
               <p className="text-zinc-400 text-sm mb-1">≈ R$ 26,58/mês</p>
               <p className="text-[#1a6aad] text-sm font-bold mb-7">Economize R$ 160 por ano</p>
               <ul className="space-y-3 mb-8 flex-1">
-                {planItems.map((item) => (
+                {annualItems.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600">
                     <Check dark />
                     {item}
