@@ -77,10 +77,10 @@ export default function ConhecaPage() {
             {/* Lucas */}
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               <div className="flex gap-3 flex-shrink-0">
-                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
                   <img src="/images/LUCAS%20AULA.jpg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
                   <img src="/images/Lucas%20USG.jpeg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
@@ -107,10 +107,10 @@ export default function ConhecaPage() {
             {/* Yan */}
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               <div className="flex gap-3 flex-shrink-0">
-                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
                   <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
                   <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
               </div>

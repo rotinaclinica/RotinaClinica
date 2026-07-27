@@ -3,12 +3,11 @@
 import { useState } from "react";
 
 const photos = [
-  { src: "/images/turma.jpg", alt: "Turma" },
   { src: "/images/turma%201.jpg", alt: "Turma 1" },
   { src: "/images/turma%202.jpg", alt: "Turma 2" },
   { src: "/images/turma%203.jpg", alt: "Turma 3" },
   { src: "/images/turma%204.jpg", alt: "Turma 4" },
-  { src: "/images/turma%204.1.jpg", alt: "Turma" },
+  { src: "/images/turma%204.1.jpg", alt: "Turma 4" },
 ];
 
 export default function TurmaCarousel() {
