@@ -145,7 +145,7 @@ export default function AssinaturaPage() {
               </div>
               <p className="text-[#9ec4de] text-sm font-semibold uppercase tracking-wider mb-5 mt-2">Plano Mensal</p>
               <div className="mb-1 flex items-end gap-1">
-                <span className="text-5xl font-extrabold text-white leading-none">R$ 49</span>
+                <span className="text-5xl font-extrabold text-white leading-none">R$ 39</span>
                 <span className="text-white/60 text-2xl pb-1">,90</span>
               </div>
               <p className="text-[#9ec4de] text-sm mb-7">por mês · cancele quando quiser</p>
@@ -172,10 +172,10 @@ export default function AssinaturaPage() {
               </div>
               <p className="text-zinc-400 text-sm font-semibold uppercase tracking-wider mb-5 mt-2">Anual</p>
               <div className="mb-1 flex items-end gap-1">
-                <span className="text-5xl font-extrabold text-[#0f2d4a] leading-none">R$ 399</span>
+                <span className="text-5xl font-extrabold text-[#0f2d4a] leading-none">R$ 319</span>
               </div>
-              <p className="text-zinc-400 text-sm mb-1">≈ R$ 33,25/mês</p>
-              <p className="text-[#1a6aad] text-sm font-bold mb-7">Economize R$ 200 por ano</p>
+              <p className="text-zinc-400 text-sm mb-1">≈ R$ 26,58/mês</p>
+              <p className="text-[#1a6aad] text-sm font-bold mb-7">Economize R$ 160 por ano</p>
               <ul className="space-y-3 mb-8 flex-1">
                 {planItems.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600">
