@@ -86,13 +86,13 @@ export default async function HomePage() {
             <p className="text-zinc-500 text-sm leading-relaxed">Desde 2023 formando médicos mais seguros e efetivos. Mais de 127 alunos já passaram pelos nossos cursos presenciais.</p>
           </div>
 
-          {/* Card 3 — 200+ prescrições */}
+          {/* Card 3 — Especialistas */}
           <div className="bg-white border border-zinc-200 rounded-2xl p-6 hover:shadow-lg hover:border-[#3db8d4] transition-all">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center mb-4">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2Z"/><path d="M2 20c0-4 4-7 10-7s10 3 10 7"/></svg>
             </div>
-            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+200 modelos de prescrição</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Acesse mais de 200 modelos prontos em segundos, com busca rápida por diagnóstico ou situação clínica. Todos baseados em evidências.</p>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Conteúdo produzido por especialistas</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">Todo o conteúdo é desenvolvido por especialistas em clínica médica, com foco em aplicação prática e segurança no atendimento.</p>
           </div>
 
           {/* Card 4 — Conteúdo por cenário */}
