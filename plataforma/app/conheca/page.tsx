@@ -62,6 +62,70 @@ export default function ConhecaPage() {
           </p>
         </div>
 
+      {/* Equipe */}
+        <div className="bg-white rounded-2xl border border-zinc-200 p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h2 className="text-xl font-extrabold text-[#0f2d4a]">Nossa Equipe</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            {/* Lucas */}
+            <div className="flex flex-col sm:flex-row gap-5 items-start">
+              <div className="w-28 h-28 rounded-2xl flex-shrink-0 overflow-hidden border border-zinc-200 relative bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center">
+                <span className="text-white text-2xl font-extrabold select-none">L</span>
+                {/* trocar src pelo nome exato do arquivo após adicioná-lo em public/images/ */}
+                <img src="/images/lucas.jpg" alt="Lucas" className="absolute inset-0 w-full h-full object-cover object-top" />
+              </div>
+              <div>
+                <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Lucas</h3>
+                <ul className="mt-3 space-y-2">
+                  {[
+                    "Especialista em Clínica Médica pelo HUCAM/UFES",
+                    "Residente de Geriatria (R4)",
+                    "Rotina de enfermaria, PS e UPA",
+                    "Professor universitário",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-zinc-600">
+                      <svg className="flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Yan */}
+            <div className="flex flex-col sm:flex-row gap-5 items-start">
+              <div className="w-28 h-28 rounded-2xl flex-shrink-0 overflow-hidden border border-zinc-200 relative bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a] flex items-center justify-center">
+                <span className="text-white text-2xl font-extrabold select-none">Y</span>
+                {/* trocar src pelo nome exato do arquivo após adicioná-lo em public/images/ */}
+                <img src="/images/yan.jpg" alt="Yan" className="absolute inset-0 w-full h-full object-cover object-top" />
+              </div>
+              <div>
+                <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Yan</h3>
+                <ul className="mt-3 space-y-2">
+                  {[
+                    "Especialista em Clínica Médica pelo HUCAM/UFES",
+                    "Residente de Endocrinologia (R3)",
+                    "Atuação em PS, UPA, Emergência e UTI",
+                    "Concursado pelo EBSERH — PS do HUCAM",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-zinc-600">
+                      <svg className="flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
       {/* Footer */}
