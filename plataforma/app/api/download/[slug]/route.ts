@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getDownloadUrl } from "@/lib/r2";
+import { getEbookDownloadUrl } from "@/lib/blob";
 
 export async function GET(
   _req: NextRequest,
@@ -16,6 +16,6 @@ export async function GET(
     return NextResponse.json({ error: "Arquivo não disponível" }, { status: 404 });
   }
 
-  const url = await getDownloadUrl(product.fileKey);
+  const url = await getEbookDownloadUrl(product.fileKey);
   return NextResponse.redirect(url);
 }
