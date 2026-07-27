@@ -24,9 +24,10 @@ export default function Navbar() {
         </Link>
 
         {/* Links desktop */}
-        <div className="hidden md:flex items-center gap-3 text-sm font-medium">
-          <Link href="/produtos" className="text-[#9ec4de] hover:text-white transition-colors px-3 py-1.5">Ebooks e Cursos</Link>
-          <Link href="/conheca" className="text-[#9ec4de] hover:text-white transition-colors px-3 py-1.5">Conheça o Rotina Clínica</Link>
+        <div className="hidden md:flex items-center gap-3 text-sm font-bold">
+          <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Início</Link>
+          <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Ebooks e Cursos</Link>
+          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Conheça o Rotina Clínica</Link>
         </div>
 
         {/* Ações desktop */}
@@ -65,16 +66,23 @@ export default function Navbar() {
       {open && (
         <div className="md:hidden border-t border-white/10 bg-[#0f2d4a] px-6 py-4 space-y-1">
           <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold"
+          >
+            Início
+          </Link>
+          <Link
             href="/produtos"
             onClick={() => setOpen(false)}
-            className="block text-[#9ec4de] hover:text-white transition-colors py-3 text-base font-medium"
+            className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold"
           >
             Ebooks e Cursos
           </Link>
           <Link
             href="/conheca"
             onClick={() => setOpen(false)}
-            className="block text-[#9ec4de] hover:text-white transition-colors py-3 text-base font-medium"
+            className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold"
           >
             Conheça o Rotina Clínica
           </Link>
