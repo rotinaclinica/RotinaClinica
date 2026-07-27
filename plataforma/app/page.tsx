@@ -35,9 +35,21 @@ export default async function HomePage() {
               Com você em toda a sua{" "}
               <span className="text-[#3db8d4]">trajetória médica</span>
             </h1>
-            <p className="text-[#b8d8ee] text-lg leading-relaxed mb-8">
+            <p className="text-[#b8d8ee] text-lg leading-relaxed mb-6">
               O <span className="font-semibold text-white">Rotina Clínica</span> acompanha você desde o internato, passando por UBS, plantões em UPA e no PS, até os plantões na emergência.
             </p>
+            <ul className="space-y-3 mb-8">
+              {[
+                "Condutas práticas, baseadas em evidências.",
+                "Conteúdo em segundos na palma da sua mão, em qualquer lugar.",
+                "Junte-se aos nossos 900+ alunos e adquira segurança e efetividade nos seus atendimentos.",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-[#b8d8ee] text-base">
+                  <span className="mt-1 text-[#3db8d4] flex-shrink-0">›</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
             <Link
               href="/assinatura"
               className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
