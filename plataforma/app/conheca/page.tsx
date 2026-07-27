@@ -86,8 +86,8 @@ export default function ConhecaPage() {
                   {[
                     "Especialista em Clínica Médica pelo HUCAM/UFES",
                     "Residente de Geriatria (R4)",
-                    "Rotina de enfermaria, PS e UPA",
-                    "Professor universitário",
+                    "Atuação em Rotina de enfermaria, PS e UPA",
+                    "Experiência como professor universitário",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-zinc-600">
                       <svg className="flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
