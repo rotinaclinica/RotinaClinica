@@ -50,12 +50,10 @@ const monthlyItems = [
 ];
 
 const annualItems = [
-  "Tudo do plano mensal",
-  "+200 prescrições prontas",
-  "Casos clínicos semanais",
-  "Cursos e videoaulas",
-  "Ebooks e materiais de apoio",
+  "Tudo do plano mensal incluído",
+  "Acesso garantido por 12 meses",
   "Equivale a 4 meses grátis",
+  "Economize R$ 160 por ano",
   "Cancele quando quiser",
 ];
 
@@ -146,48 +144,21 @@ export default function AssinaturaPage() {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0f2d4a] mt-2">Invista na sua carreira</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
 
-            {/* Mensal — destaque */}
-            <div className="relative bg-[#0f2d4a] rounded-3xl p-7 flex flex-col shadow-2xl">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#3db8d4] text-[#0f2d4a] text-xs font-extrabold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md">
-                Mais popular
+            {/* Mensal — secundário */}
+            <div className="relative bg-white border-2 border-zinc-200 rounded-3xl p-7 flex flex-col shadow-sm">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-zinc-500 text-white text-xs font-extrabold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                Sem compromisso
               </div>
-              <p className="text-[#9ec4de] text-sm font-semibold uppercase tracking-wider mb-5 mt-2">Plano Mensal</p>
+              <p className="text-zinc-400 text-sm font-semibold uppercase tracking-wider mb-5 mt-2">Plano Mensal</p>
               <div className="mb-1 flex items-end gap-1">
-                <span className="text-5xl font-extrabold text-white leading-none">R$ 39</span>
-                <span className="text-white/60 text-2xl pb-1">,90</span>
+                <span className="text-5xl font-extrabold text-[#0f2d4a] leading-none">R$ 39</span>
+                <span className="text-[#0f2d4a]/50 text-2xl pb-1">,90</span>
               </div>
-              <p className="text-[#9ec4de] text-sm mb-7">por mês · cancele quando quiser</p>
+              <p className="text-zinc-400 text-sm mb-7">por mês · cancele quando quiser</p>
               <ul className="space-y-3 mb-8 flex-1">
                 {monthlyItems.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-white/85">
-                    <Check />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/registro"
-                className="block text-center bg-white text-[#0f2d4a] font-bold py-4 rounded-2xl hover:bg-[#3db8d4] hover:text-white transition-all shadow text-base"
-              >
-                Assinar mensal
-              </Link>
-            </div>
-
-            {/* Anual */}
-            <div className="relative bg-white border-2 border-zinc-200 rounded-3xl p-7 flex flex-col shadow-sm hover:shadow-lg hover:border-[#3db8d4] transition-all">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#1a6aad] text-white text-xs font-extrabold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md">
-                Plano Anual
-              </div>
-              <p className="text-zinc-400 text-sm font-semibold uppercase tracking-wider mb-5 mt-2">Anual</p>
-              <div className="mb-1 flex items-end gap-1">
-                <span className="text-5xl font-extrabold text-[#0f2d4a] leading-none">R$ 319</span>
-              </div>
-              <p className="text-zinc-400 text-sm mb-1">≈ R$ 26,58/mês</p>
-              <p className="text-[#1a6aad] text-sm font-bold mb-7">Economize R$ 160 por ano</p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {annualItems.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600">
                     <Check dark />
                     {item}
@@ -197,6 +168,33 @@ export default function AssinaturaPage() {
               <Link
                 href="/registro"
                 className="block text-center bg-[#0f2d4a] text-white font-bold py-4 rounded-2xl hover:bg-[#1a3d5c] transition-all shadow text-base"
+              >
+                Assinar mensal
+              </Link>
+            </div>
+
+            {/* Anual — destaque */}
+            <div className="relative bg-[#0f2d4a] rounded-3xl p-7 flex flex-col shadow-2xl">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#3db8d4] text-[#0f2d4a] text-xs font-extrabold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                Recomendado
+              </div>
+              <p className="text-[#9ec4de] text-sm font-semibold uppercase tracking-wider mb-5 mt-2">Plano Anual</p>
+              <div className="mb-1 flex items-end gap-1">
+                <span className="text-5xl font-extrabold text-white leading-none">R$ 319</span>
+              </div>
+              <p className="text-[#9ec4de] text-sm mb-1">≈ R$ 26,58/mês</p>
+              <p className="text-[#3db8d4] text-sm font-bold mb-7">Economize R$ 160 por ano</p>
+              <ul className="space-y-3 mb-8 flex-1">
+                {annualItems.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-white/85">
+                    <Check />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/registro"
+                className="block text-center bg-[#3db8d4] text-[#0f2d4a] font-bold py-4 rounded-2xl hover:bg-[#2fa8c4] transition-all shadow text-base"
               >
                 Assinar anual
               </Link>
