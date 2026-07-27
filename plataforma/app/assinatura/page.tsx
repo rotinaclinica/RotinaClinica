@@ -80,7 +80,7 @@ export default function AssinaturaPage() {
             <span className="text-[#3db8d4]">atender com segurança</span>
           </h1>
           <p className="text-[#9ec4de] text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-10">
-            Prescrições prontas, casos clínicos, videoaulas e materiais de apoio — uma plataforma completa para quem atua no dia a dia da clínica médica.
+            Prescrições prontas, casos clínicos, videoaulas e materiais de apoio — uma plataforma completa para quem atua na linha de frente.
           </p>
           <a
             href="#planos"
