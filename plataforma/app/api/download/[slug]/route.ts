@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getEbookDownloadUrl } from "@/lib/blob";
+import { getPrivateBlob } from "@/lib/blob";
 
 export async function GET(
   _req: NextRequest,
@@ -16,6 +16,16 @@ export async function GET(
     return NextResponse.json({ error: "Arquivo não disponível" }, { status: 404 });
   }
 
-  const url = await getEbookDownloadUrl(product.fileKey);
-  return NextResponse.redirect(url);
+  const result = await getPrivateBlob(product.fileKey);
+
+  if (!result || result.statusCode !== 200) {
+    return NextResponse.json({ error: "Erro ao buscar arquivo" }, { status: 500 });
+  }
+
+  return new NextResponse(result.stream, {
+    headers: {
+      "Content-Type": result.blob.contentType || "application/pdf",
+      "Content-Disposition": `attachment; filename="${slug}.pdf"`,
+    },
+  });
 }

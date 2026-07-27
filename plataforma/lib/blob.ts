@@ -1,6 +1,5 @@
-import { head } from "@vercel/blob";
+import { get } from "@vercel/blob";
 
-export async function getEbookDownloadUrl(fileKey: string): Promise<string> {
-  const blob = await head(fileKey);
-  return blob.downloadUrl;
+export async function getPrivateBlob(fileKey: string) {
+  return get(fileKey, { access: "private" });
 }
