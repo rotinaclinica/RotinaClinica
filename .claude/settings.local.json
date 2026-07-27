@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(where cargo *)",
+      "Bash(where rustc *)",
+      "Bash(where git *)",
+      "Bash(where rtk *)",
+      "PowerShell(Get-Command winget -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command scoop -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command rtk -ErrorAction SilentlyContinue)"
+    ]
+  }
+}
