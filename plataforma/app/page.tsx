@@ -73,7 +73,7 @@ export default async function HomePage() {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center mb-4">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="12" r="3"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
             </div>
-            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+50k no Instagram · +3k no YouTube</h3>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+50k no Instagram<br />+3k no Youtube</h3>
             <p className="text-zinc-500 text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
           </div>
 
