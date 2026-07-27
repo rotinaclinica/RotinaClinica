@@ -82,7 +82,7 @@ export default async function HomePage() {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a] flex items-center justify-center mb-4">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             </div>
-            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Fundado em 2023 · +127 alunos presenciais</h3>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Fundado em 2023</h3>
             <p className="text-zinc-500 text-sm leading-relaxed">Desde 2023 formando médicos mais seguros e efetivos. Mais de 127 alunos já passaram pelos nossos cursos presenciais.</p>
           </div>
 
