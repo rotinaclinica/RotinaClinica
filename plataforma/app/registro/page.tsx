@@ -19,6 +19,7 @@ function RegistroForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +27,12 @@ function RegistroForm() {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    if (password !== confirm) {
+      setError("As senhas não coincidem.");
+      setLoading(false);
+      return;
+    }
 
     const res = await fetch("/api/auth/register", {
       method: "POST",
@@ -134,6 +141,23 @@ function RegistroForm() {
                 placeholder="Mínimo 6 caracteres"
                 className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Confirme sua senha</label>
+              <input
+                type="password"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                required
+                minLength={6}
+                placeholder="Repita a senha"
+                className={`w-full border rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent ${
+                  confirm && confirm !== password ? "border-red-400 bg-red-50" : "border-zinc-300"
+                }`}
+              />
+              {confirm && confirm !== password && (
+                <p className="text-red-500 text-xs mt-1">As senhas não coincidem.</p>
+              )}
             </div>
 
             {error && (
