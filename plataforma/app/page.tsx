@@ -34,7 +34,7 @@ export default async function HomePage() {
                 <span className="text-[#3db8d4]">trajetória médica</span>
               </h1>
               <p className="text-[#9ec4de] text-lg leading-relaxed mb-10">
-                A <span className="font-semibold text-white">Rotina Clínica</span> acompanha você desde o internato, passando por UBS, plantões em UPA e no PS, até os plantões na emergência.
+                O <span className="font-semibold text-white">Rotina Clínica</span> acompanha você desde o internato, passando por UBS, plantões em UPA e no PS, até os plantões na emergência.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
