@@ -166,7 +166,7 @@ export default function AssinaturaPage() {
                 ))}
               </ul>
               <Link
-                href="/registro"
+                href="/registro?plano=mensal"
                 className="block text-center bg-[#0f2d4a] text-white font-bold py-4 rounded-2xl hover:bg-[#1a3d5c] transition-all shadow text-base"
               >
                 Assinar mensal
@@ -193,7 +193,7 @@ export default function AssinaturaPage() {
                 ))}
               </ul>
               <Link
-                href="/registro"
+                href="/registro?plano=anual"
                 className="block text-center bg-[#3db8d4] text-[#0f2d4a] font-bold py-4 rounded-2xl hover:bg-[#2fa8c4] transition-all shadow text-base"
               >
                 Assinar anual
