@@ -23,7 +23,7 @@ export default function TurmaCarousel() {
           key={current}
           src={photos[current].src}
           alt={photos[current].alt}
-          className="w-full h-[500px] object-cover object-center"
+          className="w-full h-64 sm:h-[500px] object-cover object-center"
         />
 
         <button

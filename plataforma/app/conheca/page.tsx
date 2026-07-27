@@ -64,7 +64,7 @@ export default function ConhecaPage() {
         </div>
 
       {/* Equipe */}
-        <div className="bg-white rounded-2xl border border-zinc-200 p-8">
+        <div className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center flex-shrink-0">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -76,11 +76,11 @@ export default function ConhecaPage() {
 
             {/* Lucas */}
             <div className="flex flex-col sm:flex-row gap-6 items-start">
-              <div className="flex gap-3 flex-shrink-0">
-                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto sm:flex-shrink-0">
+                <div className="sm:w-56 h-52 sm:h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
                   <img src="/images/LUCAS%20AULA.jpg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                <div className="sm:w-56 h-52 sm:h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
                   <img src="/images/Lucas%20USG.jpeg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
@@ -106,11 +106,11 @@ export default function ConhecaPage() {
 
             {/* Yan */}
             <div className="flex flex-col sm:flex-row gap-6 items-start">
-              <div className="flex gap-3 flex-shrink-0">
-                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto sm:flex-shrink-0">
+                <div className="sm:w-56 h-52 sm:h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
                   <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-56 h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                <div className="sm:w-56 h-52 sm:h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
                   <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
