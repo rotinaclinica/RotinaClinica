@@ -100,8 +100,8 @@ export default async function HomePage() {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a] flex items-center justify-center mb-4">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
-            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">UBS, PS, UPA e Emergência</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Conteúdos pensados para cada cenário do plantão. Mais discussão de casos clínicos reais toda semana.</p>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Conteúdo adaptado para sua realidade</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">Do internato à emergência: conteúdo pensado para quem atua na UBS, PS, UPA e emergência. Discussão de casos clínicos reais toda semana.</p>
           </div>
         </div>
       </section>
