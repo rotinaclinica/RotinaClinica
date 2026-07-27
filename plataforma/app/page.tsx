@@ -61,8 +61,53 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Produtos do banco (seção dinâmica) */}
-      {products.length > 0 && (
+      {/* Credenciais e diferenciais */}
+      <section className="max-w-5xl mx-auto py-16 px-6">
+        <div className="text-center mb-10">
+          <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Por que o Rotina Clínica?</span>
+          <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2">Uma comunidade que cresce com você</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Card 1 — Instagram + YouTube */}
+          <div className="bg-white border border-zinc-200 rounded-2xl p-6 hover:shadow-lg hover:border-[#3db8d4] transition-all">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="12" r="3"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+            </div>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+50k no Instagram · +3k no YouTube</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
+          </div>
+
+          {/* Card 2 — Fundado em 2023 */}
+          <div className="bg-white border border-zinc-200 rounded-2xl p-6 hover:shadow-lg hover:border-[#3db8d4] transition-all">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a] flex items-center justify-center mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Fundado em 2023 · +127 alunos presenciais</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">Desde 2023 formando médicos mais seguros e efetivos. Mais de 127 alunos já passaram pelos nossos cursos presenciais.</p>
+          </div>
+
+          {/* Card 3 — 200+ prescrições */}
+          <div className="bg-white border border-zinc-200 rounded-2xl p-6 hover:shadow-lg hover:border-[#3db8d4] transition-all">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </div>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+200 modelos de prescrição</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">Acesse mais de 200 modelos prontos em segundos, com busca rápida por diagnóstico ou situação clínica. Todos baseados em evidências.</p>
+          </div>
+
+          {/* Card 4 — Conteúdo por cenário */}
+          <div className="bg-white border border-zinc-200 rounded-2xl p-6 hover:shadow-lg hover:border-[#3db8d4] transition-all">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a] flex items-center justify-center mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">UBS, PS, UPA e Emergência</h3>
+            <p className="text-zinc-500 text-sm leading-relaxed">Conteúdos pensados para cada cenário do plantão. Mais discussão de casos clínicos reais toda semana.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Produtos do banco (seção dinâmica) — removida da home */}
+      {false && products.length > 0 && (
         <section id="produtos" className="max-w-7xl mx-auto py-20 px-6">
           <div className="text-center mb-12">
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">
