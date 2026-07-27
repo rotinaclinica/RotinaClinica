@@ -9,8 +9,8 @@ export default function ConhecaPage() {
       <section className="bg-[#0f2d4a] py-20 px-6 text-center">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl font-extrabold text-white mb-4">Conheça o Rotina Clínica</h1>
-          <p className="text-[#9ec4de] text-lg">
-            Em breve, você vai conhecer nossa história, missão e a equipe por trás do Rotina Clínica.
+          <p className="text-[#9ec4de] text-lg leading-relaxed">
+            Nosso objetivo é encurtar a distância entre a teoria e a prática médica. Conheça a história, a missão e os valores de quem está com você no plantão.
           </p>
         </div>
       </section>
