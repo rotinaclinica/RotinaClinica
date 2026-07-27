@@ -73,11 +73,11 @@ export default function ProdutosPage() {
               rel="noopener noreferrer"
               className="group bg-white rounded-2xl overflow-hidden border border-zinc-200 hover:shadow-xl hover:border-[#3db8d4] transition-all flex flex-col"
             >
-              <div className="relative overflow-hidden">
+              <div className="relative bg-white flex items-center justify-center h-60 overflow-hidden border-b border-zinc-100">
                 <img
                   src={p.image}
                   alt={p.title}
-                  className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                 />
                 <span className="absolute top-3 left-3 bg-[#0f2d4a] text-white text-xs font-bold px-3 py-1 rounded-full">
                   {p.tag}
@@ -114,11 +114,11 @@ export default function ProdutosPage() {
                 href={`/download/${e.slug}`}
                 className="group bg-white rounded-2xl overflow-hidden border border-zinc-200 hover:shadow-xl hover:border-[#3db8d4] transition-all flex flex-col"
               >
-                <div className="relative overflow-hidden">
+                <div className="relative bg-white flex items-center justify-center h-60 overflow-hidden border-b border-zinc-100">
                   <img
                     src={e.image}
                     alt={e.title}
-                    className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                   />
                   <span className="absolute top-3 left-3 bg-[#3db8d4] text-[#0f2d4a] text-xs font-bold px-3 py-1 rounded-full">
                     Gratuito
