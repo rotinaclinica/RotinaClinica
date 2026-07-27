@@ -88,14 +88,14 @@ export default function ConhecaPage() {
                 <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Lucas</h3>
                 <ul className="mt-3 space-y-2">
                   {[
-                    "Especialista em Clínica Médica pelo HUCAM/UFES",
-                    "Residente de Geriatria (R4)",
-                    "Atuação em Rotina de enfermaria, PS e UPA",
-                    "Experiência como professor universitário",
+                    "Especialista em Clínica Médica pelo HUCAM/UFES.",
+                    "Residente de Geriatria (R4).",
+                    "Atuação em rotina de enfermaria, PS e UPA.",
+                    "Experiência como professor universitário.",
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-zinc-600">
-                      <svg className="flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      <span>{item}</span>
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600 leading-relaxed">
+                      <svg className="flex-shrink-0 mt-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span className="text-justify">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -116,14 +116,14 @@ export default function ConhecaPage() {
                 <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Yan</h3>
                 <ul className="mt-3 space-y-2">
                   {[
-                    "Especialista em Clínica Médica pelo HUCAM/UFES",
-                    "Residente de Endocrinologia (R3)",
-                    "Atuação em PS, UPA, Emergência e UTI",
-                    "Concursado pelo EBSERH — PS do HUCAM",
+                    "Especialista em Clínica Médica pelo HUCAM/UFES.",
+                    "Residente de Endocrinologia (R3).",
+                    "Atuação em PS, UPA, Emergência e UTI.",
+                    "Concursado pelo EBSERH — PS do HUCAM.",
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-zinc-600">
-                      <svg className="flex-shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      <span>{item}</span>
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600 leading-relaxed">
+                      <svg className="flex-shrink-0 mt-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span className="text-justify">{item}</span>
                     </li>
                   ))}
                 </ul>
