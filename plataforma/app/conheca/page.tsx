@@ -1,5 +1,6 @@
 import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
+import TurmaCarousel from "@/app/components/TurmaCarousel";
 
 export default function ConhecaPage() {
   return (
@@ -76,11 +77,11 @@ export default function ConhecaPage() {
             {/* Lucas */}
             <div className="flex flex-col sm:flex-row gap-5 items-start">
               <div className="flex gap-2 flex-shrink-0">
-                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
-                  <img src="/images/LUCAS%20AULA.jpg" alt="Lucas" className="w-full h-full object-cover object-top" />
+                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                  <img src="/images/LUCAS%20AULA.jpg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
-                  <img src="/images/Lucas%20USG.jpeg" alt="Lucas" className="w-full h-full object-cover object-top" />
+                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                  <img src="/images/Lucas%20USG.jpeg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
               <div>
@@ -104,11 +105,11 @@ export default function ConhecaPage() {
             {/* Yan */}
             <div className="flex flex-col sm:flex-row gap-5 items-start">
               <div className="flex gap-2 flex-shrink-0">
-                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
-                  <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-top" />
+                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                  <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
-                  <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-top" />
+                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                  <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
               <div>
@@ -137,9 +138,12 @@ export default function ConhecaPage() {
           <img
             src="/images/FOTO%20LUCAS%20E%20YAN.jpg"
             alt="Lucas e Yan"
-            className="w-full h-72 object-cover object-top"
+            className="w-full h-96 object-cover object-center"
           />
         </div>
+
+        {/* Álbum de turmas */}
+        <TurmaCarousel />
 
       </div>
 
