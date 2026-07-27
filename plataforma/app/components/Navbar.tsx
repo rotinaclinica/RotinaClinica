@@ -18,9 +18,9 @@ export default function Navbar() {
           <Logo variant="light" />
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#9ec4de]">
-          <Link href="/#produtos" className="hover:text-white transition-colors">Cursos</Link>
-          <Link href="/sobre" className="hover:text-white transition-colors">Sobre</Link>
+        <div className="hidden md:flex items-center gap-3 text-sm font-medium">
+          <Link href="/produtos" className="text-[#9ec4de] hover:text-white transition-colors px-3 py-1.5">Ebooks e Cursos</Link>
+          <Link href="/conheca" className="text-[#9ec4de] hover:text-white transition-colors px-3 py-1.5">Conheça o Rotina Clínica</Link>
         </div>
 
         <div className="flex items-center gap-3">
