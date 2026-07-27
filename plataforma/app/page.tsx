@@ -21,43 +21,43 @@ export default async function HomePage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-[#0f2d4a] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0f2d4a] via-[#163d61] to-[#1a6aad] opacity-100" />
-        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-24">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="inline-block text-[#3db8d4] text-sm font-semibold tracking-widest uppercase mb-4">
-                Educação em saúde
-              </span>
-              <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-white leading-tight mb-6">
-                Com você em toda a sua{" "}
-                <span className="text-[#3db8d4]">trajetória médica</span>
-              </h1>
-              <p className="text-[#9ec4de] text-lg leading-relaxed mb-10">
-                O <span className="font-semibold text-white">Rotina Clínica</span> acompanha você desde o internato, passando por UBS, plantões em UPA e no PS, até os plantões na emergência.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="#produtos"
-                  className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg"
-                >
-                  Ver cursos
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </Link>
-                <Link
-                  href="/registro"
-                  className="inline-flex items-center gap-2 border border-white/30 hover:border-white text-white font-semibold px-8 py-3.5 rounded-xl transition-all backdrop-blur-sm"
-                >
-                  Criar conta grátis
-                </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <img
-                src="/images/turma.jpg"
-                alt="Turma de alunos da Rotina Clínica"
-                className="w-full h-auto rounded-2xl shadow-2xl ring-1 ring-white/10 object-cover"
-              />
+      <section className="relative overflow-hidden min-h-[540px] md:min-h-[600px] flex items-center">
+        {/* Foto de fundo */}
+        <img
+          src="/images/turma.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* Overlay gradiente: escuro à esquerda, transparente à direita */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a1e30]/95 via-[#0f2d4a]/80 to-[#0f2d4a]/30" />
+
+        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28 w-full">
+          <div className="max-w-xl">
+            <span className="inline-block text-[#3db8d4] text-sm font-semibold tracking-widest uppercase mb-4">
+              Educação em saúde
+            </span>
+            <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-tight mb-6">
+              Com você em toda a sua{" "}
+              <span className="text-[#3db8d4]">trajetória médica</span>
+            </h1>
+            <p className="text-[#b8d8ee] text-lg leading-relaxed mb-10">
+              O <span className="font-semibold text-white">Rotina Clínica</span> acompanha você desde o internato, passando por UBS, plantões em UPA e no PS, até os plantões na emergência.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="#produtos"
+                className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg"
+              >
+                Ver cursos
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </Link>
+              <Link
+                href="/registro"
+                className="inline-flex items-center gap-2 border border-white/40 hover:border-white text-white font-semibold px-8 py-3.5 rounded-xl transition-all backdrop-blur-sm"
+              >
+                Criar conta grátis
+              </Link>
             </div>
           </div>
         </div>
