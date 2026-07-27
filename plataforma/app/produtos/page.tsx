@@ -5,15 +5,15 @@ import { Logo } from "@/app/components/Navbar";
 const PAID_PRODUCTS = [
   {
     title: "Manual de Prescrições",
-    description: "O guia prático de prescrições médicas para o dia a dia do plantão.",
+    description: "Nunca mais trave na hora de prescrever! Consulte mais de 200 modelos de prescrições prontas em segundos - da UBS à emergência.",
     image: "/images/ebook-manual.png",
     tag: "E-book",
-    price: "R$ 47",
+    price: "R$ 97",
     hotmart: "https://pay.hotmart.com/X103386000T?off=93hk0q5o&checkoutMode=10",
   },
   {
     title: "Sedação, IOT e VM",
-    description: "Domine sedação, intubação orotraqueal e ventilação mecânica com segurança.",
+    description: "Prepare-se para ACABAR com o medo da intubação orotraqueal e adquirir SEGURANÇA e EFETIVIDADE!",
     image: "/images/ebook-iot.png",
     tag: "E-book",
     price: "R$ 47",
@@ -21,10 +21,10 @@ const PAID_PRODUCTS = [
   },
   {
     title: "Destravando o Plantão",
-    description: "Curso completo para você atuar com confiança nos plantões de emergência.",
+    description: "Domine as 10 principais queixas do paciente adulto no PS. A faculdade te ensinou a teoria, mas a realidade do plantão exige decisões rápidas, raciocínio clínico e condutas efetivas. Foi exatamente para encurtar essa distância entre a teoria e a prática que nasceu o Destravando o Plantão.",
     image: "/images/curso-plantao.png",
     tag: "Curso Online",
-    price: "R$ 297",
+    price: "R$ 397",
     hotmart: "https://pay.hotmart.com/T106092708E?checkoutMode=10",
   },
 ];
