@@ -72,21 +72,21 @@ export default function ConhecaPage() {
             <h2 className="text-xl font-extrabold text-[#0f2d4a]">Nossa Equipe</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-8">
 
             {/* Lucas */}
-            <div className="flex flex-col sm:flex-row gap-5 items-start">
-              <div className="flex gap-2 flex-shrink-0">
-                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              <div className="flex gap-3 flex-shrink-0">
+                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
                   <img src="/images/LUCAS%20AULA.jpg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
                   <img src="/images/Lucas%20USG.jpeg" alt="Lucas" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
-              <div>
-                <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Lucas</h3>
-                <ul className="mt-3 space-y-2">
+              <div className="pt-1">
+                <h3 className="font-extrabold text-[#0f2d4a] text-xl leading-tight mb-4">Lucas</h3>
+                <ul className="space-y-3">
                   {[
                     "Especialista em Clínica Médica pelo HUCAM/UFES.",
                     "Residente de Geriatria (R4).",
@@ -102,19 +102,21 @@ export default function ConhecaPage() {
               </div>
             </div>
 
+            <div className="border-t border-zinc-100" />
+
             {/* Yan */}
-            <div className="flex flex-col sm:flex-row gap-5 items-start">
-              <div className="flex gap-2 flex-shrink-0">
-                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              <div className="flex gap-3 flex-shrink-0">
+                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
                   <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
-                <div className="w-32 h-44 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                <div className="w-48 h-64 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
                   <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-center" />
                 </div>
               </div>
-              <div>
-                <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Yan</h3>
-                <ul className="mt-3 space-y-2">
+              <div className="pt-1">
+                <h3 className="font-extrabold text-[#0f2d4a] text-xl leading-tight mb-4">Yan</h3>
+                <ul className="space-y-3">
                   {[
                     "Especialista em Clínica Médica pelo HUCAM/UFES.",
                     "Residente de Endocrinologia (R3).",
