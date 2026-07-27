@@ -78,7 +78,7 @@ export default async function HomePage() {
       </section>
 
       {/* Diferenciais */}
-      <section className="bg-[#f0f7ff] border-y border-[#d0e8f5]">
+      <section className="bg-[#0a2240]">
         <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
           {[
             { icon: "🎓", value: "Cursos especializados", label: "para profissionais da saúde" },
@@ -88,8 +88,8 @@ export default async function HomePage() {
             <div key={item.value} className="flex items-center gap-4">
               <span className="text-3xl">{item.icon}</span>
               <div>
-                <p className="font-bold text-[#0f2d4a] text-sm">{item.value}</p>
-                <p className="text-zinc-500 text-sm">{item.label}</p>
+                <p className="font-bold text-white text-sm">{item.value}</p>
+                <p className="text-[#9ec4de] text-sm">{item.label}</p>
               </div>
             </div>
           ))}
