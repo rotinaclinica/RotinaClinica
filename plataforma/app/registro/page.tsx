@@ -10,6 +10,43 @@ const planInfo = {
   anual:  { label: "Plano Anual",  price: "R$ 319/ano · economize R$ 160", color: "bg-[#3db8d4] text-[#0f2d4a]" },
 };
 
+function EyeIcon({ open }: { open: boolean }) {
+  return open ? (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+    </svg>
+  ) : (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  );
+}
+
+function PasswordInput({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+  const [show, setShow] = useState(false);
+  return (
+    <div className="relative">
+      <input
+        type={show ? "text" : "password"}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required
+        minLength={6}
+        placeholder={placeholder}
+        className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+      />
+      <button
+        type="button"
+        onClick={() => setShow((v) => !v)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 transition-colors"
+        aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+      >
+        <EyeIcon open={show} />
+      </button>
+    </div>
+  );
+}
+
 function RegistroForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,19 +57,22 @@ function RegistroForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [terms, setTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const passwordMismatch = confirm.length > 0 && confirm !== password;
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     if (password !== confirm) {
       setError("As senhas não coincidem.");
-      setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     const res = await fetch("/api/auth/register", {
       method: "POST",
@@ -56,9 +96,7 @@ function RegistroForm() {
     <div className="min-h-screen flex bg-[#f0f7ff]">
       {/* Painel esquerdo */}
       <div className="hidden lg:flex flex-col justify-between w-96 bg-[#0f2d4a] p-10">
-        <Link href="/">
-          <Logo variant="light" />
-        </Link>
+        <Link href="/"><Logo variant="light" /></Link>
 
         <div className="space-y-4">
           {plan && (
@@ -119,6 +157,7 @@ function RegistroForm() {
                 className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-zinc-700 mb-1.5">E-mail</label>
               <input
@@ -130,35 +169,43 @@ function RegistroForm() {
                 className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Senha</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                placeholder="Mínimo 6 caracteres"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
-              />
+              <PasswordInput value={password} onChange={setPassword} placeholder="Mínimo 6 caracteres" />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Confirme sua senha</label>
-              <input
-                type="password"
-                value={confirm}
-                onChange={(e) => setConfirm(e.target.value)}
-                required
-                minLength={6}
-                placeholder="Repita a senha"
-                className={`w-full border rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent ${
-                  confirm && confirm !== password ? "border-red-400 bg-red-50" : "border-zinc-300"
-                }`}
-              />
-              {confirm && confirm !== password && (
+              <div className="relative">
+                <PasswordInput value={confirm} onChange={setConfirm} placeholder="Repita a senha" />
+              </div>
+              {passwordMismatch && (
                 <p className="text-red-500 text-xs mt-1">As senhas não coincidem.</p>
               )}
             </div>
+
+            {/* Termos de uso */}
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={terms}
+                onChange={(e) => setTerms(e.target.checked)}
+                required
+                className="mt-0.5 w-4 h-4 rounded border-zinc-300 text-[#1a6aad] accent-[#1a6aad] flex-shrink-0"
+              />
+              <span className="text-xs text-zinc-500 leading-relaxed">
+                Ao criar sua conta, você concorda com os{" "}
+                <Link href="/termos" className="text-[#1a6aad] hover:underline font-medium" target="_blank">
+                  Termos de Uso
+                </Link>{" "}
+                e a{" "}
+                <Link href="/privacidade" className="text-[#1a6aad] hover:underline font-medium" target="_blank">
+                  Política de Privacidade
+                </Link>
+                .
+              </span>
+            </label>
 
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
@@ -168,8 +215,8 @@ function RegistroForm() {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full bg-[#1a6aad] hover:bg-[#0f2d4a] disabled:opacity-50 text-white py-3 rounded-xl font-bold text-sm transition-all"
+              disabled={loading || passwordMismatch || !terms}
+              className="w-full bg-[#1a6aad] hover:bg-[#0f2d4a] disabled:opacity-40 disabled:cursor-not-allowed text-white py-3 rounded-xl font-bold text-sm transition-all"
             >
               {loading ? "Criando conta..." : plan ? "Criar conta e continuar" : "Criar conta grátis"}
             </button>
