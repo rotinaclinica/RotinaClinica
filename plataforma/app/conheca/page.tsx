@@ -75,10 +75,13 @@ export default function ConhecaPage() {
 
             {/* Lucas */}
             <div className="flex flex-col sm:flex-row gap-5 items-start">
-              <div className="w-28 h-28 rounded-2xl flex-shrink-0 overflow-hidden border border-zinc-200 relative bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center">
-                <span className="text-white text-2xl font-extrabold select-none">L</span>
-                {/* trocar src pelo nome exato do arquivo após adicioná-lo em public/images/ */}
-                <img src="/images/lucas.jpg" alt="Lucas" className="absolute inset-0 w-full h-full object-cover object-top" />
+              <div className="flex gap-2 flex-shrink-0">
+                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                  <img src="/images/LUCAS%20AULA.jpg" alt="Lucas" className="w-full h-full object-cover object-top" />
+                </div>
+                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#3db8d4] to-[#1a6aad]">
+                  <img src="/images/Lucas%20USG.jpeg" alt="Lucas" className="w-full h-full object-cover object-top" />
+                </div>
               </div>
               <div>
                 <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Lucas</h3>
@@ -100,10 +103,13 @@ export default function ConhecaPage() {
 
             {/* Yan */}
             <div className="flex flex-col sm:flex-row gap-5 items-start">
-              <div className="w-28 h-28 rounded-2xl flex-shrink-0 overflow-hidden border border-zinc-200 relative bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a] flex items-center justify-center">
-                <span className="text-white text-2xl font-extrabold select-none">Y</span>
-                {/* trocar src pelo nome exato do arquivo após adicioná-lo em public/images/ */}
-                <img src="/images/yan.jpg" alt="Yan" className="absolute inset-0 w-full h-full object-cover object-top" />
+              <div className="flex gap-2 flex-shrink-0">
+                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                  <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-top" />
+                </div>
+                <div className="w-[5.5rem] h-28 rounded-xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
+                  <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-top" />
+                </div>
               </div>
               <div>
                 <h3 className="font-extrabold text-[#0f2d4a] text-lg leading-tight">Yan</h3>
@@ -124,6 +130,15 @@ export default function ConhecaPage() {
             </div>
 
           </div>
+        </div>
+
+        {/* Foto conjunta */}
+        <div className="rounded-2xl overflow-hidden border border-zinc-200 shadow-sm">
+          <img
+            src="/images/FOTO%20LUCAS%20E%20YAN.jpg"
+            alt="Lucas e Yan"
+            className="w-full h-72 object-cover object-top"
+          />
         </div>
 
       </div>
