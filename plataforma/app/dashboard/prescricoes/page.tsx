@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { prescricoesMeta, categorias, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import PrescricaoContent from "./PrescricaoContent";
 
 // ── Detail Modal ──────────────────────────────────────────────────────────────
 function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () => void }) {
@@ -57,11 +58,7 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
             </div>
           )}
           {error && <p className="text-red-500 text-sm text-center py-8">{error}</p>}
-          {conteudo && (
-            <pre className="whitespace-pre-wrap font-sans text-sm text-zinc-700 leading-relaxed">
-              {conteudo}
-            </pre>
-          )}
+          {conteudo && <PrescricaoContent conteudo={conteudo} />}
         </div>
       </div>
     </div>
