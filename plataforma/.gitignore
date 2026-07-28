@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+# Raw PDF image extraction output (page-level .raw + .meta.json blobs, ~500 pages)
+# Processed topic PNGs (public/prescricoes-images/topic/) are intentionally tracked
+/public/prescricoes-images/[0-9]*/
+/public/prescricoes-images/_index.json
+/public/prescricoes-images/_topic-pages.json
+/public/ebook/

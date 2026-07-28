@@ -1,44 +1,48 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import { prescricoesMeta, categorias, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { prescricoesMeta, emergenciaIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
-// ── Detail Modal ──────────────────────────────────────────────────────────────
-function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () => void }) {
+// ── Content loader hook ───────────────────────────────────────────────────────
+function useConteudo(id: string) {
   const [conteudo, setConteudo] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useMemo(() => {
+  useEffect(() => {
     setLoading(true); setError(""); setConteudo(null);
-    fetch(`/api/prescricoes/${item.id}`)
+    fetch(`/api/prescricoes/${id}`)
       .then(r => r.json())
-      .then(d => { setConteudo(d.conteudo ?? null); setError(d.error ?? ""); })
+      .then(d => { setConteudo(d.conteudo ?? null); if (d.error) setError(d.error); })
       .catch(() => setError("Erro ao carregar."))
       .finally(() => setLoading(false));
-  }, [item.id]);
+  }, [id]);
+
+  return { conteudo, loading, error };
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () => void }) {
+  const { conteudo, loading, error } = useConteudo(item.id);
+  const emerg = emergenciaIds.has(item.id);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Panel */}
       <div className="relative bg-white w-full sm:max-w-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[85dvh]">
         {/* Header */}
         <div className="flex items-start gap-3 p-5 border-b border-zinc-200 flex-shrink-0">
           <div className="flex-1 min-w-0">
-            <span className="text-[10px] font-bold bg-[#e8f4fc] text-[#1a6aad] px-2.5 py-1 rounded-full uppercase tracking-wide">
-              {item.categoria}
-            </span>
-            <h2 className="font-extrabold text-[#0f2d4a] text-lg leading-snug mt-2">{item.titulo}</h2>
-            <div className="flex flex-wrap gap-1 mt-1.5">
-              {item.tags.map(t => (
-                <span key={t} className="text-[10px] text-zinc-400 bg-zinc-100 px-2 py-0.5 rounded-full">{t}</span>
-              ))}
+            <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+              <span className="text-[10px] font-bold bg-[#e8f4fc] text-[#1a6aad] px-2.5 py-1 rounded-full uppercase tracking-wide">
+                {emerg ? "Emergência" : item.categoria}
+              </span>
             </div>
+            <h2 className="font-extrabold text-[#0f2d4a] text-lg leading-snug">{item.titulo}</h2>
           </div>
+
           <button
             onClick={onClose}
             className="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors mt-0.5"
@@ -50,15 +54,17 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
           </button>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-5">
-          {loading && (
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto p-5 pb-20 sm:pb-6">
+          {loading ? (
             <div className="flex items-center justify-center py-16">
               <div className="w-6 h-6 border-2 border-[#1a6aad] border-t-transparent rounded-full animate-spin" />
             </div>
-          )}
-          {error && <p className="text-red-500 text-sm text-center py-8">{error}</p>}
-          {conteudo && <PrescricaoContent conteudo={conteudo} />}
+          ) : error ? (
+            <p className="text-red-500 text-sm text-center py-8">{error}</p>
+          ) : conteudo ? (
+            <PrescricaoContent conteudo={conteudo} />
+          ) : null}
         </div>
       </div>
     </div>
@@ -66,23 +72,30 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
+const FILTROS = ["Todos", "Emergência", "Outros temas"] as const;
+type Filtro = typeof FILTROS[number];
+
 export default function PrescricoesPage() {
   const [query, setQuery] = useState("");
-  const [catAtiva, setCatAtiva] = useState("Todos");
+  const [filtro, setFiltro] = useState<Filtro>("Todos");
   const [selected, setSelected] = useState<PrescricaoMeta | null>(null);
 
   const resultados = useMemo(() => {
     const q = query.toLowerCase().trim();
     return prescricoesMeta.filter((p) => {
-      const matchCat = catAtiva === "Todos" || p.categoria === catAtiva;
-      if (!q) return matchCat;
+      const matchFiltro =
+        filtro === "Todos" ||
+        (filtro === "Emergência" && emergenciaIds.has(p.id)) ||
+        (filtro === "Outros temas" && !emergenciaIds.has(p.id));
+
+      if (!q) return matchFiltro;
       const matchQ =
         p.titulo.toLowerCase().includes(q) ||
         p.categoria.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q));
-      return matchCat && matchQ;
+        p.tags.some(t => t.toLowerCase().includes(q));
+      return matchFiltro && matchQ;
     });
-  }, [query, catAtiva]);
+  }, [query, filtro]);
 
   const handleClose = useCallback(() => setSelected(null), []);
 
@@ -91,7 +104,6 @@ export default function PrescricoesPage() {
       {selected && <PrescricaoModal item={selected} onClose={handleClose} />}
 
       <div className="flex-1 flex flex-col min-h-screen">
-        {/* Header */}
         <header className="bg-white border-b border-zinc-200 px-6 sm:px-8 py-6">
           <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] mb-1">Prescrições</h1>
           <p className="text-zinc-500 text-sm">Busque por queixa, diagnóstico ou medicamento.</p>
@@ -107,13 +119,13 @@ export default function PrescricoesPage() {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Ex: hipertensão, amoxicilina, PAC..."
+              placeholder="Ex: hipertensão, amoxicilina, cistite..."
               className="w-full pl-11 pr-10 py-3 border border-zinc-300 rounded-2xl text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent bg-[#f8fafc]"
             />
             {query && (
               <button onClick={() => setQuery("")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
-                aria-label="Limpar busca">
+                aria-label="Limpar">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
@@ -121,20 +133,19 @@ export default function PrescricoesPage() {
             )}
           </div>
 
-          {/* Category filter */}
-          <div className="flex gap-2 mt-3 flex-wrap">
-            {categorias.map((cat) => (
-              <button key={cat} onClick={() => setCatAtiva(cat)}
-                className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-all ${
-                  catAtiva === cat ? "bg-[#0f2d4a] text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+          {/* Section filter */}
+          <div className="flex gap-2 mt-3">
+            {FILTROS.map((f) => (
+              <button key={f} onClick={() => setFiltro(f)}
+                className={`text-xs font-semibold px-4 py-1.5 rounded-full transition-all ${
+                  filtro === f ? "bg-[#0f2d4a] text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
                 }`}>
-                {cat}
+                {f}
               </button>
             ))}
           </div>
         </header>
 
-        {/* Results */}
         <main className="flex-1 p-6 sm:p-8">
           {resultados.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -157,19 +168,14 @@ export default function PrescricoesPage() {
                   <button key={p.id}
                     onClick={() => setSelected(p)}
                     className="text-left bg-white border border-zinc-200 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] transition-all group">
-                    <span className="inline-block text-[10px] font-bold bg-[#e8f4fc] text-[#1a6aad] px-2.5 py-1 rounded-full uppercase tracking-wide mb-3">
-                      {p.categoria}
-                    </span>
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <span className="inline-block text-[10px] font-bold bg-[#e8f4fc] text-[#1a6aad] px-2.5 py-1 rounded-full uppercase tracking-wide">
+                        {emergenciaIds.has(p.id) ? "Emergência" : p.categoria}
+                      </span>
+                    </div>
                     <h3 className="font-bold text-[#0f2d4a] text-sm leading-snug group-hover:text-[#1a6aad] transition-colors">
                       {p.titulo}
                     </h3>
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {p.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="text-[10px] text-zinc-400 bg-zinc-100 px-2 py-0.5 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </button>
                 ))}
               </div>

@@ -1,4 +1,4 @@
-// Metadados das prescrições — sem conteúdo completo
+// Auto-generated from PDF (form-feed, v2) — 114 cards
 export interface PrescricaoMeta {
   id: string;
   titulo: string;
@@ -272,7 +272,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   {
     "id": "25",
     "titulo": "Antimicrobianos",
-    "categoria": "Antimicrobianos",
+    "categoria": "Outros temas",
     "tags": [
       "antibiótico",
       "amoxicilina",
@@ -283,7 +283,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   {
     "id": "26",
     "titulo": "Analgésicos",
-    "categoria": "Analgesia",
+    "categoria": "Outros temas",
     "tags": [
       "dipirona",
       "morfina",
@@ -294,7 +294,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   {
     "id": "27",
     "titulo": "Intoxicação por opioides e benzodiazepínicos",
-    "categoria": "Toxicologia",
+    "categoria": "Outros temas",
     "tags": [
       "naloxona",
       "flumazenil",
@@ -305,7 +305,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   {
     "id": "28",
     "titulo": "Insônia",
-    "categoria": "Outras",
+    "categoria": "Outros temas",
     "tags": [
       "zolpidem",
       "melatonina",
@@ -316,7 +316,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   {
     "id": "29",
     "titulo": "Intoxicação por metanol",
-    "categoria": "Toxicologia",
+    "categoria": "Outros temas",
     "tags": [
       "etanol",
       "fomepizol",
@@ -327,7 +327,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   {
     "id": "30",
     "titulo": "Anticoagulantes",
-    "categoria": "Anticoagulação",
+    "categoria": "Outros temas",
     "tags": [
       "heparina",
       "warfarina",
@@ -337,8 +337,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "31",
-    "titulo": "Afecções cutâneas e ungueais",
-    "categoria": "Dermatologia",
+    "titulo": "Celulite e Erisipela",
+    "categoria": "Outros temas",
     "tags": [
       "dermatite",
       "fungo",
@@ -348,8 +348,82 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "32",
-    "titulo": "Afecções oculares",
-    "categoria": "Oftalmologia",
+    "titulo": "Escabiose",
+    "categoria": "Outros temas",
+    "tags": [
+      "dermatite",
+      "fungo",
+      "pele",
+      "onicomicose"
+    ]
+  },
+  {
+    "id": "33",
+    "titulo": "Tinea corporis",
+    "categoria": "Outros temas",
+    "tags": [
+      "dermatite",
+      "fungo",
+      "pele",
+      "onicomicose"
+    ]
+  },
+  {
+    "id": "34",
+    "titulo": "Urticária",
+    "categoria": "Outros temas",
+    "tags": [
+      "urticária"
+    ]
+  },
+  {
+    "id": "35",
+    "titulo": "Furunculose",
+    "categoria": "Outros temas",
+    "tags": [
+      "dermatite",
+      "fungo",
+      "pele",
+      "onicomicose"
+    ]
+  },
+  {
+    "id": "36",
+    "titulo": "Furunculose de repetição",
+    "categoria": "Outros temas",
+    "tags": [
+      "dermatite",
+      "fungo",
+      "pele",
+      "onicomicose"
+    ]
+  },
+  {
+    "id": "37",
+    "titulo": "ABCDE do melanoma",
+    "categoria": "Outros temas",
+    "tags": [
+      "dermatite",
+      "fungo",
+      "pele",
+      "onicomicose"
+    ]
+  },
+  {
+    "id": "38",
+    "titulo": "Onicomicose",
+    "categoria": "Outros temas",
+    "tags": [
+      "dermatite",
+      "fungo",
+      "pele",
+      "onicomicose"
+    ]
+  },
+  {
+    "id": "39",
+    "titulo": "Conjuntivite bacteriana aguda",
+    "categoria": "Outros temas",
     "tags": [
       "colírio",
       "conjuntivite",
@@ -358,9 +432,53 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "33",
-    "titulo": "Afecções gastrointestinais",
-    "categoria": "Gastroenterologia",
+    "id": "40",
+    "titulo": "Conjuntivite viral aguda",
+    "categoria": "Outros temas",
+    "tags": [
+      "colírio",
+      "conjuntivite",
+      "olho",
+      "oftalmologia"
+    ]
+  },
+  {
+    "id": "41",
+    "titulo": "Conjuntivite alérgica",
+    "categoria": "Outros temas",
+    "tags": [
+      "colírio",
+      "conjuntivite",
+      "olho",
+      "oftalmologia"
+    ]
+  },
+  {
+    "id": "42",
+    "titulo": "Hordéolo e terçol",
+    "categoria": "Outros temas",
+    "tags": [
+      "colírio",
+      "conjuntivite",
+      "olho",
+      "oftalmologia"
+    ]
+  },
+  {
+    "id": "43",
+    "titulo": "Xeroftalmia (olho seco)",
+    "categoria": "Outros temas",
+    "tags": [
+      "colírio",
+      "conjuntivite",
+      "olho",
+      "oftalmologia"
+    ]
+  },
+  {
+    "id": "44",
+    "titulo": "Constipação intestinal",
+    "categoria": "Outros temas",
     "tags": [
       "omeprazol",
       "metoclopramida",
@@ -369,9 +487,185 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "34",
+    "id": "45",
+    "titulo": "Parasitose intestinal",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "46",
+    "titulo": "Antieméticos",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "47",
+    "titulo": "Náuseas persistentes",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "48",
+    "titulo": "Reação extrapiramidal",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "49",
+    "titulo": "Diverticulite aguda não complicada",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "50",
+    "titulo": "Diverticulite aguda complicada",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "51",
+    "titulo": "Gastroenterite aguda (GECA)",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "52",
+    "titulo": "Disenteria",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "53",
+    "titulo": "Pancreatite aguda",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "54",
+    "titulo": "Doença do refluxo gastroesofágico (DRGE)",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "55",
+    "titulo": "Gastrite",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "56",
+    "titulo": "Infecção por Helicobacter pylori",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "57",
+    "titulo": "Doença ulcerosa péptica",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "58",
+    "titulo": "Infecção por Clostridium difficile",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "59",
+    "titulo": "Gases e distensão abdominal",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "60",
+    "titulo": "Intolerância à lactose",
+    "categoria": "Outros temas",
+    "tags": [
+      "omeprazol",
+      "metoclopramida",
+      "GI",
+      "náusea"
+    ]
+  },
+  {
+    "id": "61",
     "titulo": "Reposição de vitamina D e B12",
-    "categoria": "Nutrologia",
+    "categoria": "Outros temas",
     "tags": [
       "vitamina D",
       "B12",
@@ -380,9 +674,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "35",
+    "id": "62",
     "titulo": "Reposição de ferro oral e EV",
-    "categoria": "Nutrologia",
+    "categoria": "Outros temas",
     "tags": [
       "ferro",
       "ferritina",
@@ -391,9 +685,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "36",
+    "id": "63",
     "titulo": "Cefaleia",
-    "categoria": "Neurologia",
+    "categoria": "Outros temas",
     "tags": [
       "sumatriptano",
       "dipirona",
@@ -402,9 +696,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "37",
-    "titulo": "Arboviroses",
-    "categoria": "Infectologia",
+    "id": "64",
+    "titulo": "Dengue, Zika e Chikungunya",
+    "categoria": "Outros temas",
     "tags": [
       "dengue",
       "zika",
@@ -413,53 +707,131 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "38",
-    "titulo": "Afecções pulmonares",
-    "categoria": "Pneumologia",
+    "id": "65",
+    "titulo": "Dengue",
+    "categoria": "Outros temas",
+    "tags": [
+      "dengue"
+    ]
+  },
+  {
+    "id": "66",
+    "titulo": "Chikungunya (particularidades)",
+    "categoria": "Outros temas",
+    "tags": [
+      "dengue",
+      "zika",
+      "chikungunya",
+      "arbovírus"
+    ]
+  },
+  {
+    "id": "67",
+    "titulo": "Febre do Oropouche",
+    "categoria": "Outros temas",
+    "tags": [
+      "dengue",
+      "zika",
+      "chikungunya",
+      "arbovírus"
+    ]
+  },
+  {
+    "id": "68",
+    "titulo": "Crise de asma",
+    "categoria": "Outros temas",
+    "tags": [
+      "crise",
+      "asma"
+    ]
+  },
+  {
+    "id": "69",
+    "titulo": "Exacerbação de DPOC",
+    "categoria": "Outros temas",
+    "tags": [
+      "exacerbação",
+      "dpoc"
+    ]
+  },
+  {
+    "id": "70",
+    "titulo": "Pneumonia comunitária",
+    "categoria": "Outros temas",
     "tags": [
       "pneumonia",
-      "amoxicilina",
-      "azitromicina",
-      "PAC"
+      "comunitária"
     ]
   },
   {
-    "id": "39",
-    "titulo": "Infecções bacterianas de VAS",
-    "categoria": "Infectologia",
+    "id": "71",
+    "titulo": "Faringoamigdalite bacteriana",
+    "categoria": "Outros temas",
     "tags": [
-      "faringite",
-      "amigdalite",
-      "antibiótico",
-      "estreptococo"
+      "faringoamigdalite",
+      "bacteriana"
     ]
   },
   {
-    "id": "40",
-    "titulo": "IVAS e tosse pós-infecciosa",
-    "categoria": "Pneumologia",
+    "id": "72",
+    "titulo": "Sinusite bacteriana",
+    "categoria": "Outros temas",
     "tags": [
-      "IVAS",
+      "sinusite",
+      "bacteriana"
+    ]
+  },
+  {
+    "id": "73",
+    "titulo": "Otite média aguda bacteriana",
+    "categoria": "Outros temas",
+    "tags": [
+      "otite",
+      "média",
+      "aguda"
+    ]
+  },
+  {
+    "id": "74",
+    "titulo": "Resfriado e gripe (Influenza)",
+    "categoria": "Outros temas",
+    "tags": [
       "resfriado",
-      "tosse",
-      "viral"
+      "gripe",
+      "influenza"
     ]
   },
   {
-    "id": "41",
-    "titulo": "Tosse produtiva e não produtiva",
-    "categoria": "Pneumologia",
+    "id": "75",
+    "titulo": "Tosse pós-infecciosa",
+    "categoria": "Outros temas",
     "tags": [
       "tosse",
-      "guaifenesina",
-      "expectorante",
-      "mucolítico"
+      "pós-infecciosa"
     ]
   },
   {
-    "id": "42",
-    "titulo": "Afecções urinárias",
-    "categoria": "Urologia",
+    "id": "76",
+    "titulo": "Tosse produtiva",
+    "categoria": "Outros temas",
+    "tags": [
+      "tosse",
+      "produtiva"
+    ]
+  },
+  {
+    "id": "77",
+    "titulo": "Tosse não produtiva",
+    "categoria": "Outros temas",
+    "tags": [
+      "tosse",
+      "produtiva"
+    ]
+  },
+  {
+    "id": "78",
+    "titulo": "ITU: definições",
+    "categoria": "Outros temas",
     "tags": [
       "ITU",
       "ciprofloxacino",
@@ -468,9 +840,64 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "43",
-    "titulo": "Afecções genitais e anticoncepção de emergência",
-    "categoria": "Ginecologia",
+    "id": "79",
+    "titulo": "Cistite",
+    "categoria": "Outros temas",
+    "tags": [
+      "ITU",
+      "ciprofloxacino",
+      "nitrofurantoína",
+      "urina"
+    ]
+  },
+  {
+    "id": "80",
+    "titulo": "Pielonefrite",
+    "categoria": "Outros temas",
+    "tags": [
+      "ITU",
+      "ciprofloxacino",
+      "nitrofurantoína",
+      "urina"
+    ]
+  },
+  {
+    "id": "81",
+    "titulo": "ITU recorrente ou ITU de repetição",
+    "categoria": "Outros temas",
+    "tags": [
+      "ITU",
+      "ciprofloxacino",
+      "nitrofurantoína",
+      "urina"
+    ]
+  },
+  {
+    "id": "82",
+    "titulo": "Cólica nefrética",
+    "categoria": "Outros temas",
+    "tags": [
+      "ITU",
+      "ciprofloxacino",
+      "nitrofurantoína",
+      "urina"
+    ]
+  },
+  {
+    "id": "83",
+    "titulo": "Retenção urinária",
+    "categoria": "Outros temas",
+    "tags": [
+      "ITU",
+      "ciprofloxacino",
+      "nitrofurantoína",
+      "urina"
+    ]
+  },
+  {
+    "id": "84",
+    "titulo": "Candidíase vaginal",
+    "categoria": "Outros temas",
     "tags": [
       "DST",
       "levonorgestrel",
@@ -479,9 +906,108 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "44",
+    "id": "85",
+    "titulo": "Sífilis primária",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "86",
+    "titulo": "Uretrite",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "87",
+    "titulo": "Vaginose bacteriana",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "88",
+    "titulo": "Tricomoníase vaginal",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "89",
+    "titulo": "Cancro mole",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "90",
+    "titulo": "Linfogranuloma venéreo",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "91",
+    "titulo": "Herpes genital",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "92",
+    "titulo": "Anticoncepção de emergência",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "93",
+    "titulo": "Profilaxias",
+    "categoria": "Outros temas",
+    "tags": [
+      "DST",
+      "levonorgestrel",
+      "anticoncepção",
+      "profilaxia"
+    ]
+  },
+  {
+    "id": "94",
     "titulo": "Dor osteomuscular",
-    "categoria": "Ortopedia",
+    "categoria": "Outros temas",
     "tags": [
       "dipirona",
       "ibuprofeno",
@@ -490,9 +1016,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "45",
+    "id": "95",
     "titulo": "Torcicolo",
-    "categoria": "Ortopedia",
+    "categoria": "Outros temas",
     "tags": [
       "torcicolo",
       "miorrelaxante",
@@ -501,9 +1027,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "46",
+    "id": "96",
     "titulo": "Doença hemorroidária",
-    "categoria": "Gastroenterologia",
+    "categoria": "Outros temas",
     "tags": [
       "hemorroida",
       "diosmina",
@@ -512,9 +1038,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "47",
+    "id": "97",
     "titulo": "Epistaxe",
-    "categoria": "Otorrinolaringologia",
+    "categoria": "Outros temas",
     "tags": [
       "epistaxe",
       "sangramento nasal",
@@ -522,9 +1048,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "48",
+    "id": "98",
     "titulo": "Ferimento cortocontuso e sutura",
-    "categoria": "Cirurgia",
+    "categoria": "Outros temas",
     "tags": [
       "sutura",
       "curativo",
@@ -533,9 +1059,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "49",
+    "id": "99",
     "titulo": "Herpes labial",
-    "categoria": "Infectologia",
+    "categoria": "Outros temas",
     "tags": [
       "aciclovir",
       "herpes",
@@ -544,9 +1070,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "50",
+    "id": "100",
     "titulo": "Tontura e vertigem",
-    "categoria": "Neurologia",
+    "categoria": "Outros temas",
     "tags": [
       "meclizina",
       "dimenidrinato",
@@ -555,9 +1081,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "51",
-    "titulo": "Distúrbios eletrolíticos",
-    "categoria": "Nefrologia",
+    "id": "101",
+    "titulo": "Hipocalemia",
+    "categoria": "Outros temas",
     "tags": [
       "potássio",
       "sódio",
@@ -566,9 +1092,108 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "52",
+    "id": "102",
+    "titulo": "Hipercalemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "103",
+    "titulo": "Hiponatremia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "104",
+    "titulo": "Hipernatremia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "105",
+    "titulo": "Hipomagnesemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "106",
+    "titulo": "Hipermagnesemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "107",
+    "titulo": "Hipofosfatemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "108",
+    "titulo": "Hiperfosfatemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "109",
+    "titulo": "Hipocalcemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "110",
+    "titulo": "Hipercalcemia",
+    "categoria": "Outros temas",
+    "tags": [
+      "potássio",
+      "sódio",
+      "eletrólito",
+      "cálcio"
+    ]
+  },
+  {
+    "id": "111",
     "titulo": "Desmame de corticoides",
-    "categoria": "Endocrinologia",
+    "categoria": "Outros temas",
     "tags": [
       "prednisona",
       "desmame",
@@ -577,9 +1202,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "53",
+    "id": "112",
     "titulo": "Delirium e agitação psicomotora",
-    "categoria": "Neurologia",
+    "categoria": "Outros temas",
     "tags": [
       "haloperidol",
       "delirium",
@@ -588,9 +1213,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "54",
+    "id": "113",
     "titulo": "Crise de ansiedade",
-    "categoria": "Psiquiatria",
+    "categoria": "Outros temas",
     "tags": [
       "diazepam",
       "alprazolam",
@@ -599,9 +1224,9 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     ]
   },
   {
-    "id": "55",
+    "id": "114",
     "titulo": "Prescrição no paciente internado",
-    "categoria": "Medicina Interna",
+    "categoria": "Outros temas",
     "tags": [
       "prescrição",
       "internação",
@@ -611,4 +1236,6 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   }
 ];
 
-export const categorias = ["Analgesia","Anticoagulação","Antimicrobianos","Cirurgia","Dermatologia","Emergência","Endocrinologia","Gastroenterologia","Ginecologia","Infectologia","Medicina Interna","Nefrologia","Neurologia","Nutrologia","Oftalmologia","Ortopedia","Otorrinolaringologia","Outras","Pneumologia","Psiquiatria","Todos","Toxicologia","Urologia"];
+export const categorias = ["Todos", "Emergência", "Outros temas"];
+
+export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"]);

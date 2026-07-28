@@ -57,18 +57,22 @@ function greeting() {
   return "Boa noite";
 }
 
+// MARKER_RC_2026_07_28
 export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
   const user = await db.user.findUnique({
     where: { id: session.user.id },
-    include: { subscription: true },
   });
 
   const isAdmin = user?.role === "ADMIN";
   const isTester = user?.role === "TESTER";
-  const subscription = user?.subscription ?? null;
+
+  const subscription =
+    user && !isAdmin && !isTester
+      ? await db.subscription.findUnique({ where: { userId: user.id } })
+      : null;
 
   const firstName = (session.user.name ?? "").split(" ")[0];
 
