@@ -142,7 +142,7 @@ function RegistroForm() {
 
           <h1 className="text-2xl font-extrabold text-[#0f2d4a] mb-1">Crie sua conta</h1>
           <p className="text-zinc-500 text-sm mb-8">
-            {plan ? "Crie sua conta para finalizar a assinatura." : "É grátis e leva menos de 1 minuto."}
+            {plan ? "Crie sua conta para finalizar a assinatura." : "Leva menos de 1 minuto."}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
