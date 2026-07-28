@@ -57,21 +57,27 @@ export default function SetupPage() {
     if (password.length < 8) { setError("Senha mínima de 8 caracteres."); return; }
 
     setLoading(true);
-    const res = await fetch("/api/setup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: step, name, email, password }),
-    });
-    setLoading(false);
+    try {
+      const res = await fetch("/api/setup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: step, name, email, password }),
+      });
 
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "Erro ao criar conta.");
-      return;
+      if (!res.ok) {
+        let msg = "Erro ao criar conta.";
+        try { const d = await res.json(); msg = d.error ?? msg; } catch {}
+        setError(msg);
+        return;
+      }
+
+      if (step === "admin") { resetForm(); setStep("tester"); }
+      else { setStep("complete"); setTimeout(() => router.push("/login"), 2500); }
+    } catch {
+      setError("Erro de conexão. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
-
-    if (step === "admin") { resetForm(); setStep("tester"); }
-    else { setStep("complete"); setTimeout(() => router.push("/login"), 2500); }
   }
 
   const mismatch = confirm.length > 0 && confirm !== password;
