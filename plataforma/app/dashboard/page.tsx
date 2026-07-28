@@ -61,14 +61,18 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const subscription = await db.subscription.findUnique({
-    where: { userId: session.user.id },
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    include: { subscription: true },
   });
+
+  const isAdmin = user?.role === "ADMIN";
+  const subscription = user?.subscription ?? null;
 
   const firstName = (session.user.name ?? "").split(" ")[0];
 
-  const planLabel = subscription?.plan === "ANNUAL" ? "Plano Anual" : "Plano Mensal";
-  const isActive = subscription?.status === "ACTIVE";
+  const planLabel = isAdmin ? "Administrador" : subscription?.plan === "ANNUAL" ? "Plano Anual" : "Plano Mensal";
+  const isActive = isAdmin || subscription?.status === "ACTIVE";
   const expiresAt = subscription?.currentPeriodEnd;
 
   return (
@@ -82,14 +86,16 @@ export default async function DashboardPage() {
           </div>
 
           {/* Status da assinatura */}
-          {subscription ? (
+          {(isAdmin || subscription) ? (
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ${
-              isActive
-                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                : "bg-red-50 text-red-700 border border-red-200"
+              isAdmin
+                ? "bg-[#0f2d4a] text-[#3db8d4] border border-[#3db8d4]/30"
+                : isActive
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
             }`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-emerald-500" : "bg-red-500"}`} />
-              {planLabel} · {isActive ? "Ativo" : "Inativo"}
+              <span className={`w-1.5 h-1.5 rounded-full ${isAdmin ? "bg-[#3db8d4]" : isActive ? "bg-emerald-500" : "bg-red-500"}`} />
+              {planLabel}
             </div>
           ) : (
             <Link
