@@ -57,6 +57,32 @@ function RegistroForm() {
     if (!plano) router.replace("/assinatura");
   }, [plano, router]);
 
+  // Cadastros desativados temporariamente
+  if (process.env.NEXT_PUBLIC_REGISTRATION_OPEN !== "true") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f0f7ff] px-6">
+        <div className="w-full max-w-sm text-center">
+          <Link href="/"><Logo variant="dark" /></Link>
+          <div className="mt-10 bg-white border border-zinc-200 rounded-2xl p-8 shadow-sm">
+            <div className="w-14 h-14 bg-[#e8f4fc] rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h1 className="text-xl font-extrabold text-[#0f2d4a] mb-2">Em breve</h1>
+            <p className="text-zinc-500 text-sm leading-relaxed mb-6">
+              Os cadastros serão abertos em breve. Se já tem conta,{" "}
+              <Link href="/login" className="text-[#1a6aad] font-semibold hover:underline">entre por aqui</Link>.
+            </p>
+            <Link href="/" className="inline-flex items-center gap-2 bg-[#0f2d4a] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#1a6aad] transition-all">
+              Voltar ao início
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -10,6 +10,10 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  if (process.env.REGISTRATION_OPEN !== "true") {
+    return NextResponse.json({ error: "Cadastros encerrados temporariamente." }, { status: 503 });
+  }
+
   const body = await req.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) {

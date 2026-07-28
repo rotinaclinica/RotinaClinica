@@ -67,12 +67,13 @@ export default async function DashboardPage() {
   });
 
   const isAdmin = user?.role === "ADMIN";
+  const isTester = user?.role === "TESTER";
   const subscription = user?.subscription ?? null;
 
   const firstName = (session.user.name ?? "").split(" ")[0];
 
-  const planLabel = isAdmin ? "Administrador" : subscription?.plan === "ANNUAL" ? "Plano Anual" : "Plano Mensal";
-  const isActive = isAdmin || subscription?.status === "ACTIVE";
+  const planLabel = isAdmin ? "Administrador" : isTester ? "Conta de testes" : subscription?.plan === "ANNUAL" ? "Plano Anual" : "Plano Mensal";
+  const isActive = isAdmin || isTester || subscription?.status === "ACTIVE";
   const expiresAt = subscription?.currentPeriodEnd;
 
   return (
@@ -90,11 +91,13 @@ export default async function DashboardPage() {
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ${
               isAdmin
                 ? "bg-[#0f2d4a] text-[#3db8d4] border border-[#3db8d4]/30"
-                : isActive
-                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  : "bg-red-50 text-red-700 border border-red-200"
+                : isTester
+                  ? "bg-amber-50 text-amber-700 border border-amber-200"
+                  : isActive
+                    ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    : "bg-red-50 text-red-700 border border-red-200"
             }`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isAdmin ? "bg-[#3db8d4]" : isActive ? "bg-emerald-500" : "bg-red-500"}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${isAdmin ? "bg-[#3db8d4]" : isTester ? "bg-amber-500" : isActive ? "bg-emerald-500" : "bg-red-500"}`} />
               {planLabel}
             </div>
           ) : (

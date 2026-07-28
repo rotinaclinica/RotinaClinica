@@ -51,6 +51,7 @@ enum SubscriptionStatus {
 
 enum Role {
   CUSTOMER
+  TESTER
   ADMIN
 }
 
