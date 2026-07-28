@@ -33,12 +33,16 @@ export default function SetupPage() {
 
   useEffect(() => {
     fetch("/api/setup")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("api_error");
+        return r.json();
+      })
       .then((d) => {
         if (d.adminExists && d.testerExists) setStep("done-all");
         else if (d.adminExists) setStep("tester");
         else setStep("admin");
-      });
+      })
+      .catch(() => setStep("admin"));
   }, []);
 
   function resetForm() {
