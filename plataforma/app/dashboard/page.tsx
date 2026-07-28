@@ -87,7 +87,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Status da assinatura */}
-          {(isAdmin || subscription) ? (
+          {(isAdmin || isTester || subscription) ? (
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ${
               isAdmin
                 ? "bg-[#0f2d4a] text-[#3db8d4] border border-[#3db8d4]/30"
