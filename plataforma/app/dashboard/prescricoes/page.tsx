@@ -2,8 +2,6 @@
 
 import { useState, useMemo } from "react";
 
-export const metadata = undefined;
-
 // Dados virão do banco — por enquanto estrutura de exemplo
 const prescricoes: { id: string; titulo: string; categoria: string; tags: string[] }[] = [
   // Exemplos para demonstrar o buscador — substituir pelo conteúdo real
