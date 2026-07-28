@@ -99,7 +99,7 @@ export default function SetupPage() {
           </div>
           {/* Progress */}
           <div className="flex gap-2 mt-2">
-            <div className={`h-1.5 flex-1 rounded-full ${step !== "loading" ? "bg-[#3db8d4]" : "bg-white/20"}`} />
+            <div className="h-1.5 flex-1 rounded-full bg-[#3db8d4]" />
             <div className={`h-1.5 flex-1 rounded-full ${step === "tester" || step === "complete" || step === "done-all" ? "bg-[#3db8d4]" : "bg-white/20"}`} />
           </div>
         </div>
