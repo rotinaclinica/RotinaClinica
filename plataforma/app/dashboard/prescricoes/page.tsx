@@ -28,10 +28,10 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
   const emerg = emergenciaIds.has(item.id);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-white dark:bg-[#131c2e] w-full sm:max-w-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[85dvh]">
+      <div className="relative bg-white dark:bg-[#131c2e] w-full h-full sm:h-auto sm:max-w-2xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
         {/* Header */}
         <div className="flex items-start gap-3 p-5 border-b border-zinc-200 dark:border-white/8 flex-shrink-0">
           <div className="flex-1 min-w-0">
