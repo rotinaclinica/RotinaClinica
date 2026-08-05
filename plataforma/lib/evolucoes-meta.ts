@@ -17,13 +17,33 @@ export const evolucoesMeta: EvolucaoMeta[] = [
   },
   {
     id: "2",
-    titulo: "Cefaleia",
-    tags: ["cefaleia", "dor de cabeça", "enxaqueca", "tensional", "migrânea", "meningite"],
+    titulo: "Cefaleia do tipo Tensional",
+    tags: ["cefaleia", "tensional", "dor de cabeça", "opressão", "holocraniana"],
   },
   {
-    id: "3",
-    titulo: "Crises Hipertensivas",
-    tags: ["hipertensão", "crise hipertensiva", "pressão alta", "urgência hipertensiva", "emergência hipertensiva", "HAS"],
+    id: "11",
+    titulo: "Cefaleia do tipo Migrânea ou Enxaqueca",
+    tags: ["cefaleia", "migrânea", "enxaqueca", "pulsátil", "fotofobia", "fonofobia"],
+  },
+  {
+    id: "12",
+    titulo: "Cefaleia em Salvas",
+    tags: ["cefaleia", "salvas", "cluster", "lacrimejamento", "ptose", "sumatriptano"],
+  },
+  {
+    id: "13",
+    titulo: "Cefaleia Secundária",
+    tags: ["cefaleia", "secundária", "red flag", "sinal de alarme", "tc crânio"],
+  },
+  {
+    id: "14",
+    titulo: "PA Muito Elevada sem Lesão de Órgão-Alvo",
+    tags: ["hipertensão", "pressão alta", "urgência hipertensiva", "HAS", "PA elevada", "sem lesão"],
+  },
+  {
+    id: "15",
+    titulo: "Emergência Hipertensiva",
+    tags: ["hipertensão", "emergência hipertensiva", "pressão alta", "HAS", "IAM", "AVC", "dissecção de aorta", "SCA"],
   },
   {
     id: "4",

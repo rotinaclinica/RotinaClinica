@@ -25,21 +25,21 @@ const MEDICAL_ABBREVS = [
   "BEG", "REG", "MEG", "RHA", "RHD", "FC", "FR", "PA", "TEC", "SpO2", "SaO2",
   "BNF", "2T", "3T", "4T", "RCR", "MMII", "MMSS", "IVAS", "GEA", "ITU",
   "SCA", "IAM", "HAS", "SF", "SG", "RL", "IV", "IM", "SC", "VO", "EV", "ID",
-  "ECG", "EEG", "TC", "RM", "UTI", "UPA", "PS", "ACV", "AR", "ABD", "NEURO",
+  "ECG", "EEG", "TC", "RM", "UTI", "UPA", "PS", "ACV", "ABD", "NEURO",
   "VHS", "PCR", "HMG", "RX", "HDA", "HPP", "COVID", "HIV", "HCV", "HBV",
-  "DM", "IRC", "ICC", "AVE", "AVC", "TEP", "TVP", "DPOC", "SUS", "4Q",
-  "BNF", "S/", "C/", "SNS", "RHA",
+  "DM", "IRC", "ICC", "AVE", "AVC", "TEP", "TVP", "DPOC", "SUS", "4Q", "Sat.O2",
+  "BNF", "S/", "C/", "SNS", "RHA", "mmHg", "LOTE", "MVF+",
 ];
 
 function toSentenceCase(str: string): string {
   let s = str.toLowerCase();
   // Capitalize start and after sentence-ending punctuation
-  s = s.replace(/(^|[.!?]\s+)([a-záéíóúàâêôãõç])/gi,
+  s = s.replace(/(^|[.!?]\s+|\s+-\s+)([a-záéíóúàâêôãõç])/gi,
     (_, punct, letter) => punct + letter.toUpperCase());
   // Re-uppercase medical abbreviations
   for (const abbrev of MEDICAL_ABBREVS) {
     const esc = abbrev.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    s = s.replace(new RegExp(`\\b${esc}\\b`, "gi"), abbrev);
+    s = s.replace(new RegExp(`\\b${esc}(?=\\W|$)`, "gi"), abbrev);
   }
   return s;
 }
@@ -93,7 +93,7 @@ function splitEfValue(firstLabel: string, firstValue: string): Block[] {
 }
 
 // ── Condutas line-joining heuristic ──────────────────────────────────────────
-const CONDUTA_VERB_START = /^(FORNEÇO|ORIENTO|TRANSFIRO|PRESCREVO|IN[IÍ]CIO|MANTENHO|SOLICITO|ENTRO|APENAS|HIDRATA[ÇC][AÃ]O|SINT[OÔ]M[AÁ]TICOS\s+(POR|EV|VO|ID)|APLICO|REALIZO|ENCAMINHO|COLOCO|ADMINISTRO|MONITORO|OBSERVO|OTIMIZO)/i;
+const CONDUTA_VERB_START = /^(FORNEÇO|ORIENTO|TRANSFIRO|PRESCREVO|IN[IÍ]CIO|MANTENHO|SOLICITO|ENTRO|APENAS|HIDRATA[ÇC][AÃ]O|SINT[OÔ]M[AÁ]TICOS\s+(POR|EV|VO|ID)|APLICO|REALIZO|ENCAMINHO|COLOCO|ADMINISTRO|MONITORO|OBSERVO|OTIMIZO|REAVALIA[ÇC][AÃ]O|ANALGESIA|OXIG[EÊ]NIO|SUMATRIPTANO)/i;
 const ENDS_WITH_PREP = /\b(COM|DE|OU|E|PARA|SEM|NA|NO|DOS|DAS|DO|DA|A|O|EM|AO)\s*$/i;
 const DEFINITE_CONTINUATION = /^(DA\b|DAS\b|DO\b|DOS\b|DESTES\b|PROCURAR\b|PRESEN[ÇC]A\b|ATENDIMENTO\b|ACOMPANHAMENTO\b|AMBULATORIAL\b|PRESSÓRICO\b|DOMICILIAR\b|DOMICILIARES\b|CORONARIANA\b|AGUDA\b|VASCULAR\b|ENCEFÁLICO\b|DISSEC[ÇC]ÃO\b|INVESTIGAÇÃO\b|ETIOLÓGICA\b|REFERÊNCIA\b|EMERGÊNCIA\b|MÍNIMO\b)/i;
 
@@ -226,14 +226,22 @@ function parse(raw: string): Block[] {
 const EF_FIELD_LABELS = new Set(["GERAL", "NEURO", "AR", "ACV", "ABD", "MMII", "PELE", "MUCOSA"]);
 
 export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
-  const blocks = parse(conteudo).filter(b => b.type !== "title");
+  const allBlocks = parse(conteudo);
+  const titleCount = allBlocks.filter(b => b.type === "title").length;
+  const blocks = titleCount > 1 ? allBlocks : allBlocks.filter(b => b.type !== "title");
 
   return (
     <div className="text-sm space-y-1">
       {blocks.map((block, i) => {
         switch (block.type) {
           case "title":
-            return null;
+            return (
+              <div key={i} className="mt-6 mb-3 -mx-5 px-5 py-2 bg-[#e8f4fc] dark:bg-[#1a2d45] border-y border-[#c8e4f5] dark:border-[#1e3a5c]">
+                <p className="text-[10px] font-bold text-[#1a6aad] dark:text-[#3db8d4] uppercase tracking-widest">
+                  {block.text}
+                </p>
+              </div>
+            );
 
           case "section":
             return (
@@ -248,9 +256,11 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
             const isEf = EF_FIELD_LABELS.has(block.label);
             const isHd = block.label === "HIPÓTESE DIAGNÓSTICA" || block.label === "HIPOTESE DIAGNOSTICA";
             if (isHd) {
+              const hdTxt = toSentenceCase(block.value);
+              const hdWithDot = /[.!?:]$/.test(hdTxt) ? hdTxt : hdTxt + ".";
               return (
                 <p key={i} className="text-justify leading-relaxed mb-1 text-zinc-700 dark:text-white">
-                  {toSentenceCase(block.value)}
+                  {hdWithDot}
                 </p>
               );
             }
