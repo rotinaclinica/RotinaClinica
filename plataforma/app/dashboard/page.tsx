@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -131,7 +132,10 @@ export default async function DashboardPage() {
 
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
-        <p className="text-sm font-semibold text-zinc-400 dark:text-[#4a6a7e] uppercase tracking-wider mb-4">O que você quer acessar?</p>
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm font-semibold text-zinc-400 dark:text-[#4a6a7e] uppercase tracking-wider">O que você quer acessar?</p>
+          <ThemeToggle variant="switch" />
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {sections.map((s) => (
