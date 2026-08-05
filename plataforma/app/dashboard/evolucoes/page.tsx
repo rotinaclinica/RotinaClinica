@@ -43,7 +43,7 @@ function EvolucaoModal({ item, onClose }: { item: EvolucaoMeta; onClose: () => v
           </div>
           <button
             onClick={onClose}
-            className="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-100 dark:bg-white/8 hover:bg-zinc-200 dark:hover:bg-white/15 flex items-center justify-center transition-colors mt-0.5"
+            className="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-200 dark:bg-white/20 hover:bg-zinc-300 dark:hover:bg-white/30 flex items-center justify-center transition-colors mt-0.5"
             aria-label="Fechar"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">

@@ -367,7 +367,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
 
           case "image":
             return (
-              <figure key={i} className="my-5">
+              <figure key={i} className="my-8 flex flex-col items-center gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={b.src}
@@ -376,7 +376,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                   style={{ maxHeight: 420, objectFit: "contain" }}
                 />
                 {b.caption && (
-                  <figcaption className="mt-1 text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">{b.caption}</figcaption>
+                  <figcaption className="text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">{b.caption}</figcaption>
                 )}
               </figure>
             );
