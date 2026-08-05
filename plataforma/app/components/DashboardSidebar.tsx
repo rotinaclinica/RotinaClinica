@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/app/components/Navbar";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 const navItems = [
   {
@@ -58,10 +59,11 @@ export default function DashboardSidebar({ userName, userEmail, initials }: Prop
   }
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] flex-shrink-0">
-      {/* Logo */}
-      <div className="px-5 py-5 border-b border-white/10">
+    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#080e1a] flex-shrink-0">
+      {/* Logo + toggle */}
+      <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
         <Link href="/"><Logo variant="light" /></Link>
+        <ThemeToggle className="w-8 h-8 flex items-center justify-center rounded-lg text-[#9ec4de] hover:text-white hover:bg-white/10 transition-colors" />
       </div>
 
       {/* User */}

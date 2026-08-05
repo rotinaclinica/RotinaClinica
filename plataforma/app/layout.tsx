@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/app/components/ThemeProvider";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
@@ -11,9 +12,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={geist.variable}>
+    <html lang="pt-BR" className={geist.variable} suppressHydrationWarning>
       <body className="min-h-screen bg-white text-zinc-900 antialiased">
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -252,7 +252,7 @@ function renderInline(text: string) {
   if (parts.length === 1) return text;
   return parts.map((p, i) =>
     p.startsWith("**") && p.endsWith("**")
-      ? <strong key={i} className="font-semibold text-[#0f2d4a]">{p.slice(2, -2)}</strong>
+      ? <strong key={i} className="font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">{p.slice(2, -2)}</strong>
       : p
   );
 }
@@ -266,7 +266,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
         switch (b.type) {
           case "section":
             return (
-              <p key={i} className="text-[13px] font-extrabold text-[#0f2d4a] uppercase tracking-wider pt-3 first:pt-0">
+              <p key={i} className="text-[13px] font-extrabold text-[#0f2d4a] dark:text-[#3db8d4] uppercase tracking-wider pt-3 first:pt-0">
                 {b.text}
               </p>
             );
@@ -278,14 +278,14 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                 i > 0 && (blocks[i-1].type === "drug" || blocks[i-1].type === "note") ? "mt-4 mb-1" :
                 "my-2"
               }>
-                <div className="inline-flex items-baseline gap-2 border border-[#1a6aad]/35 bg-[#f0f7ff] rounded-lg px-3 py-1.5">
-                  <span className="text-[14px] font-bold text-[#0f2d4a] leading-snug">{b.name.replace(/\s+comprimidos?\b\.?/gi, '').trim()}</span>
+                <div className="inline-flex items-baseline gap-2 border border-[#1a6aad]/35 dark:border-[#3db8d4]/30 bg-[#f0f7ff] dark:bg-[#1a2d45] rounded-lg px-3 py-1.5">
+                  <span className="text-[14px] font-bold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">{b.name.replace(/\s+comprimidos?\b\.?/gi, '').trim()}</span>
                   {b.qty && (
-                    <span className="text-[13px] font-semibold text-[#1a6aad] whitespace-nowrap">{b.qty}</span>
+                    <span className="text-[13px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] whitespace-nowrap">{b.qty}</span>
                   )}
                 </div>
                 {b.instructions.length > 0 && (
-                  <div className="mt-1.5 pl-3 border-l-2 border-[#1a6aad]/20 space-y-1">
+                  <div className="mt-1.5 pl-3 border-l-2 border-[#1a6aad]/20 dark:border-[#3db8d4]/25 space-y-1">
                     {b.instructions
                       .reduce<string[]>((acc, ins) => {
                         const prev = acc[acc.length - 1];
@@ -297,7 +297,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                         return acc;
                       }, [])
                       .map((ins, k) => (
-                        <p key={k} className="text-[13px] text-zinc-600 leading-relaxed text-justify">{renderInline(ins)}</p>
+                        <p key={k} className="text-[13px] text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(ins)}</p>
                       ))}
                   </div>
                 )}
@@ -307,9 +307,9 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
           case "connector":
             return (
               <div key={i} className="flex items-center gap-3 py-0.5">
-                <div className="flex-1 h-px bg-zinc-200" />
-                <span className="text-sm font-bold text-[#0f2d4a] uppercase tracking-widest">{b.text}</span>
-                <div className="flex-1 h-px bg-zinc-200" />
+                <div className="flex-1 h-px bg-zinc-200 dark:bg-white/10" />
+                <span className="text-sm font-bold text-[#0f2d4a] dark:text-[#7db5d0] uppercase tracking-widest">{b.text}</span>
+                <div className="flex-1 h-px bg-zinc-200 dark:bg-white/10" />
               </div>
             );
 
@@ -322,23 +322,23 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               const descricao = colonIdx !== -1 ? raw.slice(0, colonIdx).trim() : "";
               const sequencia = colonIdx !== -1 ? raw.slice(colonIdx + 1).trim() : raw;
               return (
-                <div key={i} className="border-2 border-[#0f2d4a] bg-[#eaf0f8] rounded-lg px-4 py-4 mt-2 text-center">
+                <div key={i} className="border-2 border-[#0f2d4a] dark:border-[#3db8d4]/50 bg-[#eaf0f8] dark:bg-[#1a2d45] rounded-lg px-4 py-4 mt-2 text-center">
                   {descricao && (
-                    <p className="text-[13px] font-semibold text-[#0f2d4a] uppercase tracking-wide mb-2">{descricao}</p>
+                    <p className="text-[13px] font-semibold text-[#0f2d4a] dark:text-[#3db8d4] uppercase tracking-wide mb-2">{descricao}</p>
                   )}
-                  <p className="text-[15px] font-bold text-[#0f2d4a] leading-snug">{renderInline(sequencia)}</p>
+                  <p className="text-[15px] font-bold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">{renderInline(sequencia)}</p>
                   {b.body.slice(1).map((p, k) => (
-                    <p key={k} className="text-[14px] font-semibold text-[#0f2d4a] mt-1">{renderInline(p)}</p>
+                    <p key={k} className="text-[14px] font-semibold text-[#0f2d4a] dark:text-[#c8d8e8] mt-1">{renderInline(p)}</p>
                   ))}
                 </div>
               );
             }
             return (
-              <div key={i} className={`border-l-[3px] ${isPrincipios ? "border-[#0f2d4a] bg-[#eaf0f8]" : "border-[#3db8d4] bg-[#f8fbfd]"} rounded-r-lg pl-3.5 pr-3 py-2.5`}>
-                <p className={`text-[10px] font-bold ${isPrincipios ? "text-[#0f2d4a]" : "text-[#1a6aad]"} uppercase tracking-wider mb-1`}>{isPrincipios ? "Princípios gerais" : "Detalhe"}</p>
+              <div key={i} className={`border-l-[3px] ${isPrincipios ? "border-[#0f2d4a] dark:border-[#3db8d4]/60 bg-[#eaf0f8] dark:bg-[#1a2d45]" : "border-[#3db8d4] bg-[#f8fbfd] dark:bg-[#0e1f2d]"} rounded-r-lg pl-3.5 pr-3 py-2.5`}>
+                <p className={`text-[10px] font-bold ${isPrincipios ? "text-[#0f2d4a] dark:text-[#3db8d4]" : "text-[#1a6aad] dark:text-[#3db8d4]"} uppercase tracking-wider mb-1`}>{isPrincipios ? "Princípios gerais" : "Detalhe"}</p>
                 <div className="space-y-1">
                   {b.body.map((p, k) => (
-                    <p key={k} className="text-[13px] text-zinc-600 leading-relaxed text-justify">{renderInline(p)}</p>
+                    <p key={k} className="text-[13px] text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(p)}</p>
                   ))}
                 </div>
               </div>
@@ -347,7 +347,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
 
           case "subtitle":
             return (
-              <p key={i} className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider pt-6 pb-0.5 border-t border-zinc-200 mt-2 first:border-t-0 first:pt-0">
+              <p key={i} className="text-sm font-bold text-[#0f2d4a] dark:text-[#7db5d0] uppercase tracking-wider pt-6 pb-0.5 border-t border-zinc-200 dark:border-white/10 mt-2 first:border-t-0 first:pt-0">
                 {b.text.startsWith("→ ") ? b.text.slice(2) : b.text}
               </p>
             );
@@ -356,13 +356,13 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
             if (b.text.startsWith("→ ")) {
               return (
                 <div key={i} className="flex gap-2 items-start">
-                  <span className="text-[#1a6aad] font-bold text-sm mt-0.5 flex-shrink-0">→</span>
-                  <p className="text-sm text-zinc-600 leading-relaxed">{renderInline(b.text.slice(2))}</p>
+                  <span className="text-[#1a6aad] dark:text-[#3db8d4] font-bold text-sm mt-0.5 flex-shrink-0">→</span>
+                  <p className="text-sm text-zinc-600 dark:text-[#9ec4de] leading-relaxed">{renderInline(b.text.slice(2))}</p>
                 </div>
               );
             }
             return (
-              <p key={i} className="text-sm text-zinc-600 leading-relaxed text-justify">{renderInline(b.text)}</p>
+              <p key={i} className="text-sm text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(b.text)}</p>
             );
 
           case "image":
@@ -372,30 +372,30 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                 <img
                   src={b.src}
                   alt={b.caption ?? ""}
-                  className="max-w-full rounded-lg border border-zinc-200 shadow-sm"
+                  className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm"
                   style={{ maxHeight: 420, objectFit: "contain" }}
                 />
                 {b.caption && (
-                  <figcaption className="mt-1 text-xs text-zinc-500 italic text-center">{b.caption}</figcaption>
+                  <figcaption className="mt-1 text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">{b.caption}</figcaption>
                 )}
               </figure>
             );
 
           case "table":
             return (
-              <div key={i} className="my-2 rounded-lg border border-[#1a6aad]/25 overflow-hidden">
+              <div key={i} className="my-2 rounded-lg border border-[#1a6aad]/25 dark:border-[#3db8d4]/20 overflow-hidden">
                 <table className="w-full text-[13px]">
                   <thead>
-                    <tr className="bg-[#0f2d4a] text-white">
+                    <tr className="bg-[#0f2d4a] dark:bg-[#080e1a] text-white">
                       <th className="px-3 py-2 text-left font-semibold w-1/2">{b.rows[0]?.key}</th>
                       <th className="px-3 py-2 text-left font-semibold w-1/2">{b.rows[0]?.value}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {b.rows.slice(1).map((row, k) => (
-                      <tr key={k} className={k % 2 === 0 ? "bg-white" : "bg-[#f0f7ff]"}>
-                        <td className="px-3 py-2 text-zinc-700 border-t border-zinc-100">{row.key}</td>
-                        <td className="px-3 py-2 text-zinc-600 border-t border-zinc-100">{row.value}</td>
+                      <tr key={k} className={k % 2 === 0 ? "bg-white dark:bg-[#131c2e]" : "bg-[#f0f7ff] dark:bg-[#1a2535]"}>
+                        <td className="px-3 py-2 text-zinc-700 dark:text-[#c8d8e8] border-t border-zinc-100 dark:border-white/8">{row.key}</td>
+                        <td className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-zinc-100 dark:border-white/8">{row.value}</td>
                       </tr>
                     ))}
                   </tbody>
