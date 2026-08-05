@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import ChangePasswordForm from "./ChangePasswordForm";
 
 export const metadata = { title: "Meu Perfil · Rotina Clínica" };
@@ -159,6 +160,20 @@ export default async function PerfilPage() {
         <section className="bg-white border border-zinc-200 rounded-2xl p-6">
           <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-5">Alterar senha</h2>
           <ChangePasswordForm />
+        </section>
+
+        {/* Sair — visível apenas no mobile onde a sidebar fica oculta */}
+        <section className="lg:hidden bg-white border border-zinc-200 rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wider mb-4">Sessão</h2>
+          <Link
+            href="/api/auth/signout"
+            className="flex items-center gap-3 text-red-600 font-semibold text-sm hover:text-red-700 transition-colors"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Sair da conta
+          </Link>
         </section>
 
       </main>
