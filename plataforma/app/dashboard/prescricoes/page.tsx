@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { prescricoesMeta, emergenciaIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import { prescricoesMeta, emergenciaIds, medicamentoIds, ubsIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
 // ── Content loader hook ───────────────────────────────────────────────────────
@@ -36,9 +36,26 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
         <div className="flex items-start gap-3 p-5 border-b border-zinc-200 flex-shrink-0">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-              <span className="text-[10px] font-bold bg-[#e8f4fc] text-[#1a6aad] px-2.5 py-1 rounded-full uppercase tracking-wide">
-                {emerg ? "Emergência" : item.categoria}
-              </span>
+              {emerg && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] text-[#1a6aad]">
+                  Emergência
+                </span>
+              )}
+              {item.categoria.includes("PS/UPA") && !medicamentoIds.has(item.id) && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#fef2f2] text-[#dc2626]">
+                  PS/UPA
+                </span>
+              )}
+              {medicamentoIds.has(item.id) && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#fff7ed] text-[#c2410c]">
+                  Medicamento
+                </span>
+              )}
+              {ubsIds.has(item.id) && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#eaf3de] text-[#3b6d11]">
+                  UBS/Atenção primária
+                </span>
+              )}
             </div>
             <h2 className="font-extrabold text-[#0f2d4a] text-lg leading-snug">{item.titulo}</h2>
           </div>
@@ -72,7 +89,7 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
-const FILTROS = ["Todos", "Emergência", "Outros temas"] as const;
+const FILTROS = ["Todos", "Emergência", "PS/UPA", "UBS/Atenção primária", "Medicamento"] as const;
 type Filtro = typeof FILTROS[number];
 
 export default function PrescricoesPage() {
@@ -86,7 +103,9 @@ export default function PrescricoesPage() {
       const matchFiltro =
         filtro === "Todos" ||
         (filtro === "Emergência" && emergenciaIds.has(p.id)) ||
-        (filtro === "Outros temas" && !emergenciaIds.has(p.id));
+        (filtro === "PS/UPA" && p.categoria.includes("PS/UPA")) ||
+        (filtro === "UBS/Atenção primária" && ubsIds.has(p.id)) ||
+        (filtro === "Medicamento" && medicamentoIds.has(p.id));
 
       if (!q) return matchFiltro;
       const matchQ =
@@ -94,7 +113,7 @@ export default function PrescricoesPage() {
         p.categoria.toLowerCase().includes(q) ||
         p.tags.some(t => t.toLowerCase().includes(q));
       return matchFiltro && matchQ;
-    });
+    }).sort((a, b) => a.titulo.localeCompare(b.titulo, "pt-BR"));
   }, [query, filtro]);
 
   const handleClose = useCallback(() => setSelected(null), []);
@@ -138,7 +157,13 @@ export default function PrescricoesPage() {
             {FILTROS.map((f) => (
               <button key={f} onClick={() => setFiltro(f)}
                 className={`text-xs font-semibold px-4 py-1.5 rounded-full transition-all ${
-                  filtro === f ? "bg-[#0f2d4a] text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+                  filtro === f
+                    ? f === "Medicamento"
+                      ? "bg-[#c2410c] text-white"
+                      : f === "UBS/Atenção primária"
+                        ? "bg-[#3b6d11] text-white"
+                        : "bg-[#0f2d4a] text-white"
+                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
                 }`}>
                 {f}
               </button>
@@ -169,9 +194,28 @@ export default function PrescricoesPage() {
                     onClick={() => setSelected(p)}
                     className="text-left bg-white border border-zinc-200 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] transition-all group">
                     <div className="flex items-start justify-between gap-2 mb-3">
-                      <span className="inline-block text-[10px] font-bold bg-[#e8f4fc] text-[#1a6aad] px-2.5 py-1 rounded-full uppercase tracking-wide">
-                        {emergenciaIds.has(p.id) ? "Emergência" : p.categoria}
-                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {emergenciaIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] text-[#1a6aad]">
+                            Emergência
+                          </span>
+                        )}
+                        {p.categoria.includes("PS/UPA") && !medicamentoIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#fef2f2] text-[#dc2626]">
+                            PS/UPA
+                          </span>
+                        )}
+                        {medicamentoIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#fff7ed] text-[#c2410c]">
+                            Medicamento
+                          </span>
+                        )}
+                        {ubsIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#eaf3de] text-[#3b6d11]">
+                            UBS/Atenção primária
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <h3 className="font-bold text-[#0f2d4a] text-sm leading-snug group-hover:text-[#1a6aad] transition-colors">
                       {p.titulo}
