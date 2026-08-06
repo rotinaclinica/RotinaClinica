@@ -47,18 +47,28 @@ export const evolucoesMeta: EvolucaoMeta[] = [
   },
   {
     id: "4",
-    titulo: "Diarreia Aguda",
-    tags: ["diarreia", "gastroenterite", "fezes líquidas", "vômito", "desidratação", "GEA"],
+    titulo: "Gastroenterite Viral Aguda",
+    tags: ["diarreia", "gastroenterite", "fezes líquidas", "vômito", "desidratação", "GEA", "viral"],
+  },
+  {
+    id: "16",
+    titulo: "Disenteria",
+    tags: ["disenteria", "diarreia com sangue", "muco", "febre", "ciprofloxacino", "bacteriana"],
   },
   {
     id: "5",
-    titulo: "Dor Torácica",
-    tags: ["dor torácica", "angina", "infarto", "IAM", "dispneia", "SCA", "dor no peito"],
+    titulo: "Síndrome Coronariana Aguda",
+    tags: ["dor torácica", "angina", "infarto", "IAM", "SCA", "dor no peito", "síndrome coronariana"],
   },
   {
     id: "6",
-    titulo: "Infecção do Trato Urinário (ITU)",
-    tags: ["itu", "cistite", "pielonefrite", "disúria", "polaciúria", "urinária", "urocultura"],
+    titulo: "Cistite",
+    tags: ["itu", "cistite", "disúria", "polaciúria", "urinária", "urocultura", "ITU baixa"],
+  },
+  {
+    id: "17",
+    titulo: "Pielonefrite",
+    tags: ["itu", "pielonefrite", "febre", "dor lombar", "punho-percussão", "urinária", "ITU alta"],
   },
   {
     id: "7",
@@ -72,7 +82,27 @@ export const evolucoesMeta: EvolucaoMeta[] = [
   },
   {
     id: "9",
-    titulo: "Infecções Respiratórias",
-    tags: ["ivas", "pneumonia", "bronquite", "gripe", "resfriado", "respiratório", "tosse", "sinusite"],
+    titulo: "IVAS",
+    tags: ["ivas", "resfriado", "gripe", "congestão nasal", "rinorreia", "odinofagia", "tosse", "espirros", "respiratório"],
+  },
+  {
+    id: "18",
+    titulo: "Sinusite",
+    tags: ["sinusite", "rinossinusite", "congestão nasal", "rinorreia purulenta", "dor facial", "plenitude facial"],
+  },
+  {
+    id: "19",
+    titulo: "Faringoamigdalite",
+    tags: ["faringite", "amigdalite", "faringoamigdalite", "odinofagia", "dor de garganta", "exsudato tonsilar"],
+  },
+  {
+    id: "20",
+    titulo: "Pneumonia Comunitária",
+    tags: ["pneumonia", "PAC", "tosse", "febre", "expectoração", "crepitações", "dor pleurítica"],
+  },
+  {
+    id: "21",
+    titulo: "Apendicite Aguda",
+    tags: ["apendicite", "dor abdominal", "fossa ilíaca direita", "FID", "descompressão brusca", "abdome agudo", "cirurgia"],
   },
 ];

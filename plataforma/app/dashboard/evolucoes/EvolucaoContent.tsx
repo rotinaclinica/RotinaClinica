@@ -25,10 +25,11 @@ const MEDICAL_ABBREVS = [
   "BEG", "REG", "MEG", "RHA", "RHD", "FC", "FR", "PA", "TEC", "SpO2", "SaO2",
   "BNF", "2T", "3T", "4T", "RCR", "MMII", "MMSS", "IVAS", "GEA", "ITU",
   "SCA", "IAM", "HAS", "SF", "SG", "RL", "IV", "IM", "SC", "VO", "EV", "ID",
-  "ECG", "EEG", "TC", "RM", "UTI", "UPA", "PS", "ACV", "ABD", "NEURO",
+  "ECG", "EEG", "TC", "RM", "UTI", "UPA", "UBS", "PS", "ACV", "ABD", "NEURO",
   "VHS", "PCR", "HMG", "RX", "HDA", "HPP", "COVID", "HIV", "HCV", "HBV",
   "DM", "IRC", "ICC", "AVE", "AVC", "TEP", "TVP", "DPOC", "SUS", "4Q", "Sat.O2",
-  "BNF", "S/", "C/", "SNS", "RHA", "mmHg", "LOTE", "MVF+",
+  "BNF", "S/", "C/", "SNS", "RHA", "mmHg", "LOTE", "MVF+", "Ciprofloxacino",
+  "AAS", "PANI", "HEART", "SCA", "IAM", "ST", "AINES", "Glasgow", "FID",
 ];
 
 function toSentenceCase(str: string): string {
@@ -64,7 +65,7 @@ const FIELD_LABELS_TOP = [
   "HIPÓTESE DIAGNÓSTICA", "HIPOTESE DIAGNOSTICA",
 ];
 // Inline EF sub-labels that appear embedded inside the GERAL value
-const EF_SUB_LABELS = ["NEURO", "AR", "ACV", "ABD", "MMII", "PELE", "MUCOSA"];
+const EF_SUB_LABELS = ["NEURO", "AR", "ACV", "ABD", "MMII", "PELE", "MUCOSA", "OROSCOPIA", "FACE"];
 const ALL_FIELD_LABELS = [...FIELD_LABELS_TOP, ...EF_SUB_LABELS, "ALERGIAS", "COMORBIDADES", "TABAGISMO", "ETILISMO"];
 
 const FIELD_RE = new RegExp(
@@ -223,7 +224,7 @@ function parse(raw: string): Block[] {
 }
 
 // ── Renderer ──────────────────────────────────────────────────────────────────
-const EF_FIELD_LABELS = new Set(["GERAL", "NEURO", "AR", "ACV", "ABD", "MMII", "PELE", "MUCOSA"]);
+const EF_FIELD_LABELS = new Set(["GERAL", "NEURO", "AR", "ACV", "ABD", "MMII", "PELE", "MUCOSA", "OROSCOPIA", "FACE"]);
 
 export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
   const allBlocks = parse(conteudo);

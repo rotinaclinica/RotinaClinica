@@ -91,7 +91,7 @@ export default function EvolucoesPag() {
     <>
       {selected && <EvolucaoModal item={selected} onClose={handleClose} />}
 
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col">
         <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
           <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">
             Modelos de evolução
@@ -108,7 +108,7 @@ export default function EvolucoesPag() {
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
             <input
-              type="search"
+              type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Ex: cefaleia, ITU, dengue, asma..."
