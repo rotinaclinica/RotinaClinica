@@ -1282,8 +1282,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   { "id": "128", "titulo": "Clindamicina", "categoria": "Temas PS/UPA", "tags": ["clindamicina", "antimicrobiano", "antibiótico"] },
   { "id": "129", "titulo": "Valaciclovir", "categoria": "Temas PS/UPA", "tags": ["valaciclovir", "antiviral", "herpes"] },
   { "id": "130", "titulo": "Aciclovir", "categoria": "Temas PS/UPA", "tags": ["aciclovir", "antiviral", "herpes"] },
-  { "id": "131", "titulo": "Oseltamivir", "categoria": "Temas PS/UPA", "tags": ["oseltamivir", "antiviral", "influenza", "gripe"] },
-  { "id": "132", "titulo": "Fluconazol", "categoria": "Temas PS/UPA", "tags": ["fluconazol", "antifúngico", "candidíase"] },
+{ "id": "132", "titulo": "Fluconazol", "categoria": "Temas PS/UPA", "tags": ["fluconazol", "antifúngico", "candidíase"] },
   { "id": "133", "titulo": "Nistatina", "categoria": "Temas PS/UPA", "tags": ["nistatina", "antifúngico", "candidíase", "oral"] },
   { "id": "134", "titulo": "Nitrofurantoína", "categoria": "Temas PS/UPA", "tags": ["nitrofurantoína", "antimicrobiano", "antibiótico", "ITU"] },
   { "id": "135", "titulo": "Vancomicina", "categoria": "Temas PS/UPA", "tags": ["vancomicina", "antimicrobiano", "antibiótico", "MRSA", "Clostridium difficile"] },
@@ -1358,12 +1357,140 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Agitação psicomotora",
     "categoria": "Temas PS/UPA",
     "tags": ["agitação","psicomotora","save","clonazepam","benzodiazepínico"]
+  },
+  {
+    "id": "189",
+    "titulo": "Insuficiência Respiratória",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["insuficiência respiratória","hipoxemia","hipercapnia","SDRA","IRpA"]
+  },
+  {
+    "id": "190",
+    "titulo": "Oxigenoterapia",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["oxigenoterapia","O2","HFNC","cateter nasal","máscara","Venturi"]
+  },
+  {
+    "id": "191",
+    "titulo": "Ventilação Não Invasiva (VNI)",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["VNI","CPAP","BIPAP","ventilação não invasiva","DPOC","EAP"]
+  },
+  {
+    "id": "192",
+    "titulo": "Materiais para Intubação",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["intubação","laringoscópio","TOT","bougie","cuff","IOT","lâmina"]
+  },
+  {
+    "id": "193",
+    "titulo": "Os 7 Ps da Intubação",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["7 Ps","intubação","ISR","sequência rápida","pré-oxigenação","posicionamento"]
+  },
+  {
+    "id": "194",
+    "titulo": "Medicações da ISR",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["ISR","fentanil","etomidato","quetamina","midazolam","propofol","succinilcolina","rocurônio"]
+  },
+  {
+    "id": "195",
+    "titulo": "Sedação Pós-Intubação e BNM em BIC",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["sedação","pós-intubação","BIC","dexmedetomidina","propofol","midazolam","fentanil","rocurônio","cisatracúrio"]
+  },
+  {
+    "id": "196",
+    "titulo": "Ventilação Mecânica: Fundamentos e Modos",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["ventilação mecânica","PEEP","VCV","PCV","PSV","driving pressure","parâmetros"]
+  },
+  {
+    "id": "197",
+    "titulo": "VM em Distúrbios Obstrutivos e Restritivos",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["ventilação mecânica","DPOC","asma","SDRA","obstrutivo","restritivo","auto-PEEP","recrutamento"]
+  },
+  {
+    "id": "198",
+    "titulo": "Síndrome do Desconforto Respiratório Agudo (SDRA)",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["SDRA","Critérios de Berlim","hipoxemia","PaO2/FiO2","insuficiência respiratória aguda","edema pulmonar"]
+  },
+  {
+    "id": "199",
+    "titulo": "Crises Hipertensivas",
+    "categoria": "Temas PS/UPA",
+    "tags": ["crise hipertensiva","urgência hipertensiva","emergência hipertensiva","hidralazina","captopril","clonidina","nitroprussiato","nitroglicerina"]
+  },
+  {
+    "id": "200",
+    "titulo": "Dor Torácica/SCA",
+    "categoria": "Temas PS/UPA",
+    "tags": ["dor torácica","SCA","infarto","MONABCH","NAO","nitrato","AAS","clopidogrel","nitroglicerina"]
+  },
+  {
+    "id": "201",
+    "titulo": "Infecções Respiratórias",
+    "categoria": "Temas PS/UPA",
+    "tags": ["resfriado","gripe","pneumonia","sinusite","faringoamigdalite","oseltamivir","paxlovid","IVAS","infecção respiratória"]
+  },
+  {
+    "id": "202",
+    "titulo": "PA muito elevada sem lesão de órgão-alvo",
+    "categoria": "Temas PS/UPA",
+    "tags": ["urgência hipertensiva","PA elevada","hidralazina","clonidina","captopril","crise hipertensiva","uso oral"]
+  },
+  {
+    "id": "203",
+    "titulo": "Emergência Hipertensiva",
+    "categoria": "Temas PS/UPA",
+    "tags": ["emergência hipertensiva","PA elevada","lesão de órgão-alvo","nitroglicerina","nitroprussiato","isossorbida","parenteral"]
+  },
+  {
+    "id": "204",
+    "titulo": "Infarto com supra de ST",
+    "categoria": "Temas PS/UPA",
+    "tags": ["infarto","IAMCSST","supra de ST","AAS","clopidogrel","cateterismo","antiagregação","SCA"]
+  },
+  {
+    "id": "205",
+    "titulo": "Infarto sem supra de ST",
+    "categoria": "Temas PS/UPA",
+    "tags": ["infarto","IAMSSST","sem supra de ST","AAS","clopidogrel","antiagregação","SCA"]
+  },
+  {
+    "id": "206",
+    "titulo": "Oseltamivir",
+    "categoria": "Temas PS/UPA",
+    "tags": ["oseltamivir","tamiflu","influenza","gripe","antiviral","SRAG"]
+  },
+  {
+    "id": "207",
+    "titulo": "Paxlovid",
+    "categoria": "Temas PS/UPA",
+    "tags": ["paxlovid","nirmatrelvir","ritonavir","covid-19","antiviral","covid grave"]
+  },
+  {
+    "id": "208",
+    "titulo": "Infecções Respiratórias: Isolamento e Testagem",
+    "categoria": "Temas PS/UPA",
+    "tags": ["isolamento","testagem","covid-19","influenza","resfriado","RT-PCR","swab"]
+  },
+  {
+    "id": "209",
+    "titulo": "Tosse Persistente ou Refratária",
+    "categoria": "Temas PS/UPA",
+    "tags": ["tosse","codeína","tosse persistente","antitussígeno","receita C1","opioide"]
   }
 ];
 
-export const categorias = ["Todos", "Emergência", "Temas PS/UPA"];
+export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
 
-export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110"]);
+export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205"]);
+
+export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198"]);
 
 export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187"]);
 
@@ -1375,5 +1502,6 @@ export const medicamentoIds = new Set([
   "160","161","162","164","165","166","167","168","169","170",
   "171","172","173","174","175",
   "176","177","178",
-  "179","180","181","182"
+  "179","180","181","182",
+  "206","207"
 ]);

@@ -83,7 +83,7 @@ const isSubtitle = (l: string) => {
   return (t.endsWith(":") && t.length < 70) || (/^[A-ZÁÀÂÃÉÍÓÔÕÚÇ0-9 ]{4,45}$/.test(t) && t.split(" ").length <= 6);
 };
 
-const isTableRow = (l: string) => /^[^|]+\|[^|]+$/.test(l.trim());
+const isTableRow = (l: string) => /^[^|]+\|[^|]+(\|[^|]+)?$/.test(l.trim());
 
 const isImageMarker = (l: string) => /^\[IMAGE:[^\]]+\]$/.test(l.trim());
 
@@ -103,7 +103,7 @@ type Block =
   | { type: "subtitle"; text: string }
   | { type: "text"; text: string }
   | { type: "image"; src: string; caption?: string }
-  | { type: "table"; rows: { key: string; value: string }[] };
+  | { type: "table"; rows: { cells: string[] }[] };
 
 function parse(content: string): Block[] {
   // 1) Re-join wrapped lines into logical lines.
@@ -153,6 +153,15 @@ function parse(content: string): Block[] {
       const src = pipeIdx === -1 ? inner : inner.slice(0, pipeIdx);
       const caption = pipeIdx === -1 ? undefined : inner.slice(pipeIdx + 1).trim();
       blocks.push({ type: "image", src, caption });
+    } else if (isTableRow(t)) {
+      // Check before isSection/isConnector — a line with | is always a table row
+      curDrug = null; curNote = null;
+      const cells = t.split("|").map(s => s.trim());
+      if (!curTable) {
+        curTable = { type: "table", rows: [] };
+        blocks.push(curTable);
+      }
+      curTable.rows.push({ cells });
     } else if (isConnector(t)) {
       curDrug = null; curNote = null; curTable = null;
       blocks.push({ type: "connector", text: t.replace(/[:.]$/, "") });
@@ -171,14 +180,6 @@ function parse(content: string): Block[] {
       if (curDrug) curDrug.instructions.push(t);
       else if (curNote) curNote.body.push(t);
       else blocks.push({ type: "text", text: t });
-    } else if (isTableRow(t)) {
-      curDrug = null; curNote = null;
-      const [key, value] = t.split("|").map(s => s.trim());
-      if (!curTable) {
-        curTable = { type: "table", rows: [] };
-        blocks.push(curTable);
-      }
-      curTable.rows.push({ key, value });
     } else {
       // Check for long merged drug+instruction line before isDrug (which rejects > 95 chars)
       const extracted = tryExtractDrug(t);
@@ -347,7 +348,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
 
           case "subtitle":
             return (
-              <p key={i} className="text-sm font-bold text-[#0f2d4a] dark:text-[#7db5d0] uppercase tracking-wider pt-6 pb-0.5 border-t border-zinc-200 dark:border-white/10 mt-2 first:border-t-0 first:pt-0">
+              <p key={i} className="text-sm font-bold text-[#0f2d4a] dark:text-[#7db5d0] uppercase tracking-wider pt-6 pb-0.5 first:pt-0">
                 {b.text.startsWith("→ ") ? b.text.slice(2) : b.text}
               </p>
             );
@@ -381,27 +382,32 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               </figure>
             );
 
-          case "table":
+          case "table": {
+            const colCount = b.rows[0]?.cells.length ?? 2;
+            const colW = colCount === 3 ? "w-1/3" : "w-1/2";
             return (
-              <div key={i} className="my-2 rounded-lg border border-[#1a6aad]/25 dark:border-[#3db8d4]/20 overflow-hidden">
+              <div key={i} className="my-2 rounded-lg border border-[#1a6aad]/25 dark:border-[#3db8d4]/20 overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
                     <tr className="bg-[#0f2d4a] dark:bg-[#080e1a] text-white">
-                      <th className="px-3 py-2 text-left font-semibold w-1/2">{b.rows[0]?.key}</th>
-                      <th className="px-3 py-2 text-left font-semibold w-1/2">{b.rows[0]?.value}</th>
+                      {b.rows[0]?.cells.map((cell, ci) => (
+                        <th key={ci} className={`px-3 py-2 text-left font-semibold ${colW}`}>{cell}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {b.rows.slice(1).map((row, k) => (
                       <tr key={k} className={k % 2 === 0 ? "bg-white dark:bg-[#131c2e]" : "bg-[#f0f7ff] dark:bg-[#1a2535]"}>
-                        <td className="px-3 py-2 text-zinc-700 dark:text-[#c8d8e8] border-t border-zinc-100 dark:border-white/8">{row.key}</td>
-                        <td className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-zinc-100 dark:border-white/8">{row.value}</td>
+                        {row.cells.map((cell, ci) => (
+                          <td key={ci} className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-zinc-100 dark:border-white/8">{cell}</td>
+                        ))}
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             );
+          }
         }
       })}
     </div>

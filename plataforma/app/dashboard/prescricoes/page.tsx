@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { prescricoesMeta, emergenciaIds, medicamentoIds, ubsIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
 // ── Content loader hook ───────────────────────────────────────────────────────
@@ -26,6 +26,7 @@ function useConteudo(id: string) {
 function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () => void }) {
   const { conteudo, loading, error } = useConteudo(item.id);
   const emerg = emergenciaIds.has(item.id);
+  const evid = evidenciaIds.has(item.id);
 
   return (
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center sm:p-4">
@@ -39,6 +40,11 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
               {emerg && (
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
                   Emergência
+                </span>
+              )}
+              {evid && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#ede9fe] dark:bg-purple-900/30 text-[#6d28d9] dark:text-violet-400">
+                  Evidência
                 </span>
               )}
               {item.categoria.includes("PS/UPA") && !medicamentoIds.has(item.id) && (
@@ -89,7 +95,7 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
-const FILTROS = ["Todos", "Emergência", "PS/UPA", "UBS/Atenção primária", "Medicamento"] as const;
+const FILTROS = ["Todos", "Emergência", "Evidência", "PS/UPA", "UBS/Atenção primária", "Medicamento"] as const;
 type Filtro = typeof FILTROS[number];
 
 export default function PrescricoesPage() {
@@ -103,6 +109,7 @@ export default function PrescricoesPage() {
       const matchFiltro =
         filtro === "Todos" ||
         (filtro === "Emergência" && emergenciaIds.has(p.id)) ||
+        (filtro === "Evidência" && evidenciaIds.has(p.id)) ||
         (filtro === "PS/UPA" && p.categoria.includes("PS/UPA")) ||
         (filtro === "UBS/Atenção primária" && ubsIds.has(p.id)) ||
         (filtro === "Medicamento" && medicamentoIds.has(p.id));
@@ -124,8 +131,8 @@ export default function PrescricoesPage() {
 
       <div className="flex-1 flex flex-col min-h-screen">
         <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
-          <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Prescrições</h1>
-          <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">Busque por queixa, diagnóstico ou medicamento.</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Condutas Clínicas</h1>
+          <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">Busque por queixa, diagnóstico, medicamento ou tema.</p>
 
           {/* Search */}
           <div className="relative mt-4 max-w-xl">
@@ -198,6 +205,11 @@ export default function PrescricoesPage() {
                         {emergenciaIds.has(p.id) && (
                           <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
                             Emergência
+                          </span>
+                        )}
+                        {evidenciaIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#ede9fe] dark:bg-purple-900/30 text-[#6d28d9] dark:text-violet-400">
+                            Evidência
                           </span>
                         )}
                         {p.categoria.includes("PS/UPA") && !medicamentoIds.has(p.id) && (
