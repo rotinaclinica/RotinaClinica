@@ -108,10 +108,10 @@ export default function ConhecaPage() {
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto sm:flex-shrink-0">
                 <div className="sm:w-56 h-52 sm:h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
-                  <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-center" />
+                  <img src="/images/YAN%20AULA.jpg" alt="Yan" className="w-full h-full object-cover object-top" />
                 </div>
                 <div className="sm:w-56 h-52 sm:h-72 rounded-2xl overflow-hidden border border-zinc-200 bg-gradient-to-br from-[#1a6aad] to-[#0f2d4a]">
-                  <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-center" />
+                  <img src="/images/Yan%20procedimento%20(1).jpeg" alt="Yan" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
               <div className="pt-1">

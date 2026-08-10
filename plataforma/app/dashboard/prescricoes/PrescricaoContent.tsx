@@ -6,7 +6,7 @@ const RX_DOSE = /\d[\d.,]*\s?(mg|mcg|µg|ml|ml\b|g\b|kg|ui|mmol|meq|%)/i;
 const RX_FORM = /\b(F\/A|ampola|comprimido|c[áa]psula|frasco|sach[êe]|supositório|pomada|colírio|creme|gel|spray|inalador|bolsa|solução|suspensão|xarope|gotas?|dr[áa]gea|adesivo|óvulo)\b/i;
 
 // Lines that start with these patterns are NOT drugs even if they have a dose
-const NOT_DRUG = /^(Calcular|Calcule|Exemplo|Verificar|Observar|Atentar|Considerar|Avaliar|Reavaliar|Total |Volume |Dose |Se |Em caso|Na ausência|Para |Diante|Caso |Quando |Conforme|Portanto|Assim |Logo |Pois |Além |Nota |Obs |O2 >|SpO2|Sat\.|SF |SG |RL |NaCl|KCl|Na\s*[<>]|K\s*[<>]|Mg\s*[<>]|pH\s*[<>]|[<>]\s*\d|\d+\s*(mL|ml)\s+de\s|\d[\d.,]*\s*%|Solução final|Sugestão|BIC\b)/i;
+const NOT_DRUG = /^(Calcular|Calcule|Exemplo|Verificar|Observar|Atentar|Considerar|Avaliar|Reavaliar|Total |Volume |Doses? |Se |Em caso|Na ausência|Para |Diante|Caso |Quando |Conforme|Portanto|Assim |Logo |Pois |Além |Nota |Obs |O2 >|SpO2|Sat\.|SF |SG |RL |NaCl|KCl|Na\s*[<>]|K\s*[<>]|Mg\s*[<>]|pH\s*[<>]|[<>]\s*\d|\d+\s*(mL|ml)\s+de\s|\d[\d.,]*\s*%|Solução final|Sugestão|BIC\b|UpToDate\b|O livro\b|A literatura\b|A bula\b)/i;
 
 // Instruction-verb regex used both in isInstruction and tryExtractDrug
 const RX_INSTR_VERB = /\b(Tomar|Aplic\w*|Administr\w*|Diluir|Dilua|Utilizar|Utilize|Infund\w*|Reconstitu\w*|Fazer|Faça|Dar\b|Dê\b|Usar\b|Use\b|Ingerir|Ingira|Pingar|Instilar|Repet\w*|Manter\b|Mantenha|Prescrev\w*|Realiz\w*|Colocar|Injetar|Deixar|Adicionar|Iniciar|Inicie|Ministrar|Nebuliz\w*|Borrifar|Passar|Inalar|Bochechar|Bocheche|Lavar\b|Lave\b)\b/i;
@@ -60,6 +60,7 @@ const isDrug = (l: string) => {
 function tryExtractDrug(t: string): { drug: string; instr: string } | null {
   if (t.length <= 95) return null;
   if (/^\(/.test(t)) return null;
+  if (t.startsWith("→ ")) return null;
   // Numbered step without ---- separator is an instruction, not a drug
   if (/^\d+\)/.test(t) && !/-{4,}/.test(t)) return null;
   if (NOT_DRUG.test(t)) return null;
@@ -142,7 +143,7 @@ function parse(content: string): Block[] {
 
   for (let li = 0; li < logical.length; li++) {
     const line = logical[li];
-    if (line === "\x00") { continue; }
+    if (line === "\x00") { curTable = null; continue; }
     const t = line.trim();
     if (!t) continue;
 

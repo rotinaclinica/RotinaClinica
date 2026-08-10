@@ -70,8 +70,16 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Card 1 — Instagram + YouTube */}
           <div className="bg-white border border-zinc-200 rounded-2xl p-6 hover:shadow-lg hover:border-[#3db8d4] transition-all">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3db8d4] to-[#1a6aad] flex items-center justify-center mb-4">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="12" r="3"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+            <div className="flex gap-3 mb-4">
+              <a href="https://instagram.com/rotina.clinica" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#833ab4] via-[#e1306c] to-[#fcb045] flex items-center justify-center hover:opacity-80 transition-opacity">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Z"/><circle cx="12" cy="12" r="3"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+              </a>
+              <a href="https://www.youtube.com/@RotinaClinica" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-[#ff0000] flex items-center justify-center hover:opacity-80 transition-opacity">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8Z"/><polygon points="9.75,15.5 15.5,12 9.75,8.5" fill="#ff0000"/></svg>
+              </a>
+              <a href="https://www.tiktok.com/@rotina.clinica" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-[#010101] flex items-center justify-center hover:opacity-80 transition-opacity">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06Z"/></svg>
+              </a>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+50k no Instagram<br />+3k no Youtube</h3>
             <p className="text-zinc-500 text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
@@ -144,6 +152,97 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Redes sociais */}
+      <section className="py-14 sm:py-20 px-6 bg-[#f7fafc]">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Nossas redes</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0f2d4a] mt-2">Acompanhe o Rotina Clínica</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+
+            {/* Instagram */}
+            <a
+              href="https://instagram.com/rotina.clinica"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative overflow-hidden rounded-3xl p-7 flex flex-col items-center text-center group bg-gradient-to-br from-[#6a0dad] via-[#e1306c] to-[#fcb045] hover:scale-[1.02] transition-transform shadow-lg"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center mb-4">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                  <circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/>
+                </svg>
+              </div>
+              <p className="text-white/70 text-xs font-bold tracking-widest uppercase mb-1">Instagram</p>
+              <h3 className="text-2xl font-extrabold text-white mb-1">@rotina.clinica</h3>
+              <p className="text-white/80 text-sm mb-4">Segurança no plantão começa aqui.</p>
+              <span className="text-white/60 text-xs mb-5">+50 mil seguidores</span>
+              <span className="inline-flex items-center gap-2 bg-white text-[#c13584] font-bold px-5 py-2.5 rounded-xl text-sm shadow group-hover:bg-white/90 transition-colors">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                  <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+                </svg>
+                Seguir
+              </span>
+            </a>
+
+            {/* YouTube */}
+            <a
+              href="https://www.youtube.com/@RotinaClinica"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative overflow-hidden rounded-3xl p-7 flex flex-col items-center text-center group bg-gradient-to-br from-[#c4302b] to-[#ff0000] hover:scale-[1.02] transition-transform shadow-lg"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center mb-4">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8Z"/>
+                  <polygon points="9.75,15.5 15.5,12 9.75,8.5" fill="#c4302b"/>
+                </svg>
+              </div>
+              <p className="text-white/70 text-xs font-bold tracking-widest uppercase mb-1">YouTube</p>
+              <h3 className="text-2xl font-extrabold text-white mb-1">@RotinaClinica</h3>
+              <p className="text-white/80 text-sm mb-4">Videoaulas e casos clínicos em vídeo.</p>
+              <span className="text-white/60 text-xs mb-5">+3 mil inscritos</span>
+              <span className="inline-flex items-center gap-2 bg-white text-[#c4302b] font-bold px-5 py-2.5 rounded-xl text-sm shadow group-hover:bg-white/90 transition-colors">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8Z"/>
+                  <polygon points="9.75,15.5 15.5,12 9.75,8.5" fill="white"/>
+                </svg>
+                Inscrever-se
+              </span>
+            </a>
+
+            {/* TikTok */}
+            <a
+              href="https://www.tiktok.com/@rotina.clinica"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative overflow-hidden rounded-3xl p-7 flex flex-col items-center text-center group bg-gradient-to-br from-[#010101] to-[#1a1a2e] hover:scale-[1.02] transition-transform shadow-lg"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center mb-4">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06Z"/>
+                </svg>
+              </div>
+              <p className="text-white/60 text-xs font-bold tracking-widest uppercase mb-1">TikTok</p>
+              <h3 className="text-2xl font-extrabold text-white mb-1">@rotina.clinica</h3>
+              <p className="text-white/70 text-sm mb-4">Conteúdo clínico em formato curto.</p>
+              <span className="text-white/40 text-xs mb-5">&nbsp;</span>
+              <span className="inline-flex items-center gap-2 bg-white text-[#010101] font-bold px-5 py-2.5 rounded-xl text-sm shadow group-hover:bg-white/90 transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06Z"/>
+                </svg>
+                Seguir
+              </span>
+            </a>
+
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-[#0f2d4a] text-white mt-16">

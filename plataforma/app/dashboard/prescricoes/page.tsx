@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import Link from "next/link";
+import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, bibliografiaIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
 // ── Content loader hook ───────────────────────────────────────────────────────
@@ -44,7 +45,7 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
               )}
               {evid && (
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#ede9fe] dark:bg-purple-900/30 text-[#6d28d9] dark:text-violet-400">
-                  Evidência
+                  Guias práticos
                 </span>
               )}
               {item.categoria.includes("PS/UPA") && !medicamentoIds.has(item.id) && (
@@ -95,7 +96,7 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
-const FILTROS = ["Todos", "Emergência", "Evidência", "PS/UPA", "UBS/Atenção primária", "Medicamento"] as const;
+const FILTROS = ["Todos", "Emergência", "Guias práticos", "PS/UPA", "UBS/Atenção primária", "Medicamento", "Referências"] as const;
 type Filtro = typeof FILTROS[number];
 
 export default function PrescricoesPage() {
@@ -109,10 +110,11 @@ export default function PrescricoesPage() {
       const matchFiltro =
         filtro === "Todos" ||
         (filtro === "Emergência" && emergenciaIds.has(p.id)) ||
-        (filtro === "Evidência" && evidenciaIds.has(p.id)) ||
+        (filtro === "Guias práticos" && evidenciaIds.has(p.id)) ||
         (filtro === "PS/UPA" && p.categoria.includes("PS/UPA")) ||
         (filtro === "UBS/Atenção primária" && ubsIds.has(p.id)) ||
-        (filtro === "Medicamento" && medicamentoIds.has(p.id));
+        (filtro === "Medicamento" && medicamentoIds.has(p.id)) ||
+        (filtro === "Referências" && bibliografiaIds.has(p.id));
 
       if (!q) return matchFiltro;
       const matchQ =
@@ -131,6 +133,12 @@ export default function PrescricoesPage() {
 
       <div className="flex-1 flex flex-col min-h-screen">
         <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+          <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            Início
+          </Link>
           <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Condutas Clínicas</h1>
           <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">Busque por queixa, diagnóstico, medicamento ou tema.</p>
 
@@ -169,7 +177,9 @@ export default function PrescricoesPage() {
                       ? "bg-[#c2410c] text-white"
                       : f === "UBS/Atenção primária"
                         ? "bg-[#3b6d11] text-white"
-                        : "bg-[#0f2d4a] dark:bg-[#1a6aad] text-white"
+                        : f === "Referências"
+                          ? "bg-[#86198f] text-white"
+                          : "bg-[#0f2d4a] dark:bg-[#1a6aad] text-white"
                     : "bg-zinc-100 dark:bg-white/8 text-zinc-600 dark:text-[#7d96ad] hover:bg-zinc-200 dark:hover:bg-white/12"
                 }`}>
                 {f}
@@ -209,7 +219,7 @@ export default function PrescricoesPage() {
                         )}
                         {evidenciaIds.has(p.id) && (
                           <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#ede9fe] dark:bg-purple-900/30 text-[#6d28d9] dark:text-violet-400">
-                            Evidência
+                            Guias práticos
                           </span>
                         )}
                         {p.categoria.includes("PS/UPA") && !medicamentoIds.has(p.id) && (
@@ -225,6 +235,11 @@ export default function PrescricoesPage() {
                         {ubsIds.has(p.id) && (
                           <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#eaf3de] dark:bg-green-900/30 text-[#3b6d11] dark:text-green-400">
                             UBS/Atenção primária
+                          </span>
+                        )}
+                        {bibliografiaIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#fdf4ff] dark:bg-fuchsia-900/30 text-[#86198f] dark:text-fuchsia-400">
+                            Referências
                           </span>
                         )}
                       </div>

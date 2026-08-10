@@ -1396,7 +1396,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "195",
-    "titulo": "Sedação Pós-Intubação e BNM em BIC",
+    "titulo": "Sedação Pós-Intubação e Bloqueadores Neuromusculares em BIC",
     "categoria": "IOT, Sedação e VM",
     "tags": ["sedação","pós-intubação","BIC","dexmedetomidina","propofol","midazolam","fentanil","rocurônio","cisatracúrio"]
   },
@@ -1483,14 +1483,97 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Tosse Persistente ou Refratária",
     "categoria": "Temas PS/UPA",
     "tags": ["tosse","codeína","tosse persistente","antitussígeno","receita C1","opioide"]
-  }
+  },
+  {
+    "id": "210",
+    "titulo": "Bloqueadores Neuromusculares em BIC",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["bloqueador neuromuscular","BIC","rocurônio","cisatracúrio","BNM","infusão contínua","paralisia","sedação","intubação"]
+  },
+  {
+    "id": "211",
+    "titulo": "Sedação de Manutenção Pós-Intubação",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["sedação","pós-intubação","RASS","fentanil","midazolam","quetamina","propofol","dexmedetomidina","BIC","manutenção","infusão contínua"]
+  },
+  {
+    "id": "212",
+    "titulo": "Edema Agudo de Pulmão",
+    "categoria": "Temas PS/UPA",
+    "tags": ["EAP","edema agudo de pulmão","furosemida","nitroglicerina","nitroprussiato","VNI","BiPAP","tridil","nipride","morfina"]
+  },
+  {
+    "id": "213",
+    "titulo": "Fibrilação Atrial",
+    "categoria": "Temas PS/UPA",
+    "tags": ["fibrilação atrial","FA","amiodarona","metoprolol","cardioversão","CHA2DS2","anticoagulação","controle de frequência"]
+  },
+  {
+    "id": "214",
+    "titulo": "Taquicardia Supraventricular Paroxística",
+    "categoria": "Temas PS/UPA",
+    "tags": ["TSVP","adenosina","metoprolol","cardioversão","taquicardia supraventricular","manobra vagal","Valsalva"]
+  },
+  {
+    "id": "215",
+    "titulo": "Torsades de Pointes",
+    "categoria": "Temas PS/UPA",
+    "tags": ["torsades de pointes","sulfato de magnésio","desfibrilação","taquicardia ventricular","QT longo"]
+  },
+  {
+    "id": "216",
+    "titulo": "Noradrenalina (BIC)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["noradrenalina","norepinefrina","vasopressor","choque séptico","BIC","droga vasoativa","levophed","hyponor"]
+  },
+  {
+    "id": "217",
+    "titulo": "Dobutamina (BIC)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["dobutamina","choque cardiogênico","BIC","droga vasoativa","inotrópico","insuficiência cardíaca","IC perfil C"]
+  },
+  {
+    "id": "218",
+    "titulo": "Tosse Pós-Infecciosa",
+    "categoria": "Temas PS/UPA",
+    "tags": ["tosse pós-infecciosa","tosse pós-viral","dexclorfeniramina","prednisona","budesonida","codeína","IVAS"]
+  },
+  {
+    "id": "219",
+    "titulo": "Tosse Produtiva e Não Produtiva",
+    "categoria": "Temas PS/UPA",
+    "tags": ["tosse produtiva","tosse seca","acetilcisteína","ambroxol","acebrofilina","codeína","dextrometorfano","mucolítico","antitussígeno"]
+  },
+  {
+    "id": "220",
+    "titulo": "VCV — Ventilação Controlada a Volume",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["VCV","ventilação controlada a volume","volume corrente","pressão de pico","pressão de platô","driving pressure","parâmetros ventilatórios","barotrauma"]
+  },
+  {
+    "id": "221",
+    "titulo": "PCV — Ventilação Controlada a Pressão",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["PCV","ventilação controlada a pressão","pressão inspiratória","Pinsp","volume corrente variável","barotrauma","parâmetros ventilatórios"]
+  },
+  {
+    "id": "222",
+    "titulo": "Referências — IOT, Sedação e VM",
+    "categoria": "IOT, Sedação e VM",
+    "tags": ["referências","bibliografia","IOT","sedação","ventilação mecânica","fontes","UpToDate","JAMA","ERS","ATS"]
+  },
+  {
+    "id": "223",
+    "titulo": "Referências — Prescrições e Condutas",
+    "categoria": "Emergência",
+    "tags": ["referências","bibliografia","prescrições","condutas","UpToDate","FMUSP","Whitebook","Ministério da Saúde","SBC","Sepse","IDSA"]
+  },
 ];
-
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
 
-export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205"]);
+export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205","210","211","212","213","214","215","216","217","220","221"]);
 
-export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198"]);
+export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221"]);
 
 export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187"]);
 
@@ -1503,5 +1586,7 @@ export const medicamentoIds = new Set([
   "171","172","173","174","175",
   "176","177","178",
   "179","180","181","182",
-  "206","207"
+  "206","207","216","217"
 ]);
+
+export const bibliografiaIds = new Set(["222","223"]);
