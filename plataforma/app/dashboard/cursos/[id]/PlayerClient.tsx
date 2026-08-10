@@ -34,6 +34,69 @@ declare global {
 
 const STORAGE_KEY = "destravando-completed";
 
+function MaterialDownloadButton({
+  aulaId,
+  materialId,
+  titulo,
+  tamanho,
+}: {
+  aulaId: number;
+  materialId: string;
+  titulo: string;
+  tamanho?: string;
+}) {
+  const [loading, setLoading] = useState(false);
+
+  async function handleDownload() {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/cursos/${aulaId}/material/${materialId}`);
+      if (!res.ok) throw new Error("Falha no download");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const disposition = res.headers.get("Content-Disposition") ?? "";
+      const match = disposition.match(/filename\*=UTF-8''(.+)/);
+      a.download = match ? decodeURIComponent(match[1]) : `${titulo}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      // silently ignore
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <button
+      onClick={handleDownload}
+      disabled={loading}
+      className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/8 hover:border-[#3db8d4]/30 transition-colors text-left w-full disabled:opacity-60"
+    >
+      <div className="w-9 h-9 rounded-lg bg-[#1a2d45] flex items-center justify-center shrink-0">
+        {loading ? (
+          <svg className="animate-spin text-[#3db8d4]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+          </svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 15V3" /><path d="M7 10l5 5 5-5" /><path d="M3 21h18" />
+          </svg>
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-white truncate">{titulo}</p>
+        {tamanho && <p className="text-xs text-[#5a8caa]">PDF · {tamanho}</p>}
+      </div>
+      <svg className="shrink-0 text-[#5a8caa]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    </button>
+  );
+}
+
 function useCompleted() {
   const [completed, setCompleted] = useState<Set<number>>(new Set());
 
@@ -116,8 +179,6 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
 
       ytPlayerRef.current = new window.YT.Player(div, {
         videoId: videoId!,
-        width: "100%",
-        height: "100%",
         playerVars: { rel: 0, modestbranding: 1, autoplay: 1 },
         events: {
           onStateChange: (e: { data: number }) => {
@@ -283,6 +344,18 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
                     </svg>
                     {completed.has(lessonId) ? "Concluída" : "Marcar como concluída"}
                   </button>
+                </div>
+              ) : aula.materiais && aula.materiais.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {aula.materiais.map((mat) => (
+                    <MaterialDownloadButton
+                      key={mat.id}
+                      aulaId={lessonId}
+                      materialId={mat.id}
+                      titulo={mat.titulo}
+                      tamanho={mat.tamanho}
+                    />
+                  ))}
                 </div>
               ) : (
                 <p className="text-sm text-[#5a8caa]">Nenhum material disponível para esta aula.</p>
