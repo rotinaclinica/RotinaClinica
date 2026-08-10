@@ -68,7 +68,7 @@ export async function GET(
     .replace(/[^a-zA-Z0-9À-ÿ\s\-–—.]/g, "")
     .trim();
 
-  return new NextResponse(watermarkedBytes, {
+  return new NextResponse(Buffer.from(watermarkedBytes), {
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`,
