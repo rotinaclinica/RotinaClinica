@@ -14,8 +14,8 @@ export default function CursosPage() {
           </svg>
           Início
         </Link>
-        <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Cursos e Videoaulas</h1>
-        <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">Conteúdo em vídeo por especialistas. Aprenda no seu ritmo.</p>
+        <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Destravando o Plantão</h1>
+        <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">Abordagem sistematizada das 10 queixas mais prevalentes do paciente adulto no plantão. Aprenda no seu ritmo.</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8 flex items-center justify-center">
