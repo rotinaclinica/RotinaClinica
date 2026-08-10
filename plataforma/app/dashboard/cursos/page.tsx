@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CURSO_TITULO, MODULOS } from "@/lib/cursos-data";
+import ThumbnailImage from "./ThumbnailImage";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Destravando o Plantão · Rotina Clínica" };
@@ -36,11 +37,8 @@ export default function CursosPage() {
               className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
               {/* Thumbnail */}
-              <div className="relative shrink-0 w-[120px] h-[68px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad] flex items-center justify-center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" opacity="0.4">
-                  <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                  <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeWidth="0"/>
-                </svg>
+              <div className="relative shrink-0 w-[120px] h-[68px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
+                <ThumbnailImage aulaId={aula.id} alt={aula.titulo} />
                 <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
                   {aula.duracao}
                 </span>

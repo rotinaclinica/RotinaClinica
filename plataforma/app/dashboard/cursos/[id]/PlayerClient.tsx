@@ -375,6 +375,13 @@ function AulaItem({
       }`}
     >
       <div className="relative shrink-0 w-[90px] h-[51px] rounded-md overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/cursos/${aula.id}/thumb`}
+          alt={aula.titulo}
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+        />
         {isActive && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span className="text-[9px] font-bold text-white bg-[#1a6aad] px-1.5 py-0.5 rounded">
