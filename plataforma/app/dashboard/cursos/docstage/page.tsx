@@ -51,11 +51,13 @@ export default function DocStagePage() {
               href={`/dashboard/cursos/docstage/${modulo.id}`}
               className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-5 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#dceef9] dark:from-[#1a2d45] dark:to-[#162438] flex items-center justify-center flex-shrink-0">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                  <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+              <div className="relative shrink-0 w-[100px] h-[58px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/api/docstage/${modulo.id}/${modulo.aulas[0]?.id}/thumb`}
+                  alt={modulo.titulo}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
