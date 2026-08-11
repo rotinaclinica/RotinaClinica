@@ -9,7 +9,7 @@ const CURSOS = [
     titulo: "Destravando o Plantão",
     descricao: "Abordagem prática das 10 queixas mais prevalentes do paciente adulto no plantão.",
     badge: "NOVO",
-    imagem: "/images/Formato (600 x 600 px).png",
+    imagem: "/images/destravando-plantao.png",
     imagemFit: "cover" as const,
     imagemBg: "",
   },
