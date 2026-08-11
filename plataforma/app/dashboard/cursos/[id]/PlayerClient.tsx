@@ -138,7 +138,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"descricao" | "materiais">("descricao");
+  const [activeTab, setActiveTab] = useState<"descricao" | "materiais">(aula.semVideo ? "materiais" : "descricao");
   const { completed, toggle, markCompleted } = useCompleted();
 
   // Fetch videoId from authenticated API
@@ -228,7 +228,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
       {/* Top bar */}
       <header className="flex items-center gap-3 px-4 py-3 bg-[#0f1923] border-b border-white/8 shrink-0">
         <Link
-          href="/dashboard/cursos"
+          href="/dashboard/cursos/destravando"
           className="flex items-center gap-1.5 text-[#5a8caa] hover:text-white transition-colors text-sm shrink-0"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -239,7 +239,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
 
         <div className="flex-1 min-w-0">
           <p className="text-[11px] text-[#5a8caa] truncate hidden sm:block">{CURSO_TITULO}</p>
-          <p className="text-sm font-semibold text-white truncate">{aula.titulo}</p>
+          <p className="text-sm font-semibold text-white line-clamp-2 leading-snug">{aula.titulo}</p>
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
@@ -280,7 +280,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
           {/* Video area */}
-          <div className="relative w-full bg-black" style={{ paddingBottom: "56.25%" }}>
+          {!aula.semVideo && <div className="relative w-full bg-black" style={{ paddingBottom: "56.25%" }}>
             {videoLoading ? (
               <div className="absolute inset-0 flex items-center justify-center bg-[#0a1220]">
                 <svg className="animate-spin text-[#3db8d4]" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -300,7 +300,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
                 <p className="text-[#5a8caa] text-sm">Vídeo em breve</p>
               </div>
             )}
-          </div>
+          </div>}
 
           {/* Tabs */}
           <div className="bg-[#0f1923] border-t border-white/8 shrink-0">

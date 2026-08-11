@@ -84,12 +84,14 @@ const isSubtitle = (l: string) => {
   return (t.endsWith(":") && t.length < 70) || (/^[A-ZÁÀÂÃÉÍÓÔÕÚÇ0-9 ]{4,45}$/.test(t) && t.split(" ").length <= 6);
 };
 
-const isTableRow = (l: string) => /^[^|]+\|[^|]+(\|[^|]+)?$/.test(l.trim());
+const isTableRow = (l: string) => /^[^|]+(\|[^|]+)+$/.test(l.trim());
 
 const isImageMarker = (l: string) => /^\[IMAGE:[^\]]+\]$/.test(l.trim());
 
+const isRenalMarker = (l: string) => /^\[RENAL:[^\]]+\]$/.test(l.trim());
+
 const isNewUnit = (t: string) =>
-  t.startsWith("**") || t.startsWith("→ ") || isConnector(t) || isSection(t) || isNoteHeader(t) || isInstruction(t) || isDrug(t) || isSubtitle(t) || isTableRow(t) || isImageMarker(t);
+  t.startsWith("**") || t.startsWith("→ ") || isConnector(t) || isSection(t) || isNoteHeader(t) || isInstruction(t) || isDrug(t) || isSubtitle(t) || isTableRow(t) || isImageMarker(t) || isRenalMarker(t);
 
 const isHeader = (t: string) =>
   isConnector(t) || isSection(t) || isNoteHeader(t) || isSubtitle(t);
@@ -104,7 +106,8 @@ type Block =
   | { type: "subtitle"; text: string }
   | { type: "text"; text: string }
   | { type: "image"; src: string; caption?: string }
-  | { type: "table"; rows: { cells: string[] }[] };
+  | { type: "table"; rows: { cells: string[] }[] }
+  | { type: "renal"; text: string };
 
 function parse(content: string): Block[] {
   // 1) Re-join wrapped lines into logical lines.
@@ -143,11 +146,15 @@ function parse(content: string): Block[] {
 
   for (let li = 0; li < logical.length; li++) {
     const line = logical[li];
-    if (line === "\x00") { curTable = null; continue; }
+    if (line === "\x00") { curTable = null; curNote = null; continue; }
     const t = line.trim();
     if (!t) continue;
 
-    if (isImageMarker(t)) {
+    if (isRenalMarker(t)) {
+      curDrug = null; curNote = null; curTable = null;
+      const text = t.slice(7, -1).trim(); // strip [RENAL: and ]
+      blocks.push({ type: "renal", text });
+    } else if (isImageMarker(t)) {
       curDrug = null; curNote = null; curTable = null;
       const inner = t.slice(7, -1); // strip [IMAGE: and ]
       const pipeIdx = inner.indexOf("|");
@@ -383,16 +390,37 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               </figure>
             );
 
+          case "renal": {
+            const needsAdjust = /sim|necessário|ajuste|reduz|aumenta|evitar|cuidado/i.test(b.text);
+            return (
+              <div key={i} className={`flex items-center gap-2.5 mt-6 px-3.5 py-2.5 rounded-xl border ${needsAdjust ? "border-amber-400/40 dark:border-amber-400/25 bg-amber-50 dark:bg-amber-900/10" : "border-emerald-400/40 dark:border-emerald-400/25 bg-emerald-50 dark:bg-emerald-900/10"}`}>
+                <svg className="shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={needsAdjust ? "#d97706" : "#059669"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2C7.03 2 3 6.47 3 10c0 5.25 4.5 10.5 9 12 4.5-1.5 9-6.75 9-12 0-3.53-4.03-8-9-8z"/>
+                  <path d="M9 12c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3z"/>
+                </svg>
+                <div>
+                  <p className={`text-[10px] font-bold uppercase tracking-wider mb-0.5 ${needsAdjust ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400"}`}>
+                    Ajuste por função renal
+                  </p>
+                  <p className={`text-[13px] font-medium leading-snug ${needsAdjust ? "text-amber-800 dark:text-amber-200" : "text-emerald-800 dark:text-emerald-200"}`}>
+                    {b.text}
+                  </p>
+                </div>
+              </div>
+            );
+          }
+
           case "table": {
             const colCount = b.rows[0]?.cells.length ?? 2;
-            const colW = colCount === 3 ? "w-1/3" : "w-1/2";
+            const colWMap: Record<number, string> = { 2: "w-1/2", 3: "w-1/3", 4: "w-1/4", 5: "w-1/5" };
+            const colW = colWMap[colCount] ?? "";
             return (
               <div key={i} className="my-2 rounded-lg border border-[#1a6aad]/25 dark:border-[#3db8d4]/20 overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
                     <tr className="bg-[#0f2d4a] dark:bg-[#080e1a] text-white">
                       {b.rows[0]?.cells.map((cell, ci) => (
-                        <th key={ci} className={`px-3 py-2 text-left font-semibold ${colW}`}>{cell}</th>
+                        <th key={ci} className={`px-3 py-2 text-left font-semibold min-w-[90px] ${colW}`}>{cell}</th>
                       ))}
                     </tr>
                   </thead>
@@ -400,7 +428,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                     {b.rows.slice(1).map((row, k) => (
                       <tr key={k} className={k % 2 === 0 ? "bg-white dark:bg-[#131c2e]" : "bg-[#f0f7ff] dark:bg-[#1a2535]"}>
                         {row.cells.map((cell, ci) => (
-                          <td key={ci} className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-zinc-100 dark:border-white/8">{cell}</td>
+                          <td key={ci} className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-zinc-100 dark:border-white/8 min-w-[90px]">{cell}</td>
                         ))}
                       </tr>
                     ))}

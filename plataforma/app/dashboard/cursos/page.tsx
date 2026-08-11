@@ -1,13 +1,30 @@
 import Link from "next/link";
-import { CURSO_TITULO, MODULOS } from "@/lib/cursos-data";
-import ThumbnailImage from "./ThumbnailImage";
+import Image from "next/image";
 
-export const dynamic = "force-dynamic";
-export const metadata = { title: "Destravando o Plantão · Rotina Clínica" };
+export const metadata = { title: "Cursos · Rotina Clínica" };
+
+const CURSOS = [
+  {
+    slug: "destravando",
+    titulo: "Destravando o Plantão",
+    descricao: "Abordagem prática das 10 queixas mais prevalentes do paciente adulto no plantão.",
+    badge: "NOVO",
+    imagem: "/images/Formato (600 x 600 px).png",
+    imagemFit: "cover" as const,
+    imagemBg: "",
+  },
+  {
+    slug: "docstage",
+    titulo: "Docstage",
+    descricao: "Videoaulas exclusivas da nossa parceira oficial Docstage.",
+    badge: "PARCEIRA OFICIAL",
+    imagem: "/Docstage/LOGO DOCSTAGE VETORIZADA_page-0001.jpg",
+    imagemFit: "contain" as const,
+    imagemBg: "bg-white",
+  },
+];
 
 export default function CursosPage() {
-  const aulas = MODULOS.flatMap((m) => m.aulas);
-
   return (
     <div className="flex-1 flex flex-col min-h-screen">
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
@@ -21,36 +38,42 @@ export default function CursosPage() {
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">
-          {CURSO_TITULO}
+          Cursos e Videoaulas
         </h1>
         <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">
-          Abordagem sistematizada das 10 queixas mais prevalentes do paciente adulto no plantão. Aprenda no seu ritmo.
+          Conteúdo de qualidade, baseado em evidências. Estude no seu ritmo.
         </p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
-        <div className="max-w-2xl flex flex-col gap-2">
-          {aulas.map((aula, idx) => (
+        <div className="max-w-2xl flex flex-col gap-4">
+          {CURSOS.map((curso) => (
             <Link
-              key={aula.id}
-              href={`/dashboard/cursos/${aula.id}`}
-              className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
+              key={curso.slug}
+              href={`/dashboard/cursos/${curso.slug}`}
+              className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-4 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
               {/* Thumbnail */}
-              <div className="relative shrink-0 w-[120px] h-[68px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
-                <ThumbnailImage aulaId={aula.id} alt={aula.titulo} />
-                <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
-                  {aula.duracao}
-                </span>
+              <div className={`relative shrink-0 w-[120px] h-[120px] rounded-xl overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad] ${curso.imagemBg}`}>
+                {curso.imagem && (
+                  <Image src={curso.imagem} alt={curso.titulo} fill className={`${curso.imagemFit === "contain" ? "object-contain p-3" : "object-cover"} object-center`} />
+                )}
               </div>
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <span className="text-[11px] text-zinc-400 dark:text-[#5a7a8e] font-medium">
-                  Aula {idx + 1}
-                </span>
-                <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
-                  {aula.titulo}
+                <div className="flex items-center gap-2 mb-0.5">
+                  <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                    {curso.titulo}
+                  </p>
+                  {curso.badge && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#1a6aad]/10 dark:bg-[#3db8d4]/10 text-[#1a6aad] dark:text-[#3db8d4]">
+                      {curso.badge}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] leading-snug">
+                  {curso.descricao}
                 </p>
               </div>
 

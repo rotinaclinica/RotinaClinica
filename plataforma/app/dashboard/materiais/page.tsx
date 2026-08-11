@@ -13,6 +13,16 @@ const EBOOKS = [
       "Prescrições práticas e condutas clínicas organizadas por tema, com doses, diluições e orientações para o dia a dia no plantão.",
     paginas: "500 páginas",
     formato: "PDF",
+    capa: "/images/ebook-manual-transparent.png",
+  },
+  {
+    id: "guia-intubacao",
+    titulo: "Guia de intubação orotraqueal, sedação e ventilação mecânica",
+    descricao:
+      "Abordagem prática e baseada em evidências para intubação orotraqueal, sedação e ventilação mecânica no paciente adulto em situações de urgência.",
+    paginas: "Guia prático",
+    formato: "PDF",
+    capa: "/images/ebook-iot.png",
   },
 ];
 
@@ -51,7 +61,7 @@ export default async function MateriaisPage() {
               <div
                 className="rounded-t-2xl h-64"
                 style={{
-                  backgroundImage: "url('/images/ebook-manual-transparent.png')",
+                  backgroundImage: `url('${ebook.capa}')`,
                   backgroundSize: "contain",
                   backgroundPosition: "center center",
                   backgroundRepeat: "no-repeat",

@@ -10,6 +10,10 @@ const EBOOKS: Record<string, { file: string; name: string }> = {
     file: "Guia de prescrições Rotina Clínica (1).pdf",
     name: "Guia de Prescrições — Rotina Clínica",
   },
+  "guia-intubacao": {
+    file: "Guia de intubação orotraqueal, sedação e ventilação mecânica.pdf",
+    name: "Guia de Intubação, Sedação e VM — Rotina Clínica",
+  },
 };
 
 export async function GET(

@@ -9,6 +9,6 @@ export default async function AulaPage({
 }) {
   const { id } = await params;
   const lessonId = Number(id);
-  if (!getAulaById(lessonId)) redirect("/dashboard/cursos");
+  if (!getAulaById(lessonId)) redirect("/dashboard/cursos/destravando");
   return <PlayerClient lessonId={lessonId} />;
 }
