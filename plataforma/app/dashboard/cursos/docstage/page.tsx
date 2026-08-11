@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { DOCSTAGE_MODULOS } from "@/lib/docstage-data";
 
 export const metadata = { title: "Docstage · Rotina Clínica" };
 
@@ -42,18 +43,37 @@ export default function DocStagePage() {
         </div>
       </header>
 
-      <main className="flex-1 p-6 sm:p-8 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3 text-center max-w-xs">
-          <div className="w-16 h-16 rounded-2xl bg-[#1a2d45]/10 dark:bg-[#1a2d45] flex items-center justify-center">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-              <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8]">Em breve</p>
-          <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] leading-relaxed">
-            As videoaulas da Docstage estão sendo preparadas e estarão disponíveis em breve.
-          </p>
+      <main className="flex-1 p-6 sm:p-8">
+        <div className="max-w-2xl flex flex-col gap-3">
+          {DOCSTAGE_MODULOS.map((modulo) => (
+            <Link
+              key={modulo.id}
+              href={`/dashboard/cursos/docstage/${modulo.id}`}
+              className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-5 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#dceef9] dark:from-[#1a2d45] dark:to-[#162438] flex items-center justify-center flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                  <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                  {modulo.titulo}
+                </p>
+                <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] mt-0.5 leading-relaxed">
+                  {modulo.descricao}
+                </p>
+              </div>
+              <svg
+                className="shrink-0 text-zinc-300 dark:text-[#3a5a6e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
+                width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              >
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </Link>
+          ))}
         </div>
       </main>
     </div>
