@@ -1,6 +1,6 @@
 import { getDocstageModulo, getDocstageAula } from "@/lib/docstage-data";
 import { notFound, redirect } from "next/navigation";
-import DocstagePlayerClient from "./PlayerClient";
+import DocstagePlayerClient from "./PlayerClient"; // docstage player
 
 export default async function DocstageAulaPage({
   params,
