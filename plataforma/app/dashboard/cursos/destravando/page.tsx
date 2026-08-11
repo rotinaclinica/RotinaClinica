@@ -36,7 +36,7 @@ export default function DestravandoPage() {
               href={`/dashboard/cursos/${aula.id}`}
               className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
-              <div className="relative shrink-0 w-[120px] h-[68px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
+              <div className="relative shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]" style={{ width: 120, height: 68 }}>
                 <ThumbnailImage aulaId={aula.id} alt={aula.titulo} thumbLocal={aula.thumbLocal} />
                 <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
                   {aula.duracao}

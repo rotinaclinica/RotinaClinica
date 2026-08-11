@@ -55,7 +55,7 @@ export default async function DocstageModuloPage({
                 href={`/dashboard/cursos/docstage/${id}/${aula.id}`}
                 className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
               >
-                <div className="relative shrink-0 w-[120px] h-[68px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
+                <div className="relative shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]" style={{ width: 120, height: 68 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`/api/docstage/${id}/${aula.id}/thumb`}

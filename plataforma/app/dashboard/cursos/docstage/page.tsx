@@ -19,11 +19,12 @@ export default function DocStagePage() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <div className="relative shrink-0 w-[64px] h-[64px] rounded-xl overflow-hidden bg-white border border-zinc-200 dark:border-white/8 flex items-center justify-center">
+          <div className="relative shrink-0 rounded-xl overflow-hidden bg-white border border-zinc-200 dark:border-white/8 flex items-center justify-center" style={{ width: 64, height: 64 }}>
             <Image
               src="/Docstage/LOGO DOCSTAGE VETORIZADA_page-0001.jpg"
               alt="Docstage"
               fill
+              sizes="64px"
               className="object-contain p-1"
             />
           </div>
@@ -51,7 +52,7 @@ export default function DocStagePage() {
               href={`/dashboard/cursos/docstage/${modulo.id}`}
               className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-5 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
-              <div className="relative shrink-0 w-[100px] h-[58px] rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]">
+              <div className="relative shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]" style={{ width: 100, height: 58 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/api/docstage/${modulo.id}/${modulo.aulas[0]?.id}/thumb`}
