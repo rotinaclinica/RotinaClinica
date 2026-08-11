@@ -54,9 +54,12 @@ export default function CursosPage() {
               className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-4 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
               {/* Thumbnail */}
-              <div className={`relative shrink-0 w-[120px] h-[120px] rounded-xl overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad] ${curso.imagemBg}`}>
+              <div
+                className={`relative shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad] ${curso.imagemBg}`}
+                style={{ width: 100, height: 100 }}
+              >
                 {curso.imagem && (
-                  <Image src={curso.imagem} alt={curso.titulo} fill className={`${curso.imagemFit === "contain" ? "object-contain p-3" : "object-cover"} object-center`} />
+                  <Image src={curso.imagem} alt={curso.titulo} fill sizes="100px" className={`${curso.imagemFit === "contain" ? "object-contain p-3" : "object-cover"} object-center`} />
                 )}
               </div>
 
