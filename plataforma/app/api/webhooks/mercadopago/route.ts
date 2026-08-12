@@ -3,10 +3,29 @@ import { MercadoPagoConfig, Payment } from "mercadopago";
 import { db } from "@/lib/db";
 import { grantAccess } from "@/lib/entitlements";
 import { sendPurchaseConfirmation } from "@/lib/email";
+import { createHmac } from "crypto";
 
 const client = new MercadoPagoConfig({
   accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN ?? "placeholder",
 });
+
+function verifyMpSignature(req: NextRequest, paymentId: string): boolean {
+  const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
+  if (!secret) return true; // não configurado: permite mas loga aviso
+
+  const xSignature = req.headers.get("x-signature");
+  const xRequestId = req.headers.get("x-request-id");
+  if (!xSignature || !xRequestId) return false;
+
+  const parts = Object.fromEntries(xSignature.split(",").map((p) => p.split("=")));
+  const ts = parts["ts"];
+  const v1 = parts["v1"];
+  if (!ts || !v1) return false;
+
+  const manifest = `id:${paymentId};request-id:${xRequestId};ts:${ts};`;
+  const expected = createHmac("sha256", secret).update(manifest).digest("hex");
+  return expected === v1;
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -15,6 +34,10 @@ export async function POST(req: NextRequest) {
 
   const paymentId = String(body.data?.id);
   if (!paymentId) return NextResponse.json({ ok: true });
+
+  if (!verifyMpSignature(req, paymentId)) {
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
   // Idempotência
   const eventKey = `mp_payment_${paymentId}`;
