@@ -42,7 +42,7 @@ export function calcularWellsTep(input: WellsTepInput): WellsTepResult {
     total,
     probabilidade: "provavel",
     label: "TEP Provável",
-    conduta: "Considerar angiotomografia de tórax (CTPA).",
+    conduta: "Considerar angiotomografia de tórax.",
     cor: "vermelho",
   };
 }
