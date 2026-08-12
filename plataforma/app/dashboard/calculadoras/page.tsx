@@ -76,6 +76,14 @@ const CALCULADORAS = [
     iconBg: "bg-[#0a1628]",
     icon: <NeuroIcon />,
   },
+  {
+    slug: "wells-tep",
+    nome: "Wells TEP",
+    descricao: "Probabilidade pré-teste de tromboembolismo pulmonar",
+    especialidade: "Emergência",
+    iconBg: "bg-[#1a5276]",
+    icon: <LungIcon />,
+  },
 ];
 
 export default function CalculadorasPage() {
