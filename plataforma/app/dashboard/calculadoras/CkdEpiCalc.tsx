@@ -44,7 +44,7 @@ export default function CkdEpiCalc() {
     <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
       {/* Cabeçalho */}
       <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-[#0f1e30] flex items-center justify-center shrink-0">
+        <div className="w-16 h-16 rounded-xl bg-[#0f1e30] flex items-center justify-center shrink-0 overflow-hidden">
           <img src="/images/calculadoras/ckd-epi.png" alt="rim" className="w-full h-full object-contain" />
         </div>
         <div>

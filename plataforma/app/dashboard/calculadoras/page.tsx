@@ -3,13 +3,54 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Calculadoras · Rotina Clínica" };
 
+const HeartIcon = () => (
+  <img src="/images/calculadoras/coracao.png" alt="coração" className="w-full h-full object-contain" />
+);
+
+const LungIcon = () => (
+  <img src="/images/calculadoras/pulmao.png" alt="pulmão" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
   {
     slug: "ckd-epi",
     nome: "CKD-EPI 2021",
     descricao: "Taxa de Filtração Glomerular estimada (TFGe)",
     especialidade: "Nefrologia",
+    iconBg: "bg-[#0a1628]",
     icon: <img src="/images/calculadoras/ckd-epi.png" alt="rim" className="w-full h-full object-contain" />,
+  },
+  {
+    slug: "heart-score",
+    nome: "HEART Score",
+    descricao: "Estratificação de risco em dor torácica",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <HeartIcon />,
+  },
+  {
+    slug: "curb-65",
+    nome: "CURB-65",
+    descricao: "Gravidade da pneumonia adquirida na comunidade",
+    especialidade: "Pneumologia",
+    iconBg: "bg-[#1a5276]",
+    icon: <LungIcon />,
+  },
+  {
+    slug: "psi-port",
+    nome: "PSI/PORT",
+    descricao: "Pneumonia Severity Index — avaliação completa",
+    especialidade: "Pneumologia",
+    iconBg: "bg-[#1a5276]",
+    icon: <LungIcon />,
+  },
+  {
+    slug: "crb-65",
+    nome: "CRB-65",
+    descricao: "Gravidade da pneumonia — sem exame laboratorial",
+    especialidade: "Pneumologia",
+    iconBg: "bg-[#1a5276]",
+    icon: <LungIcon />,
   },
 ];
 
@@ -36,7 +77,7 @@ export default function CalculadorasPage() {
               className="group flex items-stretch bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/40 transition-all overflow-hidden"
             >
               {/* Thumbnail */}
-              <div className="w-24 shrink-0 bg-[#0a1628]">
+              <div className={`w-24 shrink-0 flex items-center justify-center ${calc.iconBg}`}>
                 {calc.icon}
               </div>
               {/* Texto */}
