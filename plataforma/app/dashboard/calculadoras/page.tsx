@@ -11,6 +11,14 @@ const LungIcon = () => (
   <img src="/images/calculadoras/pulmao.png" alt="pulmão" className="w-full h-full object-contain" />
 );
 
+const TevIcon = () => (
+  <img src="/images/calculadoras/trombo.png" alt="trombose" className="w-full h-full object-contain" />
+);
+
+const NeuroIcon = () => (
+  <img src="/images/calculadoras/cerebro.png" alt="cérebro" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
   {
     slug: "ckd-epi",
@@ -52,6 +60,22 @@ const CALCULADORAS = [
     iconBg: "bg-[#1a5276]",
     icon: <LungIcon />,
   },
+  {
+    slug: "padua",
+    nome: "Score de Pádua",
+    descricao: "Risco de TEV em pacientes clínicos internados",
+    especialidade: "Clínica Médica",
+    iconBg: "bg-[#0a1628]",
+    icon: <TevIcon />,
+  },
+  {
+    slug: "glasgow",
+    nome: "Glasgow",
+    descricao: "Avaliação do nível de consciência",
+    especialidade: "Urgência/Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <NeuroIcon />,
+  },
 ];
 
 export default function CalculadorasPage() {
@@ -77,7 +101,7 @@ export default function CalculadorasPage() {
               className="group flex items-stretch bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/40 transition-all overflow-hidden"
             >
               {/* Thumbnail */}
-              <div className={`w-24 shrink-0 flex items-center justify-center ${calc.iconBg}`}>
+              <div className={`w-24 shrink-0 flex items-center justify-center overflow-hidden rounded-l-2xl ${calc.iconBg}`}>
                 {calc.icon}
               </div>
               {/* Texto */}
