@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, Suspense, useEffect } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/app/components/Navbar";
@@ -53,7 +53,11 @@ function LoginForm() {
     if (result?.error) {
       setError("E-mail ou senha incorretos.");
     } else {
-      if (plano) {
+      const session = await getSession();
+      const role = (session?.user as { role?: string })?.role;
+      if (role === "ADMIN") {
+        router.push("/admin");
+      } else if (plano) {
         router.push(`/checkout?plano=${plano}`);
       } else {
         router.push("/dashboard");
