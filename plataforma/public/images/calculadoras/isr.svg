@@ -1,0 +1,27 @@
+<svg viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" rx="185" fill="#0d1a2d"/>
+  <g fill="none" stroke="#3dd4f0" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Ampola: topo oval → gargalo → ombro → corpo -->
+    <path d="
+      M 540 138
+      C 570 138 597 158 597 192
+      C 597 222 582 248 565 265
+      L 565 410
+      C 572 440 642 465 690 502
+      L 690 840
+      Q 690 868 660 868
+      L 420 868
+      Q 390 868 390 840
+      L 390 502
+      C 438 465 508 440 515 410
+      L 515 265
+      C 498 248 483 222 483 192
+      C 483 158 510 138 540 138
+      Z
+    "/>
+    <!-- Linha de nível do líquido -->
+    <line x1="402" y1="668" x2="678" y2="668"/>
+    <!-- Marca de corte no canto inferior esquerdo -->
+    <path d="M 422 848 L 422 820 L 452 820"/>
+  </g>
+</svg>

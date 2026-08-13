@@ -35,7 +35,19 @@ const DobuIcon = () => (
   <img src="/images/calculadoras/dobutamina.png" alt="dobutamina" className="w-full h-full object-contain" />
 );
 
+const IsrIcon = () => (
+  <img src="/images/calculadoras/isr.png" alt="ISR" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
+  {
+    slug: "isr",
+    nome: "Intubação em Sequência Rápida",
+    descricao: "Doses de analgesia, sedação e BNM pelo peso",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <IsrIcon />,
+  },
   {
     slug: "dobutamina",
     nome: "Dobutamina",
