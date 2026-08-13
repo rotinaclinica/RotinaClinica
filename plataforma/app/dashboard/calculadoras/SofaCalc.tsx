@@ -20,7 +20,7 @@ type TierOption = { valor: 0 | 1 | 2 | 3 | 4; label: string };
 
 const SECOES: { key: TierKey; titulo: string; sublabel?: string; options: TierOption[] }[] = [
   { key: "plaquetas",      titulo: "Coagulação — Plaquetas",  options: PLAQUETAS_OPTIONS },
-  { key: "glasgow",        titulo: "Neurológico — Glasgow (GCS)",        sublabel: "Se em sedação, estime o valor sem sedação", options: GLASGOW_OPTIONS },
+  { key: "glasgow",        titulo: "Neurológico — Escala de Coma de Glasgow", sublabel: "Se em sedação, estime o valor sem sedação", options: GLASGOW_OPTIONS },
   { key: "bilirrubina",    titulo: "Hepático — Bilirrubina",             options: BILIRRUBINA_OPTIONS },
   { key: "cardiovascular", titulo: "Cardiovascular — PAM / Vasopressores", sublabel: "Doses em μg/kg/min", options: CARDIOVASCULAR_OPTIONS },
   { key: "renal",          titulo: "Renal — Creatinina ou Diurese",      options: RENAL_OPTIONS },
