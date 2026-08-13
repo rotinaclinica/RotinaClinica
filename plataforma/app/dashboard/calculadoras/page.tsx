@@ -23,6 +23,10 @@ const SepsisIcon = () => (
   <img src="/images/calculadoras/sepsis.png" alt="sepse" className="w-full h-full object-contain" />
 );
 
+const FigadoIcon = () => (
+  <img src="/images/calculadoras/figado.png" alt="fígado" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
   {
     slug: "ckd-epi",
@@ -103,6 +107,22 @@ const CALCULADORAS = [
     especialidade: "Emergência",
     iconBg: "bg-[#0a1628]",
     icon: <SepsisIcon />,
+  },
+  {
+    slug: "child-pugh",
+    nome: "Child-Pugh",
+    descricao: "Gravidade da cirrose hepática",
+    especialidade: "Gastroenterologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <FigadoIcon />,
+  },
+  {
+    slug: "meld-na",
+    nome: "MELD-Na",
+    descricao: "Priorização em transplante hepático",
+    especialidade: "Gastroenterologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <FigadoIcon />,
   },
 ];
 
