@@ -60,11 +60,11 @@ export const CARDIOVASCULAR_OPTIONS = [
 ];
 
 export const RENAL_OPTIONS = [
-  { valor: 0 as const, label: "< 1,2 mg/dL (< 110 μmol/L)" },
-  { valor: 1 as const, label: "1,2–1,9 mg/dL (110–170 μmol/L)" },
-  { valor: 2 as const, label: "2,0–3,4 mg/dL (171–299 μmol/L)" },
-  { valor: 3 as const, label: "3,5–4,9 mg/dL (300–440 μmol/L) ou DU < 500 mL/dia" },
-  { valor: 4 as const, label: "≥ 5,0 mg/dL (> 440 μmol/L) ou DU < 200 mL/dia" },
+  { valor: 0 as const, label: "< 1,2 mg/dL" },
+  { valor: 1 as const, label: "1,2–1,9 mg/dL" },
+  { valor: 2 as const, label: "2,0–3,4 mg/dL" },
+  { valor: 3 as const, label: "3,5–4,9 mg/dL ou DU < 500 mL/dia" },
+  { valor: 4 as const, label: "≥ 5,0 mg/dL ou DU < 200 mL/dia" },
 ];
 
 function calcRespiratorio(pao2: number, fio2: number, mv: boolean): { score: number; pfRatio: number } {
