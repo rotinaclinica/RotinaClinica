@@ -44,11 +44,11 @@ export const GLASGOW_OPTIONS = [
 ];
 
 export const BILIRRUBINA_OPTIONS = [
-  { valor: 0 as const, label: "< 1,2 mg/dL (< 20 μmol/L)" },
-  { valor: 1 as const, label: "1,2–1,9 mg/dL (20–32 μmol/L)" },
-  { valor: 2 as const, label: "2,0–5,9 mg/dL (33–101 μmol/L)" },
-  { valor: 3 as const, label: "6,0–11,9 mg/dL (102–204 μmol/L)" },
-  { valor: 4 as const, label: "≥ 12,0 mg/dL (> 204 μmol/L)" },
+  { valor: 0 as const, label: "< 1,2 mg/dL" },
+  { valor: 1 as const, label: "1,2–1,9 mg/dL" },
+  { valor: 2 as const, label: "2,0–5,9 mg/dL" },
+  { valor: 3 as const, label: "6,0–11,9 mg/dL" },
+  { valor: 4 as const, label: "≥ 12,0 mg/dL" },
 ];
 
 export const CARDIOVASCULAR_OPTIONS = [
