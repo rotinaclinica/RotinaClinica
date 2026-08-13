@@ -13,6 +13,7 @@ export interface ChildPughResult {
   total: number;
   classe: "A" | "B" | "C";
   label: string;
+  descricao: string;
   sobrevida1ano: string;
   sobrevida2anos: string;
   cor: "verde" | "amarelo" | "vermelho";
@@ -56,7 +57,7 @@ export function calcularChildPugh(input: ChildPughInput): ChildPughResult {
     input.ascite +
     input.encefalopatia;
 
-  if (total <= 6) return { total, classe: "A", label: "Child-Pugh Classe A", sobrevida1ano: "100%", sobrevida2anos: "85%", cor: "verde" };
-  if (total <= 9) return { total, classe: "B", label: "Child-Pugh Classe B", sobrevida1ano: "80%",  sobrevida2anos: "60%", cor: "amarelo" };
-  return             { total, classe: "C", label: "Child-Pugh Classe C", sobrevida1ano: "45%",  sobrevida2anos: "35%", cor: "vermelho" };
+  if (total <= 6) return { total, classe: "A", label: "Child-Pugh Classe A", descricao: "Doença bem compensada",                     sobrevida1ano: "100%", sobrevida2anos: "85%", cor: "verde" };
+  if (total <= 9) return { total, classe: "B", label: "Child-Pugh Classe B", descricao: "Comprometimento funcional significativo",     sobrevida1ano: "80%",  sobrevida2anos: "60%", cor: "amarelo" };
+  return             { total, classe: "C", label: "Child-Pugh Classe C", descricao: "Doença descompensada",                        sobrevida1ano: "45%",  sobrevida2anos: "35%", cor: "vermelho" };
 }

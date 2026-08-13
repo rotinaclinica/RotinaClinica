@@ -97,7 +97,10 @@ export default function ChildPughCalc() {
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
-            <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
+              <span className="text-xs text-zinc-500 dark:text-[#7a9aae]">{resultado.descricao}</span>
+            </div>
             <div className="border-t border-zinc-100 dark:border-white/8 pt-3 flex gap-4">
               <div>
                 <p className="text-[10px] text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide">Sobrevida 1 ano</p>
