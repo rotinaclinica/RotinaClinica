@@ -1,10 +1,24 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { db } from "@/lib/db";
 import DashboardSidebar from "@/app/components/DashboardSidebar";
 import DashboardMobileNav from "@/app/components/DashboardMobileNav";
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  const role = (session.user as { role?: string })?.role;
+
+  // ADMIN e TESTER têm acesso irrestrito
+  if (role !== "ADMIN" && role !== "TESTER") {
+    const subscription = await db.subscription.findUnique({
+      where: { userId: session.user.id },
+      select: { status: true },
+    });
+    if (!subscription || subscription.status !== "ACTIVE") {
+      redirect("/assinatura?motivo=acesso");
+    }
+  }
 
   const initials = (session.user.name ?? "U")
     .split(" ")

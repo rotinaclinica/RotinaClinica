@@ -72,10 +72,23 @@ function Check({ dark = false }: { dark?: boolean }) {
   );
 }
 
-export default function AssinaturaPage() {
+export default function AssinaturaPage({
+  searchParams,
+}: {
+  searchParams?: { motivo?: string };
+}) {
+  const semAcesso = searchParams?.motivo === "acesso";
   return (
     <main className="min-h-screen bg-[#f7fafc]">
       <Navbar />
+      {semAcesso && (
+        <div className="bg-amber-50 border-b border-amber-200 px-4 py-3 text-center">
+          <p className="text-amber-800 text-sm font-medium">
+            Sua conta não possui uma assinatura ativa.{" "}
+            <span className="font-bold">Assine um plano para acessar a plataforma.</span>
+          </p>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="bg-[#0f2d4a] py-16 sm:py-24 px-6 text-center">
