@@ -96,9 +96,11 @@ export function calcularSofa(input: SofaInput): SofaResult {
     input.cardiovascular +
     input.renal;
 
-  if (total <= 6)  return { total, respiratorio, pfRatio, label: "Disfunção leve",         mortalidade: "< 10%",      cor: "verde"   };
-  if (total <= 9)  return { total, respiratorio, pfRatio, label: "Disfunção moderada",      mortalidade: "~15–20%",    cor: "amarelo" };
-  if (total <= 12) return { total, respiratorio, pfRatio, label: "Disfunção grave",         mortalidade: "~40–50%",    cor: "laranja" };
-  if (total <= 14) return { total, respiratorio, pfRatio, label: "Disfunção muito grave",   mortalidade: "~50–60%",    cor: "vermelho" };
-  return               { total, respiratorio, pfRatio, label: "Disfunção crítica",       mortalidade: "> 80%",      cor: "vermelho" };
+  if (total <= 1)  return { total, respiratorio, pfRatio, label: "Disfunção mínima",      mortalidade: "0%",      cor: "verde"   };
+  if (total <= 3)  return { total, respiratorio, pfRatio, label: "Disfunção leve",         mortalidade: "6,4%",    cor: "verde"   };
+  if (total <= 5)  return { total, respiratorio, pfRatio, label: "Disfunção leve",         mortalidade: "20,2%",   cor: "amarelo" };
+  if (total <= 7)  return { total, respiratorio, pfRatio, label: "Disfunção moderada",     mortalidade: "21,5%",   cor: "amarelo" };
+  if (total <= 9)  return { total, respiratorio, pfRatio, label: "Disfunção moderada",     mortalidade: "33,3%",   cor: "laranja" };
+  if (total <= 11) return { total, respiratorio, pfRatio, label: "Disfunção grave",        mortalidade: "50,0%",   cor: "vermelho" };
+  return               { total, respiratorio, pfRatio, label: "Disfunção muito grave",  mortalidade: "95,2%",   cor: "vermelho" };
 }
