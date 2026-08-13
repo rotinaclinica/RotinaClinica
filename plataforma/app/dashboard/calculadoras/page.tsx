@@ -31,7 +31,19 @@ const NoraIcon = () => (
   <img src="/images/calculadoras/noradrenalina.png" alt="noradrenalina" className="w-full h-full object-contain" />
 );
 
+const DobuIcon = () => (
+  <img src="/images/calculadoras/dobutamina.png" alt="dobutamina" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
+  {
+    slug: "dobutamina",
+    nome: "Dobutamina",
+    descricao: "Dose em mcg/kg/min a partir da vazão em mL/h",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <DobuIcon />,
+  },
   {
     slug: "noradrenalina",
     nome: "Noradrenalina",
