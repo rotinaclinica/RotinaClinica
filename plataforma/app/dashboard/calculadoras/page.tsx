@@ -111,7 +111,7 @@ const CALCULADORAS = [
   {
     slug: "child-pugh",
     nome: "Child-Pugh",
-    descricao: "Gravidade da cirrose hepática",
+    descricao: "Determina gravidade e sobrevida em 1 e 2 anos",
     especialidade: "Gastroenterologia",
     iconBg: "bg-[#0a1628]",
     icon: <FigadoIcon />,
