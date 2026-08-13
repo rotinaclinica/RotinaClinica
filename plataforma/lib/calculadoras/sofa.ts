@@ -23,7 +23,7 @@ export interface SofaResult {
   respiratorio: number | null; // null = dados insuficientes
   pfRatio: number | null;
   label: string;
-  mortalidade: string;
+  conduta: string;
   cor: "verde" | "amarelo" | "laranja" | "vermelho";
 }
 
@@ -96,11 +96,15 @@ export function calcularSofa(input: SofaInput): SofaResult {
     input.cardiovascular +
     input.renal;
 
-  if (total <= 1)  return { total, respiratorio, pfRatio, label: "Disfunção mínima",      mortalidade: "0%",      cor: "verde"   };
-  if (total <= 3)  return { total, respiratorio, pfRatio, label: "Disfunção leve",         mortalidade: "6,4%",    cor: "verde"   };
-  if (total <= 5)  return { total, respiratorio, pfRatio, label: "Disfunção leve",         mortalidade: "20,2%",   cor: "amarelo" };
-  if (total <= 7)  return { total, respiratorio, pfRatio, label: "Disfunção moderada",     mortalidade: "21,5%",   cor: "amarelo" };
-  if (total <= 9)  return { total, respiratorio, pfRatio, label: "Disfunção moderada",     mortalidade: "33,3%",   cor: "laranja" };
-  if (total <= 11) return { total, respiratorio, pfRatio, label: "Disfunção grave",        mortalidade: "50,0%",   cor: "vermelho" };
-  return               { total, respiratorio, pfRatio, label: "Disfunção muito grave",  mortalidade: "95,2%",   cor: "vermelho" };
+  const condutaSepse = "SOFA ≥ 2 com aumento agudo em relação ao basal, em paciente com infecção suspeita ou documentada, operacionaliza o diagnóstico de sepse conforme Sepsis-3. O score não é critério isolado — a presença de infecção é indispensável.";
+
+  if (total < 2) return {
+    total, respiratorio, pfRatio,
+    label: "SOFA < 2 — Abaixo do limiar de disfunção orgânica",
+    conduta: "Score abaixo de 2. Sozinho, não preenche critério de disfunção orgânica para sepse (Sepsis-3).",
+    cor: "verde",
+  };
+  if (total <= 5)  return { total, respiratorio, pfRatio, label: "SOFA ≥ 2 — Disfunção orgânica leve",     conduta: condutaSepse, cor: "amarelo" };
+  if (total <= 9)  return { total, respiratorio, pfRatio, label: "SOFA ≥ 2 — Disfunção orgânica moderada", conduta: condutaSepse, cor: "laranja" };
+  return               { total, respiratorio, pfRatio, label: "SOFA ≥ 2 — Disfunção orgânica grave",    conduta: condutaSepse, cor: "vermelho" };
 }

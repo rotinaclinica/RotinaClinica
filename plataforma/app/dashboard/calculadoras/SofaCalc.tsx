@@ -165,12 +165,10 @@ export default function SofaCalc() {
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
-              <span className="text-xs text-zinc-500 dark:text-[#7a9aae]">
-                Mortalidade hospitalar estimada: <span className="font-bold">{resultado.mortalidade}</span>
-              </span>
-            </div>
+            <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
+            <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3">
+              {resultado.conduta}
+            </p>
             {resultado.respiratorio === null && (
               <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e] italic border-t border-zinc-100 dark:border-white/8 pt-2">
                 PaO₂/FiO₂ não informado — componente respiratório calculado como 0.
