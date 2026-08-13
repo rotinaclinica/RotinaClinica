@@ -24,10 +24,16 @@ export function calcularMeldNa(input: MeldNaInput): MeldNaResult {
   const creat = input.dialise ? 4.0 : Math.min(Math.max(input.creatinina, 1), 4.0);
   const na    = Math.min(Math.max(input.sodio, 125), 137);
 
-  const meldRaw = 3.78 * Math.log(bili) + 11.2 * Math.log(inr) + 9.57 * Math.log(creat) + 6.43;
-  const meld    = Math.round(Math.max(meldRaw, 6));
+  // OPTN: compute in "small" form, round to 1 decimal, then ×10
+  const meldSmallRaw = 0.957 * Math.log(creat) + 0.378 * Math.log(bili) + 1.120 * Math.log(inr) + 0.643;
+  const meldSmall    = Math.round(meldSmallRaw * 10) / 10;   // round to 1 decimal place
+  const meldI        = Math.round(meldSmall * 10);            // ×10 → integer
+  const meld         = Math.max(meldI, 6);
 
-  const meldNaRaw = meld + 1.32 * (137 - na) - 0.033 * meld * (137 - na);
+  // Na correction only when MELD(i) > 11 (OPTN policy Jan 2016)
+  const meldNaRaw = meld > 11
+    ? meld + 1.32 * (137 - na) - 0.033 * meld * (137 - na)
+    : meld;
   const meldNa    = Math.round(Math.min(Math.max(meldNaRaw, 6), 40));
 
   if (meldNa < 10) return { meld, meldNa, label: "MELD-Na < 10",  conduta: "Disfunção hepática leve. Acompanhamento ambulatorial.", cor: "verde" };
