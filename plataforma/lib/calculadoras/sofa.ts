@@ -96,7 +96,7 @@ export function calcularSofa(input: SofaInput): SofaResult {
     input.cardiovascular +
     input.renal;
 
-  const condutaSepse = "SOFA ≥ 2 com aumento agudo em relação ao basal, em paciente com infecção suspeita ou documentada, operacionaliza o diagnóstico de sepse conforme Sepsis-3. O score não é critério isolado — a presença de infecção é indispensável.";
+  const condutaSepse = "SOFA ≥ 2 com aumento agudo em relação ao basal, em paciente com infecção suspeita ou documentada, operacionaliza o diagnóstico de sepse conforme Sepsis-3. O score não é critério isolado — a presença de infecção (confirmada ou suspeita) é indispensável.";
 
   if (total < 2) return {
     total, respiratorio, pfRatio,
