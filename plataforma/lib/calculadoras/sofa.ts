@@ -101,7 +101,7 @@ export function calcularSofa(input: SofaInput): SofaResult {
   if (total < 2) return {
     total, respiratorio, pfRatio,
     label: "SOFA < 2 — Abaixo do limiar de disfunção orgânica",
-    conduta: "Score abaixo de 2. Sozinho, não preenche critério de disfunção orgânica para sepse (Sepsis-3).",
+    conduta: "Abaixo do limiar de disfunção orgânica definido pelo Sepsis-3.",
     cor: "verde",
   };
   if (total <= 5)  return { total, respiratorio, pfRatio, label: "SOFA ≥ 2 — Disfunção orgânica leve",     conduta: condutaSepse, cor: "amarelo" };
