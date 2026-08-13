@@ -19,6 +19,10 @@ const NeuroIcon = () => (
   <img src="/images/calculadoras/cerebro.png" alt="cérebro" className="w-full h-full object-contain" />
 );
 
+const SepsisIcon = () => (
+  <img src="/images/calculadoras/sepsis.png" alt="sepse" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
   {
     slug: "ckd-epi",
@@ -83,6 +87,22 @@ const CALCULADORAS = [
     especialidade: "Emergência",
     iconBg: "bg-[#1a5276]",
     icon: <LungIcon />,
+  },
+  {
+    slug: "qsofa",
+    nome: "qSOFA",
+    descricao: "Triagem rápida de sepse à beira-leito",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <SepsisIcon />,
+  },
+  {
+    slug: "sofa",
+    nome: "SOFA",
+    descricao: "Avaliação sequencial de disfunção orgânica em sepse",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <SepsisIcon />,
   },
 ];
 
