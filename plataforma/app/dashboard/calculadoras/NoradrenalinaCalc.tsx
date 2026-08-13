@@ -107,7 +107,7 @@ export default function NoradrenalinaCalc() {
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
             <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e]">
-              Referência: 0,05–3,3 mcg/kg/min (UpToDate)
+              Dose no choque: 0,05 a 3,3 mcg/kg/minuto (UpToDate)
             </p>
           </div>
         )}
