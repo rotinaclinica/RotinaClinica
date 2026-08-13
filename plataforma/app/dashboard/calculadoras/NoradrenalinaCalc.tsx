@@ -53,7 +53,7 @@ export default function NoradrenalinaCalc() {
       <div className="p-5 space-y-4">
         {/* Seleção de solução */}
         <div>
-          <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest mb-2">Solução</p>
+          <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest mb-2">Tipo de solução</p>
           <div className="flex flex-col gap-1.5">
             {(["padrao", "concentrada"] as SolucaoNora[]).map((s) => {
               const ativo = solucao === s;

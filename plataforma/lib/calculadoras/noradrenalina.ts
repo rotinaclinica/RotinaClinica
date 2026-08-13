@@ -4,8 +4,8 @@
 export type SolucaoNora = "padrao" | "concentrada";
 
 export const SOLUCOES: Record<SolucaoNora, { label: string; concentracao: number; descricao: string }> = {
-  padrao:      { label: "Solução Padrão",      concentracao: 64,  descricao: "16 mg em 250 mL · 64 mcg/mL" },
-  concentrada: { label: "Solução Concentrada", concentracao: 128, descricao: "32 mg em 250 mL · 128 mcg/mL" },
+  padrao:      { label: "Solução Padrão",      concentracao: 64,  descricao: "16 mg (4 ampolas) em 250 mL · 64 mcg/mL" },
+  concentrada: { label: "Solução Concentrada", concentracao: 128, descricao: "32 mg (8 ampolas) em 250 mL · 128 mcg/mL" },
 };
 
 export interface NoradrenalinaInput {
