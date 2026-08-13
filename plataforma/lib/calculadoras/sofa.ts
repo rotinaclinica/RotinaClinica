@@ -28,11 +28,11 @@ export interface SofaResult {
 }
 
 export const PLAQUETAS_OPTIONS = [
-  { valor: 0 as const, label: "≥ 150 ×10³/μL" },
-  { valor: 1 as const, label: "100–149 ×10³/μL" },
-  { valor: 2 as const, label: "50–99 ×10³/μL" },
-  { valor: 3 as const, label: "20–49 ×10³/μL" },
-  { valor: 4 as const, label: "< 20 ×10³/μL" },
+  { valor: 0 as const, label: "≥ 150.000 /μL" },
+  { valor: 1 as const, label: "100.000–149.000 /μL" },
+  { valor: 2 as const, label: "50.000–99.000 /μL" },
+  { valor: 3 as const, label: "20.000–49.000 /μL" },
+  { valor: 4 as const, label: "< 20.000 /μL" },
 ];
 
 export const GLASGOW_OPTIONS = [
