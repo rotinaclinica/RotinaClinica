@@ -27,6 +27,10 @@ const FigadoIcon = () => (
   <img src="/images/calculadoras/figado.png" alt="fígado" className="w-full h-full object-contain" />
 );
 
+const NoraIcon = () => (
+  <img src="/images/calculadoras/noradrenalina.png" alt="noradrenalina" className="w-full h-full object-contain" />
+);
+
 const CALCULADORAS = [
   {
     slug: "ckd-epi",
@@ -123,6 +127,14 @@ const CALCULADORAS = [
     especialidade: "Gastroenterologia",
     iconBg: "bg-[#0a1628]",
     icon: <FigadoIcon />,
+  },
+  {
+    slug: "noradrenalina",
+    nome: "Noradrenalina",
+    descricao: "Dose em mcg/kg/min a partir da vazão em mL/h",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <NoraIcon />,
   },
 ];
 
