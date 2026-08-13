@@ -14,7 +14,6 @@ export interface MeldNaResult {
   meld: number;
   meldNa: number;
   label: string;
-  conduta: string;
   cor: "verde" | "amarelo" | "laranja" | "vermelho";
 }
 
@@ -36,8 +35,8 @@ export function calcularMeldNa(input: MeldNaInput): MeldNaResult {
     : meld;
   const meldNa    = Math.round(Math.min(Math.max(meldNaRaw, 6), 40));
 
-  if (meldNa < 10) return { meld, meldNa, label: "MELD-Na < 10",  conduta: "Disfunção hepática leve. Acompanhamento ambulatorial.", cor: "verde" };
-  if (meldNa < 20) return { meld, meldNa, label: "MELD-Na 10–19", conduta: "Disfunção hepática moderada. Considerar avaliação para transplante.", cor: "amarelo" };
-  if (meldNa < 30) return { meld, meldNa, label: "MELD-Na 20–29", conduta: "Disfunção hepática grave. Considerar encaminhamento para transplante hepático.", cor: "laranja" };
-  return                  { meld, meldNa, label: "MELD-Na ≥ 30",  conduta: "Disfunção hepática muito grave. Alta prioridade em lista de transplante.", cor: "vermelho" };
+  if (meldNa < 10) return { meld, meldNa, label: "MELD-Na < 10",  cor: "verde" };
+  if (meldNa < 20) return { meld, meldNa, label: "MELD-Na 10–19", cor: "amarelo" };
+  if (meldNa < 30) return { meld, meldNa, label: "MELD-Na 20–29", cor: "laranja" };
+  return                  { meld, meldNa, label: "MELD-Na ≥ 30",  cor: "vermelho" };
 }
