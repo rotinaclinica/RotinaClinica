@@ -33,6 +33,14 @@ const NoraIcon = () => (
 
 const CALCULADORAS = [
   {
+    slug: "noradrenalina",
+    nome: "Noradrenalina",
+    descricao: "Dose em mcg/kg/min a partir da vazão em mL/h",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <NoraIcon />,
+  },
+  {
     slug: "ckd-epi",
     nome: "CKD-EPI 2021",
     descricao: "Taxa de Filtração Glomerular estimada (TFGe)",
@@ -127,14 +135,6 @@ const CALCULADORAS = [
     especialidade: "Gastroenterologia",
     iconBg: "bg-[#0a1628]",
     icon: <FigadoIcon />,
-  },
-  {
-    slug: "noradrenalina",
-    nome: "Noradrenalina",
-    descricao: "Dose em mcg/kg/min a partir da vazão em mL/h",
-    especialidade: "Emergência",
-    iconBg: "bg-[#0a1628]",
-    icon: <NoraIcon />,
   },
 ];
 
