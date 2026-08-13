@@ -20,13 +20,6 @@ export default function NoradrenalinaPage() {
       <main className="flex-1 p-6 sm:p-8">
         <div className="max-w-lg space-y-4">
           <NoradrenalinaCalc />
-          <div className="px-1">
-            <p className="text-[11px] text-zinc-400 dark:text-[#3a5a70] leading-relaxed">
-              <span className="font-semibold">Concentrações:</span> Solução Padrão: 16 mg em 250 mL (64 mcg/mL).
-              Solução Concentrada: 32 mg em 250 mL (128 mcg/mL).{" "}
-              Fórmula: dose = concentração × vazão / (peso × 60).
-            </p>
-          </div>
         </div>
       </main>
     </div>
