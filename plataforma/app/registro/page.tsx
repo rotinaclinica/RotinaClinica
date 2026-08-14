@@ -83,6 +83,8 @@ function RegistroForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [momentoProfissional, setMomentoProfissional] = useState("");
+  const [ambienteTrabalho, setAmbienteTrabalho] = useState("");
   const [terms, setTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -103,7 +105,7 @@ function RegistroForm() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, password, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambienteTrabalho || undefined }),
     });
 
     setLoading(false);
@@ -209,6 +211,52 @@ function RegistroForm() {
               {passwordMismatch && (
                 <p className="text-red-500 text-xs mt-1">As senhas não coincidem.</p>
               )}
+            </div>
+
+            {/* Momento profissional */}
+            <div>
+              <p className="text-sm font-semibold text-zinc-700 mb-2">
+                Qual é o seu momento profissional? <span className="text-zinc-400 font-normal">(opcional)</span>
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["Estudante", "Recém-formado", "Formado há mais de 5 anos"].map((op) => (
+                  <button
+                    key={op}
+                    type="button"
+                    onClick={() => setMomentoProfissional(momentoProfissional === op ? "" : op)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                      momentoProfissional === op
+                        ? "bg-[#1a6aad] text-white border-[#1a6aad]"
+                        : "bg-white text-zinc-600 border-zinc-300 hover:border-[#1a6aad] hover:text-[#1a6aad]"
+                    }`}
+                  >
+                    {op}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Ambiente de trabalho */}
+            <div>
+              <p className="text-sm font-semibold text-zinc-700 mb-2">
+                Em qual ambiente você trabalha? <span className="text-zinc-400 font-normal">(opcional)</span>
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["UBS", "UPA ou PS", "Emergência", "Enfermaria", "UTI", "Outro"].map((op) => (
+                  <button
+                    key={op}
+                    type="button"
+                    onClick={() => setAmbienteTrabalho(ambienteTrabalho === op ? "" : op)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                      ambienteTrabalho === op
+                        ? "bg-[#1a6aad] text-white border-[#1a6aad]"
+                        : "bg-white text-zinc-600 border-zinc-300 hover:border-[#1a6aad] hover:text-[#1a6aad]"
+                    }`}
+                  >
+                    {op}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Termos de uso */}
