@@ -84,7 +84,7 @@ function RegistroForm() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [momentoProfissional, setMomentoProfissional] = useState("");
-  const [ambienteTrabalho, setAmbienteTrabalho] = useState("");
+  const [ambientesTrabalho, setAmbientesTrabalho] = useState<string[]>([]);
   const [terms, setTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -105,7 +105,7 @@ function RegistroForm() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambienteTrabalho || undefined }),
+      body: JSON.stringify({ name, email, password, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined }),
     });
 
     setLoading(false);
@@ -219,7 +219,7 @@ function RegistroForm() {
                 Qual é o seu momento profissional? <span className="text-zinc-400 font-normal">(opcional)</span>
               </p>
               <div className="flex flex-wrap gap-2">
-                {["Estudante", "Recém-formado", "Formado há mais de 5 anos"].map((op) => (
+                {["Estudante", "Recém-formado(a)", "Formado(a) há mais de 5 anos"].map((op) => (
                   <button
                     key={op}
                     type="button"
@@ -246,9 +246,9 @@ function RegistroForm() {
                   <button
                     key={op}
                     type="button"
-                    onClick={() => setAmbienteTrabalho(ambienteTrabalho === op ? "" : op)}
+                    onClick={() => setAmbientesTrabalho((prev) => prev.includes(op) ? prev.filter((v) => v !== op) : [...prev, op])}
                     className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
-                      ambienteTrabalho === op
+                      ambientesTrabalho.includes(op)
                         ? "bg-[#1a6aad] text-white border-[#1a6aad]"
                         : "bg-white text-zinc-600 border-zinc-300 hover:border-[#1a6aad] hover:text-[#1a6aad]"
                     }`}
