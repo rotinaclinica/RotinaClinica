@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
 
 const PLANS = {
@@ -54,6 +55,11 @@ export default async function CheckoutPage({
           <p className="text-center text-xs text-zinc-400">
             Pagamento seguro via Mercado Pago · Acesso imediato
           </p>
+          <div className="text-center">
+            <Link href="/assinatura" className="text-xs text-zinc-400 hover:text-zinc-600 hover:underline transition-colors">
+              ← Ver outros planos
+            </Link>
+          </div>
         </div>
       </div>
     </div>
