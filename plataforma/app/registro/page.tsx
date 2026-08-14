@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/app/components/Navbar";
@@ -52,10 +52,6 @@ function RegistroForm() {
   const searchParams = useSearchParams();
   const plano = searchParams.get("plano") as keyof typeof planInfo | null;
   const plan = plano ? planInfo[plano] : null;
-
-  useEffect(() => {
-    if (!plano) router.replace("/assinatura");
-  }, [plano, router]);
 
   // Cadastros desativados temporariamente
   if (process.env.NEXT_PUBLIC_REGISTRATION_OPEN !== "true") {
