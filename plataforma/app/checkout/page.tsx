@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
+import PixButton from "./PixButton";
 
 const PLANS = {
   anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 400/ano",  detail: "R$ 33,30/mês · acesso por 12 meses" },
@@ -51,6 +52,12 @@ export default async function CheckoutPage({
           <p className="text-zinc-500 text-sm text-center">
             Logado como <span className="font-semibold text-zinc-700">{session.user.email}</span>
           </p>
+          <PixButton productId={product.id} />
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-zinc-100" />
+            <span className="text-xs text-zinc-400">ou pague com cartão</span>
+            <div className="flex-1 h-px bg-zinc-100" />
+          </div>
           <CheckoutButton productId={product.id} />
           <p className="text-center text-xs text-zinc-400">
             Pagamento seguro via Mercado Pago · Acesso imediato

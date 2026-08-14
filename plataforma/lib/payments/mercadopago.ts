@@ -35,6 +35,10 @@ export async function createMpPreference({
         },
       ],
       payer: { email: customerEmail },
+      payment_methods: {
+        excluded_payment_types: [{ id: "ticket" }],
+        installments: 12,
+      },
       external_reference: orderId,
       back_urls: {
         success: successUrl,
