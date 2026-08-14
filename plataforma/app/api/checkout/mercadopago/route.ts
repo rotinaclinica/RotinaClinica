@@ -54,5 +54,5 @@ export async function POST(req: NextRequest) {
     data: { providerRef: preference.id ?? "unknown" },
   });
 
-  return NextResponse.json({ url: preference.sandbox_init_point ?? preference.init_point });
+  return NextResponse.json({ url: preference.init_point ?? preference.sandbox_init_point });
 }
