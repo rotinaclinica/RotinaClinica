@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export function Logo({ variant = "dark" }: { variant?: "dark" | "light" }) {
   return (
@@ -15,6 +16,7 @@ export function Logo({ variant = "dark" }: { variant?: "dark" | "light" }) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 bg-[#0f2d4a] border-b border-white/10 shadow-lg">
@@ -32,18 +34,29 @@ export default function Navbar() {
 
         {/* Ações desktop */}
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/login"
-            className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white border border-white/30 rounded-lg hover:border-white hover:bg-white/10 transition-all"
-          >
-            Entrar
-          </Link>
-          <Link
-            href="/registro"
-            className="inline-flex items-center px-4 py-2 text-sm font-semibold text-[#0f2d4a] bg-[#3db8d4] rounded-lg hover:bg-[#5CC8E8] transition-all shadow-md"
-          >
-            Começar agora
-          </Link>
+          {session ? (
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center px-4 py-2 text-sm font-semibold text-[#0f2d4a] bg-[#3db8d4] rounded-lg hover:bg-[#5CC8E8] transition-all shadow-md"
+            >
+              Minha Área
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white border border-white/30 rounded-lg hover:border-white hover:bg-white/10 transition-all"
+              >
+                Entrar
+              </Link>
+              <Link
+                href="/registro"
+                className="inline-flex items-center px-4 py-2 text-sm font-semibold text-[#0f2d4a] bg-[#3db8d4] rounded-lg hover:bg-[#5CC8E8] transition-all shadow-md"
+              >
+                Começar agora
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Botão hambúrguer (mobile) */}
@@ -87,20 +100,32 @@ export default function Navbar() {
             Conheça o Rotina Clínica
           </Link>
           <div className="pt-3 flex flex-col gap-3">
-            <Link
-              href="/login"
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white border border-white/30 rounded-lg hover:border-white hover:bg-white/10 transition-all"
-            >
-              Entrar
-            </Link>
-            <Link
-              href="/registro"
-              onClick={() => setOpen(false)}
-              className="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-[#0f2d4a] bg-[#3db8d4] rounded-lg hover:bg-[#5CC8E8] transition-all shadow-md"
-            >
-              Começar agora
-            </Link>
+            {session ? (
+              <Link
+                href="/dashboard"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-[#0f2d4a] bg-[#3db8d4] rounded-lg hover:bg-[#5CC8E8] transition-all shadow-md"
+              >
+                Minha Área
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-white border border-white/30 rounded-lg hover:border-white hover:bg-white/10 transition-all"
+                >
+                  Entrar
+                </Link>
+                <Link
+                  href="/registro"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-[#0f2d4a] bg-[#3db8d4] rounded-lg hover:bg-[#5CC8E8] transition-all shadow-md"
+                >
+                  Começar agora
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
