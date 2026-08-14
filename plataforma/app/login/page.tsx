@@ -195,12 +195,20 @@ function LoginForm() {
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-zinc-500 text-center">
-            Ainda não é membro?{" "}
-            <Link href="/assinatura" className="text-[#1a6aad] font-semibold hover:underline">
-              Conheça os planos
-            </Link>
-          </p>
+          <div className="mt-6 space-y-2 text-center">
+            <p className="text-sm text-zinc-500">
+              Ainda não tem conta?{" "}
+              <Link href="/registro" className="text-[#1a6aad] font-semibold hover:underline">
+                Criar conta
+              </Link>
+            </p>
+            <p className="text-sm text-zinc-500">
+              Quer conhecer os planos?{" "}
+              <Link href="/assinatura" className="text-[#1a6aad] font-semibold hover:underline">
+                Ver planos
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
-import OrderStatusPoller from "./OrderStatusPoller";
+// import OrderStatusPoller from "./OrderStatusPoller";
 
 export const metadata = { title: "Seu Pedido" };
 
@@ -45,7 +45,7 @@ export default async function OrderPage({
             <p className="text-zinc-500 text-sm mb-6">
               Aguarde enquanto confirmamos seu pagamento. Isso leva alguns segundos.
             </p>
-            <OrderStatusPoller orderId={orderId} />
+            {/* <OrderStatusPoller orderId={orderId} /> */}
           </>
         ) : (
           <>
