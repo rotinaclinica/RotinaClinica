@@ -13,7 +13,7 @@ export async function sendPurchaseConfirmation({
   to: string;
   customerName: string;
   productTitle: string;
-  productType: "COURSE" | "DOWNLOAD" | "EBOOK_FREE";
+  productType: "COURSE" | "DOWNLOAD" | "EBOOK_FREE" | "SUBSCRIPTION";
   dashboardUrl: string;
 }) {
   const actionLabel = productType === "COURSE" ? "Acessar curso" : "Baixar arquivo";
