@@ -195,7 +195,7 @@ export default function AssinaturaPage({
                 </ul>
               </div>
               <Link
-                href="/registro?plano=anual"
+                href="/checkout?plano=anual"
                 className="block text-center bg-[#3db8d4] text-[#0f2d4a] font-bold py-4 rounded-2xl hover:bg-[#2fa8c4] transition-all shadow text-base"
               >
                 Assinar agora — R$ 33,30/mês
@@ -225,7 +225,7 @@ export default function AssinaturaPage({
               </div>
               <div className="sm:w-44 flex-shrink-0">
                 <Link
-                  href="/registro?plano=mensal"
+                  href="/checkout?plano=mensal"
                   className="block text-center bg-[#0f2d4a] text-white font-bold py-3.5 rounded-2xl hover:bg-[#1a3d5c] transition-all shadow text-sm"
                 >
                   Assinar mensal

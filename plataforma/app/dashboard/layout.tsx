@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import DashboardSidebar from "@/app/components/DashboardSidebar";
 import DashboardMobileNav from "@/app/components/DashboardMobileNav";
+import ActivityPing from "@/app/components/ActivityPing";
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
@@ -43,6 +44,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* Bottom nav — mobile */}
       <DashboardMobileNav />
+
+      <ActivityPing />
     </div>
   );
 }

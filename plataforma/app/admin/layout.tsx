@@ -15,11 +15,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <Link href="/admin" className="text-sm hover:text-violet-400 transition-colors py-1">
           Dashboard
         </Link>
-        <Link href="/admin/produtos" className="text-sm hover:text-violet-400 transition-colors py-1">
-          Produtos
-        </Link>
-        <Link href="/admin/pedidos" className="text-sm hover:text-violet-400 transition-colors py-1">
-          Pedidos
+        <Link href="/admin/usuarios" className="text-sm hover:text-violet-400 transition-colors py-1">
+          Usuários
         </Link>
         <Link href="/admin/acessos" className="text-sm hover:text-violet-400 transition-colors py-1">
           Acessos

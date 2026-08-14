@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
-import Link from "next/link";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -18,10 +17,11 @@ function pct(part: number, total: number) {
 
 export default async function AdminPage() {
   const now = new Date();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const startOfYear  = new Date(now.getFullYear(), 0, 1);
-  const last7        = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const next30       = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const startOfMonth  = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfYear   = new Date(now.getFullYear(), 0, 1);
+  const last7         = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const next30        = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const fiveMinAgo    = new Date(now.getTime() - 5 * 60 * 1000);
 
   const [
     totalUsers,
@@ -38,9 +38,8 @@ export default async function AdminPage() {
     revenueYear,
     revenueStripe,
     revenueMp,
-    ordersPending,
+    revenueWeek,
     ordersTotal,
-    recentOrders,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
@@ -58,15 +57,23 @@ export default async function AdminPage() {
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfYear } }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", provider: "STRIPE" }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", provider: "MERCADOPAGO" }, _sum: { totalCents: true } }),
-    db.order.count({ where: { status: "PENDING" } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: last7 } }, _sum: { totalCents: true } }),
     db.order.count({ where: { status: "PAID" } }),
-    db.order.findMany({
-      where: { status: "PAID" },
-      orderBy: { paidAt: "desc" },
-      take: 8,
-      include: { user: { select: { email: true, name: true } } },
-    }),
   ]);
+
+  // Queries that depend on the new schema (lastSeenAt / ActivityLog).
+  // Wrapped in try/catch: the running dev server may have a stale Prisma client
+  // cached in globalThis — these work correctly after a server restart.
+  let onlineNow = 0;
+  let recentActivity: { createdAt: Date }[] = [];
+  try {
+    [onlineNow, recentActivity] = await Promise.all([
+      db.user.count({ where: { lastSeenAt: { gte: fiveMinAgo } } }),
+      db.activityLog.findMany({ where: { createdAt: { gte: last7 } }, select: { createdAt: true } }),
+    ]);
+  } catch {
+    // stale client — values remain 0 / []
+  }
 
   return (
     <div className="space-y-8">
@@ -92,14 +99,35 @@ export default async function AdminPage() {
         </div>
       </section>
 
+      {/* ── Atividade em Tempo Real ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Atividade em Tempo Real</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+          {/* Online agora */}
+          <div className="bg-white rounded-xl border border-zinc-200 p-4 border-l-4 border-l-emerald-400">
+            <p className="text-xs text-zinc-500 mb-1">Online agora</p>
+            <p className="text-4xl font-bold text-zinc-900">{onlineNow}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">
+              {onlineNow === 1 ? "usuário ativo" : "usuários ativos"} · janela de 5 min
+            </p>
+          </div>
+
+          {/* Gráfico de horários de pico */}
+          <div className="lg:col-span-2 bg-white rounded-xl border border-zinc-200 p-4">
+            <p className="text-xs text-zinc-500 mb-3">Horários de pico — últimos 7 dias</p>
+            <PeakHoursChart logs={recentActivity} />
+          </div>
+        </div>
+      </section>
+
       {/* ── Receita ── */}
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Receita</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Tile label="Total (all time)"  value={brl(revenueTotal._sum.totalCents)} color="green" sub={`${ordersTotal} vendas confirmadas`} />
+          <Tile label="Total (all time)"   value={brl(revenueTotal._sum.totalCents)} color="green" sub={`${ordersTotal} vendas confirmadas`} />
+          <Tile label="Últimos 7 dias"    value={brl(revenueWeek._sum.totalCents)} />
           <Tile label="Este mês"          value={brl(revenueMonth._sum.totalCents)} />
           <Tile label="Este ano"          value={brl(revenueYear._sum.totalCents)} />
-          <Tile label="Pedidos pendentes" value={ordersPending} color={ordersPending > 0 ? "yellow" : undefined} />
         </div>
         <div className="grid grid-cols-2 gap-3 mt-3">
           <Tile label="Receita via Stripe"       value={brl(revenueStripe._sum.totalCents)} sub="gateway internacional" />
@@ -107,67 +135,30 @@ export default async function AdminPage() {
         </div>
       </section>
 
-      {/* ── Vendas recentes ── */}
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Vendas recentes</h2>
-          <Link href="/admin/pedidos" className="text-xs text-violet-600 hover:underline">Ver todos →</Link>
-        </div>
-        <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-zinc-100 bg-zinc-50">
-                <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Usuário</th>
-                <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Gateway</th>
-                <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Valor</th>
-                <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentOrders.map((o) => (
-                <tr key={o.id} className="border-b border-zinc-50 last:border-0 hover:bg-zinc-50">
-                  <td className="px-4 py-2.5 text-zinc-700">{o.user?.name || o.user?.email || "—"}</td>
-                  <td className="px-4 py-2.5">
-                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                      o.provider === "STRIPE" ? "bg-indigo-100 text-indigo-700" : "bg-sky-100 text-sky-700"
-                    }`}>
-                      {o.provider === "STRIPE" ? "Stripe" : "Mercado Pago"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2.5 font-semibold text-zinc-900">{brl(o.totalCents)}</td>
-                  <td className="px-4 py-2.5 text-zinc-400 text-xs">
-                    {o.paidAt ? new Date(o.paidAt).toLocaleDateString("pt-BR") : "—"}
-                  </td>
-                </tr>
-              ))}
-              {recentOrders.length === 0 && (
-                <tr>
-                  <td colSpan={4} className="px-4 py-6 text-center text-zinc-400 text-sm">Nenhuma venda ainda</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+    </div>
+  );
+}
 
-      {/* ── Ações rápidas ── */}
-      <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Ações rápidas</h2>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/admin/produtos/novo" className="bg-violet-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-violet-700 transition-colors">
-            + Novo produto
-          </Link>
-          <Link href="/admin/pedidos" className="border border-zinc-300 text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors">
-            Pedidos
-          </Link>
-          <Link href="/admin/acessos" className="border border-zinc-300 text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors">
-            Gerenciar acessos
-          </Link>
-          <Link href="/admin/produtos" className="border border-zinc-300 text-zinc-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors">
-            Produtos
-          </Link>
+function PeakHoursChart({ logs }: { logs: { createdAt: Date }[] }) {
+  const counts = Array.from({ length: 24 }, (_, h) => ({
+    hour: h,
+    count: logs.filter((l) => new Date(l.createdAt).getHours() === h).length,
+  }));
+  const max = Math.max(...counts.map((c) => c.count), 1);
+
+  return (
+    <div className="flex items-end gap-0.5 h-16">
+      {counts.map(({ hour, count }) => (
+        <div key={hour} className="flex-1 flex flex-col items-center gap-0.5" title={`${hour}h: ${count} pings`}>
+          <div
+            className="w-full rounded-t bg-violet-400"
+            style={{ height: `${Math.round((count / max) * 56)}px`, minHeight: count > 0 ? "2px" : "0" }}
+          />
+          {hour % 6 === 0 && (
+            <span className="text-[8px] text-zinc-400 leading-none">{hour}h</span>
+          )}
         </div>
-      </section>
+      ))}
     </div>
   );
 }

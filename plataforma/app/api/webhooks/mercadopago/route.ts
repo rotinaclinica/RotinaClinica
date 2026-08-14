@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { db } from "@/lib/db";
-import { grantAccess } from "@/lib/entitlements";
 import { sendPurchaseConfirmation } from "@/lib/email";
 import { createHmac } from "crypto";
 
@@ -11,7 +10,7 @@ const client = new MercadoPagoConfig({
 
 function verifyMpSignature(req: NextRequest, paymentId: string): boolean {
   const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
-  if (!secret) return true; // não configurado: permite mas loga aviso
+  if (!secret) return true;
 
   const xSignature = req.headers.get("x-signature");
   const xRequestId = req.headers.get("x-request-id");
@@ -39,11 +38,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  // Idempotência
   const eventKey = `mp_payment_${paymentId}`;
-  const existing = await db.webhookEvent.findUnique({
-    where: { externalId: eventKey },
-  });
+  const existing = await db.webhookEvent.findUnique({ where: { externalId: eventKey } });
 
   const payment = new Payment(client);
   const paymentData = await payment.get({ id: paymentId });
@@ -65,17 +61,44 @@ export async function POST(req: NextRequest) {
         paidAt: new Date(),
         paymentMethod: paymentData.payment_type_id ?? "unknown",
       },
-      include: { items: true },
+      include: { items: { include: { product: true } } },
     });
 
     const user = await db.user.findUnique({ where: { id: order.userId } });
+    const now = new Date();
 
     for (const item of order.items) {
-      await grantAccess(order.userId, item.productId, orderId);
+      if (item.product.type === "SUBSCRIPTION") {
+        // Assinatura: cria ou renova o registro de Subscription
+        const isAnnual = item.product.slug === "assinatura-anual";
+        const periodEnd = new Date(now);
+        periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30));
+
+        await db.subscription.upsert({
+          where: { userId: order.userId },
+          create: {
+            userId: order.userId,
+            plan: isAnnual ? "ANNUAL" : "MONTHLY",
+            status: "ACTIVE",
+            currentPeriodStart: now,
+            currentPeriodEnd: periodEnd,
+            provider: "MERCADOPAGO",
+            providerRef: paymentId,
+          },
+          update: {
+            plan: isAnnual ? "ANNUAL" : "MONTHLY",
+            status: "ACTIVE",
+            currentPeriodStart: now,
+            currentPeriodEnd: periodEnd,
+            providerRef: paymentId,
+            cancelledAt: null,
+          },
+        });
+      }
     }
 
     if (user?.email) {
-      const product = await db.product.findUnique({ where: { id: order.items[0]?.productId } });
+      const product = order.items[0]?.product;
       if (product) {
         await sendPurchaseConfirmation({
           to: user.email,

@@ -1,16 +1,16 @@
 "use client";
 
-import { revokeAccess } from "./actions";
+import { revokeSubscription } from "./actions";
 
-export function RevokeButton({ enrollmentId }: { enrollmentId: string }) {
+export function RevokeButton({ subscriptionId }: { subscriptionId: string }) {
   return (
-    <form action={revokeAccess.bind(null, enrollmentId)}>
+    <form action={revokeSubscription.bind(null, subscriptionId)}>
       <button
         type="submit"
         className="text-xs text-red-400 hover:text-red-600"
-        onClick={(e) => { if (!confirm("Revogar acesso?")) e.preventDefault(); }}
+        onClick={(e) => { if (!confirm("Cancelar assinatura?")) e.preventDefault(); }}
       >
-        Revogar
+        Cancelar
       </button>
     </form>
   );

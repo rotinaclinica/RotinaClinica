@@ -15,6 +15,7 @@ model User {
   role          Role           @default(CUSTOMER)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  lastSeenAt    DateTime?
   orders        Order[]
   enrollments   Enrollment[]
   accounts      Account[]
@@ -112,6 +113,7 @@ enum ProductType {
   DOWNLOAD
   COURSE
   EBOOK_FREE
+  SUBSCRIPTION
 }
 
 model Lead {
@@ -215,4 +217,11 @@ model WebhookEvent {
   provider   PaymentProvider
   externalId String          @unique
   receivedAt DateTime        @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

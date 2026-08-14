@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
+import { DeleteProductButton } from "./delete-product-button";
 
 export const metadata = { title: "Produtos" };
 
@@ -56,13 +57,11 @@ export default async function AdminProdutosPage() {
                     {p.active ? "Ativo" : "Inativo"}
                   </span>
                 </td>
-                <td className="px-5 py-4">
-                  <Link
-                    href={`/admin/produtos/${p.id}`}
-                    className="text-violet-600 hover:underline text-xs"
-                  >
+                <td className="px-5 py-4 flex items-center gap-3">
+                  <Link href={`/admin/produtos/${p.id}`} className="text-violet-600 hover:underline text-xs">
                     Editar
                   </Link>
+                  <DeleteProductButton productId={p.id} title={p.title} />
                 </td>
               </tr>
             ))}
