@@ -10,7 +10,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-screen flex">
-      <aside className="w-56 bg-zinc-900 text-white p-6 flex flex-col gap-2">
+      <aside className="w-56 bg-zinc-900 text-white p-6 flex flex-col gap-2 sticky top-0 h-screen">
         <p className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Admin</p>
         <Link href="/admin" className="text-sm hover:text-violet-400 transition-colors py-1">
           Dashboard
@@ -24,8 +24,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <Link href="/admin/leads" className="text-sm hover:text-violet-400 transition-colors py-1">
           Leads
         </Link>
-        <div className="mt-auto">
-          <Link href="/" className="text-xs text-zinc-500 hover:text-zinc-300">
+        <div className="mt-auto flex flex-col gap-2">
+          <Link href="/dashboard" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">
+            Minha Área →
+          </Link>
+          <Link href="/" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
             ← Ver site
           </Link>
         </div>
