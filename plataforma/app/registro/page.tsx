@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Logo } from "@/app/components/Navbar";
 
@@ -116,8 +117,18 @@ function RegistroForm() {
       return;
     }
 
-    const next = plano ? `/login?registered=1&plano=${plano}` : "/login?registered=1";
-    router.push(next);
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      router.push(plano ? `/login?registered=1&plano=${plano}` : "/login?registered=1");
+      return;
+    }
+
+    router.push(plano ? `/checkout?plano=${plano}` : "/assinatura");
   }
 
   return (
