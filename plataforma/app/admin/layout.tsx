@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </Link>
         <div className="mt-auto flex flex-col gap-2">
           <Link href="/dashboard" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">
-            Minha Área →
+            Acessar a plataforma →
           </Link>
           <Link href="/" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
             ← Ver site
