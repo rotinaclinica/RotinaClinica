@@ -90,7 +90,7 @@ export default async function DashboardPage() {
   const expiresAt = subscription?.currentPeriodEnd;
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen">
+    <div className="flex-1 flex flex-col">
       {/* Header */}
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
         <div className="flex items-start justify-between gap-4">
