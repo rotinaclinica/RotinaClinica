@@ -1,30 +1,9 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import DownloadButton from "./DownloadButton";
+import MateriaisTabs from "./MateriaisTabs";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Ebooks e Materiais · Rotina Clínica" };
-
-const EBOOKS = [
-  {
-    id: "guia-prescricoes",
-    titulo: "Manual prático de prescrições: da UBS à emergência",
-    descricao:
-      "Prescrições práticas e condutas clínicas organizadas por tema, com doses, diluições e orientações para o dia a dia no plantão.",
-    paginas: "500 páginas",
-    formato: "PDF",
-    capa: "/images/ebook-manual-transparent.png",
-  },
-  {
-    id: "guia-intubacao",
-    titulo: "Guia de intubação orotraqueal, sedação e ventilação mecânica",
-    descricao:
-      "Abordagem prática e baseada em evidências para intubação orotraqueal, sedação e ventilação mecânica no paciente adulto em situações de urgência.",
-    paginas: "Guia prático",
-    formato: "PDF",
-    capa: "/images/ebook-iot.png",
-  },
-];
 
 export default async function MateriaisPage() {
   const session = await auth();
@@ -51,59 +30,7 @@ export default async function MateriaisPage() {
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl">
-          {EBOOKS.map((ebook) => (
-            <div
-              key={ebook.id}
-              className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col"
-            >
-              {/* Cover */}
-              <div
-                className="rounded-t-2xl h-64"
-                style={{
-                  backgroundImage: `url('${ebook.capa}')`,
-                  backgroundSize: "contain",
-                  backgroundPosition: "center center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundColor: "#0a1220",
-                }}
-              />
-
-              {/* Info */}
-              <div className="p-5 flex flex-col flex-1 gap-3">
-                <div>
-                  <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
-                    {ebook.titulo}
-                  </h2>
-                  <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] leading-relaxed">
-                    {ebook.descricao}
-                  </p>
-                </div>
-
-                <div className="flex gap-3 text-[11px] text-zinc-400 dark:text-[#5a7a8e]">
-                  <span>{ebook.paginas}</span>
-                  <span>·</span>
-                  <span>{ebook.formato}</span>
-                </div>
-
-                {/* Watermark notice */}
-                <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
-                  <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <p className="text-[11px] text-[#1a6aad] dark:text-[#3db8d4] leading-relaxed">
-                    O arquivo será vinculado ao seu e-mail{email ? ` (${email})` : ""} em cada página.
-                  </p>
-                </div>
-
-                <DownloadButton
-                  ebookId={ebook.id}
-                  filename={`${ebook.titulo}.pdf`}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <MateriaisTabs email={email} />
       </main>
     </div>
   );

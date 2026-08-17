@@ -39,7 +39,35 @@ const IsrIcon = () => (
   <img src="/images/calculadoras/isr.png" alt="ISR" className="w-full h-full object-contain" />
 );
 
+const CentorIcon = () => (
+  <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-cover" />
+);
+
 const CALCULADORAS = [
+  {
+    slug: "chadsvasc",
+    nome: "CHA₂DS₂-VA",
+    descricao: "Risco de AVC em fibrilação atrial",
+    especialidade: "Cardiologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <HeartIcon />,
+  },
+  {
+    slug: "hasbled",
+    nome: "HAS-BLED",
+    descricao: "Risco de sangramento maior em anticoagulados",
+    especialidade: "Cardiologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <HeartIcon />,
+  },
+  {
+    slug: "centor-mcisaac",
+    nome: "Centor / McIsaac",
+    descricao: "Probabilidade de faringite bacteriana por Streptococcus A",
+    especialidade: "Infectologia",
+    iconBg: "bg-[#1a5276]",
+    icon: <CentorIcon />,
+  },
   {
     slug: "isr",
     nome: "Intubação em Sequência Rápida",
@@ -85,7 +113,7 @@ const CALCULADORAS = [
     nome: "CURB-65",
     descricao: "Gravidade da pneumonia adquirida na comunidade",
     especialidade: "Pneumologia",
-    iconBg: "bg-[#1a5276]",
+    iconBg: "bg-[#0a1628]",
     icon: <LungIcon />,
   },
   {
@@ -93,7 +121,7 @@ const CALCULADORAS = [
     nome: "PSI/PORT",
     descricao: "Pneumonia Severity Index — avaliação completa",
     especialidade: "Pneumologia",
-    iconBg: "bg-[#1a5276]",
+    iconBg: "bg-[#0a1628]",
     icon: <LungIcon />,
   },
   {
@@ -101,7 +129,7 @@ const CALCULADORAS = [
     nome: "CRB-65",
     descricao: "Gravidade da pneumonia — sem exame laboratorial",
     especialidade: "Pneumologia",
-    iconBg: "bg-[#1a5276]",
+    iconBg: "bg-[#0a1628]",
     icon: <LungIcon />,
   },
   {
@@ -125,7 +153,7 @@ const CALCULADORAS = [
     nome: "Wells TEP",
     descricao: "Probabilidade pré-teste de tromboembolismo pulmonar",
     especialidade: "Emergência",
-    iconBg: "bg-[#1a5276]",
+    iconBg: "bg-[#0a1628]",
     icon: <LungIcon />,
   },
   {
