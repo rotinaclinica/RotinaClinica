@@ -78,7 +78,7 @@ export default function DashboardSidebar({ userName, userEmail, initials }: Prop
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="px-3 py-4 space-y-0.5">
         {navItems.map((item) => (
           <Link
             key={item.href}
