@@ -1568,6 +1568,12 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "categoria": "Emergência",
     "tags": ["referências","bibliografia","prescrições","condutas","UpToDate","FMUSP","Whitebook","Ministério da Saúde","SBC","Sepse","IDSA"]
   },
+  {
+    "id": "224",
+    "titulo": "Meta de LDL conforme risco cardiovascular",
+    "categoria": "Clínica Médica",
+    "tags": ["LDL","colesterol","risco cardiovascular","estatina","dislipidemia","prevenção","PREVENT","AHA","ACC"]
+  },
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
 
@@ -1575,7 +1581,7 @@ export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","
 
 export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224"]);
 
 export const medicamentoIds = new Set([
   "18",

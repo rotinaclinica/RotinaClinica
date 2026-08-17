@@ -40,10 +40,19 @@ const IsrIcon = () => (
 );
 
 const CentorIcon = () => (
-  <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-cover" />
+  <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-contain" />
 );
 
 const CALCULADORAS = [
+  {
+    slug: "prevent",
+    nome: "PREVENT — AHA 2023",
+    descricao: "Risco cardiovascular total em 10 anos (30–79 anos, sem DCV conhecida)",
+    especialidade: "Cardiologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <HeartIcon />,
+    beta: true,
+  },
   {
     slug: "chadsvasc",
     nome: "CHA₂DS₂-VA",
@@ -67,6 +76,14 @@ const CALCULADORAS = [
     especialidade: "Infectologia",
     iconBg: "bg-[#1a5276]",
     icon: <CentorIcon />,
+  },
+  {
+    slug: "reconstituicao",
+    nome: "Reconstituição e Diluição",
+    descricao: "Concentração de frasco pó ou ampola + diluição em SF",
+    especialidade: "Farmácia Clínica",
+    iconBg: "bg-[#0a1628]",
+    icon: <NoraIcon />,
   },
   {
     slug: "isr",
@@ -219,7 +236,12 @@ export default function CalculadorasPage() {
               {/* Texto */}
               <div className="flex-1 min-w-0 flex items-center gap-3 px-4 py-4">
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">{calc.nome}</p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">{calc.nome}</p>
+                    {"beta" in calc && calc.beta && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 uppercase tracking-wide">Beta</span>
+                    )}
+                  </div>
                   <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] mt-0.5">{calc.descricao}</p>
                   <span className="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-[#e8f4fc] dark:bg-[#1a2d45] text-[10px] font-semibold text-[#3db8d4]">
                     {calc.especialidade}

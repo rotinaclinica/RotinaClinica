@@ -18,11 +18,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
 
-  const product = await db.product.findUnique({
-    where: { id: parsed.data.productId, active: true },
-  });
+  const [product, user] = await Promise.all([
+    db.product.findUnique({ where: { id: parsed.data.productId, active: true } }),
+    db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, name: true } }),
+  ]);
   if (!product) {
     return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
+  }
+
+  if (!user?.cpf) {
+    return NextResponse.json({ error: "CPF obrigatório para pagamento com cartão", code: "CPF_REQUIRED" }, { status: 422 });
   }
 
   const order = await db.order.create({
@@ -44,6 +49,8 @@ export async function POST(req: NextRequest) {
     productTitle: product.title,
     priceCents: product.priceCents,
     customerEmail: session.user.email!,
+    customerCpf: user.cpf ?? undefined,
+    customerName: user.name ?? undefined,
     successUrl: `${appUrl}/pedido/${order.id}?status=sucesso`,
     failureUrl: `${appUrl}/pedido/${order.id}?status=falha`,
     pendingUrl: `${appUrl}/pedido/${order.id}?status=pendente`,

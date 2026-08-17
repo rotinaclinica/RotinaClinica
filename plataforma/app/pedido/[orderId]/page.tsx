@@ -30,6 +30,7 @@ export default async function OrderPage({
 
   const isPaid = order.status === "PAID";
   const isPending = order.status === "PENDING" && status === "pendente";
+  const isDeclined = status === "falha";
   // MP retornou sucesso mas webhook ainda não processou
   const isProcessing = order.status === "PENDING" && status === "sucesso";
 
@@ -46,6 +47,41 @@ export default async function OrderPage({
               Aguarde enquanto confirmamos seu pagamento. Isso leva alguns segundos.
             </p>
             {/* <OrderStatusPoller orderId={orderId} /> */}
+          </>
+        ) : isDeclined ? (
+          <>
+            <div className="text-5xl mb-4">❌</div>
+            <h1 className="text-2xl font-bold mb-2">Cartão não autorizado</h1>
+            <p className="text-zinc-500 text-sm mb-4">
+              O banco recusou o pagamento. Isso pode ocorrer por limite insuficiente, cartão bloqueado para compras online ou proteção antifraude do banco emissor.
+            </p>
+            <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-6 text-left">
+              <p className="text-sm font-semibold text-sky-800 mb-1">Tente pagar via PIX</p>
+              <p className="text-xs text-sky-700">
+                O PIX é aprovado instantaneamente e sem restrições. Volte à página do produto e selecione a opção Mercado Pago — o PIX aparecerá como método de pagamento.
+              </p>
+            </div>
+            <div className="border border-zinc-100 rounded-xl p-4 mb-6 text-left">
+              {order.items.map((item) => (
+                <div key={item.id} className="flex justify-between text-sm">
+                  <span>{item.product.title}</span>
+                  <span className="font-medium">{formatPrice(item.priceCents, order.currency)}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-3">
+              {order.items[0]?.product?.slug && (
+                <Link
+                  href={`/produtos/${order.items[0].product.slug}`}
+                  className="bg-sky-500 text-white py-3 rounded-xl font-semibold hover:bg-sky-600 transition-colors"
+                >
+                  Tentar com outro método
+                </Link>
+              )}
+              <Link href="/" className="text-sm text-zinc-500 hover:underline">
+                Voltar para a loja
+              </Link>
+            </div>
           </>
         ) : (
           <>

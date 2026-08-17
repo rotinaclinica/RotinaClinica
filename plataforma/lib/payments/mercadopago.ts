@@ -9,6 +9,8 @@ export async function createMpPreference({
   productTitle,
   priceCents,
   customerEmail,
+  customerCpf,
+  customerName,
   successUrl,
   failureUrl,
   pendingUrl,
@@ -17,6 +19,8 @@ export async function createMpPreference({
   productTitle: string;
   priceCents: number;
   customerEmail: string;
+  customerCpf?: string;
+  customerName?: string;
   successUrl: string;
   failureUrl: string;
   pendingUrl: string;
@@ -34,11 +38,21 @@ export async function createMpPreference({
           currency_id: "BRL",
         },
       ],
-      payer: { email: customerEmail },
+      payer: {
+        email: customerEmail,
+        ...(customerName && {
+          name: customerName.split(" ")[0],
+          surname: customerName.split(" ").slice(1).join(" ") || customerName.split(" ")[0],
+        }),
+        ...(customerCpf && {
+          identification: { type: "CPF", number: customerCpf },
+        }),
+      },
       payment_methods: {
         excluded_payment_types: [{ id: "ticket" }],
         installments: 12,
       },
+      statement_descriptor: "Rotina Clinica",
       external_reference: orderId,
       back_urls: {
         success: successUrl,

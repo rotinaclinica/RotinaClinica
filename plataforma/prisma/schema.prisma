@@ -18,6 +18,7 @@ model User {
   lastSeenAt           DateTime?
   momentoProfissional  String?
   ambienteTrabalho     String?
+  cpf                  String?
   orders               Order[]
   enrollments          Enrollment[]
   accounts             Account[]

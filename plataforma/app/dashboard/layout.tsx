@@ -35,6 +35,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         userName={session.user.name ?? ""}
         userEmail={session.user.email ?? ""}
         initials={initials}
+        isAdmin={role === "ADMIN"}
       />
 
       {/* Main */}

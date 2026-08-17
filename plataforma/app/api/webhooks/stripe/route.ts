@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
         status: "PAID",
         paidAt: new Date(),
         paymentMethod: cs.payment_method_types?.[0] ?? "card",
+        providerRef: (cs.payment_intent as string) ?? cs.id,
       },
       include: { items: true },
     });

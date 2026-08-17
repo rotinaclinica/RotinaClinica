@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
         status: "PAID",
         paidAt: new Date(),
         paymentMethod: paymentData.payment_type_id ?? "unknown",
+        providerRef: paymentId,
       },
       include: { items: { include: { product: true } } },
     });

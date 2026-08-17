@@ -25,8 +25,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   if (!product) notFound();
 
-  const alreadyOwned =
-    session?.user?.id ? await hasAccess(session.user.id, product.id) : false;
+  const [alreadyOwned, userProfile] = await Promise.all([
+    session?.user?.id ? hasAccess(session.user.id, product.id) : Promise.resolve(false),
+    session?.user?.id
+      ? db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true } })
+      : Promise.resolve(null),
+  ]);
 
   return (
     <main className="min-h-screen">
@@ -103,6 +107,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <CheckoutButtons
                   productId={product.id}
                   isLoggedIn={!!session}
+                  userCpf={userProfile?.cpf}
                 />
               )}
 
