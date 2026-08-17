@@ -6,7 +6,7 @@ export const metadata = { title: "Docstage · Rotina Clínica" };
 
 export default function DocStagePage() {
   return (
-    <div className="flex-1 flex flex-col min-h-screen">
+    <div className="flex-1 flex flex-col">
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard/cursos"
