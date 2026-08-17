@@ -2,14 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/payments/stripe";
-import { MercadoPagoConfig, Payment } from "mercadopago";
 import { z } from "zod";
 
 const schema = z.object({ orderId: z.string() });
-
-const mpClient = new MercadoPagoConfig({
-  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN ?? "placeholder",
-});
 
 const REFUND_WINDOW_DAYS = 7;
 
@@ -54,8 +49,18 @@ export async function POST(req: NextRequest) {
     if (order.provider === "STRIPE") {
       await stripe.refunds.create({ payment_intent: order.providerRef });
     } else if (order.provider === "MERCADOPAGO") {
-      const payment = new Payment(mpClient);
-      await payment.refund({ id: order.providerRef, body: {} });
+      const res = await fetch(
+        `https://api.mercadopago.com/v1/payments/${order.providerRef}/refunds`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      if (!res.ok) throw new Error(`MP refund failed: ${res.status}`);
     }
   } catch (err) {
     console.error("Refund error:", err);
