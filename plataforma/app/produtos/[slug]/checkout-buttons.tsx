@@ -3,53 +3,90 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-function formatCpf(v: string) {
+function maskCpf(v: string) {
   const d = v.replace(/\D/g, "").slice(0, 11);
-  return d
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return d.replace(/^(\d{3})(\d{0,3})/, "$1.$2");
+  if (d.length <= 9) return d.replace(/^(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
+  return d.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
+}
+
+function maskPhone(v: string) {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d.replace(/^(\d{0,2})/, "($1");
+  if (d.length <= 7) return d.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+  return d.replace(/^(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+}
+
+function Modal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 px-4"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div className="w-full max-w-sm bg-white rounded-2xl p-6 shadow-xl space-y-4">
+        {children}
+      </div>
+    </div>
+  );
 }
 
 export default function CheckoutButtons({
   productId,
   isLoggedIn,
   userCpf,
+  userPhone,
 }: {
   productId: string;
   isLoggedIn: boolean;
   userCpf?: string | null;
+  userPhone?: string | null;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState<"stripe" | "mp" | null>(null);
   const [error, setError] = useState("");
 
-  // CPF flow
-  const [showCpf, setShowCpf] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [cpf, setCpf] = useState("");
-  const [cpfSaving, setCpfSaving] = useState(false);
-  const [cpfError, setCpfError] = useState("");
+  const [phone, setPhone] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [fieldError, setFieldError] = useState("");
+  const [cpfSaved, setCpfSaved] = useState(false);
 
-  async function saveCpfAndCheckout() {
-    const digits = cpf.replace(/\D/g, "");
-    if (digits.length !== 11) {
-      setCpfError("Digite um CPF válido com 11 dígitos.");
+  const needsPhone = !userPhone;
+
+  async function saveAndCheckout() {
+    const cpfDigits = cpf.replace(/\D/g, "");
+    const phoneDigits = phone.replace(/\D/g, "");
+
+    if (cpfDigits.length !== 11) {
+      setFieldError("Digite um CPF válido com 11 dígitos.");
       return;
     }
-    setCpfSaving(true);
-    setCpfError("");
+    if (needsPhone && phoneDigits.length < 10) {
+      setFieldError("Digite um celular válido.");
+      return;
+    }
+
+    setSaving(true);
+    setFieldError("");
+
     const res = await fetch("/api/user/cpf", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cpf: digits }),
+      body: JSON.stringify({ cpf: cpfDigits, ...(needsPhone ? { phone: phoneDigits } : {}) }),
     });
-    setCpfSaving(false);
+
+    setSaving(false);
+
     if (!res.ok) {
-      setCpfError("Erro ao salvar CPF. Tente novamente.");
+      setFieldError("Erro ao salvar dados. Tente novamente.");
       return;
     }
-    setShowCpf(false);
-    await checkout("mp", digits);
+
+    setCpfSaved(true);
+    setShowModal(false);
+    await checkout("mp", cpfDigits);
   }
 
   async function checkout(provider: "stripe" | "mp", cpfOverride?: string) {
@@ -58,9 +95,8 @@ export default function CheckoutButtons({
       return;
     }
 
-    // MP sem CPF: exibir formulário
-    if (provider === "mp" && !userCpf && !cpfOverride) {
-      setShowCpf(true);
+    if (provider === "mp" && !userCpf && !cpfOverride && !cpfSaved) {
+      setShowModal(true);
       return;
     }
 
@@ -81,7 +117,7 @@ export default function CheckoutButtons({
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       if (data?.code === "CPF_REQUIRED") {
-        setShowCpf(true);
+        setShowModal(true);
         return;
       }
       setError("Erro ao iniciar pagamento. Tente novamente.");
@@ -92,59 +128,79 @@ export default function CheckoutButtons({
     if (url) window.location.href = url;
   }
 
-  if (showCpf) {
-    return (
-      <div className="space-y-3">
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-          <p className="text-sm font-semibold text-amber-800 mb-0.5">CPF obrigatório para cartão</p>
-          <p className="text-xs text-amber-700">
-            O Mercado Pago exige o CPF do titular para processar pagamentos com cartão de crédito no Brasil.
-            Seu CPF será salvo no seu cadastro.
-          </p>
-        </div>
-        <input
-          type="text"
-          inputMode="numeric"
-          placeholder="000.000.000-00"
-          value={cpf}
-          onChange={(e) => setCpf(formatCpf(e.target.value))}
-          className="w-full px-4 py-3 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-        />
-        {cpfError && <p className="text-red-500 text-xs">{cpfError}</p>}
-        <button
-          onClick={saveCpfAndCheckout}
-          disabled={cpfSaving}
-          className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors text-sm"
-        >
-          {cpfSaving ? "Salvando…" : "Salvar CPF e continuar"}
-        </button>
-        <button
-          onClick={() => { setShowCpf(false); setCpf(""); setCpfError(""); }}
-          className="w-full text-zinc-400 hover:text-zinc-600 text-xs py-1 transition-colors"
-        >
-          Cancelar
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-3">
-      <button
-        onClick={() => checkout("stripe")}
-        disabled={!!loading}
-        className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors"
-      >
-        {loading === "stripe" ? "Aguarde..." : "💳 Cartão Internacional (Stripe)"}
-      </button>
-      <button
-        onClick={() => checkout("mp")}
-        disabled={!!loading}
-        className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors"
-      >
-        {loading === "mp" ? "Aguarde..." : "🇧🇷 PIX / Boleto / Cartão BR"}
-      </button>
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-    </div>
+    <>
+      {showModal && (
+        <Modal onClose={() => { setShowModal(false); setCpf(""); setPhone(""); setFieldError(""); }}>
+          <div>
+            <h2 className="text-base font-bold text-zinc-900 mb-1">Dados para pagamento</h2>
+            <p className="text-xs text-zinc-500">
+              O Mercado Pago exige CPF{needsPhone ? " e celular" : ""} para processar pagamentos com cartão no Brasil.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">CPF</label>
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="000.000.000-00"
+                value={cpf}
+                onChange={(e) => setCpf(maskCpf(e.target.value))}
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+              />
+            </div>
+
+            {needsPhone && (
+              <div>
+                <label className="block text-xs font-semibold text-zinc-700 mb-1">Celular</label>
+                <input
+                  type="tel"
+                  placeholder="(99) 99999-9999"
+                  value={phone}
+                  onChange={(e) => setPhone(maskPhone(e.target.value))}
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                />
+              </div>
+            )}
+
+            {fieldError && <p className="text-red-500 text-xs">{fieldError}</p>}
+          </div>
+
+          <button
+            onClick={saveAndCheckout}
+            disabled={saving}
+            className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors text-sm"
+          >
+            {saving ? "Salvando…" : "Salvar e continuar"}
+          </button>
+          <button
+            onClick={() => { setShowModal(false); setCpf(""); setPhone(""); setFieldError(""); }}
+            className="w-full text-zinc-400 hover:text-zinc-600 text-xs py-1 transition-colors"
+          >
+            Cancelar
+          </button>
+        </Modal>
+      )}
+
+      <div className="space-y-3">
+        <button
+          onClick={() => checkout("stripe")}
+          disabled={!!loading}
+          className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors"
+        >
+          {loading === "stripe" ? "Aguarde..." : "💳 Cartão Internacional (Stripe)"}
+        </button>
+        <button
+          onClick={() => checkout("mp")}
+          disabled={!!loading}
+          className="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors"
+        >
+          {loading === "mp" ? "Aguarde..." : "🇧🇷 PIX / Boleto / Cartão BR"}
+        </button>
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      </div>
+    </>
   );
 }

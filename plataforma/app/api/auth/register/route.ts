@@ -7,6 +7,8 @@ const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(6),
+  phone: z.string().min(10),
+  cpf: z.string().length(11),
   momentoProfissional: z.string().optional(),
   ambienteTrabalho: z.string().optional(),
 });
@@ -18,7 +20,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
 
-  const { name, email, password, momentoProfissional, ambienteTrabalho } = parsed.data;
+  const { name, email, password, phone, cpf, momentoProfissional, ambienteTrabalho } = parsed.data;
 
   const existing = await db.user.findUnique({ where: { email } });
   if (existing) {
@@ -26,7 +28,7 @@ export async function POST(req: NextRequest) {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
-  await db.user.create({ data: { name, email, passwordHash, momentoProfissional, ambienteTrabalho } });
+  await db.user.create({ data: { name, email, passwordHash, phone, cpf, momentoProfissional, ambienteTrabalho } });
 
   return NextResponse.json({ ok: true }, { status: 201 });
 }

@@ -25,19 +25,13 @@ export default async function CheckoutPage({
     redirect(`/login?callbackUrl=/checkout?plano=${plano}`);
   }
 
-  const product = await db.product.findUnique({
-    where: { slug: plan.slug, active: true },
-    select: { id: true },
-  });
+  const [product, userProfile, existing] = await Promise.all([
+    db.product.findUnique({ where: { slug: plan.slug, active: true }, select: { id: true } }),
+    db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, phone: true } }),
+    db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true } }),
+  ]);
 
   if (!product) redirect("/assinatura");
-
-  // Usuário já tem assinatura ativa?
-  const existing = await db.subscription.findUnique({
-    where: { userId: session.user.id },
-    select: { status: true },
-  });
-
   if (existing?.status === "ACTIVE") redirect("/dashboard");
 
   return (
@@ -58,7 +52,7 @@ export default async function CheckoutPage({
             <span className="text-xs text-zinc-400">ou pague com cartão</span>
             <div className="flex-1 h-px bg-zinc-100" />
           </div>
-          <CheckoutButton productId={product.id} />
+          <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
           <p className="text-center text-xs text-zinc-400">
             Pagamento seguro via Mercado Pago · Acesso imediato
           </p>

@@ -5,6 +5,7 @@ import { z } from "zod";
 
 const schema = z.object({
   cpf: z.string().regex(/^\d{11}$/, "CPF deve conter 11 dígitos"),
+  phone: z.string().min(10).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   await db.user.update({
     where: { id: session.user.id },
-    data: { cpf: parsed.data.cpf },
+    data: { cpf: parsed.data.cpf, ...(parsed.data.phone ? { phone: parsed.data.phone } : {}) },
   });
 
   return NextResponse.json({ ok: true });

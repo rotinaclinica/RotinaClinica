@@ -19,6 +19,7 @@ model User {
   momentoProfissional  String?
   ambienteTrabalho     String?
   cpf                  String?
+  phone                String?
   orders               Order[]
   enrollments          Enrollment[]
   accounts             Account[]

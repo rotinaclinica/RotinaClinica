@@ -20,7 +20,8 @@ const PLAN_LABEL: Record<string, string> = {
 export default async function AdminUsuariosPage() {
   const users = await db.user.findMany({
     orderBy: { createdAt: "desc" },
-    include: {
+    select: {
+      id: true, name: true, email: true, createdAt: true, cpf: true, phone: true,
       subscription: { select: { plan: true, status: true, currentPeriodStart: true, currentPeriodEnd: true } },
       orders: {
         where: { status: "PAID" },
@@ -49,6 +50,8 @@ export default async function AdminUsuariosPage() {
           <thead>
             <tr className="border-b border-zinc-100 bg-zinc-50">
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Usuário</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">CPF</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Celular</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Cadastro</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Plano</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Status</th>
@@ -67,6 +70,20 @@ export default async function AdminUsuariosPage() {
                   <td className="px-4 py-3">
                     <p className="font-medium text-zinc-800">{u.name || "—"}</p>
                     <p className="text-xs text-zinc-400">{u.email}</p>
+                  </td>
+                  <td className="px-4 py-3 text-xs">
+                    {u.cpf ? (
+                      <span className="text-zinc-600 font-mono">{u.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")}</span>
+                    ) : (
+                      <span className="text-red-400 font-medium">sem CPF</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-xs">
+                    {u.phone ? (
+                      <span className="text-zinc-600">{u.phone}</span>
+                    ) : (
+                      <span className="text-amber-400 font-medium">sem phone</span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-zinc-500 text-xs">{fmt(u.createdAt)}</td>
                   <td className="px-4 py-3">

@@ -28,7 +28,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const [alreadyOwned, userProfile] = await Promise.all([
     session?.user?.id ? hasAccess(session.user.id, product.id) : Promise.resolve(false),
     session?.user?.id
-      ? db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true } })
+      ? db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, phone: true } })
       : Promise.resolve(null),
   ]);
 
@@ -108,6 +108,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   productId={product.id}
                   isLoggedIn={!!session}
                   userCpf={userProfile?.cpf}
+                  userPhone={userProfile?.phone}
                 />
               )}
 

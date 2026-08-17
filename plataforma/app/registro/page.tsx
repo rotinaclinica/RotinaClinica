@@ -82,6 +82,8 @@ function RegistroForm() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [momentoProfissional, setMomentoProfissional] = useState("");
@@ -92,6 +94,21 @@ function RegistroForm() {
 
   const passwordMismatch = confirm.length > 0 && confirm !== password;
 
+  function maskPhone(v: string) {
+    const d = v.replace(/\D/g, "").slice(0, 11);
+    if (d.length <= 2) return d.replace(/^(\d{0,2})/, "($1");
+    if (d.length <= 7) return d.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+    return d.replace(/^(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+  }
+
+  function maskCpf(v: string) {
+    const d = v.replace(/\D/g, "").slice(0, 11);
+    if (d.length <= 3) return d;
+    if (d.length <= 6) return d.replace(/^(\d{3})(\d{0,3})/, "$1.$2");
+    if (d.length <= 9) return d.replace(/^(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
+    return d.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
@@ -101,12 +118,15 @@ function RegistroForm() {
       return;
     }
 
+    const cpfDigits = cpf.replace(/\D/g, "");
+    const phoneDigits = phone.replace(/\D/g, "");
+
     setLoading(true);
 
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined }),
+      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined }),
     });
 
     setLoading(false);
@@ -205,6 +225,30 @@ function RegistroForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="voce@email.com"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Celular</label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(maskPhone(e.target.value))}
+                required
+                placeholder="(99) 99999-9999"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CPF</label>
+              <input
+                type="text"
+                value={cpf}
+                onChange={(e) => setCpf(maskCpf(e.target.value))}
+                required
+                placeholder="000.000.000-00"
                 className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>

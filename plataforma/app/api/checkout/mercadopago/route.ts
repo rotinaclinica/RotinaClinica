@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 
   const [product, user] = await Promise.all([
     db.product.findUnique({ where: { id: parsed.data.productId, active: true } }),
-    db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, name: true } }),
+    db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, name: true, phone: true, createdAt: true } }),
   ]);
   if (!product) {
     return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
     customerEmail: session.user.email!,
     customerCpf: user.cpf ?? undefined,
     customerName: user.name ?? undefined,
+    customerPhone: user.phone ?? undefined,
+    customerCreatedAt: user.createdAt,
     successUrl: `${appUrl}/pedido/${order.id}?status=sucesso`,
     failureUrl: `${appUrl}/pedido/${order.id}?status=falha`,
     pendingUrl: `${appUrl}/pedido/${order.id}?status=pendente`,
