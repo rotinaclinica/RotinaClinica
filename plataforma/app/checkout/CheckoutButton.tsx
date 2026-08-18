@@ -26,7 +26,7 @@ export default function CheckoutButton({
   userCpf?: string | null;
   userPhone?: string | null;
 }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<"stripe" | "mp" | null>(null);
   const [error, setError] = useState("");
 
   const [showModal, setShowModal] = useState(false);
@@ -38,7 +38,14 @@ export default function CheckoutButton({
 
   const needsPhone = !userPhone;
 
-  async function saveAndCheckout() {
+  function closeModal() {
+    setShowModal(false);
+    setCpf("");
+    setPhone("");
+    setFieldError("");
+  }
+
+  async function saveAndCheckoutMp() {
     const cpfDigits = cpf.replace(/\D/g, "");
     const phoneDigits = phone.replace(/\D/g, "");
 
@@ -68,21 +75,22 @@ export default function CheckoutButton({
     }
 
     setCpfSaved(true);
-    setShowModal(false);
-    await pay(true);
+    closeModal();
+    await pay("mp", true);
   }
 
-  async function pay(hasCpf = false) {
-    if (!userCpf && !hasCpf && !cpfSaved) {
+  async function pay(provider: "stripe" | "mp", hasCpf = false) {
+    if (provider === "mp" && !userCpf && !hasCpf && !cpfSaved) {
       setShowModal(true);
       return;
     }
 
-    setLoading(true);
+    setLoading(provider);
     setError("");
 
     try {
-      const res = await fetch("/api/checkout/mercadopago", {
+      const endpoint = provider === "stripe" ? "/api/checkout/stripe" : "/api/checkout/mercadopago";
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId }),
@@ -101,7 +109,7 @@ export default function CheckoutButton({
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erro inesperado");
     } finally {
-      setLoading(false);
+      setLoading(null);
     }
   }
 
@@ -110,7 +118,7 @@ export default function CheckoutButton({
       {showModal && (
         <div
           className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 px-4"
-          onClick={(e) => { if (e.target === e.currentTarget) { setShowModal(false); setCpf(""); setPhone(""); setFieldError(""); } }}
+          onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}
         >
           <div className="w-full max-w-sm bg-white rounded-2xl p-6 shadow-xl space-y-4">
             <div>
@@ -150,14 +158,14 @@ export default function CheckoutButton({
             </div>
 
             <button
-              onClick={saveAndCheckout}
+              onClick={saveAndCheckoutMp}
               disabled={saving}
               className="w-full bg-[#009ee3] hover:bg-[#0088cc] disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors text-sm"
             >
               {saving ? "Salvando…" : "Salvar e continuar"}
             </button>
             <button
-              onClick={() => { setShowModal(false); setCpf(""); setPhone(""); setFieldError(""); }}
+              onClick={closeModal}
               className="w-full text-zinc-400 hover:text-zinc-600 text-xs py-1 transition-colors"
             >
               Cancelar
@@ -167,20 +175,39 @@ export default function CheckoutButton({
       )}
 
       <div className="space-y-2">
+        {/* Stripe — cartão de crédito/débito */}
         <button
-          onClick={pay}
-          disabled={loading}
+          onClick={() => pay("stripe")}
+          disabled={!!loading}
+          className="w-full bg-[#635bff] hover:bg-[#4f46e5] disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 text-sm"
+        >
+          {loading === "stripe" ? (
+            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          )}
+          {loading === "stripe" ? "Redirecionando…" : "Cartão de crédito"}
+        </button>
+
+        {/* Mercado Pago */}
+        <button
+          onClick={() => pay("mp")}
+          disabled={!!loading}
           className="w-full bg-[#009ee3] hover:bg-[#0088cc] disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 text-sm"
         >
-          {loading ? (
+          {loading === "mp" ? (
             <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
           ) : (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M11.517 2.004C6.32 2.004 2 5.92 2 10.756c0 3.254 1.888 6.115 4.76 7.76-.127.46-.813 2.958-.845 3.157 0 0-.018.147.08.203.097.057.209.012.209.012.275-.037 3.185-2.067 3.626-2.36.524.072 1.062.11 1.609.11 5.196 0 9.515-3.917 9.515-8.753 0-4.835-4.319-8.881-9.437-8.881z"/>
             </svg>
           )}
-          {loading ? "Redirecionando…" : "Pagar com Mercado Pago"}
+          {loading === "mp" ? "Redirecionando…" : "Mercado Pago"}
         </button>
+
         {error && <p className="text-red-500 text-xs text-center">{error}</p>}
       </div>
     </>

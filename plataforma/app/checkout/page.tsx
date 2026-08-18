@@ -49,12 +49,12 @@ export default async function CheckoutPage({
           <PixButton productId={product.id} />
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-zinc-100" />
-            <span className="text-xs text-zinc-400">ou pague com cartão</span>
+            <span className="text-xs text-zinc-400">ou pague com cartão de crédito</span>
             <div className="flex-1 h-px bg-zinc-100" />
           </div>
           <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
           <p className="text-center text-xs text-zinc-400">
-            Pagamento seguro via Mercado Pago · Acesso imediato
+            Pagamento seguro · Acesso imediato após confirmação
           </p>
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-400 hover:text-zinc-600 hover:underline transition-colors">
