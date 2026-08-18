@@ -87,7 +87,7 @@ export default function ProdutosPage() {
                 <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
                   {p.title}
                 </h3>
-                <p className="text-zinc-500 text-sm flex-1 mb-4">{p.description}</p>
+                <p className="text-zinc-700 text-sm flex-1 mb-4">{p.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-extrabold text-[#0f2d4a]">{p.price}</span>
                   <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
@@ -104,7 +104,7 @@ export default function ProdutosPage() {
       <section className="bg-[#e8f4fc] py-14 px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-2">E-books Gratuitos</h2>
-          <p className="text-zinc-500 mb-8 text-sm">
+          <p className="text-zinc-700 mb-8 text-sm">
             Preencha um breve questionário e faça o download imediatamente.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -128,7 +128,7 @@ export default function ProdutosPage() {
                   <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
                     {e.title}
                   </h3>
-                  <p className="text-zinc-500 text-sm flex-1 mb-4">{e.description}</p>
+                  <p className="text-zinc-700 text-sm flex-1 mb-4">{e.description}</p>
                   <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
                     Baixar grátis →
                   </span>

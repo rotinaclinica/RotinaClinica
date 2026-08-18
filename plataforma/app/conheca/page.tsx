@@ -27,7 +27,7 @@ export default function ConhecaPage() {
             </div>
             <h2 className="text-xl font-extrabold text-[#0f2d4a]">Nossa Missão</h2>
           </div>
-          <p className="text-zinc-600 leading-relaxed">
+          <p className="text-zinc-700 leading-relaxed">
             Promover a educação médica através de casos clínicos reais, embasamento teórico com referências consolidadas e atuais, além da experiência clínica do dia a dia.
           </p>
         </div>
@@ -47,7 +47,7 @@ export default function ConhecaPage() {
               </span>
             ))}
           </div>
-          <p className="text-zinc-500 text-sm mt-4 leading-relaxed">
+          <p className="text-zinc-700 text-sm mt-4 leading-relaxed">
             Esses são os pilares que guiam cada conteúdo, cada curso e cada interação com a nossa comunidade.
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function ConhecaPage() {
                     "Atuação em rotina de enfermaria, PS e UPA.",
                     "Experiência como professor universitário.",
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600 leading-relaxed">
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-700 leading-relaxed">
                       <svg className="flex-shrink-0 mt-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                       <span className="text-justify">{item}</span>
                     </li>
@@ -123,7 +123,7 @@ export default function ConhecaPage() {
                     "Atuação em PS, UPA, Emergência e UTI.",
                     "Concursado pelo EBSERH — PS do HUCAM.",
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-600 leading-relaxed">
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-700 leading-relaxed">
                       <svg className="flex-shrink-0 mt-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                       <span className="text-justify">{item}</span>
                     </li>

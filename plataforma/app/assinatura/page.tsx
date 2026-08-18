@@ -9,7 +9,7 @@ const benefits = [
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
       </svg>
     ),
-    title: "+200 modelos de prescrição",
+    title: "Modelos de prescrição",
     description: "Busca rápida por queixa ou diagnóstico. Prescrições prontas para UBS, PS, UPA e emergência, atualizadas com as diretrizes mais recentes.",
   },
   {
@@ -42,10 +42,10 @@ const benefits = [
 ];
 
 const monthlyItems = [
-  "+200 prescrições prontas",
-  "Casos clínicos semanais",
-  "Cursos e videoaulas",
-  "Ebooks e materiais de apoio",
+  "Condutas Clínicas e prescrições prontas",
+  "Casos clínicos em imagem e vídeo",
+  "Cursos e aulas online",
+  "Ebooks e materiais em PDF",
   "Cancele quando quiser",
 ];
 
@@ -118,7 +118,7 @@ export default function AssinaturaPage({
         <div className="max-w-4xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {[
             { value: "900+", label: "Alunos" },
-            { value: "200+", label: "Prescrições" },
+            { value: "200+", label: "Condutas" },
             { value: "50k+", label: "Seguidores" },
             { value: "2023", label: "Fundado em" },
           ].map(({ value, label }) => (
@@ -143,14 +143,14 @@ export default function AssinaturaPage({
                 {b.icon}
               </div>
               <h3 className="font-extrabold text-[#0f2d4a] text-base mb-2">{b.title}</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed text-justify">{b.description}</p>
+              <p className="text-zinc-700 text-sm leading-relaxed text-justify">{b.description}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Planos */}
-      <section id="planos" className="bg-[#eaf4f8] py-14 sm:py-20 px-6">
+      <section id="planos" className="bg-[#c2d8e8] py-14 sm:py-20 px-6">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Escolha seu plano</span>
@@ -204,14 +204,15 @@ export default function AssinaturaPage({
 
             {/* Mensal — secundário */}
             <div className="relative bg-white border-2 border-zinc-200 rounded-3xl p-7 flex flex-col sm:flex-row sm:items-center gap-6 shadow-sm">
+              <span className="absolute -top-3 left-6 bg-zinc-700 text-white text-xs font-semibold px-3 py-1 rounded-full">Sem compromisso</span>
               <div className="sm:flex-1">
-                <p className="text-zinc-400 text-xs font-semibold uppercase tracking-wider mb-3">Plano Mensal</p>
+                <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-3">Plano Mensal</p>
                 <div className="flex items-end gap-1 mb-1">
                   <span className="text-4xl font-extrabold text-[#0f2d4a] leading-none">R$ 39</span>
-                  <span className="text-[#0f2d4a]/50 text-xl pb-0.5">,90</span>
-                  <span className="text-zinc-400 text-sm pb-1 ml-1">/mês</span>
+                  <span className="text-[#0f2d4a]/70 text-xl pb-0.5">,90</span>
+                  <span className="text-zinc-500 text-sm pb-1 ml-1">/mês</span>
                 </div>
-                <p className="text-zinc-400 text-sm">cancele quando quiser</p>
+                <p className="text-zinc-500 text-sm">cancele quando quiser</p>
               </div>
               <div className="sm:flex-1">
                 <ul className="space-y-2 mb-5 sm:mb-0">
@@ -235,7 +236,7 @@ export default function AssinaturaPage({
 
           </div>
 
-          <p className="text-center text-zinc-400 text-xs mt-8">
+          <p className="text-center text-zinc-600 text-xs mt-8 font-medium">
             Pagamento seguro · Acesso imediato após confirmação
           </p>
         </div>
@@ -250,7 +251,7 @@ export default function AssinaturaPage({
           {faqs.map(({ q, a }) => (
             <div key={q} className="bg-white border border-zinc-200 rounded-2xl p-6">
               <p className="font-bold text-[#0f2d4a] mb-2">{q}</p>
-              <p className="text-zinc-500 text-sm leading-relaxed">{a}</p>
+              <p className="text-zinc-700 text-sm leading-relaxed">{a}</p>
             </div>
           ))}
         </div>
