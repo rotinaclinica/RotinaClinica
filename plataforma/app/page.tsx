@@ -67,7 +67,7 @@ export default async function HomePage() {
           <div className="text-center mb-10">
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Tudo em um só lugar</span>
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mt-2">O que está incluído na assinatura</h2>
-            <p className="text-zinc-500 dark:text-[#6a8fa5] mt-2 text-base">Acesso completo a todos os recursos por menos de R&nbsp;34 por mês.</p>
+            <p className="text-zinc-500 dark:text-[#6a8fa5] mt-2 text-base">Uma plataforma completa e projetada para te acompanhar em todos os cenários.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
