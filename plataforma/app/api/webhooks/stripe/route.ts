@@ -44,17 +44,46 @@ export async function POST(req: NextRequest) {
         paymentMethod: cs.payment_method_types?.[0] ?? "card",
         providerRef: (cs.payment_intent as string) ?? cs.id,
       },
-      include: { items: true },
+      include: { items: { include: { product: true } } },
     });
 
     const user = await db.user.findUnique({ where: { id: order.userId } });
+    const now = new Date();
 
     for (const item of order.items) {
       await grantAccess(order.userId, item.productId, orderId);
+
+      if (item.product.type === "SUBSCRIPTION") {
+        const isAnnual = item.product.slug === "assinatura-anual";
+        const periodEnd = new Date(now);
+        periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30));
+
+        await db.subscription.upsert({
+          where: { userId: order.userId },
+          create: {
+            userId: order.userId,
+            plan: isAnnual ? "ANNUAL" : "MONTHLY",
+            status: "ACTIVE",
+            currentPeriodStart: now,
+            currentPeriodEnd: periodEnd,
+            provider: "STRIPE",
+            providerRef: (cs.payment_intent as string) ?? cs.id,
+          },
+          update: {
+            plan: isAnnual ? "ANNUAL" : "MONTHLY",
+            status: "ACTIVE",
+            currentPeriodStart: now,
+            currentPeriodEnd: periodEnd,
+            provider: "STRIPE",
+            providerRef: (cs.payment_intent as string) ?? cs.id,
+            cancelledAt: null,
+          },
+        });
+      }
     }
 
     if (user?.email) {
-      const product = await db.product.findUnique({ where: { id: order.items[0]?.productId } });
+      const product = order.items[0]?.product;
       if (product) {
         await sendPurchaseConfirmation({
           to: user.email,
