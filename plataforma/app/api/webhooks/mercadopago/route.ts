@@ -10,7 +10,7 @@ const client = new MercadoPagoConfig({
 
 function verifyMpSignature(req: NextRequest, paymentId: string): boolean {
   const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
-  if (!secret) return true;
+  if (!secret) return false;
 
   const xSignature = req.headers.get("x-signature");
   const xRequestId = req.headers.get("x-request-id");

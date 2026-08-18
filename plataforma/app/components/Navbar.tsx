@@ -46,67 +46,61 @@ export default function Navbar() {
     const btnBase = mobile
       ? "inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-lg transition-all"
       : "inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all";
+    const btnOutline = `${btnBase} text-white border border-white/30 hover:border-white hover:bg-white/10`;
+    const btnPrimary = `${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`;
+    const iconBtn = "inline-flex items-center justify-center w-9 h-9 rounded-lg text-white border border-white/30 hover:border-white hover:bg-white/10 transition-all";
 
     if (authLoading) return null;
 
+    // Não cadastrado / não logado
     if (!session) {
       return (
         <>
-          <Link
-            href="/login"
-            onClick={() => setOpen(false)}
-            className={`${btnBase} text-white border border-white/30 hover:border-white hover:bg-white/10`}
-          >
-            Entrar
+          <Link href="/assinatura" onClick={() => setOpen(false)} className={btnPrimary}>
+            Ver planos
           </Link>
-          <Link
-            href="/registro"
-            onClick={() => setOpen(false)}
-            className={`${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`}
-          >
-            Começar agora
+          <Link href="/login" onClick={() => setOpen(false)} className={btnOutline}>
+            Entrar
           </Link>
         </>
       );
     }
 
+    // Assinante ativo
     if (hasActive) {
       return (
-        <Link
-          href="/dashboard"
-          onClick={() => setOpen(false)}
-          className={`${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`}
-        >
-          Minha Área
-        </Link>
+        <>
+          <Link href="/dashboard" onClick={() => setOpen(false)} className={btnPrimary}>
+            Minha Área
+          </Link>
+          {!mobile && (
+            <Link href="/dashboard/perfil" onClick={() => setOpen(false)} title="Meu perfil" className={iconBtn}>
+              <PersonIcon />
+            </Link>
+          )}
+          {mobile && (
+            <Link href="/dashboard/perfil" onClick={() => setOpen(false)} className={btnOutline}>
+              Meu perfil
+            </Link>
+          )}
+        </>
       );
     }
 
     // Logado sem assinatura ativa
     return (
       <>
-        <Link
-          href="/assinatura"
-          onClick={() => setOpen(false)}
-          className={`${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`}
-        >
-          Assine agora
+        <Link href="/assinatura" onClick={() => setOpen(false)} className={btnPrimary}>
+          Ver planos
         </Link>
-        <Link
-          href="/dashboard"
-          onClick={() => setOpen(false)}
-          title="Minha conta"
-          className={`${mobile ? "hidden" : "inline-flex"} items-center justify-center w-9 h-9 rounded-lg text-white border border-white/30 hover:border-white hover:bg-white/10 transition-all`}
-        >
-          <PersonIcon />
-        </Link>
+        {!mobile && (
+          <Link href="/dashboard/perfil" onClick={() => setOpen(false)} title="Meu perfil" className={iconBtn}>
+            <PersonIcon />
+          </Link>
+        )}
         {mobile && (
-          <Link
-            href="/dashboard"
-            onClick={() => setOpen(false)}
-            className={`${btnBase} text-white border border-white/30 hover:border-white hover:bg-white/10`}
-          >
-            Minha conta
+          <Link href="/dashboard/perfil" onClick={() => setOpen(false)} className={btnOutline}>
+            Meu perfil
           </Link>
         )}
       </>

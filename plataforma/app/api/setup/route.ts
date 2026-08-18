@@ -3,16 +3,19 @@ import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 
 export async function GET() {
-  try {
-    const admin = await db.user.findFirst({ where: { role: "ADMIN" } });
-    const tester = await db.user.findFirst({ where: { role: "TESTER" } });
-    return NextResponse.json({ adminExists: !!admin, testerExists: !!tester });
-  } catch {
-    return NextResponse.json({ adminExists: false, testerExists: false });
-  }
+  return NextResponse.json({ ok: true });
 }
 
 export async function POST(req: NextRequest) {
+  const setupSecret = process.env.SETUP_SECRET;
+  if (!setupSecret) {
+    return NextResponse.json({ error: "Setup desabilitado." }, { status: 403 });
+  }
+  const authHeader = req.headers.get("x-setup-secret");
+  if (authHeader !== setupSecret) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
+
   try {
     const { type, email, password, name } = await req.json();
 
