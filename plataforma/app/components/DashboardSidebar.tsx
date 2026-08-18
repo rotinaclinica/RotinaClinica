@@ -67,9 +67,9 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
   return (
     <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#080e1a] flex-shrink-0">
       {/* Logo + toggle */}
-      <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
-        <Link href="/"><Logo variant="light" /></Link>
-        <ThemeToggle className="w-8 h-8 flex items-center justify-center rounded-lg text-[#9ec4de] hover:text-white hover:bg-white/10 transition-colors" />
+      <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between gap-2">
+        <Link href="/" className="flex-shrink-0 min-w-0"><Logo variant="light" /></Link>
+        <ThemeToggle className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-[#9ec4de] hover:text-white hover:bg-white/10 transition-colors" />
       </div>
 
       {/* User */}
@@ -124,6 +124,15 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
             <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           Meu perfil
+        </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#5a8caa] hover:text-white hover:bg-white/8 text-sm font-medium transition-all"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Voltar ao site
         </Link>
         <Link
           href="/api/auth/signout"

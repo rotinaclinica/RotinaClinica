@@ -175,7 +175,6 @@ export default function CheckoutButton({
       )}
 
       <div className="space-y-2">
-        {/* Stripe — cartão de crédito/débito */}
         <button
           onClick={() => pay("stripe")}
           disabled={!!loading}
@@ -191,23 +190,6 @@ export default function CheckoutButton({
           )}
           {loading === "stripe" ? "Redirecionando…" : "Cartão de crédito"}
         </button>
-
-        {/* Mercado Pago */}
-        <button
-          onClick={() => pay("mp")}
-          disabled={!!loading}
-          className="w-full bg-[#009ee3] hover:bg-[#0088cc] disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 text-sm"
-        >
-          {loading === "mp" ? (
-            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M11.517 2.004C6.32 2.004 2 5.92 2 10.756c0 3.254 1.888 6.115 4.76 7.76-.127.46-.813 2.958-.845 3.157 0 0-.018.147.08.203.097.057.209.012.209.012.275-.037 3.185-2.067 3.626-2.36.524.072 1.062.11 1.609.11 5.196 0 9.515-3.917 9.515-8.753 0-4.835-4.319-8.881-9.437-8.881z"/>
-            </svg>
-          )}
-          {loading === "mp" ? "Redirecionando…" : "Mercado Pago"}
-        </button>
-
         {error && <p className="text-red-500 text-xs text-center">{error}</p>}
       </div>
     </>
