@@ -56,7 +56,8 @@ export async function createMpPreference({
         ...(customerCpf && { identification: { type: "CPF", number: customerCpf } }),
         ...(phoneObj && { phone: phoneObj }),
       },
-      additional_info: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      additional_info: JSON.stringify({
         items: [
           {
             id: orderId,
@@ -73,7 +74,7 @@ export async function createMpPreference({
             registration_date: customerCreatedAt.toISOString(),
           }),
         },
-      },
+      }) as any,
       payment_methods: {
         excluded_payment_types: [{ id: "ticket" }],
         excluded_payment_methods: [],
