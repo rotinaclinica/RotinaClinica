@@ -108,6 +108,19 @@ function LoginForm() {
       {/* Formulário */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
+          {/* Voltar ao site */}
+          <div className="mb-6">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-[#1a6aad] transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+              Voltar ao site
+            </Link>
+          </div>
+
           <div className="mb-8 lg:hidden">
             <Link href="/"><Logo variant="dark" /></Link>
           </div>

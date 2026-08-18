@@ -155,30 +155,32 @@ function RegistroForm() {
     <div className="min-h-screen flex bg-[#f0f7ff]">
       {/* Painel esquerdo */}
       <div className="hidden lg:flex flex-col justify-between w-96 bg-[#0f2d4a] p-10">
-        <Link href="/"><Logo variant="light" /></Link>
+        <div className="space-y-8">
+          <Link href="/"><Logo variant="light" /></Link>
 
-        <div className="space-y-4">
-          {plan && (
-            <div className={`${plan.color} rounded-2xl px-5 py-4 mb-6`}>
-              <p className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">{plan.label}</p>
-              <p className="font-extrabold text-lg leading-tight">{plan.price}</p>
-            </div>
-          )}
-          {[
-            "+200 prescrições prontas para usar",
-            "Casos clínicos semanais com especialistas",
-            "Cursos e videoaulas em qualquer dispositivo",
-            "Ebooks e materiais de apoio incluídos",
-          ].map((text) => (
-            <div key={text} className="flex items-start gap-3">
-              <div className="w-5 h-5 rounded-full bg-[#3db8d4] flex items-center justify-center flex-shrink-0 mt-0.5">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6l3 3 5-5" stroke="#0f2d4a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+          <div className="space-y-4">
+            {plan && (
+              <div className={`${plan.color} rounded-2xl px-5 py-4 mb-6`}>
+                <p className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">{plan.label}</p>
+                <p className="font-extrabold text-lg leading-tight">{plan.price}</p>
               </div>
-              <p className="text-[#9ec4de] text-sm leading-relaxed">{text}</p>
-            </div>
-          ))}
+            )}
+            {[
+              "+200 prescrições prontas para usar",
+              "Casos clínicos semanais com especialistas",
+              "Cursos e videoaulas em qualquer dispositivo",
+              "Ebooks e materiais de apoio incluídos",
+            ].map((text) => (
+              <div key={text} className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-[#3db8d4] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="#0f2d4a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <p className="text-[#9ec4de] text-sm leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <p className="text-[#5a8caa] text-xs">© {new Date().getFullYear()} Rotina Clínica</p>
