@@ -61,6 +61,43 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* O que você recebe */}
+      <section className="py-16 px-6 bg-[#f0f7ff] dark:bg-[#0a1628]">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Tudo em um só lugar</span>
+            <h2 className="text-3xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mt-2">O que está incluído na assinatura</h2>
+            <p className="text-zinc-500 dark:text-[#6a8fa5] mt-2 text-base">Acesso completo a todos os recursos por menos de R&nbsp;34 por mês.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { emoji: "📋", titulo: "Condutas Clínicas", desc: "Prescrições e condutas prontas para PS, UPA, UBS, ambulatório, emergência e internação." },
+              { emoji: "🧮", titulo: "Calculadoras Clínicas", desc: "Calculadoras e Escores validados para sua prática clínica." },
+              { emoji: "🩺", titulo: "Casos Clínicos", desc: "Casos clínicos em vídeos e séries visuais com raciocínio e condutas detalhadas para você." },
+              { emoji: "📝", titulo: "Modelos de Evolução", desc: "Modelos prontos para agilizar seu atendimento." },
+              { emoji: "📄", titulo: "Ebooks e Aulas", desc: "Conteúdo prático em PDF, disponível para download e leitura a qualquer hora." },
+              { emoji: "🎓", titulo: "Cursos e Aulas Online", desc: "Destravando o Plantão, conteúdos da parceira Docstage e muito mais..." },
+              { emoji: "✅", titulo: "Compromisso com a Qualidade", desc: "Conteúdo produzido por especialistas em clínica médica, baseado nas melhores evidências disponíveis, com atualizações e melhorias contínuas na plataforma." },
+              { emoji: "📱", titulo: "Acesso em qualquer lugar", desc: "Disponível no celular, tablet ou computador — acesse sua conta a qualquer hora, de onde estiver." },
+            ].map((item) => (
+              <div key={item.titulo} className="flex gap-4 bg-white dark:bg-[#101c30] rounded-2xl p-5 shadow-sm border border-zinc-100 dark:border-white/8">
+                <span className="text-2xl flex-shrink-0 mt-0.5">{item.emoji}</span>
+                <div>
+                  <p className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm">{item.titulo}</p>
+                  <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm mt-0.5 leading-snug">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <a href="/assinatura" className="inline-flex items-center gap-2 bg-[#1a6aad] hover:bg-[#155d96] text-white font-bold px-8 py-3.5 rounded-xl transition-colors text-sm">
+              Ver planos e assinar
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Credenciais e diferenciais */}
       <section className="max-w-5xl mx-auto py-16 px-6">
         <div className="text-center mb-10">
