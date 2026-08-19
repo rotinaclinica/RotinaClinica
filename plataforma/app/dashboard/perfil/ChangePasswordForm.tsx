@@ -51,7 +51,7 @@ export default function ChangePasswordForm() {
         const set = [setCurrent, setNext, setConfirm][i];
         return (
           <div key={label}>
-            <label className="block text-sm font-semibold text-zinc-700 dark:text-[#8aacbc] mb-1.5">{label}</label>
+            <label className="block text-sm font-semibold text-zinc-700 dark:text-[#c8dce8] mb-1.5">{label}</label>
             <input
               type="password"
               value={val}
@@ -59,7 +59,7 @@ export default function ChangePasswordForm() {
               required
               minLength={i === 0 ? 1 : 8}
               placeholder="••••••••"
-              className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1a2d45] placeholder:text-zinc-400 dark:placeholder:text-[#3a5a70] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent"
+              className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1a2d45] placeholder:text-zinc-400 dark:placeholder:text-[#4a6a7e] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent"
             />
           </div>
         );
