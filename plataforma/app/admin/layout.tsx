@@ -18,11 +18,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <Link href="/admin/usuarios" className="text-sm hover:text-violet-400 transition-colors py-1">
           Usuários
         </Link>
+        <Link href="/admin/pedidos" className="text-sm hover:text-violet-400 transition-colors py-1">
+          Pedidos
+        </Link>
         <Link href="/admin/acessos" className="text-sm hover:text-violet-400 transition-colors py-1">
           Acessos
         </Link>
         <Link href="/admin/leads" className="text-sm hover:text-violet-400 transition-colors py-1">
           Leads
+        </Link>
+        <Link href="/admin/reembolsos" className="text-sm hover:text-violet-400 transition-colors py-1">
+          Reembolsos
         </Link>
         <div className="mt-auto flex flex-col gap-2">
           <Link href="/dashboard" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">

@@ -25,6 +25,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
   }
 
+  if (product.type === "SUBSCRIPTION") {
+    const isAnnual = product.slug === "assinatura-anual";
+    const targetPlan = isAnnual ? "ANNUAL" : "MONTHLY";
+    const existingSub = await db.subscription.findUnique({
+      where: { userId: session.user.id },
+      select: { status: true, plan: true },
+    });
+    if (existingSub?.status === "ACTIVE" && existingSub.plan === targetPlan) {
+      return NextResponse.json(
+        { error: "Você já possui esta assinatura ativa." },
+        { status: 409 }
+      );
+    }
+  }
+
   const order = await db.order.create({
     data: {
       userId: session.user.id,

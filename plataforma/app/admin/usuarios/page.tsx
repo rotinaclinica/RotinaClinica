@@ -21,13 +21,12 @@ export default async function AdminUsuariosPage() {
   const users = await db.user.findMany({
     orderBy: { createdAt: "desc" },
     select: {
-      id: true, name: true, email: true, createdAt: true, cpf: true, phone: true,
+      id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true,
       subscription: { select: { plan: true, status: true, currentPeriodStart: true, currentPeriodEnd: true } },
       orders: {
         where: { status: "PAID" },
-        orderBy: { paidAt: "asc" },
-        take: 1,
         select: { paidAt: true, totalCents: true, provider: true },
+        orderBy: { paidAt: "asc" },
       },
     },
   });
@@ -53,9 +52,11 @@ export default async function AdminUsuariosPage() {
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">CPF</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Celular</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Cadastro</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Último acesso</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Plano</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Status</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">1ª Compra</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Gasto total</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Vence em</th>
             </tr>
           </thead>
@@ -63,6 +64,7 @@ export default async function AdminUsuariosPage() {
             {users.map((u) => {
               const sub = u.subscription;
               const firstOrder = u.orders[0];
+              const gastoTotal = u.orders.reduce((sum, o) => sum + o.totalCents, 0);
               const status = sub ? STATUS_LABEL[sub.status] : null;
 
               return (
@@ -86,6 +88,13 @@ export default async function AdminUsuariosPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-zinc-500 text-xs">{fmt(u.createdAt)}</td>
+                  <td className="px-4 py-3 text-xs">
+                    {u.lastSeenAt ? (
+                      <span className="text-zinc-500">{fmt(u.lastSeenAt)}</span>
+                    ) : (
+                      <span className="text-zinc-300">—</span>
+                    )}
+                  </td>
                   <td className="px-4 py-3">
                     {sub ? (
                       <span className="text-zinc-700">{PLAN_LABEL[sub.plan] ?? sub.plan}</span>
@@ -106,6 +115,9 @@ export default async function AdminUsuariosPage() {
                     {firstOrder ? (
                       <span title={firstOrder.provider}>{fmt(firstOrder.paidAt)}</span>
                     ) : "—"}
+                  </td>
+                  <td className="px-4 py-3 text-xs font-semibold text-zinc-700">
+                    {gastoTotal > 0 ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(gastoTotal / 100) : <span className="text-zinc-300 font-normal">—</span>}
                   </td>
                   <td className="px-4 py-3 text-zinc-500 text-xs">
                     {sub ? fmt(sub.currentPeriodEnd) : "—"}

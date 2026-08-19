@@ -13,6 +13,15 @@ export default async function AdminLeadsPage() {
     db.lead.count(),
   ]);
 
+  const convertidos = await db.user.findMany({
+    where: {
+      email: { in: leads.map((l) => l.email) },
+      subscription: { status: "ACTIVE" },
+    },
+    select: { email: true },
+  });
+  const convertidosSet = new Set(convertidos.map((u) => u.email));
+
   const byProduct: Record<string, number> = {};
   for (const l of leads) {
     const title = l.product.title;
@@ -28,9 +37,14 @@ export default async function AdminLeadsPage() {
             Usuários cadastrados via produtos gratuitos
           </p>
         </div>
-        <span className="bg-violet-100 text-violet-700 text-sm font-bold px-3 py-1.5 rounded-lg">
-          {totalLeads} lead{totalLeads !== 1 ? "s" : ""}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="bg-emerald-100 text-emerald-700 text-sm font-bold px-3 py-1.5 rounded-lg">
+            {convertidosSet.size} convertido{convertidosSet.size !== 1 ? "s" : ""}
+          </span>
+          <span className="bg-violet-100 text-violet-700 text-sm font-bold px-3 py-1.5 rounded-lg">
+            {totalLeads} lead{totalLeads !== 1 ? "s" : ""}
+          </span>
+        </div>
       </div>
 
       {/* Resumo por produto */}
@@ -60,6 +74,7 @@ export default async function AdminLeadsPage() {
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 whitespace-nowrap">WhatsApp</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 whitespace-nowrap">Produto</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500 whitespace-nowrap">Data</th>
+                <th className="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
@@ -81,6 +96,11 @@ export default async function AdminLeadsPage() {
                   <td className="px-4 py-3 text-zinc-500 text-xs whitespace-nowrap">{l.product.title}</td>
                   <td className="px-4 py-3 text-zinc-400 text-xs whitespace-nowrap">
                     {new Date(l.createdAt).toLocaleDateString("pt-BR")}
+                  </td>
+                  <td className="px-4 py-3">
+                    {convertidosSet.has(l.email) && (
+                      <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Convertido</span>
+                    )}
                   </td>
                 </tr>
               ))}

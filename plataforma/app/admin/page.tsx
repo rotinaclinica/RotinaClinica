@@ -40,6 +40,10 @@ export default async function AdminPage() {
     revenueMp,
     revenueWeek,
     ordersTotal,
+    reembolsosAggregate,
+    cancelamentosRecentes,
+    ordersNaoConcluidos,
+    renovandoLista,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
@@ -59,6 +63,18 @@ export default async function AdminPage() {
     db.order.aggregate({ where: { status: "PAID", provider: "MERCADOPAGO" }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: last7 } }, _sum: { totalCents: true } }),
     db.order.count({ where: { status: "PAID" } }),
+    db.order.aggregate({ where: { status: "REFUNDED" }, _sum: { totalCents: true }, _count: true }),
+    db.subscription.findMany({
+      where: { status: "CANCELLED", cancelledAt: { gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) } },
+      orderBy: { cancelledAt: "desc" },
+      select: { plan: true, cancelledAt: true, user: { select: { name: true, email: true } } },
+    }),
+    db.order.count({ where: { status: { in: ["EXPIRED", "FAILED"] } } }),
+    db.subscription.findMany({
+      where: { status: "ACTIVE", currentPeriodEnd: { lte: next30 } },
+      orderBy: { currentPeriodEnd: "asc" },
+      select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true } } },
+    }),
   ]);
 
   // Queries that depend on the new schema (lastSeenAt / ActivityLog).
@@ -133,6 +149,99 @@ export default async function AdminPage() {
           <Tile label="Receita via Stripe"       value={brl(revenueStripe._sum.totalCents)} sub="gateway internacional" />
           <Tile label="Receita via Mercado Pago" value={brl(revenueMp._sum.totalCents)}    sub="gateway nacional" />
         </div>
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          <Tile label="Total reembolsado" value={brl(reembolsosAggregate._sum.totalCents)} color="red" sub={`${reembolsosAggregate._count} reembolso${reembolsosAggregate._count !== 1 ? "s" : ""}`} />
+          <Tile label="Ticket médio" value={ordersTotal ? brl(Math.round((revenueTotal._sum.totalCents ?? 0) / ordersTotal)) : "—"} sub="por pedido pago" />
+        </div>
+        <div className="grid grid-cols-2 gap-3 mt-3">
+          <Tile
+            label="Conversão de checkout"
+            value={pct(ordersTotal, ordersTotal + ordersNaoConcluidos)}
+            sub={`${ordersNaoConcluidos} checkout${ordersNaoConcluidos !== 1 ? "s" : ""} abandonado${ordersNaoConcluidos !== 1 ? "s" : ""}`}
+          />
+          <Tile
+            label="Taxa de reembolso"
+            value={pct(reembolsosAggregate._count, ordersTotal)}
+            color={reembolsosAggregate._count > 0 ? "red" : undefined}
+            sub={`${reembolsosAggregate._count} de ${ordersTotal} pedidos pagos`}
+          />
+        </div>
+      </section>
+
+      {/* ── Renovações Próximas ── */}
+      {renovandoLista.length > 0 && (
+        <section>
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">
+            Renovações próximas — próximos 30 dias
+          </h2>
+          <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-zinc-50 border-b border-zinc-200">
+                <tr>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Usuário</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Vence em</th>
+                </tr>
+              </thead>
+              <tbody>
+                {renovandoLista.map((s, i) => (
+                  <tr key={i} className="border-b border-zinc-50 last:border-0">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-zinc-800">{s.user.name ?? "—"}</p>
+                      <p className="text-xs text-zinc-400">{s.user.email}</p>
+                    </td>
+                    <td className="px-4 py-3 text-zinc-600 text-xs">
+                      {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
+                    </td>
+                    <td className="px-4 py-3 text-xs font-medium text-amber-600">
+                      {s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR") : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* ── Cancelamentos Recentes ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">
+          Cancelamentos recentes — últimos 30 dias
+        </h2>
+        {cancelamentosRecentes.length === 0 ? (
+          <div className="bg-white rounded-xl border border-zinc-200 p-5 text-sm text-zinc-400">
+            Nenhum cancelamento registrado nos últimos 30 dias.
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-zinc-50 border-b border-zinc-200">
+                <tr>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Usuário</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-500">Cancelado em</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cancelamentosRecentes.map((s, i) => (
+                  <tr key={i} className="border-b border-zinc-50 last:border-0">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-zinc-800">{s.user.name ?? "—"}</p>
+                      <p className="text-xs text-zinc-400">{s.user.email}</p>
+                    </td>
+                    <td className="px-4 py-3 text-zinc-600 text-xs">
+                      {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
+                    </td>
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
+                      {s.cancelledAt ? new Date(s.cancelledAt).toLocaleDateString("pt-BR") : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
     </div>

@@ -19,19 +19,27 @@ export default function ChangePasswordForm() {
     if (next.length < 8) { setError("Nova senha mínima de 8 caracteres."); return; }
 
     setLoading(true);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
     try {
       const res = await fetch("/api/user/change-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ currentPassword: current, newPassword: next }),
+        signal: controller.signal,
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) { setError(data.error ?? "Erro ao alterar senha."); return; }
       setSuccess(true);
       setCurrent(""); setNext(""); setConfirm("");
-    } catch {
-      setError("Erro de conexão. Tente novamente.");
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === "AbortError") {
+        setError("Tempo limite excedido. Tente novamente.");
+      } else {
+        setError("Erro de conexão. Tente novamente.");
+      }
     } finally {
+      clearTimeout(timeout);
       setLoading(false);
     }
   }
@@ -43,7 +51,7 @@ export default function ChangePasswordForm() {
         const set = [setCurrent, setNext, setConfirm][i];
         return (
           <div key={label}>
-            <label className="block text-sm font-semibold text-zinc-700 mb-1.5">{label}</label>
+            <label className="block text-sm font-semibold text-zinc-700 dark:text-[#8aacbc] mb-1.5">{label}</label>
             <input
               type="password"
               value={val}
@@ -51,7 +59,7 @@ export default function ChangePasswordForm() {
               required
               minLength={i === 0 ? 1 : 8}
               placeholder="••••••••"
-              className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+              className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1a2d45] placeholder:text-zinc-400 dark:placeholder:text-[#3a5a70] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent"
             />
           </div>
         );
