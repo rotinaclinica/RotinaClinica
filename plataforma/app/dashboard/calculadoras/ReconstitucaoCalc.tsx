@@ -42,7 +42,7 @@ function DiluicaoCard({ vol, conc, totalMg }: { vol: number; conc: number; total
 
   return (
     <div className={`rounded-xl border p-4 space-y-1 ${cor}`}>
-      <p className="text-xs font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide">{vol} mL SF 0,9%</p>
+      <p className="text-xs font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide">{vol} mL SF/SG</p>
       <p className="text-xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">{fmtConc(conc)}</p>
       <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e]">{fmt(totalMg)} em {vol} mL</p>
     </div>
@@ -169,7 +169,7 @@ export default function ReconstitucaoCalc() {
               </p>
             </div>
 
-            <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Diluir para SF 0,9%:</p>
+            <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Diluir para SF 0,9% ou SG 5%:</p>
 
             <button onClick={calcularDiluicao}
               className="w-full py-2.5 rounded-xl bg-[#1a6aad] hover:bg-[#155a95] text-white font-bold text-sm transition-colors">

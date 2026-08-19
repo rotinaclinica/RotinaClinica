@@ -32,8 +32,8 @@ The dev server is also launchable via the Browser pane using the `plataforma-dev
 The prescriptions feature is a two-file system at `app/dashboard/prescricoes/`:
 
 **Data layer:**
-- `lib/prescricoes-meta.ts` — static array of 114 `PrescricaoMeta` objects (id, titulo, categoria, tags), plus `emergenciaIds` Set. Imported at build time, not fetched.
-- `lib/prescricoes-content.json` — object with keys `"1"`–`"114"`, each a multiline string of raw clinical text. Served by `app/api/prescricoes/[id]/route.ts` (reads file at runtime with `readFileSync`).
+- `lib/prescricoes-meta.ts` — static array of 224 `PrescricaoMeta` objects (id, titulo, categoria, tags), plus `emergenciaIds` Set. Imported at build time, not fetched.
+- `lib/prescricoes-content.json` — object with string keys for each topic, each a multiline string of raw clinical text. Served by `app/api/prescricoes/[id]/route.ts` (reads file at runtime with `readFileSync`).
 
 **Rendering pipeline:**
 `PrescricaoContent.tsx` (`app/dashboard/prescricoes/PrescricaoContent.tsx`) contains the entire pipeline — classifiers, parser, and renderer — in a single file:
