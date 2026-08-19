@@ -47,7 +47,7 @@ const CALCULADORAS = [
   {
     slug: "prevent",
     nome: "PREVENT — AHA 2023",
-    descricao: "Risco cardiovascular total em 10 anos (30–79 anos, sem DCV conhecida)",
+    descricao: "Risco cardiovascular total em 10 anos",
     especialidade: "Cardiologia",
     iconBg: "bg-[#0a1628]",
     icon: <HeartIcon />,
