@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Dark mode via .dark class on <html> */
-@variant dark (&:is(.dark *));
+/* Dark mode via .dark class on <html>, except inside [data-theme="light"] islands */
+@variant dark (&:is(.dark *):not(:is([data-theme="light"] *)));
 
 :root {
   --background: #ffffff;

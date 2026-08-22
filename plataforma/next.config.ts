@@ -13,7 +13,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://sdk.mercadopago.com",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://*.mux.com https://image.mux.com",
+      "img-src 'self' data: blob: https://*.mux.com https://image.mux.com https://img.youtube.com",
       "media-src 'self' https://*.mux.com blob:",
       "frame-src https://js.stripe.com https://hooks.stripe.com https://www.youtube.com https://image.mux.com",
       "connect-src 'self' https://api.stripe.com https://api.mercadopago.com https://api.mux.com https://ingest.mux.com wss://stream.mux.com",

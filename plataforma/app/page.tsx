@@ -50,13 +50,21 @@ export default async function HomePage() {
                 </li>
               ))}
             </ul>
-            <Link
-              href="/assinatura"
-              className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
-            >
-              Seja nosso aluno
-              <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/assinatura"
+                className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
+              >
+                Começar agora
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </Link>
+              <Link
+                href="/tour"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/40 text-white font-bold px-8 py-4 rounded-xl transition-all text-lg"
+              >
+                Conhecer a plataforma
+              </Link>
+            </div>
           </div>
         </div>
       </section>

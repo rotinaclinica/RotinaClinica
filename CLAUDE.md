@@ -81,13 +81,9 @@ $enc = New-Object System.Text.UTF8Encoding $false
 
 Using `Set-Content` or `Out-File` without `-Encoding` defaults to UTF-8 with BOM, which breaks the JSON parser.
 
-## Active constraint
-
-**Nothing goes to Vercel or git remote** until the full visual review of all 114 topics is complete. All work is local (localhost:3000) only.
-
 ## Review progress
 
-Topics reviewed and approved: **1–26**. Next: **Topic 27**.
+Todos os temas de prescrição revisados e aprovados (concluído em 2026-08-22). Deploy liberado.
 
 IDs 115–147 created: individual antibiotic topics (categoria "Temas PS/UPA"), one per drug, routes separated by section headers within each topic.
 

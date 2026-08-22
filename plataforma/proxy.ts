@@ -22,6 +22,10 @@ export default auth((req: NextAuthRequest) => {
   if ((pathname === "/login" || pathname === "/registro") && isLoggedIn) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
+
+  const response = NextResponse.next();
+  response.headers.set("x-pathname", pathname);
+  return response;
 });
 
 export const config = {

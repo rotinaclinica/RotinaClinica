@@ -306,7 +306,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                         return acc;
                       }, [])
                       .map((ins, k) => (
-                        <p key={k} className="text-[13px] text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(ins)}</p>
+                        <p key={k} className="text-[13px] text-[#0f2d4a] dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(ins)}</p>
                       ))}
                   </div>
                 )}
@@ -366,7 +366,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               return (
                 <div key={i} className="flex gap-2 items-start">
                   <span className="text-[#1a6aad] dark:text-[#3db8d4] font-bold text-sm mt-0.5 flex-shrink-0">→</span>
-                  <p className="text-sm text-zinc-600 dark:text-[#9ec4de] leading-relaxed">{renderInline(b.text.slice(2))}</p>
+                  <p className="text-sm text-[#0f2d4a] dark:text-[#9ec4de] leading-relaxed">{renderInline(b.text.slice(2))}</p>
                 </div>
               );
             }
