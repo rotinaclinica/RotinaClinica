@@ -51,6 +51,8 @@ const SEQUENCIAS = [
 const VIDEOS = [
   { id: "5t4vXXZICXg", titulo: "Pneumonia adquirida na comunidade (PAC)" },
   { id: "CmWVOHlO2Ww", titulo: "Hipotireoidismo" },
+  { id: "HYdR18O_QF8", titulo: "Uso de insulina" },
+  { id: "QMDZdkN_uyw", titulo: "Nódulo tireoidiano" },
 ];
 
 export default function CasosContent() {

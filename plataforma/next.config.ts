@@ -11,7 +11,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://sdk.mercadopago.com",
+      "script-src 'self' 'unsafe-inline' https://js.stripe.com https://sdk.mercadopago.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://*.mux.com https://image.mux.com https://img.youtube.com",
       "media-src 'self' https://*.mux.com blob:",

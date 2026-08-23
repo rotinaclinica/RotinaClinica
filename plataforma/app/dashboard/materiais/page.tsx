@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import MateriaisTabs from "./MateriaisTabs";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Ebooks e Materiais · Rotina Clínica" };
+export const metadata = { title: "Materiais, Ebooks e Aulas · Rotina Clínica" };
 
 export default async function MateriaisPage() {
   const session = await auth();
@@ -22,7 +22,7 @@ export default async function MateriaisPage() {
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">
-          Ebooks e Materiais
+          Materiais, Ebooks e Aulas
         </h1>
         <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">
           PDFs exclusivos para assinantes — baixe e consulte offline.

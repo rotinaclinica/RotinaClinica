@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { Logo } from "@/app/components/Navbar";
+import CopyEmailButton from "@/app/components/CopyEmailButton";
 import Navbar from "@/app/components/Navbar";
 
 export default async function HomePage() {
@@ -290,12 +291,23 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Contato */}
+      <section className="py-16 bg-[#f0f6fb]">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-3">Dúvidas? Fale conosco</h2>
+          <p className="text-[#4a6fa5] mb-6">Nossa equipe está disponível para ajudar com suporte, dúvidas sobre a plataforma ou qualquer outra questão.</p>
+          <CopyEmailButton email="contato@rotinaclinica.com" />
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-[#0f2d4a] text-white mt-16">
+      <footer className="bg-[#0f2d4a] text-white">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <Logo variant="light" />
-            <div className="flex gap-6 text-sm text-[#9ec4de]">
+            <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-[#9ec4de]">
+              <a href="mailto:contato@rotinaclinica.com" className="hover:text-white transition-colors">contato@rotinaclinica.com</a>
+              <span className="hidden md:inline text-white/20">|</span>
               <Link href="/termos" className="hover:text-white transition-colors">Termos de Uso</Link>
               <Link href="/privacidade" className="hover:text-white transition-colors">Privacidade</Link>
             </div>

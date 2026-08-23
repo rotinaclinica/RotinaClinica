@@ -63,7 +63,7 @@ export async function GET(
       y: 10,
       size: fontSize,
       font,
-      color: rgb(1, 1, 1),
+      color: rgb(0.65, 0.65, 0.65),
       opacity: 0.85,
     });
   }

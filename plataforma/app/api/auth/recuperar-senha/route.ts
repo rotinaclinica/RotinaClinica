@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHmac, randomBytes } from "crypto";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "");
 const FROM = process.env.EMAIL_FROM ?? "noreply@rotinaclinica.com";
 const SECRET = process.env.AUTH_SECRET ?? "fallback-secret";
-const BASE_URL = process.env.NEXTAUTH_URL ?? "https://rotina-clinica.vercel.app";
+const BASE_URL = process.env.NEXTAUTH_URL ?? "https://www.rotinaclinica.com";
 const TTL = 60 * 60; // 1 hora em segundos
 
 function makeToken(email: string, exp: number): string {
@@ -14,6 +15,11 @@ function makeToken(email: string, exp: number): string {
 }
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit("recuperar-senha", ip, 3, 15 * 60 * 1000)) {
+    return NextResponse.json({ error: "Muitas tentativas. Tente novamente em alguns minutos." }, { status: 429 });
+  }
+
   const { email } = await req.json();
   if (!email || typeof email !== "string") {
     return NextResponse.json({ error: "E-mail inválido." }, { status: 400 });
@@ -28,6 +34,15 @@ export async function POST(req: NextRequest) {
 
   const exp = Math.floor(Date.now() / 1000) + TTL;
   const token = makeToken(email.toLowerCase(), exp);
+
+  await db.passwordResetToken.create({
+    data: {
+      email: email.toLowerCase(),
+      token,
+      expiresAt: new Date(exp * 1000),
+    },
+  });
+
   const link = `${BASE_URL}/redefinir-senha?email=${encodeURIComponent(email.toLowerCase())}&exp=${exp}&token=${token}`;
 
   await resend.emails.send({

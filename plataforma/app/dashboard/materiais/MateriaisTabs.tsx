@@ -2,6 +2,26 @@
 
 import { useState } from "react";
 import DownloadButton from "./DownloadButton";
+const AULAS_MATERIAIS = [
+  {
+    id: "constipacao-intestinal",
+    titulo: "Abordagem da Constipação Intestinal",
+    descricao: "Material de apoio com abordagem prática e baseada em evidências para o manejo da constipação intestinal.",
+    tamanho: "2,3 MB",
+  },
+  {
+    id: "nauseas-vomitos",
+    titulo: "Abordagem de Náuseas e Vômitos",
+    descricao: "Material de apoio com abordagem sistematizada para avaliar e tratar náuseas e vômitos no plantão.",
+    tamanho: "2,9 MB",
+  },
+  {
+    id: "dor-analgesia",
+    titulo: "Dor e Analgesia",
+    descricao: "Material de apoio com estratégias práticas de avaliação e manejo da dor no paciente adulto.",
+    tamanho: "3,0 MB",
+  },
+];
 
 const EBOOKS = [
   {
@@ -111,17 +131,58 @@ export default function MateriaisTabs({ email }: { email: string }) {
       )}
 
       {tab === "aulas" && (
-        <div className="flex flex-col items-center justify-center py-20 text-center max-w-sm mx-auto">
-          <div className="w-16 h-16 bg-zinc-100 dark:bg-[#1a2535] rounded-2xl flex items-center justify-center mb-4">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="23 7 16 12 23 17 23 7" />
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-            </svg>
-          </div>
-          <p className="font-bold text-zinc-500 dark:text-[#7d96ad] mb-1">Em breve</p>
-          <p className="text-sm text-zinc-400 dark:text-[#5a7a8e]">
-            As videoaulas estarão disponíveis aqui em breve.
-          </p>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl">
+          {AULAS_MATERIAIS.map((mat) => (
+            <div
+              key={mat.id}
+              className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col"
+            >
+              {/* Ícone */}
+              <div className="h-40 bg-[#0a1220] flex items-center justify-center rounded-t-2xl">
+                <div className="w-16 h-16 bg-[#1a2d45] rounded-2xl flex items-center justify-center">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="p-5 flex flex-col flex-1 gap-3">
+                <div>
+                  <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
+                    {mat.titulo}
+                  </h2>
+                  <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] leading-relaxed">
+                    {mat.descricao}
+                  </p>
+                </div>
+
+                <div className="flex gap-3 text-[11px] text-zinc-400 dark:text-[#5a7a8e]">
+                  <span>{mat.tamanho}</span>
+                  <span>·</span>
+                  <span>PDF</span>
+                </div>
+
+                <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
+                  <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  <p className="text-[11px] text-[#1a6aad] dark:text-[#3db8d4] leading-relaxed">
+                    O arquivo será vinculado ao seu e-mail{email ? ` (${email})` : ""} em cada página.
+                  </p>
+                </div>
+
+                <DownloadButton
+                  ebookId={mat.id}
+                  filename={`${mat.titulo}.pdf`}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </>

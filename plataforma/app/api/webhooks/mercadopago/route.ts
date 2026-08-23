@@ -29,14 +29,13 @@ function verifyMpSignature(req: NextRequest, paymentId: string): boolean {
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  if (body.type !== "payment") return NextResponse.json({ ok: true });
-
-  const paymentId = String(body.data?.id);
-  if (!paymentId) return NextResponse.json({ ok: true });
-
+  const paymentId = String(body.data?.id ?? "");
   if (!verifyMpSignature(req, paymentId)) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
+
+  if (body.type !== "payment") return NextResponse.json({ ok: true });
+  if (!paymentId) return NextResponse.json({ ok: true });
 
   const eventKey = `mp_payment_${paymentId}`;
   const existing = await db.webhookEvent.findUnique({ where: { externalId: eventKey } });

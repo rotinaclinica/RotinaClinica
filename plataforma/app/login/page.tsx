@@ -19,10 +19,10 @@ function EyeIcon({ open }: { open: boolean }) {
 }
 
 const memberBenefits = [
-  "+200 prescrições prontas para usar",
-  "Casos clínicos semanais com especialistas",
-  "Cursos e videoaulas em qualquer dispositivo",
-  "Ebooks e materiais de apoio incluídos",
+  "+200 prescrições e condutas clínicas",
+  "Casos clínicos com raciocínio diagnóstico",
+  "Calculadoras clínicas, cursos e videoaulas",
+  "Ebooks e modelos de evolução incluídos",
 ];
 
 function LoginForm() {
@@ -81,7 +81,7 @@ function LoginForm() {
 
           <div>
             <p className="text-white font-extrabold text-lg leading-snug mb-1">
-              Bem-vindo de volta.
+              Bem-vindo(a) de volta.
             </p>
             <p className="text-[#9ec4de] text-sm leading-relaxed">
               Você tem acesso completo à plataforma. Entre para continuar de onde parou.

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, bibliografiaIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, bibliografiaIds, intubacaoIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
 // ── Content loader hook ───────────────────────────────────────────────────────
@@ -41,6 +41,11 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
               {emerg && (
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
                   Emergência
+                </span>
+              )}
+              {intubacaoIds.has(item.id) && (
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#ecfeff] dark:bg-cyan-900/30 text-[#0e7490] dark:text-cyan-400">
+                  Intubação
                 </span>
               )}
               {evid && (
@@ -96,7 +101,7 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
-const FILTROS = ["Todos", "Emergência", "Guias práticos", "PS/UPA", "UBS/Atenção primária", "Medicamento", "Referências"] as const;
+const FILTROS = ["Todos", "Emergência", "Intubação", "Guias práticos", "PS/UPA", "UBS/Atenção primária", "Medicamento", "Referências"] as const;
 type Filtro = typeof FILTROS[number];
 
 export default function PrescricoesPage() {
@@ -110,6 +115,7 @@ export default function PrescricoesPage() {
       const matchFiltro =
         filtro === "Todos" ||
         (filtro === "Emergência" && emergenciaIds.has(p.id)) ||
+        (filtro === "Intubação" && intubacaoIds.has(p.id)) ||
         (filtro === "Guias práticos" && evidenciaIds.has(p.id)) ||
         (filtro === "PS/UPA" && p.categoria.includes("PS/UPA")) ||
         (filtro === "UBS/Atenção primária" && ubsIds.has(p.id)) ||
@@ -179,7 +185,9 @@ export default function PrescricoesPage() {
                         ? "bg-[#3b6d11] text-white"
                         : f === "Referências"
                           ? "bg-[#86198f] text-white"
-                          : "bg-[#0f2d4a] dark:bg-[#1a6aad] text-white"
+                          : f === "Intubação"
+                            ? "bg-[#0e7490] text-white"
+                            : "bg-[#0f2d4a] dark:bg-[#1a6aad] text-white"
                     : "bg-zinc-100 dark:bg-white/8 text-zinc-600 dark:text-[#7d96ad] hover:bg-zinc-200 dark:hover:bg-white/12"
                 }`}>
                 {f}
@@ -215,6 +223,11 @@ export default function PrescricoesPage() {
                         {emergenciaIds.has(p.id) && (
                           <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
                             Emergência
+                          </span>
+                        )}
+                        {intubacaoIds.has(p.id) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#ecfeff] dark:bg-cyan-900/30 text-[#0e7490] dark:text-cyan-400">
+                            Intubação
                           </span>
                         )}
                         {evidenciaIds.has(p.id) && (

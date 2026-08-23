@@ -5,7 +5,7 @@ import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
 import fs from "fs";
 import path from "path";
 
-const EBOOKS: Record<string, { file: string; name: string }> = {
+const EBOOKS: Record<string, { file: string; name: string; folder?: string }> = {
   "guia-prescricoes": {
     file: "Guia de prescrições Rotina Clínica (1).pdf",
     name: "Guia de Prescrições — Rotina Clínica",
@@ -13,6 +13,21 @@ const EBOOKS: Record<string, { file: string; name: string }> = {
   "guia-intubacao": {
     file: "Guia de intubação orotraqueal, sedação e ventilação mecânica.pdf",
     name: "Guia de Intubação, Sedação e VM — Rotina Clínica",
+  },
+  "constipacao-intestinal": {
+    file: "Abordagem da Constipação Intestinal.pdf",
+    name: "Abordagem da Constipação Intestinal — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "nauseas-vomitos": {
+    file: "Abordagem de Náuseas e Vômitos.pdf",
+    name: "Abordagem de Náuseas e Vômitos — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "dor-analgesia": {
+    file: "Dor e Analgesia.pdf",
+    name: "Dor e Analgesia — Rotina Clínica",
+    folder: "aulasconteudooffline",
   },
 };
 
@@ -25,11 +40,16 @@ export async function GET(
     return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
   }
 
-  const subscription = await db.subscription.findUnique({
-    where: { userId: session.user.id },
-  });
-  if (!subscription || subscription.status !== "ACTIVE") {
-    return NextResponse.json({ error: "Assinatura inativa" }, { status: 403 });
+  const user = await db.user.findUnique({ where: { id: session.user.id } });
+  const isPrivileged = user?.role === "ADMIN" || user?.role === "TESTER";
+
+  if (!isPrivileged) {
+    const subscription = await db.subscription.findUnique({
+      where: { userId: session.user.id },
+    });
+    if (!subscription || subscription.status !== "ACTIVE") {
+      return NextResponse.json({ error: "Assinatura inativa" }, { status: 403 });
+    }
   }
 
   const { id } = await params;
@@ -38,7 +58,7 @@ export async function GET(
     return NextResponse.json({ error: "Ebook não encontrado" }, { status: 404 });
   }
 
-  const filePath = path.join(process.cwd(), "public", "ebook", ebook.file);
+  const filePath = path.join(process.cwd(), "public", ebook.folder ?? "ebook", ebook.file);
   if (!fs.existsSync(filePath)) {
     return NextResponse.json({ error: "Arquivo não disponível" }, { status: 500 });
   }
@@ -61,7 +81,7 @@ export async function GET(
       y: 10,
       size: fontSize,
       font,
-      color: rgb(1, 1, 1),
+      color: rgb(0.65, 0.65, 0.65),
       opacity: 0.85,
     });
   }

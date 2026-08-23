@@ -3,7 +3,7 @@
 // ── Classifiers ──────────────────────────────────────────────────────────────
 
 const RX_DOSE = /\d[\d.,]*\s?(mg|mcg|µg|ml|ml\b|g\b|kg|ui|mmol|meq|%)/i;
-const RX_FORM = /\b(F\/A|ampola|comprimido|c[áa]psula|frasco|sach[êe]|supositório|pomada|colírio|creme|gel|spray|inalador|bolsa|solução|suspensão|xarope|gotas?|dr[áa]gea|adesivo|óvulo)\b/i;
+const RX_FORM = /\b(F\/A|ampola|comprimido|c[áa]psula|frasco|sach[êe]|supositório|pomada|colírio|creme|gel|spray|inalador|bolsa|solução|suspensão|xarope|gotas?|dr[áa]gea|adesivo|óvulo|lo[çc][ãa]o)\b/i;
 
 // Lines that start with these patterns are NOT drugs even if they have a dose
 const NOT_DRUG = /^(Calcular|Calcule|Exemplo|Verificar|Observar|Atentar|Considerar|Avaliar|Reavaliar|Total |Volume |Doses? |Se |Em caso|Na ausência|Para |Diante|Caso |Quando |Conforme|Portanto|Assim |Logo |Pois |Além |Nota |Obs |O2 >|SpO2|Sat\.|SF |SG |RL |NaCl|KCl|Na\s*[<>]|K\s*[<>]|Mg\s*[<>]|pH\s*[<>]|[<>]\s*\d|\d+\s*(mL|ml)\s+de\s|\d[\d.,]*\s*%|Solução final|Sugestão|BIC\b|UpToDate\b|O livro\b|A literatura\b|A bula\b)/i;
@@ -343,7 +343,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               );
             }
             return (
-              <div key={i} className={`border-l-[3px] ${isPrincipios ? "border-[#0f2d4a] dark:border-[#3db8d4]/60 bg-[#eaf0f8] dark:bg-[#1a2d45]" : "border-[#3db8d4] bg-[#f8fbfd] dark:bg-[#0e1f2d]"} rounded-r-lg pl-3.5 pr-3 py-2.5`}>
+              <div key={i} className={`border-l-[3px] ${isPrincipios ? "border-[#0f2d4a] dark:border-[#3db8d4]/60 bg-[#eaf0f8] dark:bg-[#1a2d45]" : "border-[#3db8d4] bg-[#f8fbfd] dark:bg-[#0e1f2d]"} rounded-r-lg pl-3.5 pr-3 py-2.5 mt-8`}>
                 <p className={`text-[10px] font-bold ${isPrincipios ? "text-[#0f2d4a] dark:text-[#3db8d4]" : "text-[#1a6aad] dark:text-[#3db8d4]"} uppercase tracking-wider mb-1`}>{isPrincipios ? "Princípios gerais" : "Detalhe"}</p>
                 <div className="space-y-1">
                   {b.body.map((p, k) => (
