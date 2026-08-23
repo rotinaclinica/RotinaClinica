@@ -7,6 +7,7 @@ import { evolucoesMeta } from "@/lib/evolucoes-meta";
 import TourPrescricaoModal from "./TourPrescricaoModal";
 import TourEvolucaoModal from "./TourEvolucaoModal";
 import TourCasosMockup from "./TourCasosMockup";
+import TourMateriaisMockup from "./TourMateriaisMockup";
 
 function getPrescricaoContent(id: string): string {
   const filePath = join(process.cwd(), "lib", "prescricoes-content.json");
@@ -406,11 +407,11 @@ export default function TourPage() {
         </div>
       </section>
 
-      {/* Seção 4 — Ebooks e Materiais */}
+      {/* Seção 4 — Materiais, Ebooks e Aulas */}
       <section className="py-20 px-6 bg-[#f0f7ff]">
         <div className="max-w-6xl mx-auto">
           <div className="mb-10">
-            <span className="text-[#1a6aad] text-xs font-bold tracking-widest uppercase">Ebooks e Materiais</span>
+            <span className="text-[#1a6aad] text-xs font-bold tracking-widest uppercase">Materiais, Ebooks e Aulas</span>
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Guias práticos para download
             </h2>
@@ -418,37 +419,7 @@ export default function TourPage() {
               Arquivos em PDF disponíveis dentro da plataforma — para estudar offline, imprimir ou consultar a qualquer hora, direto pelo celular ou computador.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-            {[
-              {
-                titulo: "Manual prático de prescrições: da UBS à emergência",
-                paginas: "500 páginas · PDF",
-                capa: "/images/ebook-manual-transparent.png",
-              },
-              {
-                titulo: "Guia de intubação orotraqueal, sedação e ventilação mecânica",
-                paginas: "Guia prático · PDF",
-                capa: "/images/ebook-iot.png",
-              },
-            ].map((eb) => (
-              <div key={eb.titulo} className="bg-white rounded-2xl border border-zinc-200 shadow-md overflow-hidden flex flex-col">
-                <div
-                  className="h-52"
-                  style={{
-                    backgroundImage: `url('${eb.capa}')`,
-                    backgroundSize: "contain",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundColor: "#0a1220",
-                  }}
-                />
-                <div className="p-4 flex flex-col gap-1">
-                  <p className="text-xs font-bold text-[#0f2d4a] leading-snug">{eb.titulo}</p>
-                  <p className="text-[11px] text-zinc-400">{eb.paginas}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TourMateriaisMockup />
         </div>
       </section>
 
