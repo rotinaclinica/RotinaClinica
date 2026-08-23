@@ -1,4 +1,6 @@
-// Auto-generated from PDF (form-feed, v2) — 114 cards
+export const PRESCRICOES_FILTROS = ["Todos", "Emergência", "Intubação", "Guias práticos", "PS/UPA", "UBS/Atenção primária", "Medicamento", "Referências"] as const;
+export type PrescricaoFiltro = typeof PRESCRICOES_FILTROS[number];
+
 export interface PrescricaoMeta {
   id: string;
   titulo: string;

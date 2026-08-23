@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
-import { prescricoesMeta } from "@/lib/prescricoes-meta";
+import { prescricoesMeta, PRESCRICOES_FILTROS } from "@/lib/prescricoes-meta";
 import { evolucoesMeta } from "@/lib/evolucoes-meta";
 import TourPrescricaoModal from "./TourPrescricaoModal";
 import TourEvolucaoModal from "./TourEvolucaoModal";
@@ -246,15 +246,16 @@ export default function TourPage() {
               {(() => {
                 const COLOR_MAP: Record<string, string> = {
                   "Emergência": "bg-red-50 text-red-600 border-red-100",
-                  "Temas PS/UPA": "bg-teal-50 text-teal-700 border-teal-100",
-                  "IOT, Sedação e VM": "bg-[#e8f4fd] text-[#1a6aad] border-blue-100",
-                  "Clínica Médica": "bg-violet-50 text-violet-700 border-violet-100",
+                  "Intubação": "bg-[#e8f4fd] text-[#1a6aad] border-blue-100",
+                  "Guias práticos": "bg-[#e8f4fd] text-[#1a6aad] border-blue-100",
+                  "PS/UPA": "bg-teal-50 text-teal-700 border-teal-100",
                   "UBS/Atenção primária": "bg-emerald-50 text-emerald-700 border-emerald-100",
+                  "Medicamento": "bg-violet-50 text-violet-700 border-violet-100",
+                  "Referências": "bg-zinc-100 text-zinc-600 border-zinc-200",
                 };
-                const cats = [...new Set(prescricoesMeta.map((p) => p.categoria))];
-                return cats.map((cat) => (
-                  <span key={cat} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${COLOR_MAP[cat] ?? "bg-zinc-100 text-zinc-600 border-zinc-200"}`}>
-                    {cat}
+                return PRESCRICOES_FILTROS.filter((f) => f !== "Todos").map((filtro) => (
+                  <span key={filtro} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${COLOR_MAP[filtro] ?? "bg-zinc-100 text-zinc-600 border-zinc-200"}`}>
+                    {filtro}
                   </span>
                 ));
               })()}

@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, bibliografiaIds, intubacaoIds, type PrescricaoMeta } from "@/lib/prescricoes-meta";
+import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, bibliografiaIds, intubacaoIds, PRESCRICOES_FILTROS, type PrescricaoMeta, type PrescricaoFiltro } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
 // ── Content loader hook ───────────────────────────────────────────────────────
@@ -101,8 +101,8 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
-const FILTROS = ["Todos", "Emergência", "Intubação", "Guias práticos", "PS/UPA", "UBS/Atenção primária", "Medicamento", "Referências"] as const;
-type Filtro = typeof FILTROS[number];
+const FILTROS = PRESCRICOES_FILTROS;
+type Filtro = PrescricaoFiltro;
 
 export default function PrescricoesPage() {
   const [query, setQuery] = useState("");
