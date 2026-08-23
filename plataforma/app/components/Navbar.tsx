@@ -9,7 +9,7 @@ export function Logo({ variant = "dark" }: { variant?: "dark" | "light" }) {
     <img
       src={variant === "light" ? "/images/logo-branco.png" : "/images/logo-azul.png"}
       alt="Rotina Clínica"
-      className="h-7 sm:h-9 w-auto"
+      className="h-6 sm:h-7 w-auto"
     />
   );
 }
@@ -45,7 +45,7 @@ export default function Navbar() {
   function NavActions({ mobile = false }: { mobile?: boolean }) {
     const btnBase = mobile
       ? "inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap"
-      : "inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap";
+      : "inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap";
     const btnOutline = `${btnBase} text-white border border-white/30 hover:border-white hover:bg-white/10`;
     const btnPrimary = `${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`;
     const iconBtn = "inline-flex items-center justify-center w-9 h-9 rounded-lg text-white border border-white/30 hover:border-white hover:bg-white/10 transition-all";
