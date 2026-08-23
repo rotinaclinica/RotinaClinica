@@ -60,9 +60,10 @@ export default async function HomePage() {
               </Link>
               <Link
                 href="/tour"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/40 text-white font-bold px-8 py-4 rounded-xl transition-all text-lg"
+                className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 border-2 border-white/70 hover:border-white text-white font-bold px-8 py-4 rounded-xl transition-all text-lg backdrop-blur-sm"
               >
                 Conhecer a plataforma
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
             </div>
           </div>
