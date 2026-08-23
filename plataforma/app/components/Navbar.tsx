@@ -44,8 +44,8 @@ export default function Navbar() {
 
   function NavActions({ mobile = false }: { mobile?: boolean }) {
     const btnBase = mobile
-      ? "inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-lg transition-all"
-      : "inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all";
+      ? "inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap"
+      : "inline-flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap";
     const btnOutline = `${btnBase} text-white border border-white/30 hover:border-white hover:bg-white/10`;
     const btnPrimary = `${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`;
     const iconBtn = "inline-flex items-center justify-center w-9 h-9 rounded-lg text-white border border-white/30 hover:border-white hover:bg-white/10 transition-all";
@@ -115,12 +115,12 @@ export default function Navbar() {
         </Link>
 
         {/* Links desktop */}
-        <div className="hidden md:flex items-center gap-3 text-sm font-bold">
-          <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Início</Link>
-          <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Ebooks e Cursos</Link>
-          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Conheça o Rotina Clínica</Link>
-          <Link href="/tour" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Conhecer a plataforma</Link>
-          <Link href="/contato" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Contato</Link>
+        <div className="hidden md:flex items-center gap-0.5 text-sm font-bold">
+          <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Início</Link>
+          <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Ebooks e Cursos</Link>
+          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Conheça o Rotina Clínica</Link>
+          <Link href="/tour" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Conhecer a plataforma</Link>
+          <Link href="/contato" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Contato</Link>
         </div>
 
         {/* Ações desktop */}

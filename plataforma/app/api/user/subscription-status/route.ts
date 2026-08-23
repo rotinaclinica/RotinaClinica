@@ -8,10 +8,11 @@ export async function GET() {
     return NextResponse.json({ hasActive: false });
   }
 
-  const sub = await db.subscription.findUnique({
-    where: { userId: session.user.id },
-    select: { status: true },
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true, subscription: { select: { status: true } } },
   });
 
-  return NextResponse.json({ hasActive: sub?.status === "ACTIVE" });
+  const hasActive = user?.role === "ADMIN" || user?.subscription?.status === "ACTIVE";
+  return NextResponse.json({ hasActive });
 }
