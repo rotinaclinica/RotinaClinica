@@ -6,6 +6,7 @@ import { prescricoesMeta } from "@/lib/prescricoes-meta";
 import { evolucoesMeta } from "@/lib/evolucoes-meta";
 import TourPrescricaoModal from "./TourPrescricaoModal";
 import TourEvolucaoModal from "./TourEvolucaoModal";
+import TourCasosMockup from "./TourCasosMockup";
 
 function getPrescricaoContent(id: string): string {
   const filePath = join(process.cwd(), "lib", "prescricoes-content.json");
@@ -37,19 +38,6 @@ const prescricoesPsUpa = [
   "Infecções respiratórias", "Insônia", "Escabiose", "Tinea corporis",
 ];
 
-const casosClinicosSequencias = [
-  { titulo: "Dicas no Plantão", slides: 10, thumb: "/imagens%20dicas%20plant%C3%A3o/1.png" },
-  { titulo: "TV Instável", slides: 12, thumb: "/imagens%20tv%20inst%C3%A1vel/1.png" },
-  { titulo: "Infecções de Pele e Partes Moles", slides: 15, thumb: "/imagens%20infec%C3%A7%C3%B5es%20de%20pele%20e%20partes%20moles/1.png" },
-  { titulo: "Infecção Fúngica", slides: 9, thumb: "/imagem%20infec%C3%A7%C3%A3o%20f%C3%BAngica/1.png" },
-  { titulo: "Piúria no Idoso", slides: 10, thumb: "/imagens%20piuria%20idoso/1.png" },
-  { titulo: "Hemorroida Interna", slides: 8, thumb: "/imagens%20hemorroida%20interna/1.png" },
-];
-
-const casosClinicosVideos = [
-  { titulo: "Pneumonia adquirida na comunidade (PAC)", thumb: "/tour-thumbnails/yt-pac.jpg" },
-  { titulo: "Hipotireoidismo", thumb: "/tour-thumbnails/yt-hipotireoidismo.jpg" },
-];
 
 const iotTopicos = [
   "Insuficiência Respiratória", "Oxigenoterapia",
@@ -358,52 +346,7 @@ export default function TourPage() {
           </div>
 
           {/* Mockup */}
-          <div className="bg-[#0d1b2a] rounded-2xl shadow-xl overflow-hidden">
-            <div className="px-4 pt-4 pb-2">
-              <p className="text-[10px] font-bold text-[#3db8d4] uppercase tracking-widest mb-3">Casos Clínicos</p>
-              <div className="grid grid-cols-2 gap-2">
-                {casosClinicosSequencias.map((c) => (
-                  <div key={c.titulo} className="relative rounded-xl overflow-hidden bg-[#1a2d45] group" style={{ minHeight: "185px" }}>
-                    <img
-                      src={c.thumb}
-                      alt={c.titulo}
-                      className="absolute inset-0 w-full h-full object-cover opacity-70"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                    <div className="relative h-full flex flex-col justify-between p-2.5" style={{ minHeight: "185px" }}>
-                      <div />
-                      <div>
-                        <p className="text-white text-[11px] font-bold leading-snug">{c.titulo}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="px-4 pb-4 pt-2">
-              <p className="text-[10px] font-bold text-[#3db8d4] uppercase tracking-widest mb-3">Casos em Vídeo</p>
-              <div className="space-y-2">
-                {casosClinicosVideos.map((v) => (
-                  <div key={v.titulo} className="relative rounded-xl overflow-hidden bg-[#1a2d45]">
-                    <img
-                      src={v.thumb}
-                      alt={v.titulo}
-                      className="w-full object-cover opacity-80"
-                      style={{ aspectRatio: "16/9" }}
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="#0f2d4a"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-2">
-                      <p className="text-white text-[10px] font-semibold">{v.titulo}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <TourCasosMockup />
         </div>
       </section>
 
@@ -575,7 +518,7 @@ export default function TourPage() {
             Pronto para atender com mais segurança?
           </h2>
           <p className="text-[#b8d8ee] text-lg mb-8">
-            Acesse tudo isso por menos de R$1,20 por dia. Sem mensalidade — apenas uma assinatura anual.
+            Acesse tudo isso por menos de R$1,20 por dia com a assinatura anual.
           </p>
           <Link
             href="/assinatura"
