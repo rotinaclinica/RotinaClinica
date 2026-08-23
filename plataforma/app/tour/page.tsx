@@ -432,25 +432,23 @@ export default function TourPage() {
               <span className="text-xs font-bold text-[#e8edf5]">Calculadoras Clínicas</span>
               <span className="text-[10px] font-semibold bg-[#1a3a52] text-[#3db8d4] px-2 py-0.5 rounded-full">22 disponíveis</span>
             </div>
-            <div className="p-3 grid grid-cols-3 gap-2">
+            <div className="p-3 grid grid-cols-2 gap-2">
               {[
-                { nome: "Glasgow", chip: "Emergência", img: "/images/calculadoras/cerebro.png" },
-                { nome: "SOFA", chip: "Emergência", img: "/images/calculadoras/sepsis.png" },
-                { nome: "CURB-65", chip: "Pneumologia", img: "/images/calculadoras/pulmao.png" },
-                { nome: "HEART Score", chip: "Cardiologia", img: "/images/calculadoras/coracao.png" },
-                { nome: "Wells TEP", chip: "Emergência", img: "/images/calculadoras/trombo.png" },
-                { nome: "CKD-EPI 2021", chip: "Nefrologia", img: "/images/calculadoras/ckd-epi.png" },
-                { nome: "Dobutamina", chip: "Emergência", img: "/images/calculadoras/dobutamina.png" },
-                { nome: "Centor / McIsaac", chip: "Infectologia", img: "/images/calculadoras/faringite.png" },
-                { nome: "Child-Pugh", chip: "Gastro", img: "/images/calculadoras/figado.png" },
+                { nome: "Glasgow", desc: "Nível de consciência", chip: "Emergência", img: "/images/calculadoras/cerebro.png" },
+                { nome: "SOFA", desc: "Disfunção orgânica na sepse", chip: "Emergência", img: "/images/calculadoras/sepsis.png" },
+                { nome: "CURB-65", desc: "Gravidade da pneumonia", chip: "Pneumologia", img: "/images/calculadoras/pulmao.png" },
+                { nome: "HEART Score", desc: "Risco em dor torácica", chip: "Cardiologia", img: "/images/calculadoras/coracao.png" },
+                { nome: "Wells TEP", desc: "Probabilidade de TEP", chip: "Emergência", img: "/images/calculadoras/trombo.png" },
+                { nome: "Child-Pugh", desc: "Gravidade da hepatopatia", chip: "Gastro", img: "/images/calculadoras/figado.png" },
               ].map((c) => (
-                <div key={c.nome} className="bg-[#131c2e] rounded-xl border border-white/[0.07] overflow-hidden flex flex-col">
-                  <div className="w-full h-14 bg-[#0a1628] overflow-hidden flex items-center justify-center">
-                    <img src={c.img} alt={c.nome} className="w-10 h-10 object-contain scale-[2.0]" />
+                <div key={c.nome} className="bg-[#131c2e] rounded-xl border border-white/[0.07] flex items-center gap-2.5 px-2.5 py-2">
+                  <div className="w-10 h-10 rounded-lg bg-[#0a1628] overflow-hidden flex items-center justify-center shrink-0">
+                    <img src={c.img} alt={c.nome} className="w-8 h-8 object-contain scale-[1.6]" />
                   </div>
-                  <div className="px-2 py-1.5">
-                    <p className="text-[8px] font-bold text-[#e8edf5] leading-tight">{c.nome}</p>
-                    <span className="text-[7px] bg-[#1a3a52] text-[#3db8d4] px-1 py-0.5 rounded-full mt-1 inline-block">{c.chip}</span>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-bold text-[#e8edf5] leading-tight truncate">{c.nome}</p>
+                    <p className="text-[8px] text-[#6a8fa5] leading-tight mt-0.5 truncate">{c.desc}</p>
+                    <span className="text-[7px] bg-[#1a3a52] text-[#3db8d4] px-1.5 py-0.5 rounded-full mt-1 inline-block">{c.chip}</span>
                   </div>
                 </div>
               ))}
