@@ -5,7 +5,30 @@
       "name": "plataforma-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3000
+      "port": 3004,
+      "autoPort": true
+    },
+    {
+      "name": "plataforma-dev-alt",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "3001"],
+      "port": 3001,
+      "autoPort": false
+    },
+    {
+      "name": "plataforma-dev-new",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3004,
+      "autoPort": true
+    },
+    {
+      "name": "plataforma-dev-3002",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "3002"],
+      "port": 3002,
+      "autoPort": false,
+      "cwd": "D:\\Projeto Claude Rotina Clínica\\plataforma"
     }
   ]
 }

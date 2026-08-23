@@ -370,6 +370,13 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                 </div>
               );
             }
+            if (b.text.startsWith("**") && b.text.endsWith("**") && b.text.length > 4) {
+              return (
+                <p key={i} className="text-[13px] font-semibold text-[#1a6aad] dark:text-[#7db5d0] pt-1">
+                  {b.text.slice(2, -2)}
+                </p>
+              );
+            }
             return (
               <p key={i} className="text-sm text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(b.text)}</p>
             );

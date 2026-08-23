@@ -1596,6 +1596,60 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Xerodermia (pele seca)",
     "categoria": "UBS/Atenção primária",
     "tags": ["xerodermia","pele seca","hidratante","loção","ressecamento","xerose","cuidados com a pele"]
+  },
+  {
+    "id": "229",
+    "titulo": "Dipirona (Metamizol)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["dipirona","metamizol","analgésico","antipirético","AINE","anti-inflamatório","dor","febre","analgesia"]
+  },
+  {
+    "id": "230",
+    "titulo": "Paracetamol (Acetaminofeno)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["paracetamol","acetaminofeno","analgésico","antipirético","dor","febre","analgesia","hepatotoxicidade"]
+  },
+  {
+    "id": "231",
+    "titulo": "Opioides Fracos",
+    "categoria": "Temas PS/UPA",
+    "tags": ["opioide","tramadol","codeína","analgésico","dor","opioide fraco","cloridrato de tramadol","fosfato de codeína"]
+  },
+  {
+    "id": "232",
+    "titulo": "Sulfato de Morfina",
+    "categoria": "Temas PS/UPA",
+    "tags": ["morfina","sulfato de morfina","opioide","analgésico","dor","dor crônica","opioide forte"]
+  },
+  {
+    "id": "233",
+    "titulo": "Racional da analgesia",
+    "categoria": "Temas PS/UPA",
+    "tags": ["analgesia","dor","escada analgésica","opioide","AINE","dor leve","dor moderada","dor intensa","racional"]
+  },
+  {
+    "id": "234",
+    "titulo": "Antieméticos (Anti-histamínicos H1 e receptores muscarínicos)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["antiemético","dimenidrato","dramin","náusea","vômito","anti-histamínico","receptor muscarínico","piridoxina"]
+  },
+  {
+    "id": "235",
+    "titulo": "Antieméticos (Antagonistas dopaminérgicos D2)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["antiemético","bromoprida","digesan","metoclopramida","plasil","náusea","vômito","antagonista dopaminérgico","D2"]
+  },
+  {
+    "id": "236",
+    "titulo": "Antieméticos (Antagonistas Serotoninérgicos 5HT)",
+    "categoria": "Temas PS/UPA",
+    "tags": ["antiemético","ondansetrona","vonau","náusea","vômito","antagonista serotoninérgico","5HT","5-HT3"]
+  },
+  {
+    "id": "237",
+    "titulo": "Abordagem direcionada de náuseas e vômitos",
+    "categoria": "Temas PS/UPA",
+    "tags": ["náusea","vômito","antiemético","ondansetrona","metoclopramida","bromoprida","dimenidrato","escopolamina","domperidona","gestante","cinetose","gastroparesia","quimioterapia","pós operatório"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1604,9 +1658,9 @@ export const intubacaoIds = new Set(["20","22","189","190","191","192","193","19
 
 export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205","210","211","212","213","214","215","216","217","220","221"]);
 
-export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221"]);
+export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237"]);
 
 export const medicamentoIds = new Set([
   "18",
@@ -1618,7 +1672,7 @@ export const medicamentoIds = new Set([
   "176","177","178",
   "179","180","181","182",
   "206","207","216","217",
-  "227"
+  "227","229","230","231","232","234","235","236"
 ]);
 
 export const bibliografiaIds = new Set(["222","223"]);

@@ -12,6 +12,8 @@ const CURSOS = [
     imagem: "/images/destravando-plantao.png",
     imagemFit: "cover" as const,
     imagemBg: "",
+    thumbW: 120,
+    thumbH: 120,
   },
   {
     slug: "docstage",
@@ -21,6 +23,19 @@ const CURSOS = [
     imagem: "/Docstage/LOGO DOCSTAGE VETORIZADA_page-0001.jpg",
     imagemFit: "contain" as const,
     imagemBg: "bg-white",
+    thumbW: 120,
+    thumbH: 120,
+  },
+  {
+    slug: "airtraq",
+    titulo: "Airtraq Safetech Medical",
+    descricao: "Um nível acima na abordagem para intubação de pacientes com via aérea difícil.",
+    badge: "PARCEIRA OFICIAL",
+    imagem: "/Airtraq/airtraq-portrait.png",
+    imagemFit: "cover" as const,
+    imagemBg: "bg-[#0f2d4a]",
+    thumbW: 107,
+    thumbH: 120,
   },
 ];
 
@@ -55,11 +70,11 @@ export default function CursosPage() {
             >
               {/* Thumbnail */}
               <div
-                className={`relative shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad] ${curso.imagemBg}`}
-                style={{ width: 100, height: 100 }}
+                className={`relative shrink-0 rounded-xl overflow-hidden ${curso.imagemBg || "bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]"}`}
+                style={{ width: curso.thumbW, height: curso.thumbH }}
               >
                 {curso.imagem && (
-                  <Image src={curso.imagem} alt={curso.titulo} fill sizes="100px" className={`${curso.imagemFit === "contain" ? "object-contain p-3" : "object-cover"} object-center`} />
+                  <Image src={curso.imagem} alt={curso.titulo} fill sizes="240px" className={`${curso.imagemFit === "contain" ? "object-contain" : "object-cover"}`} style={(curso as { imagemObjPos?: string }).imagemObjPos ? { objectPosition: (curso as { imagemObjPos?: string }).imagemObjPos } : undefined} />
                 )}
               </div>
 
