@@ -243,18 +243,21 @@ export default function TourPage() {
               diluições e instruções — organizadas por cenário clínico e sempre atualizadas.
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
-              {[
-                { label: "Emergência", color: "bg-red-50 text-red-600 border-red-100" },
-                { label: "Guias práticos", color: "bg-[#e8f4fd] text-[#1a6aad] border-blue-100" },
-                { label: "PS/UPA", color: "bg-teal-50 text-teal-700 border-teal-100" },
-                { label: "UBS/Atenção primária", color: "bg-emerald-50 text-emerald-700 border-emerald-100" },
-                { label: "Medicamento", color: "bg-violet-50 text-violet-700 border-violet-100" },
-                { label: "Referências", color: "bg-zinc-100 text-zinc-600 border-zinc-200" },
-              ].map((b) => (
-                <span key={b.label} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${b.color}`}>
-                  {b.label}
-                </span>
-              ))}
+              {(() => {
+                const COLOR_MAP: Record<string, string> = {
+                  "Emergência": "bg-red-50 text-red-600 border-red-100",
+                  "Temas PS/UPA": "bg-teal-50 text-teal-700 border-teal-100",
+                  "IOT, Sedação e VM": "bg-[#e8f4fd] text-[#1a6aad] border-blue-100",
+                  "Clínica Médica": "bg-violet-50 text-violet-700 border-violet-100",
+                  "UBS/Atenção primária": "bg-emerald-50 text-emerald-700 border-emerald-100",
+                };
+                const cats = [...new Set(prescricoesMeta.map((p) => p.categoria))];
+                return cats.map((cat) => (
+                  <span key={cat} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${COLOR_MAP[cat] ?? "bg-zinc-100 text-zinc-600 border-zinc-200"}`}>
+                    {cat}
+                  </span>
+                ));
+              })()}
             </div>
           </div>
 
