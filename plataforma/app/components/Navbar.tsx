@@ -119,6 +119,7 @@ export default function Navbar() {
           <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Início</Link>
           <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Ebooks e Cursos</Link>
           <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Conheça o Rotina Clínica</Link>
+          <Link href="/tour" className="text-white hover:text-[#3db8d4] transition-colors px-3 py-1.5">Conhecer a plataforma</Link>
         </div>
 
         {/* Ações desktop */}
@@ -148,6 +149,7 @@ export default function Navbar() {
           <Link href="/" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Início</Link>
           <Link href="/produtos" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Ebooks e Cursos</Link>
           <Link href="/conheca" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Conheça o Rotina Clínica</Link>
+          <Link href="/tour" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Conhecer a plataforma</Link>
           <div className="pt-3 flex flex-col gap-3">
             <NavActions mobile />
           </div>
