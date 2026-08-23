@@ -245,13 +245,13 @@ export default function TourPage() {
             <div className="flex flex-wrap gap-2 mb-6">
               {(() => {
                 const COLOR_MAP: Record<string, string> = {
-                  "Emergência": "bg-red-50 text-red-600 border-red-100",
-                  "Intubação": "bg-[#e8f4fd] text-[#1a6aad] border-blue-100",
-                  "Guias práticos": "bg-[#e8f4fd] text-[#1a6aad] border-blue-100",
-                  "PS/UPA": "bg-teal-50 text-teal-700 border-teal-100",
-                  "UBS/Atenção primária": "bg-emerald-50 text-emerald-700 border-emerald-100",
-                  "Medicamento": "bg-violet-50 text-violet-700 border-violet-100",
-                  "Referências": "bg-zinc-100 text-zinc-600 border-zinc-200",
+                  "Emergência": "bg-[#e8f4fc] text-[#1a6aad] border-[#c8dff0]",
+                  "Intubação": "bg-[#ecfeff] text-[#0e7490] border-[#a5f3fc]",
+                  "Guias práticos": "bg-[#ede9fe] text-[#6d28d9] border-[#ddd6fe]",
+                  "PS/UPA": "bg-[#fef2f2] text-[#dc2626] border-[#fecaca]",
+                  "UBS/Atenção primária": "bg-[#eaf3de] text-[#3b6d11] border-[#bbf7d0]",
+                  "Medicamento": "bg-[#fff7ed] text-[#c2410c] border-[#fed7aa]",
+                  "Referências": "bg-[#fdf4ff] text-[#86198f] border-[#f0abfc]",
                 };
                 return PRESCRICOES_FILTROS.filter((f) => f !== "Todos").map((filtro) => (
                   <span key={filtro} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${COLOR_MAP[filtro] ?? "bg-zinc-100 text-zinc-600 border-zinc-200"}`}>
