@@ -261,24 +261,21 @@ export default function CalculadorasPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl">
           {CALCULADORAS.map((calc) => {
             const cardContent = (
-              <div className="group flex items-stretch bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/40 transition-all overflow-hidden w-full">
+              <div className="group flex items-stretch h-[88px] bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/40 transition-all overflow-hidden w-full">
                 {/* Thumbnail */}
-                <div className={`w-24 shrink-0 flex items-center justify-center overflow-hidden rounded-l-2xl ${calc.iconBg}`}>
+                <div className={`w-[88px] shrink-0 flex items-center justify-center overflow-hidden rounded-l-2xl ${calc.iconBg}`}>
                   {calc.icon}
                 </div>
                 {/* Texto */}
-                <div className="flex-1 min-w-0 flex items-center gap-3 px-4 py-4">
+                <div className="flex-1 min-w-0 flex items-center gap-2 px-4 py-3">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">{calc.nome}</p>
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5] line-clamp-1">{calc.nome}</p>
                       {"beta" in calc && calc.beta && (
-                        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 uppercase tracking-wide">Beta</span>
+                        <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 uppercase tracking-wide">Beta</span>
                       )}
                     </div>
-                    <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] mt-0.5">{calc.descricao}</p>
-                    <span className="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-[#e8f4fc] dark:bg-[#1a2d45] text-[10px] font-semibold text-[#3db8d4]">
-                      {calc.especialidade}
-                    </span>
+                    <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] line-clamp-2 leading-snug">{calc.descricao}</p>
                   </div>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-300 dark:text-[#3a5a70] group-hover:text-[#3db8d4] transition-colors shrink-0">
                     <polyline points="9 18 15 12 9 6"/>
