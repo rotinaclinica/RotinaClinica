@@ -41,7 +41,7 @@ const IsrIcon = () => (
 );
 
 const CentorIcon = () => (
-  <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-contain scale-[2.0]" />
+  <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-contain scale-[1.2]" />
 );
 
 const CALCULADORAS = [
@@ -213,6 +213,15 @@ const CALCULADORAS = [
     especialidade: "Nefrologia",
     iconBg: "bg-[#0a1628]",
     icon: <img src="/images/calculadoras/ckd-epi.png" alt="rim" className="w-full h-full object-contain scale-[2.0]" />,
+  },
+  // — Clínica Geral / Nutricional —
+  {
+    slug: "imc",
+    nome: "IMC",
+    descricao: "Índice de Massa Corporal — peso, altura e categoria nutricional",
+    especialidade: "Clínica Geral",
+    iconBg: "bg-[#0a1628]",
+    icon: <img src="/images/calculadoras/imc.png" alt="IMC" className="w-full h-full object-contain" />,
   },
   // — Gastroenterologia / Hepatologia (ícone fígado) —
   {
