@@ -14,22 +14,13 @@ export const metadata: Metadata = {
     description: "Cursos e materiais digitais para profissionais da saúde",
     url: "https://www.rotinaclinica.com",
     siteName: "Rotina Clínica",
-    images: [
-      {
-        url: "/images/Formato (600 x 600 px).png",
-        width: 600,
-        height: 600,
-        alt: "Rotina Clínica",
-      },
-    ],
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Rotina Clínica",
     description: "Cursos e materiais digitais para profissionais da saúde",
-    images: ["/images/Formato (600 x 600 px).png"],
   },
 };
 
