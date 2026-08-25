@@ -9,6 +9,6 @@ export interface QuatroTsResult {
 export function calcularQuatroTs(respostas: number[]): QuatroTsResult {
   const score = respostas.reduce((a, b) => a + b, 0);
   if (score <= 3) return { score, probabilidade: "baixa",        ppv: "<1%",  label: "Baixa probabilidade",         cor: "verde"    };
-  if (score <= 5) return { score, probabilidade: "intermediaria", ppv: "~14%", label: "Probabilidade intermediária",  cor: "amarelo"  };
-  return           { score, probabilidade: "alta",          ppv: "~64%", label: "Alta probabilidade",          cor: "vermelho" };
+  if (score <= 5) return { score, probabilidade: "intermediaria", ppv: "~10%", label: "Probabilidade intermediária",  cor: "amarelo"  };
+  return           { score, probabilidade: "alta",          ppv: "~50%", label: "Alta probabilidade",          cor: "vermelho" };
 }

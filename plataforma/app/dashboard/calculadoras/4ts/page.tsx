@@ -31,10 +31,10 @@ export default function QuatroTsPage() {
 
           <div className="px-1 space-y-2">
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
-              <span className="font-semibold">Interpretação:</span> ≤3 pts = baixa probabilidade (VPP &lt;1%); 4–5 pts = probabilidade intermediária (VPP ~14%); 6–8 pts = alta probabilidade (VPP ~64%).
+              <span className="font-semibold">Interpretação:</span> ≤3 pts = baixa probabilidade (risco &lt;1%); 4–5 pts = probabilidade intermediária (risco ~10%); 6–8 pts = alta probabilidade (risco ~50%).
             </p>
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
-              <span className="font-semibold">Referência:</span> Lo GK, et al. Evaluation of pretest clinical score (4Ts) for the diagnosis of heparin-induced thrombocytopenia. <em>J Thromb Haemost.</em> 2006;4(4):759–765. Diretrizes ASH 2018.
+              <span className="font-semibold">Referência:</span> Lo GK, et al. J Thromb Haemost. 2006;4(4):759–765. Warkentin TE. Clinical presentation and diagnosis of heparin-induced thrombocytopenia. <em>UpToDate.</em> 2024. Diretrizes ASH 2018.
             </p>
           </div>
         </div>
