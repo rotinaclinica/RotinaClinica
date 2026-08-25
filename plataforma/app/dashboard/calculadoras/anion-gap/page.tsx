@@ -32,7 +32,7 @@ export default function AnionGapPage() {
               <span className="font-semibold">Nota:</span> O intervalo de referência pode variar conforme o analisador laboratorial. Laboratórios com eletrodos íon-seletivos tendem a reportar valores menores (6 ± 3 mEq/L).
             </p>
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
-              <span className="font-semibold">Referência:</span> Seifter JL. Integration of acid-base and electrolyte disorders. <em>N Engl J Med.</em> 2014;371(19):1821–1831. UpToDate 2024.
+              <span className="font-semibold">Referência:</span> Serum anion gap in conditions other than metabolic acidosis. <em>UpToDate.</em> 2024.
             </p>
           </div>
         </div>
