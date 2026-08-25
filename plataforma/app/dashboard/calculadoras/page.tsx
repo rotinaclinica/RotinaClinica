@@ -123,6 +123,15 @@ const CALCULADORAS = [
     iconBg: "bg-[#0a1628]",
     icon: <LungIcon />,
   },
+  // — Pneumologia / UTI —
+  {
+    slug: "pf-ratio",
+    nome: "Relação P/F",
+    descricao: "Índice de Horowitz — classificação de SDRA pelo Critério de Berlim",
+    especialidade: "Pneumologia/UTI",
+    iconBg: "bg-[#0a1628]",
+    icon: <LungIcon />,
+  },
   // — Sepse / Hemodinâmica (ícone sepse) —
   {
     slug: "qsofa",
