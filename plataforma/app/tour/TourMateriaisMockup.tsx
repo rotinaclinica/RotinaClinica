@@ -18,6 +18,11 @@ const AULAS = [
   { titulo: "Abordagem da Constipação Intestinal", tamanho: "2,3 MB" },
   { titulo: "Abordagem de Náuseas e Vômitos", tamanho: "2,9 MB" },
   { titulo: "Dor e Analgesia", tamanho: "3,0 MB" },
+  { titulo: "Dengue", tamanho: "1,4 MB" },
+  { titulo: "DRGE e suas complicações", tamanho: "4,4 MB" },
+  { titulo: "Distúrbios do Potássio", tamanho: "1,0 MB" },
+  { titulo: "Distúrbios do Sódio", tamanho: "10,6 MB" },
+  { titulo: "Prescrição Racional", tamanho: "6,3 MB" },
 ];
 
 export default function TourMateriaisMockup() {
