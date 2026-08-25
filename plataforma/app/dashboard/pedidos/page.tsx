@@ -29,6 +29,9 @@ export default async function PedidosPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
+  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
+  if (user?.role === "ADMIN" || user?.role === "TESTER") redirect("/dashboard");
+
   const orders = await db.order.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
