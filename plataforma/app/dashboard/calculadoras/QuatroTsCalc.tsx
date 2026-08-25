@@ -44,7 +44,7 @@ const COR_MAP = {
   vermelho: { badge: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",                 bar: "bg-red-500",     box: "border-red-200 dark:border-red-700/40 bg-red-50 dark:bg-red-900/20"             },
 };
 
-const CONDUTAS: Record<string, { titulo: string; heparina: string; heparinaOk: boolean }> = {
+const CONDUTAS: Record<string, { titulo: string; heparina: string; heparinaOk: boolean; substituto?: string }> = {
   baixa: {
     titulo: "TIH extremamente improvável",
     heparina: "Pode continuar ou reiniciar a heparina se indicado",
@@ -54,11 +54,13 @@ const CONDUTAS: Record<string, { titulo: string; heparina: string; heparinaOk: b
     titulo: "TIH possível",
     heparina: "Suspender todos os produtos com heparina",
     heparinaOk: false,
+    substituto: "Substituir por anticoagulante não heparínico",
   },
   alta: {
     titulo: "TIH provável",
     heparina: "Suspender imediatamente todos os produtos com heparina",
     heparinaOk: false,
+    substituto: "Substituir por anticoagulante não heparínico",
   },
 };
 
@@ -158,6 +160,12 @@ export default function QuatroTsCalc() {
                 <span className="shrink-0 mt-0.5">{conduta.heparinaOk ? "✓" : "✕"}</span>
                 <span>{conduta.heparina}</span>
               </div>
+              {conduta.substituto && (
+                <div className="flex gap-2 items-start text-xs leading-relaxed text-amber-700 dark:text-amber-400">
+                  <span className="shrink-0 mt-0.5">→</span>
+                  <span>{conduta.substituto}</span>
+                </div>
+              )}
             </div>
           </div>
         )}
