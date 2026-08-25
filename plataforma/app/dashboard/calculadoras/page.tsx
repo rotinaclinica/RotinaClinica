@@ -40,6 +40,13 @@ const IsrIcon = () => (
   <img src="/images/calculadoras/isr.png" alt="ISR" className="w-full h-full object-contain scale-[1.3]" />
 );
 
+const AguaLivreIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
+    <path d="M20 4 C20 4 8 18 8 26 a12 12 0 0 0 24 0 C32 18 20 4 20 4Z" fill="#3db8d4" opacity="0.85"/>
+    <path d="M14 27 C14 30.3 16.7 33 20 33" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+  </svg>
+);
+
 const CentorIcon = () => (
   <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-contain scale-[1.2]" />
 );
@@ -222,6 +229,15 @@ const CALCULADORAS = [
     especialidade: "Clínica Geral",
     iconBg: "bg-[#0a1628]",
     icon: <img src="/images/calculadoras/imc.png" alt="IMC" className="w-full h-full object-contain" />,
+  },
+  // — Nefrologia / Hidroeletrolítico —
+  {
+    slug: "agua-livre",
+    nome: "Déficit de Água Livre",
+    descricao: "Reposição hídrica na hipernatremia",
+    especialidade: "Nefrologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <AguaLivreIcon />,
   },
   // — Gastroenterologia / Hepatologia (ícone fígado) —
   {
