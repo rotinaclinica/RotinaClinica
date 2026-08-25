@@ -41,15 +41,7 @@ const IsrIcon = () => (
 );
 
 const QuatroTsIcon = () => (
-  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
-    <circle cx="20" cy="20" r="14" fill="#e8f4fc" opacity="0.2"/>
-    <circle cx="14" cy="16" r="4" fill="#3db8d4" opacity="0.9"/>
-    <circle cx="26" cy="16" r="4" fill="#3db8d4" opacity="0.6"/>
-    <circle cx="20" cy="26" r="4" fill="#3db8d4" opacity="0.75"/>
-    <line x1="17.5" y1="18" x2="22.5" y2="18" stroke="white" strokeWidth="1.5"/>
-    <line x1="17" y1="20" x2="21" y2="24" stroke="white" strokeWidth="1.5"/>
-    <line x1="23" y1="20" x2="21" y2="24" stroke="white" strokeWidth="1.5"/>
-  </svg>
+  <img src="/images/calculadoras/heparina.png" alt="heparina" className="w-full h-full object-contain" />
 );
 
 const AguaLivreIcon = () => (
