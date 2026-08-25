@@ -14,7 +14,7 @@ export default function QuatroTsPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">
-          4Ts Score
+          Score 4Ts
         </h1>
         <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">
           Probabilidade de Trombocitopenia Induzida por Heparina (TIH)

@@ -93,7 +93,7 @@ export default function QuatroTsCalc() {
   return (
     <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
       <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8">
-        <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">4Ts Score — TIH</p>
+        <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Score 4Ts — TIH</p>
         <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">
           Probabilidade de Trombocitopenia Induzida por Heparina
         </p>

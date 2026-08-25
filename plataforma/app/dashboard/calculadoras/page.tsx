@@ -245,7 +245,7 @@ const CALCULADORAS = [
   // — Hematologia —
   {
     slug: "4ts",
-    nome: "4Ts Score — TIH",
+    nome: "Score 4Ts — TIH",
     descricao: "Probabilidade de trombocitopenia induzida por heparina",
     especialidade: "Hematologia",
     iconBg: "bg-[#0a1628]",
