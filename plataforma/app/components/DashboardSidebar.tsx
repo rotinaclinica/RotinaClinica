@@ -85,7 +85,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
 
       {/* Nav */}
       <nav className="px-3 py-4 space-y-0.5">
-        {navItems.map((item) => (
+        {navItems.filter((item) => !(isAdmin && item.href === "/dashboard/pedidos")).map((item) => (
           <Link
             key={item.href}
             href={item.href}
