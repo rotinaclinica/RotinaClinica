@@ -29,7 +29,7 @@ export default function PfRatioPage() {
               <span className="font-semibold">Fórmula:</span> P/F = PaO₂ (mmHg) ÷ FiO₂ (fração). Todos os limiares de SDRA requerem PEEP ou CPAP ≥5 cmH₂O.
             </p>
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
-              <span className="font-semibold">Referência:</span> ARDS Definition Task Force. Acute Respiratory Distress Syndrome — The Berlin Definition. <em>JAMA.</em> 2012;307(23):2526–2533.
+              <span className="font-semibold">Referências:</span> (1) ARDS Definition Task Force. Acute Respiratory Distress Syndrome — The Berlin Definition. <em>JAMA.</em> 2012;307(23):2526–2533. (2) Calculator: Ratio of arterial oxygen tension to fraction of inspired oxygen (PaO₂/FiO₂ ratio). <em>UpToDate.</em> 2024.
             </p>
           </div>
         </div>
