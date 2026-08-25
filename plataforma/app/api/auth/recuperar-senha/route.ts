@@ -71,8 +71,8 @@ export async function POST(req: NextRequest) {
             </p>
             <table width="100%" cellpadding="0" cellspacing="0">
               <tr><td align="center">
-                <a href="${link}" style="display:inline-block;background:#1a6aad;color:#fff;text-decoration:none;padding:14px 32px;border-radius:12px;font-weight:600;font-size:15px">
-                  Redefinir senha
+                <a href="${link}" style="display:inline-block;background:#3db8d4;color:#fff;text-decoration:none;padding:14px 32px;border-radius:12px;font-weight:600;font-size:15px">
+                  Redefinir senha →
                 </a>
               </td></tr>
             </table>
