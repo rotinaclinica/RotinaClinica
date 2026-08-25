@@ -51,6 +51,16 @@ const AguaLivreIcon = () => (
   </svg>
 );
 
+const BradenIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
+    <rect x="4" y="24" width="32" height="5" rx="2" fill="#3db8d4" opacity="0.7"/>
+    <rect x="4" y="22" width="18" height="3" rx="1.5" fill="#3db8d4" opacity="0.5"/>
+    <circle cx="28" cy="16" r="4" fill="#3db8d4" opacity="0.9"/>
+    <path d="M10 24 Q14 19 20 20 L28 20" stroke="#3db8d4" strokeWidth="2" strokeLinecap="round" opacity="0.9"/>
+    <path d="M28 20 L32 23" stroke="#3db8d4" strokeWidth="2" strokeLinecap="round" opacity="0.9"/>
+  </svg>
+);
+
 const CentorIcon = () => (
   <img src="/images/calculadoras/faringite.png" alt="faringite" className="w-full h-full object-contain scale-[1.2]" />
 );
@@ -277,6 +287,15 @@ const CALCULADORAS = [
     especialidade: "Nefrologia",
     iconBg: "bg-[#0a1628]",
     icon: <AguaLivreIcon />,
+  },
+  // — Clínica Geral / Cuidados —
+  {
+    slug: "braden",
+    nome: "Escala de Braden",
+    descricao: "Risco de lesão por pressão em adultos internados",
+    especialidade: "Clínica Médica",
+    iconBg: "bg-[#0a1628]",
+    icon: <BradenIcon />,
   },
   // — Gastroenterologia / Hepatologia (ícone fígado) —
   {
