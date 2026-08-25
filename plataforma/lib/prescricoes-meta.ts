@@ -1652,6 +1652,18 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Abordagem direcionada de náuseas e vômitos",
     "categoria": "Temas PS/UPA",
     "tags": ["náusea","vômito","antiemético","ondansetrona","metoclopramida","bromoprida","dimenidrato","escopolamina","domperidona","gestante","cinetose","gastroparesia","quimioterapia","pós operatório"]
+  },
+  {
+    "id": "238",
+    "titulo": "DM2 — Abordagem Prática na UBS",
+    "categoria": "UBS/Atenção primária",
+    "tags": ["dm2","diabetes","diabetes mellitus tipo 2","metformina","gliclazida","dapagliflozina","insulina NPH","insulina regular","glicemia","hba1c","TOTG","rastreio","pré-diabetes","hiperglicemia","ajuste renal","atenção básica","UBS","referenciamento"]
+  },
+  {
+    "id": "239",
+    "titulo": "Ezetimibe",
+    "categoria": "Medicamento",
+    "tags": ["ezetimibe","colesterol","LDL","dislipidemia","hiperlipidemia","hipercolesterolemia","NPC1L1","lipídios","prevenção cardiovascular","redução LDL"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1662,7 +1674,7 @@ export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","
 
 export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238"]);
 
 export const medicamentoIds = new Set([
   "18",
@@ -1674,7 +1686,7 @@ export const medicamentoIds = new Set([
   "176","177","178",
   "179","180","181","182",
   "206","207","216","217",
-  "227","229","230","231","232","234","235","236"
+  "227","229","230","231","232","234","235","236","239"
 ]);
 
 export const bibliografiaIds = new Set(["222","223"]);
