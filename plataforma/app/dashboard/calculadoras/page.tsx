@@ -263,6 +263,14 @@ const CALCULADORAS = [
   },
   // — Nefrologia / Hidroeletrolítico —
   {
+    slug: "anion-gap",
+    nome: "Ânion Gap",
+    descricao: "AG sérico com correção opcional pela albumina",
+    especialidade: "Nefrologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <img src="/images/calculadoras/ckd-epi.png" alt="rim" className="w-full h-full object-contain scale-[2.0]" />,
+  },
+  {
     slug: "agua-livre",
     nome: "Déficit de Água Livre",
     descricao: "Reposição hídrica na hipernatremia",
