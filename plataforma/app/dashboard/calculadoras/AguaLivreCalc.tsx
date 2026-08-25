@@ -8,10 +8,10 @@ const SEXOS: { value: Sexo; label: string }[] = [
   { value: "feminino",  label: "Feminino"  },
 ];
 
-const FAIXAS: { value: FaixaEtaria; label: string; sublabel: string }[] = [
-  { value: "crianca", label: "Criança",  sublabel: "TBW 60%" },
-  { value: "adulto",  label: "Adulto",   sublabel: "TBW 60% M / 50% F" },
-  { value: "idoso",   label: "Idoso",    sublabel: "TBW 50% M / 45% F" },
+const FAIXAS: { value: FaixaEtaria; label: string }[] = [
+  { value: "crianca", label: "Criança" },
+  { value: "adulto",  label: "Adulto"  },
+  { value: "idoso",   label: "Idoso"   },
 ];
 
 export default function AguaLivreCalc() {
@@ -61,13 +61,12 @@ export default function AguaLivreCalc() {
             {FAIXAS.map((f) => (
               <button key={f.value} type="button"
                 onClick={() => { setFaixa(f.value); setResultado(null); }}
-                className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-all text-left ${
+                className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-all text-center ${
                   faixa === f.value
                     ? "bg-[#3db8d4] border-[#3db8d4] text-white"
                     : "border-zinc-200 dark:border-white/8 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
                 }`}>
-                <span className="block">{f.label}</span>
-                <span className={`block text-[10px] font-normal mt-0.5 ${faixa === f.value ? "text-white/80" : "text-[#0f2d4a]/60 dark:text-[#5a7a8e]"}`}>{f.sublabel}</span>
+                {f.label}
               </button>
             ))}
           </div>
