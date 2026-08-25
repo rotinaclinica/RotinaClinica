@@ -44,34 +44,21 @@ const COR_MAP = {
   vermelho: { badge: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",                 bar: "bg-red-500",     box: "border-red-200 dark:border-red-700/40 bg-red-50 dark:bg-red-900/20"             },
 };
 
-const CONDUTAS: Record<string, { titulo: string; items: string[] }> = {
+const CONDUTAS: Record<string, { titulo: string; heparina: string; heparinaOk: boolean }> = {
   baixa: {
     titulo: "TIH extremamente improvável",
-    items: [
-      "Não solicitar anticorpos anti-PF4 nem ensaio funcional",
-      "Investigar outras causas de trombocitopenia",
-      "Pode continuar ou reiniciar heparina se indicado",
-    ],
+    heparina: "Pode continuar ou reiniciar a heparina se indicado",
+    heparinaOk: true,
   },
   intermediaria: {
     titulo: "TIH possível",
-    items: [
-      "Suspender todos os produtos com heparina",
-      "Substituir por anticoagulante não heparínico (argatrobana, fondaparinux)",
-      "Solicitar ELISA anti-PF4; se positivo, considerar ensaio de liberação de serotonina (SRA)",
-      "Investigar trombose associada",
-      "Considerar avaliação hematológica",
-    ],
+    heparina: "Suspender todos os produtos com heparina",
+    heparinaOk: false,
   },
   alta: {
     titulo: "TIH provável",
-    items: [
-      "Suspender imediatamente todos os produtos com heparina",
-      "Iniciar anticoagulante não heparínico",
-      "Solicitar ELISA anti-PF4 e ensaio funcional para confirmação",
-      "Investigar trombose associada",
-      "Avaliação hematológica",
-    ],
+    heparina: "Suspender imediatamente todos os produtos com heparina",
+    heparinaOk: false,
   },
 };
 
@@ -162,19 +149,15 @@ export default function QuatroTsCalc() {
             </div>
 
             {/* Conduta */}
-            <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4">
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
+            <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-2">
+              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">
                 Conduta
               </p>
-              <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#e8edf5] mb-2">{conduta.titulo}</p>
-              <ul className="space-y-1.5">
-                {conduta.items.map((item, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-[#0f2d4a] dark:text-[#c4d4df] leading-relaxed">
-                    <span className="shrink-0 text-[#3db8d4] mt-0.5">→</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">{conduta.titulo}</p>
+              <div className={`flex gap-2 items-start text-xs leading-relaxed ${conduta.heparinaOk ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
+                <span className="shrink-0 mt-0.5">{conduta.heparinaOk ? "✓" : "✕"}</span>
+                <span>{conduta.heparina}</span>
+              </div>
             </div>
           </div>
         )}
