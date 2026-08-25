@@ -14,16 +14,31 @@ export default function QtcCalc() {
   const [qt, setQt] = useState("");
   const [fc, setFc] = useState("");
   const [sexo, setSexo] = useState<Sexo>("masculino");
+  const [modoQt, setModoQt] = useState<"ms" | "caixas">("ms");
   const [resultado, setResultado] = useState<ReturnType<typeof calcularQtc> | null>(null);
   const [erro, setErro] = useState("");
 
+  const qtEmMs = modoQt === "caixas"
+    ? (Number(qt.replace(",", ".")) * 40) || 0
+    : Number(qt.replace(",", ".")) || 0;
+
   function calcular() {
-    const qtN = Number(qt.replace(",", "."));
+    const qtN = qtEmMs;
     const fcN = Number(fc.replace(",", "."));
-    if (!qtN || qtN < 200 || qtN > 800) { setErro("QT deve estar entre 200 e 800 ms."); setResultado(null); return; }
+    if (!qtN || qtN < 200 || qtN > 800) {
+      setErro(modoQt === "caixas" ? "Número de caixas inválido (QT deve resultar entre 200 e 800 ms)." : "QT deve estar entre 200 e 800 ms.");
+      setResultado(null); return;
+    }
     if (!fcN || fcN < 30 || fcN > 250)  { setErro("FC deve estar entre 30 e 250 bpm."); setResultado(null); return; }
     setErro("");
     setResultado(calcularQtc(qtN, fcN, sexo));
+  }
+
+  function trocarModo(novo: "ms" | "caixas") {
+    setModoQt(novo);
+    setQt("");
+    setResultado(null);
+    setErro("");
   }
 
   const cor = resultado ? COR_MAP[resultado.cor] : null;
@@ -62,14 +77,37 @@ export default function QtcCalc() {
 
         {/* QT */}
         <div>
-          <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-1.5">
-            Intervalo QT (ms)
-          </label>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">
+              Intervalo QT
+            </label>
+            <div className="flex rounded-lg border border-zinc-200 dark:border-white/8 overflow-hidden text-[11px] font-semibold">
+              {(["ms", "caixas"] as const).map((m) => (
+                <button key={m} type="button"
+                  onClick={() => trocarModo(m)}
+                  className={`px-2.5 py-1 transition-colors ${
+                    modoQt === m
+                      ? "bg-[#3db8d4] text-white"
+                      : "text-[#0f2d4a] dark:text-[#8aacbc] hover:bg-zinc-50 dark:hover:bg-white/4"
+                  }`}>
+                  {m === "ms" ? "ms" : "caixas"}
+                </button>
+              ))}
+            </div>
+          </div>
           <input type="text" inputMode="decimal" value={qt}
             onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setQt(e.target.value); setResultado(null); }}
-            placeholder="Ex: 420"
+            placeholder={modoQt === "ms" ? "Ex: 420" : "Ex: 10,5"}
             className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
           />
+          {modoQt === "caixas" && (
+            <div className="mt-1.5 flex items-center justify-between">
+              <p className="text-[10px] text-[#0f2d4a] dark:text-[#3a5a70]">1 caixa pequena = 40 ms &nbsp;·&nbsp; velocidade padrão 25 mm/s</p>
+              {qt && qtEmMs > 0 && (
+                <p className="text-[10px] font-semibold text-[#3db8d4]">= {qtEmMs} ms</p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* FC */}
