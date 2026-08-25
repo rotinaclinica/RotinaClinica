@@ -78,25 +78,22 @@ export default function TourMateriaisMockup() {
       )}
 
       {tab === "aulas" && (
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {AULAS.map((mat) => (
-            <div key={mat.titulo} className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#e8f4fd] flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-[#1a6aad]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                </svg>
+            <div key={mat.titulo} className="bg-white rounded-2xl border border-zinc-200 shadow-sm flex flex-col overflow-hidden">
+              <div className="h-28 bg-[#0a1220] flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#1a2d45] rounded-xl flex items-center justify-center">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-[#0f2d4a] leading-snug">{mat.titulo}</p>
-                <p className="text-[11px] text-zinc-400 mt-0.5">PDF · {mat.tamanho}</p>
-              </div>
-              <div className="shrink-0 w-8 h-8 rounded-full bg-[#e8f4fd] flex items-center justify-center">
-                <svg className="w-4 h-4 text-[#1a6aad]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
+              <div className="p-3 flex flex-col gap-1">
+                <p className="text-xs font-bold text-[#0f2d4a] leading-snug">{mat.titulo}</p>
+                <p className="text-[11px] text-zinc-400">PDF · {mat.tamanho}</p>
               </div>
             </div>
           ))}
