@@ -89,6 +89,11 @@ export default function QuatroTsCalc() {
       </div>
 
       <div className="p-5 space-y-5">
+        <div className="flex gap-2 items-start px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0f1e30] border border-zinc-100 dark:border-white/8 text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+          <span className="shrink-0 text-[#3db8d4] font-bold">i</span>
+          <span><span className="font-semibold">Nadir</span> = valor mínimo de plaquetas atingido após o início da heparina. Para a queda percentual, compare com o valor basal antes da queda relacionada à heparina.</span>
+        </div>
+
         {CRITERIOS.map((c, ci) => (
           <div key={ci}>
             <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#e8edf5] mb-2">{c.titulo}</p>
