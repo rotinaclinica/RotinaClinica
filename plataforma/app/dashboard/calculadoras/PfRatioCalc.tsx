@@ -11,11 +11,16 @@ const COR_MAP = {
 };
 
 const FIO2_RAPIDOS = [
-  { label: "AA (21%)",  value: "21"  },
-  { label: "O₂ 2L (28%)",  value: "28"  },
-  { label: "O₂ 4L (36%)",  value: "36"  },
-  { label: "Máscara (50%)", value: "50"  },
-  { label: "VM (100%)", value: "100" },
+  { label: "Ar ambiente",    sub: "21%",  value: "21"  },
+  { label: "CN 1 L/min",    sub: "25%",  value: "25"  },
+  { label: "CN 2 L/min",    sub: "29%",  value: "29"  },
+  { label: "CN 3 L/min",    sub: "33%",  value: "33"  },
+  { label: "CN 4 L/min",    sub: "37%",  value: "37"  },
+  { label: "CN 5 L/min",    sub: "41%",  value: "41"  },
+  { label: "CN 6 L/min",    sub: "45%",  value: "45"  },
+  { label: "Másc. simples",  sub: "~50%", value: "50"  },
+  { label: "Másc. NR",      sub: "~80%", value: "80"  },
+  { label: "VM / CNAF",     sub: "100%", value: "100" },
 ];
 
 export default function PfRatioCalc() {
@@ -76,16 +81,17 @@ export default function PfRatioCalc() {
             placeholder="Ex: 40"
             className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4] mb-2"
           />
-          <div className="flex flex-wrap gap-1.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
             {FIO2_RAPIDOS.map((f) => (
               <button key={f.value} type="button"
                 onClick={() => selecionarFio2(f.value)}
-                className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition-all ${
+                className={`px-2.5 py-2 rounded-lg border text-left transition-all ${
                   fio2 === f.value
                     ? "bg-[#3db8d4] border-[#3db8d4] text-white"
-                    : "border-zinc-200 dark:border-white/8 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
+                    : "border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50"
                 }`}>
-                {f.label}
+                <span className={`block text-[11px] font-semibold leading-tight ${fio2 === f.value ? "text-white" : "text-[#0f2d4a] dark:text-[#8aacbc]"}`}>{f.label}</span>
+                <span className={`block text-[10px] leading-tight mt-0.5 ${fio2 === f.value ? "text-white/80" : "text-[#0f2d4a] dark:text-[#5a7a8e]"}`}>{f.sub}</span>
               </button>
             ))}
           </div>
@@ -128,16 +134,17 @@ export default function PfRatioCalc() {
               <tr className="bg-zinc-50 dark:bg-[#0f1e30] border-b border-zinc-100 dark:border-white/8">
                 <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">P/F (mmHg)</th>
                 <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Categoria</th>
+                <th className="text-right px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Mortalidade</th>
               </tr>
             </thead>
             <tbody>
               {[
-                { faixa: "> 300",     label: "Normal",         cor: "verde"    },
-                { faixa: "200 – 300", label: "SDRA Leve",      cor: "amarelo"  },
-                { faixa: "100 – 200", label: "SDRA Moderada",  cor: "laranja"  },
-                { faixa: "≤ 100",     label: "SDRA Grave",     cor: "vermelho" },
+                { faixa: "> 300",     categoria: "normal",   label: "Sem SDRA",      mortalidade: "—",   cor: "verde"    },
+                { faixa: "200 – 300", categoria: "leve",     label: "SDRA Leve",     mortalidade: "27%", cor: "amarelo"  },
+                { faixa: "100 – 200", categoria: "moderada", label: "SDRA Moderada", mortalidade: "32%", cor: "laranja"  },
+                { faixa: "≤ 100",     categoria: "grave",    label: "SDRA Grave",    mortalidade: "45%", cor: "vermelho" },
               ].map((linha, i) => {
-                const ativo = resultado?.label === linha.label || (linha.label === "Normal" && resultado?.categoria === "normal");
+                const ativo = resultado?.categoria === linha.categoria;
                 return (
                   <tr key={i} className={`border-b border-zinc-100 dark:border-white/8 last:border-0 transition-colors ${
                     ativo ? COR_MAP[linha.cor as keyof typeof COR_MAP].badge : "hover:bg-zinc-50 dark:hover:bg-white/4"
@@ -145,6 +152,9 @@ export default function PfRatioCalc() {
                     <td className="px-4 py-2 font-mono text-[#0f2d4a] dark:text-[#9ec4de]">{linha.faixa}</td>
                     <td className={`px-4 py-2 ${ativo ? "font-bold" : "font-medium text-[#0f2d4a] dark:text-[#c4d4df]"}`}>
                       {linha.label}{ativo && <span className="ml-2 text-[10px]">◀</span>}
+                    </td>
+                    <td className={`px-4 py-2 text-right font-mono ${ativo ? "font-bold" : "text-[#0f2d4a] dark:text-[#6a8fa5]"}`}>
+                      {linha.mortalidade}
                     </td>
                   </tr>
                 );
