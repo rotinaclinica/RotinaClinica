@@ -5,7 +5,6 @@ import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
-// import OrderStatusPoller from "./OrderStatusPoller";
 
 export const metadata = { title: "Seu Pedido" };
 
@@ -31,105 +30,104 @@ export default async function OrderPage({
   const isPaid = order.status === "PAID";
   const isPending = order.status === "PENDING" && status === "pendente";
   const isDeclined = status === "falha";
-  // MP retornou sucesso mas webhook ainda não processou
   const isProcessing = order.status === "PENDING" && status === "sucesso";
 
   return (
-    <main className="min-h-screen bg-zinc-50 flex items-center justify-center px-4">
-      <div className="bg-white border border-zinc-200 rounded-2xl p-8 max-w-md w-full text-center">
+    <main className="min-h-screen bg-[#f0f4f8] flex flex-col items-center justify-center px-4 py-12">
+
+      {/* Logo */}
+      <div className="mb-8 flex items-center gap-2">
+        <div className="w-8 h-8 rounded-lg bg-[#0f2d4a] flex items-center justify-center">
+          <div className="w-4 h-4 rounded-sm bg-[#3db8d4]" />
+        </div>
+        <span className="text-[#0f2d4a] font-bold text-lg tracking-wide">ROTINA CLÍNICA</span>
+      </div>
+
+      <div className="bg-white border border-[#dde6ef] rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
+
         {isProcessing ? (
           <>
-            <div className="flex justify-center mb-4">
-              <div className="w-12 h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin" />
+            <div className="flex justify-center mb-5">
+              <div className="w-12 h-12 border-4 border-[#dde6ef] border-t-[#3db8d4] rounded-full animate-spin" />
             </div>
-            <h1 className="text-2xl font-bold mb-2">Confirmando pagamento…</h1>
-            <p className="text-zinc-500 text-sm mb-6">
+            <h1 className="text-xl font-bold text-[#0f2d4a] mb-2">Confirmando pagamento…</h1>
+            <p className="text-[#6a8fa5] text-sm mb-2">
               Aguarde enquanto confirmamos seu pagamento. Isso leva alguns segundos.
             </p>
-            {/* <OrderStatusPoller orderId={orderId} /> */}
+            <Link href={`/pedido/${orderId}`} className="text-xs text-[#3db8d4] underline">Recarregar</Link>
           </>
+
         ) : isDeclined ? (
           <>
             <div className="text-5xl mb-4">❌</div>
-            <h1 className="text-2xl font-bold mb-2">Cartão não autorizado</h1>
-            <p className="text-zinc-500 text-sm mb-4">
-              O banco recusou o pagamento. Isso pode ocorrer por limite insuficiente, cartão bloqueado para compras online ou proteção antifraude do banco emissor.
+            <h1 className="text-xl font-bold text-[#0f2d4a] mb-2">Cartão não autorizado</h1>
+            <p className="text-[#6a8fa5] text-sm mb-4 leading-relaxed">
+              O banco recusou o pagamento. Isso pode ocorrer por limite insuficiente, cartão bloqueado para compras online ou proteção antifraude.
             </p>
-            <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-6 text-left">
-              <p className="text-sm font-semibold text-sky-800 mb-1">Tente pagar via PIX</p>
-              <p className="text-xs text-sky-700">
-                O PIX é aprovado instantaneamente e sem restrições. Volte à página do produto e selecione a opção Mercado Pago — o PIX aparecerá como método de pagamento.
+            <div className="bg-[#f0f7ff] border border-[#c8dff5] rounded-xl p-4 mb-5 text-left">
+              <p className="text-sm font-semibold text-[#0f2d4a] mb-1">Tente pagar via PIX</p>
+              <p className="text-xs text-[#4a6a80] leading-relaxed">
+                O PIX é aprovado instantaneamente e sem restrições. Volte à página do produto e selecione Mercado Pago.
               </p>
             </div>
-            <div className="border border-zinc-100 rounded-xl p-4 mb-6 text-left">
+            <div className="border border-[#e8eef4] rounded-xl p-4 mb-5 text-left">
               {order.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
+                <div key={item.id} className="flex justify-between text-sm text-[#0f2d4a]">
                   <span>{item.product.title}</span>
-                  <span className="font-medium">{formatPrice(item.priceCents, order.currency)}</span>
+                  <span className="font-semibold">{formatPrice(item.priceCents, order.currency)}</span>
                 </div>
               ))}
             </div>
             <div className="flex flex-col gap-3">
               {order.items[0]?.product?.slug && (
-                <Link
-                  href={`/produtos/${order.items[0].product.slug}`}
-                  className="bg-sky-500 text-white py-3 rounded-xl font-semibold hover:bg-sky-600 transition-colors"
-                >
+                <Link href={`/produtos/${order.items[0].product.slug}`}
+                  className="bg-[#3db8d4] text-white py-3 rounded-xl font-semibold hover:bg-[#2da8c4] transition-colors">
                   Tentar com outro método
                 </Link>
               )}
-              <Link href="/" className="text-sm text-zinc-500 hover:underline">
-                Voltar para a loja
-              </Link>
+              <Link href="/" className="text-sm text-[#6a8fa5] hover:underline">Voltar para o início</Link>
             </div>
           </>
+
         ) : (
           <>
-            <div className="text-5xl mb-4">{isPaid ? "✅" : isPending ? "⏳" : "❌"}</div>
-            <h1 className="text-2xl font-bold mb-2">
-              {isPaid
-                ? "Pagamento confirmado!"
-                : isPending
-                ? "Aguardando pagamento"
-                : "Pagamento não confirmado"}
+            <div className="text-5xl mb-4">
+              {isPaid ? "✅" : isPending ? "⏳" : "❌"}
+            </div>
+            <h1 className="text-xl font-bold text-[#0f2d4a] mb-2">
+              {isPaid ? "Pagamento confirmado!" : isPending ? "Aguardando pagamento" : "Pagamento não confirmado"}
             </h1>
-            <p className="text-zinc-500 text-sm mb-6">
+            <p className="text-[#6a8fa5] text-sm mb-6 leading-relaxed">
               {isPaid
-                ? "Seu acesso foi liberado. Acesse sua área."
+                ? "Seu acesso foi liberado. Clique abaixo para acessar a plataforma."
                 : isPending
-                ? "Seu PIX/boleto está sendo processado. Você receberá acesso assim que o pagamento for confirmado."
+                ? "Seu PIX está sendo processado. Você receberá acesso assim que o pagamento for confirmado."
                 : "Se você completou o pagamento, aguarde alguns minutos e recarregue a página."}
             </p>
 
-            <div className="border border-zinc-100 rounded-xl p-4 mb-6 text-left">
+            <div className="border border-[#e8eef4] rounded-xl p-4 mb-6 text-left">
               {order.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
+                <div key={item.id} className="flex justify-between text-sm text-[#0f2d4a]">
                   <span>{item.product.title}</span>
-                  <span className="font-medium">{formatPrice(item.priceCents, order.currency)}</span>
+                  <span className="font-semibold">{formatPrice(item.priceCents, order.currency)}</span>
                 </div>
               ))}
             </div>
 
             <div className="flex flex-col gap-3">
               {isPaid && (
-                <Link
-                  href="/dashboard"
-                  className="bg-violet-600 text-white py-3 rounded-xl font-semibold hover:bg-violet-700 transition-colors"
-                >
-                  Ir para Minha Área
+                <Link href="/dashboard"
+                  className="bg-[#3db8d4] text-white py-3 rounded-xl font-semibold hover:bg-[#2da8c4] transition-colors">
+                  Acessar a plataforma →
                 </Link>
               )}
               {!isPaid && (
-                <Link
-                  href={`/pedido/${orderId}`}
-                  className="border border-zinc-200 text-zinc-600 py-3 rounded-xl text-sm hover:bg-zinc-50 transition-colors block"
-                >
+                <Link href={`/pedido/${orderId}`}
+                  className="border border-[#dde6ef] text-[#6a8fa5] py-3 rounded-xl text-sm hover:bg-[#f0f4f8] transition-colors block">
                   Recarregar página
                 </Link>
               )}
-              <Link href="/" className="text-sm text-zinc-500 hover:underline">
-                Voltar para a loja
-              </Link>
+              <Link href="/" className="text-sm text-[#6a8fa5] hover:underline">Voltar para o início</Link>
             </div>
           </>
         )}
