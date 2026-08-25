@@ -173,12 +173,6 @@ export default function AguaLivreCalc() {
               </p>
             </div>
 
-            {/* Fórmula resumida */}
-            <div className="rounded-xl bg-zinc-50 dark:bg-[#0f1e30] border border-zinc-100 dark:border-white/8 px-4 py-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] space-y-1">
-              <p className="font-bold uppercase tracking-widest mb-1">Fórmula aplicada</p>
-              <p>TBW × Peso × (Na atual / Na desejado − 1)</p>
-              <p className="font-semibold">{resultado.tbwFracao} × {peso} × ({sodioAtual} / {sodioDesejado} − 1) = {resultado.deficit.toFixed(2)} L</p>
-            </div>
           </div>
         )}
       </div>

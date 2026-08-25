@@ -24,7 +24,10 @@ export default function AguaLivrePage() {
       <main className="flex-1 p-6 sm:p-8">
         <div className="max-w-lg space-y-4">
           <AguaLivreCalc />
-          <div className="px-1">
+          <div className="px-1 space-y-2">
+            <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
+              <span className="font-semibold">Fórmula:</span> Déficit de água livre (L) = Fração da água corporal total × Peso (kg) × (Sódio atual / Sódio desejado − 1). A fração da água corporal total varia conforme sexo e faixa etária: homem adulto 60%, mulher adulta 50%, homem idoso 50%, mulher idosa 45%, criança 60%.
+            </p>
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
               <span className="font-semibold">Referência:</span> Adrogue HJ, Madias NE. Hypernatremia.{" "}
               <em>N Engl J Med.</em> 2000;342(20):1493–1499.
