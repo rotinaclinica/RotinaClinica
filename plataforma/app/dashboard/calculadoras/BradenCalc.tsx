@@ -52,6 +52,7 @@ const CRITERIOS: { titulo: string; subtitulo?: string; opcoes: { pts: number; la
   },
   {
     titulo: "Fricção e cisalhamento",
+    subtitulo: "Atrito da pele contra superfícies (fricção) e deslizamento do corpo na cama (cisalhamento)",
     opcoes: [
       { pts: 1, label: "Problemático" },
       { pts: 2, label: "Potencialmente problemático" },
