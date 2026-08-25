@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { calcularBraden } from "@/lib/calculadoras/braden";
 
-const CRITERIOS = [
+const CRITERIOS: { titulo: string; subtitulo?: string; opcoes: { pts: number; label: string }[] }[] = [
   {
     titulo: "Percepção sensorial",
     opcoes: [
@@ -14,7 +14,8 @@ const CRITERIOS = [
     ],
   },
   {
-    titulo: "Umidade",
+    titulo: "Umidade da pele",
+    subtitulo: "Exposição à urina, suor ou secreções",
     opcoes: [
       { pts: 1, label: "Constantemente úmida" },
       { pts: 2, label: "Muito úmida" },
@@ -52,7 +53,7 @@ const CRITERIOS = [
   {
     titulo: "Fricção e cisalhamento",
     opcoes: [
-      { pts: 1, label: "Problema" },
+      { pts: 1, label: "Problemático" },
       { pts: 2, label: "Potencialmente problemático" },
       { pts: 3, label: "Sem problema aparente" },
     ],
@@ -87,7 +88,10 @@ export default function BradenCalc() {
         {CRITERIOS.map((c, ci) => (
           <div key={ci}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{c.titulo}</p>
+              <div>
+                <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{c.titulo}</p>
+                {c.subtitulo && <p className="text-[10px] text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">{c.subtitulo}</p>}
+              </div>
               {respostas[ci] !== null && (
                 <span className="text-[11px] font-semibold text-[#3db8d4]">{respostas[ci]} pt</span>
               )}
