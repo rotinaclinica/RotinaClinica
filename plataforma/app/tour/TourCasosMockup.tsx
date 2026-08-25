@@ -32,7 +32,7 @@ export default function TourCasosMockup() {
               : "text-zinc-500 hover:text-zinc-700"
           }`}
         >
-          Imagem
+          Imagem ({SEQUENCIAS.length})
         </button>
         <button
           onClick={() => setTab("video")}
@@ -42,14 +42,14 @@ export default function TourCasosMockup() {
               : "text-zinc-500 hover:text-zinc-700"
           }`}
         >
-          Vídeo
+          Vídeo ({VIDEOS.length})
         </button>
       </div>
 
       {/* Galeria — mesmo estilo da página real */}
       {tab === "imagem" && (
         <div>
-          <p className="text-sm text-zinc-500 mb-4">Clique para abrir a sequência.</p>
+          <p className="text-sm text-[#1a6aad] mb-4">Clique para abrir a sequência.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
             {SEQUENCIAS.map((s) => (
               <div
@@ -81,7 +81,7 @@ export default function TourCasosMockup() {
 
       {tab === "video" && (
         <div>
-          <p className="text-sm text-zinc-500 mb-4">Clique no card para assistir.</p>
+          <p className="text-sm text-[#1a6aad] mb-4">Clique no card para assistir.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {VIDEOS.map((v) => (
               <div key={v.id} className="rounded-2xl overflow-hidden border border-zinc-200 shadow-sm bg-white text-left w-full">

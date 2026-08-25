@@ -29,6 +29,31 @@ const EBOOKS: Record<string, { file: string; name: string; folder?: string }> = 
     name: "Dor e Analgesia — Rotina Clínica",
     folder: "aulasconteudooffline",
   },
+  "dengue": {
+    file: "Aula Dengue.pdf",
+    name: "Dengue — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "drge": {
+    file: "DRGE e suas complicações o essencial para o generalista.pdf",
+    name: "DRGE e suas complicações — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "disturbios-potassio": {
+    file: "Distúrbios do Potássio.pdf",
+    name: "Distúrbios do Potássio — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "disturbios-sodio": {
+    file: "Distúrbios do Sódio.pdf",
+    name: "Distúrbios do Sódio — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "prescricao-racional": {
+    file: "Prescrição Racional.pdf",
+    name: "Prescrição Racional — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
 };
 
 export async function GET(

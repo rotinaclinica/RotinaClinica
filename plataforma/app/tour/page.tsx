@@ -76,6 +76,14 @@ const calculadoras = [
   { nome: "Reconstituição e Diluição", desc: "Medicamentos EV" },
   { nome: "Dobutamina", desc: "Droga vasoativa" },
   { nome: "Noradrenalina", desc: "Droga vasoativa" },
+  { nome: "P/F Ratio", desc: "SDRA / Berlin" },
+  { nome: "QTc", desc: "Intervalo QT corrigido" },
+  { nome: "Ânion Gap", desc: "Distúrbios ácido-base" },
+  { nome: "Braden", desc: "Risco de lesão por pressão" },
+  { nome: "NEWS2", desc: "Gravidade da doença aguda" },
+  { nome: "IMC", desc: "Índice de massa corporal" },
+  { nome: "Score 4T", desc: "Trombocitopenia induzida por heparina" },
+  { nome: "Água Livre", desc: "Déficit e reposição de água livre" },
 ];
 
 const aulasDestravando = [
@@ -238,7 +246,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               {`Mais de ${prescricoesMeta.length} modelos de prescrição e conteúdos práticos`}
             </h2>
-            <p className="text-zinc-500 leading-relaxed mb-6">
+            <p className="text-[#0f2d4a] leading-relaxed mb-6">
               Busque por queixa, diagnóstico ou medicamento e acesse prescrições completas com doses, vias,
               diluições e instruções — organizadas por cenário clínico e sempre atualizadas.
             </p>
@@ -336,7 +344,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Um novo caso toda semana com raciocínio diagnóstico e conduta
             </h2>
-            <p className="text-zinc-500 leading-relaxed mb-6">
+            <p className="text-[#0f2d4a] leading-relaxed mb-6">
               Sequências de slides e vídeos semanais cobrindo temas práticos do plantão —
               desde condutas gerais até casos clínicos completos com raciocínio e discussão.
             </p>
@@ -394,9 +402,9 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Destravando o Plantão
             </h2>
-            <p className="text-zinc-500 leading-relaxed mb-6">
-              Curso completo com 12 aulas em vídeo + 3 módulos bônus, cobrindo as queixas mais comuns do PS, UBS e UPA.
-              Cada aula acompanha material de apoio, modelo de evolução e modelo de prescrição em PDF.
+            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+              {`Curso completo com ${aulasDestravando.length} aulas em vídeo + ${bonusDestravando.length} módulos bônus, cobrindo as queixas mais comuns do PS, UBS e UPA.
+              Cada aula acompanha material de apoio, modelo de evolução e modelo de prescrição em PDF.`}
             </p>
             <ul className="space-y-3 mb-6">
               {[
@@ -419,7 +427,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Guias práticos para download
             </h2>
-            <p className="text-zinc-500 leading-relaxed max-w-2xl">
+            <p className="text-[#0f2d4a] leading-relaxed max-w-2xl">
               Arquivos em PDF disponíveis dentro da plataforma — para estudar offline, imprimir ou consultar a qualquer hora, direto pelo celular ou computador.
             </p>
           </div>
@@ -434,7 +442,7 @@ export default function TourPage() {
           <div className="rounded-2xl overflow-hidden shadow-2xl order-2 md:order-1 bg-[#0a1220]">
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.07]">
               <span className="text-xs font-bold text-[#e8edf5]">Calculadoras Clínicas</span>
-              <span className="text-[10px] font-semibold bg-[#1a3a52] text-[#3db8d4] px-2 py-0.5 rounded-full">22 disponíveis</span>
+              <span className="text-[10px] font-semibold bg-[#1a3a52] text-[#3db8d4] px-2 py-0.5 rounded-full">{calculadoras.length} disponíveis</span>
             </div>
             <div className="p-3 grid grid-cols-2 gap-2">
               {[
@@ -462,9 +470,9 @@ export default function TourPage() {
           <div className="order-1 md:order-2">
             <span className="text-[#1a6aad] text-xs font-bold tracking-widest uppercase">Calculadoras e Escores</span>
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
-              22 calculadoras clínicas validadas
+              {calculadoras.length} calculadoras clínicas validadas
             </h2>
-            <p className="text-zinc-500 leading-relaxed mb-6">
+            <p className="text-[#0f2d4a] leading-relaxed mb-6">
               Os principais escores da prática clínica e calculadoras de infusão de drogas vasoativas —
               integrados na plataforma, sem precisar de apps separados.
             </p>

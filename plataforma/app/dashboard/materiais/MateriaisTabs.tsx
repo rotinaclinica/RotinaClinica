@@ -21,6 +21,36 @@ const AULAS_MATERIAIS = [
     descricao: "Material de apoio com estratégias práticas de avaliação e manejo da dor no paciente adulto.",
     tamanho: "3,0 MB",
   },
+  {
+    id: "dengue",
+    titulo: "Dengue",
+    descricao: "Abordagem prática da dengue no plantão: classificação de risco, sinais de alarme e manejo clínico.",
+    tamanho: "1,4 MB",
+  },
+  {
+    id: "drge",
+    titulo: "DRGE e suas complicações — o essencial para o generalista",
+    descricao: "Diagnóstico e tratamento da doença do refluxo gastroesofágico e suas principais complicações.",
+    tamanho: "4,4 MB",
+  },
+  {
+    id: "disturbios-potassio",
+    titulo: "Distúrbios do Potássio",
+    descricao: "Abordagem sistemática da hipocalemia e hipercalemia: causas, diagnóstico e conduta clínica.",
+    tamanho: "1,0 MB",
+  },
+  {
+    id: "disturbios-sodio",
+    titulo: "Distúrbios do Sódio",
+    descricao: "Manejo prático da hiponatremia e hipernatremia, com critérios de correção e cuidados essenciais.",
+    tamanho: "10,6 MB",
+  },
+  {
+    id: "prescricao-racional",
+    titulo: "Prescrição Racional",
+    descricao: "Princípios e estratégias de prescrição racional de medicamentos para a prática clínica diária.",
+    tamanho: "6,3 MB",
+  },
 ];
 
 const EBOOKS = [

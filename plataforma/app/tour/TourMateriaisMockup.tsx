@@ -35,7 +35,7 @@ export default function TourMateriaisMockup() {
               : "text-zinc-500 hover:text-zinc-700"
           }`}
         >
-          Ebooks
+          Ebooks ({EBOOKS.length})
         </button>
         <button
           onClick={() => setTab("aulas")}
@@ -45,7 +45,7 @@ export default function TourMateriaisMockup() {
               : "text-zinc-500 hover:text-zinc-700"
           }`}
         >
-          Aulas
+          Aulas ({AULAS.length})
         </button>
       </div>
 

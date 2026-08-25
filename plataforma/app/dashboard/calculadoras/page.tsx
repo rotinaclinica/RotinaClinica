@@ -24,6 +24,10 @@ const SepsisIcon = () => (
   <img src="/images/calculadoras/sepsis.png" alt="sepse" className="w-full h-full object-contain scale-[1.4]" />
 );
 
+const News2Icon = () => (
+  <img src="/images/calculadoras/news.png" alt="NEWS2" className="w-full h-full object-contain scale-[1.4]" />
+);
+
 const FigadoIcon = () => (
   <img src="/images/calculadoras/figado.png" alt="fígado" className="w-full h-full object-contain" />
 );
@@ -136,7 +140,15 @@ const CALCULADORAS = [
     iconBg: "bg-[#0a1628]",
     icon: <LungIcon />,
   },
-  // — Sepse / Hemodinâmica (ícone sepse) —
+  // — Sepse / Monitoramento (ícone sepse) —
+  {
+    slug: "news2",
+    nome: "NEWS2",
+    descricao: "National Early Warning Score 2",
+    especialidade: "Emergência",
+    iconBg: "bg-[#0a1628]",
+    icon: <News2Icon />,
+  },
   {
     slug: "qsofa",
     nome: "qSOFA",
