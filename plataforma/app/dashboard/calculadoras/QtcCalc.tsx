@@ -85,7 +85,7 @@ export default function QtcCalc() {
           {/* Referência de caixas → ms */}
           <div className="mt-2 rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
             <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#5a7a8e] px-3 py-1.5 bg-zinc-50 dark:bg-[#0f1e30] border-b border-zinc-100 dark:border-white/8 uppercase tracking-wider">
-              Caixas pequenas → ms &nbsp;<span className="font-normal normal-case">(25 mm/s)</span>
+              Quadradinhos → ms &nbsp;<span className="font-normal normal-case">(25 mm/s)</span>
             </p>
             <div className="grid grid-cols-4 divide-x divide-y divide-zinc-100 dark:divide-white/8">
               {CAIXAS_REF.map((r) => {
@@ -97,7 +97,7 @@ export default function QtcCalc() {
                       ativo ? "bg-[#3db8d4]/10 dark:bg-[#3db8d4]/15" : "hover:bg-zinc-50 dark:hover:bg-white/4"
                     }`}>
                     <span className={`text-xs font-bold ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#e8edf5]"}`}>
-                      {r.caixas}cx
+                      {r.caixas}qd
                     </span>
                     <span className={`text-[10px] ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#5a7a8e]"}`}>
                       {r.ms} ms
