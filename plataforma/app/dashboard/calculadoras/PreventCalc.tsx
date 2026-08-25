@@ -23,14 +23,14 @@ function NumInput({ label, sublabel, value, min, max, step = 1, onChange }: {
     <div>
       <label className="block text-xs font-semibold text-zinc-600 dark:text-[#8aacbc] mb-1">
         {label}
-        {sublabel && <span className="font-normal text-zinc-400 dark:text-[#5a7a8e] ml-1">{sublabel}</span>}
+        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#5a7a8e] ml-1">{sublabel}</span>}
       </label>
       <input
         type="number" min={min} max={max} step={step} value={value}
         onChange={(e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) onChange(v); }}
         className="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0e1825] text-sm text-zinc-900 dark:text-[#e8edf5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
       />
-      <p className="text-[10px] text-zinc-400 dark:text-[#3a5a70] mt-0.5">{min}–{max}</p>
+      <p className="text-[10px] text-[#0f2d4a] dark:text-[#3a5a70] mt-0.5">{min}–{max}</p>
     </div>
   );
 }
@@ -75,7 +75,7 @@ export default function PreventCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">PREVENT — AHA 2023</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Risco cardiovascular total em 10 anos</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Risco cardiovascular total em 10 anos</p>
         </div>
       </div>
 
@@ -122,7 +122,7 @@ export default function PreventCalc() {
         {/* Resultado */}
         {resultado && cor && (
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
-            <p className="text-xs font-bold text-zinc-500 dark:text-[#6a8fa5] uppercase tracking-wide">Risco cardiovascular total em 10 anos</p>
+            <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide">Risco cardiovascular total em 10 anos</p>
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.risco10yr.toFixed(1)}%</p>
             </div>
@@ -134,7 +134,7 @@ export default function PreventCalc() {
           </div>
         )}
 
-        <p className="text-[10px] text-zinc-400 dark:text-[#3a5a70] leading-relaxed">
+        <p className="text-[10px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
           Modelo de regressão logística baseado em: Khan SS, et al. <em>Circulation.</em> 2023;148:1982–2004.
           Coeficientes conforme implementação MDCalc. Valide resultados contra a calculadora oficial da AHA (tools.acc.org/PREVENT).
         </p>

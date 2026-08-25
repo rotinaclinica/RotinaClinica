@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import ThemeToggle from "@/app/components/ThemeToggle";
+import { calcularTier, formatarSince } from "@/lib/tier";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -89,13 +90,17 @@ export default async function DashboardPage() {
   const isActive = isAdmin || isTester || subscription?.status === "ACTIVE";
   const expiresAt = subscription?.currentPeriodEnd;
 
+  // Tier de gamificação: usa data da assinatura ou, para admin/tester, a data de criação da conta
+  const sinceDate = subscription?.createdAt ?? (isAdmin || isTester ? user?.createdAt : null) ?? null;
+  const tier = sinceDate ? calcularTier(sinceDate) : null;
+
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-zinc-400 dark:text-[#5a7a8e] text-sm">{greeting()},</p>
+            <p className="text-[#0f2d4a] dark:text-[#5a7a8e] text-sm">{greeting()},</p>
             <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-tight">{firstName}</h1>
           </div>
 
@@ -123,8 +128,20 @@ export default async function DashboardPage() {
           )}
         </div>
 
+        {tier && sinceDate && (
+          <div className="mt-2 flex items-center gap-2 flex-wrap">
+            <span className="text-lg leading-none">{tier.emoji}</span>
+            <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${tier.badge}`}>
+              {tier.nome}
+            </span>
+            <span className="text-xs font-medium text-[#0f2d4a] dark:text-[#e8edf5]">
+              Assinante desde {formatarSince(sinceDate)}
+            </span>
+          </div>
+        )}
+
         {expiresAt && isActive && (
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] mt-1">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-1">
             Acesso até {expiresAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
           </p>
         )}
@@ -133,7 +150,7 @@ export default async function DashboardPage() {
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm font-semibold text-zinc-400 dark:text-[#4a6a7e] uppercase tracking-wider">O que você quer acessar?</p>
+          <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider">O que você quer acessar?</p>
           <ThemeToggle variant="switch" />
         </div>
 
@@ -163,7 +180,7 @@ export default async function DashboardPage() {
                 <h2 className="font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] text-base mb-1 group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                   {s.label}
                 </h2>
-                <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm leading-relaxed">{s.description}</p>
+                <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm leading-relaxed">{s.description}</p>
               </div>
             </Link>
           ))}

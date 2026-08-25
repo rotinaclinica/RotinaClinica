@@ -60,14 +60,14 @@ export default function CentorMcIsaacCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Centor / McIsaac</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Probabilidade de faringite bacteriana</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Probabilidade de faringite bacteriana</p>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
         {/* Critérios Centor */}
         <div>
-          <p className="text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] mb-2">Critérios clínicos (+1 cada):</p>
+          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] mb-2">Critérios clínicos (+1 cada):</p>
           <div className="space-y-2">
             {CRITERIOS_CENTOR.map((c) => {
               const ativo = valores[c.campo];
@@ -102,7 +102,7 @@ export default function CentorMcIsaacCalc() {
 
         {/* Faixa etária McIsaac */}
         <div>
-          <p className="text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] mb-2">Faixa etária — ajuste McIsaac:</p>
+          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] mb-2">Faixa etária — ajuste McIsaac:</p>
           <div className="flex gap-2 flex-wrap">
             {FAIXAS.map((f) => {
               const ativo = valores.faixaEtaria === f.valor;
@@ -117,7 +117,7 @@ export default function CentorMcIsaacCalc() {
                   }`}
                 >
                   <span className="block text-xs">{f.label}</span>
-                  <span className={`text-[11px] font-bold ${ativo ? "text-[#3db8d4]" : "text-zinc-400 dark:text-[#3a5a70]"}`}>
+                  <span className={`text-[11px] font-bold ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#3a5a70]"}`}>
                     {f.ajuste}
                   </span>
                 </button>
@@ -138,7 +138,7 @@ export default function CentorMcIsaacCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">/ {maxPontos} pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ {maxPontos} pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${Math.max(barWidth, 4)}%` }} />

@@ -40,7 +40,7 @@ export default async function PedidosPage() {
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
+          className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
@@ -48,14 +48,14 @@ export default async function PedidosPage() {
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">Meus Pedidos</h1>
-        <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm mt-1">
+        <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm mt-1">
           Compras realizadas na plataforma. Reembolso disponível em até 7 dias após a compra.
         </p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
         {orders.length === 0 ? (
-          <div className="text-center py-20 text-zinc-400 dark:text-[#4a6a7e]">
+          <div className="text-center py-20 text-[#0f2d4a] dark:text-[#4a6a7e]">
             <p className="text-lg font-medium mb-2">Nenhum pedido ainda</p>
             <p className="text-sm">Suas compras aparecerão aqui.</p>
           </div>
@@ -80,7 +80,7 @@ export default async function PedidosPage() {
                           {item.product.title}
                         </p>
                       ))}
-                      <p className="text-xs text-zinc-400 dark:text-[#4a6a7e]">
+                      <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e]">
                         {new Date(order.createdAt).toLocaleDateString("pt-BR", {
                           day: "2-digit", month: "long", year: "numeric",
                         })}

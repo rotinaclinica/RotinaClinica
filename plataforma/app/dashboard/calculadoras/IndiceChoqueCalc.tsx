@@ -40,18 +40,18 @@ export default function IndiceChoqueCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Índice de Choque</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Triagem rápida de instabilidade hemodinâmica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Triagem rápida de instabilidade hemodinâmica</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
-        <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest">
+        <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">
           Índice de Choque = FC ÷ PAS
         </p>
 
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="block text-xs font-semibold text-zinc-500 dark:text-[#8aacbc] mb-1.5">FC (bpm)</label>
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-1.5">FC (bpm)</label>
             <input
               type="number" min="0" max="300" value={fc}
               onChange={(e) => { setFc(e.target.value); setResultado(null); }}
@@ -60,7 +60,7 @@ export default function IndiceChoqueCalc() {
             />
           </div>
           <div className="flex-1">
-            <label className="block text-xs font-semibold text-zinc-500 dark:text-[#8aacbc] mb-1.5">PAS (mmHg)</label>
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-1.5">PAS (mmHg)</label>
             <input
               type="number" min="0" max="300" value={pas}
               onChange={(e) => { setPas(e.target.value); setResultado(null); }}
@@ -83,7 +83,7 @@ export default function IndiceChoqueCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.indice.toFixed(2)}
               </p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">IC</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">IC</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -92,7 +92,7 @@ export default function IndiceChoqueCalc() {
             <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3">
               {resultado.conduta}
             </p>
-            <div className="text-[11px] text-zinc-400 dark:text-[#3a5a70] space-y-0.5 border-t border-zinc-100 dark:border-white/8 pt-3">
+            <div className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] space-y-0.5 border-t border-zinc-100 dark:border-white/8 pt-3">
               <p><span className="font-semibold">0,5 – 0,7</span> — Normal (faixa aceita)</p>
               <p><span className="font-semibold">0,7 – 0,9</span> — Atenção (borderline)</p>
               <p><span className="font-semibold">0,9 – 1,0</span> — Elevado (risco aumentado)</p>

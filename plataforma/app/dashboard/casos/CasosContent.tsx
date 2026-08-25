@@ -91,7 +91,7 @@ export default function CasosContent() {
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "imagem"
               ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-zinc-500 dark:text-[#6a8fa5] hover:text-zinc-700 dark:hover:text-[#9ec4de]"
+              : "text-[#0f2d4a] dark:text-[#6a8fa5] hover:text-zinc-700 dark:hover:text-[#9ec4de]"
           }`}
         >
           Imagem
@@ -101,7 +101,7 @@ export default function CasosContent() {
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "video"
               ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-zinc-500 dark:text-[#6a8fa5] hover:text-zinc-700 dark:hover:text-[#9ec4de]"
+              : "text-[#0f2d4a] dark:text-[#6a8fa5] hover:text-zinc-700 dark:hover:text-[#9ec4de]"
           }`}
         >
           Vídeo
@@ -111,7 +111,7 @@ export default function CasosContent() {
       {/* ── Galeria ── */}
       {tab === "imagem" && (
         <div>
-          <p className="text-sm text-zinc-500 dark:text-[#6a8fa5] mb-4">Clique para abrir a sequência.</p>
+          <p className="text-sm text-[#0f2d4a] dark:text-[#6a8fa5] mb-4">Clique para abrir a sequência.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
             {SEQUENCIAS.map((s, i) => (
               <button
@@ -134,7 +134,7 @@ export default function CasosContent() {
                 </div>
                 <div className="px-3 py-2.5">
                   <p className="text-[#0f2d4a] dark:text-[#e8edf5] text-xs font-bold leading-snug">{s.titulo}</p>
-                  <p className="text-zinc-400 dark:text-[#5a7a8e] text-[11px] mt-0.5">{s.images.length} imagens</p>
+                  <p className="text-[#0f2d4a] dark:text-[#5a7a8e] text-[11px] mt-0.5">{s.images.length} imagens</p>
                 </div>
               </button>
             ))}
@@ -145,7 +145,7 @@ export default function CasosContent() {
       {/* ── Vídeos ── */}
       {tab === "video" && (
         <div>
-          <p className="text-sm text-zinc-500 dark:text-[#6a8fa5] mb-4">Clique no card para assistir.</p>
+          <p className="text-sm text-[#0f2d4a] dark:text-[#6a8fa5] mb-4">Clique no card para assistir.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {VIDEOS.map((v) => (
               <button key={v.id} onClick={() => setActiveVideo(v.id)} className="group rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 shadow-sm bg-white dark:bg-[#131c2e] text-left w-full">

@@ -42,12 +42,12 @@ export default function Crb65Calc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">CRB-65</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Gravidade da pneumonia — sem exame laboratorial</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Gravidade da pneumonia — sem exame laboratorial</p>
         </div>
       </div>
 
       <div className="p-5 space-y-3">
-        <p className="text-xs text-zinc-500 dark:text-[#6a8fa5]">Marque os critérios presentes (+1 ponto cada):</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">Marque os critérios presentes (+1 ponto cada):</p>
 
         {CRITERIOS.map((c) => {
           const ativo = valores[c.campo];
@@ -68,7 +68,7 @@ export default function Crb65Calc() {
               </span>
               <span className="flex-1 min-w-0">
                 <span className="font-semibold">{c.label}</span>
-                {c.sublabel && <span className="block text-[11px] text-zinc-500 dark:text-[#8aacbc] font-normal mt-0.5">{c.sublabel}</span>}
+                {c.sublabel && <span className="block text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] font-normal mt-0.5">{c.sublabel}</span>}
               </span>
               <span className={`text-xs font-bold shrink-0 ${ativo ? "text-[#3db8d4]" : "text-zinc-300 dark:text-[#3a5a70]"}`}>
                 {ativo ? "+1" : ""}
@@ -88,7 +88,7 @@ export default function Crb65Calc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />

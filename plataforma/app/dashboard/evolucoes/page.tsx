@@ -94,7 +94,7 @@ export default function EvolucoesPag() {
 
       <div className="flex-1 flex flex-col">
         <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
-          <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
+          <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
@@ -103,13 +103,13 @@ export default function EvolucoesPag() {
           <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">
             Modelos de evolução
           </h1>
-          <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">
+          <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">
             Modelos prontos para você usar na sua prática clínica.
           </p>
 
           {/* Search */}
           <div className="relative mt-4 max-w-xl">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-[#4a6a7e]"
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#4a6a7e]"
               width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -123,7 +123,7 @@ export default function EvolucoesPag() {
             />
             {query && (
               <button onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-[#4a6a7e] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
                 aria-label="Limpar">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -141,12 +141,12 @@ export default function EvolucoesPag() {
                   <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
               </div>
-              <p className="font-bold text-zinc-500 dark:text-[#7d96ad] mb-1">Nenhum modelo encontrado</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e]">Tente outro diagnóstico ou queixa.</p>
+              <p className="font-bold text-[#0f2d4a] dark:text-[#7d96ad] mb-1">Nenhum modelo encontrado</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e]">Tente outro diagnóstico ou queixa.</p>
             </div>
           ) : (
             <>
-              <p className="text-xs text-zinc-400 dark:text-[#4a6a7e] mb-4 font-medium">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] mb-4 font-medium">
                 {resultados.length} modelo{resultados.length !== 1 ? "s" : ""}
                 {query ? ` para "${query}"` : ""}
               </p>

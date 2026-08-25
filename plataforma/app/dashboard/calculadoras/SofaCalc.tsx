@@ -69,7 +69,7 @@ export default function SofaCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">SOFA</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Avaliação sequencial de disfunção orgânica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Avaliação sequencial de disfunção orgânica</p>
         </div>
       </div>
 
@@ -77,12 +77,12 @@ export default function SofaCalc() {
 
         {/* Respiratório */}
         <div>
-          <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
             Respiratório — PaO₂ / FiO₂
           </p>
           <div className="flex gap-2 mb-2">
             <div className="flex-1">
-              <label className="text-[11px] text-zinc-500 dark:text-[#8aacbc] mb-1 block">PaO₂ (mm Hg)</label>
+              <label className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mb-1 block">PaO₂ (mm Hg)</label>
               <input
                 type="number" min="0" max="600" value={pao2}
                 onChange={(e) => { setPao2(e.target.value); setResultado(null); }}
@@ -91,7 +91,7 @@ export default function SofaCalc() {
               />
             </div>
             <div className="flex-1">
-              <label className="text-[11px] text-zinc-500 dark:text-[#8aacbc] mb-1 block">FiO₂ (%)</label>
+              <label className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mb-1 block">FiO₂ (%)</label>
               <input
                 type="number" min="21" max="100" value={fio2}
                 onChange={(e) => { setFio2(e.target.value); setResultado(null); }}
@@ -102,7 +102,7 @@ export default function SofaCalc() {
           </div>
 
           {pfRatioDisplay !== null && (
-            <p className="text-xs text-zinc-500 dark:text-[#8aacbc] mb-2">
+            <p className="text-xs text-[#0f2d4a] dark:text-[#8aacbc] mb-2">
               Relação P/F calculada: <span className="font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{pfRatioDisplay}</span>
             </p>
           )}
@@ -115,18 +115,18 @@ export default function SofaCalc() {
                 : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
             }`}>
             <span className="flex-1 font-semibold">Em ventilação mecânica</span>
-            <span className="text-[11px] text-zinc-400 dark:text-[#5a7a8e]">incluindo CPAP</span>
+            <span className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">incluindo CPAP</span>
           </button>
         </div>
 
         {/* Demais componentes */}
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest mb-0.5">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-0.5">
               {secao.titulo}
             </p>
             {secao.sublabel && (
-              <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e] mb-2 italic">{secao.sublabel}</p>
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] mb-2 italic">{secao.sublabel}</p>
             )}
             {!secao.sublabel && <div className="mb-2" />}
             <div className="flex flex-col gap-1.5">
@@ -159,8 +159,8 @@ export default function SofaCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">pontos</p>
-              <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] mb-0.5 ml-1">/ 24</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">pontos</p>
+              <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5 ml-1">/ 24</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -170,7 +170,7 @@ export default function SofaCalc() {
               {resultado.conduta}
             </p>
             {resultado.respiratorio === null && (
-              <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e] italic border-t border-zinc-100 dark:border-white/8 pt-2">
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] italic border-t border-zinc-100 dark:border-white/8 pt-2">
                 PaO₂/FiO₂ não informado — componente respiratório calculado como 0.
               </p>
             )}

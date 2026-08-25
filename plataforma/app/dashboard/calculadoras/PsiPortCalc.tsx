@@ -95,7 +95,7 @@ export default function PsiPortCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">PSI/PORT</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Pneumonia Severity Index</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Pneumonia Severity Index</p>
         </div>
       </div>
 
@@ -103,14 +103,14 @@ export default function PsiPortCalc() {
         {/* Sexo + Idade */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] uppercase tracking-wide mb-2">Sexo biológico</label>
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide mb-2">Sexo biológico</label>
             <div className="flex gap-2">
               {(["M", "F"] as SexoPSI[]).map((s) => (
                 <button key={s} onClick={() => { setSexo(s); setResultado(null); }}
                   className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
                     sexo === s
                       ? "bg-[#3db8d4] text-white border-[#3db8d4]"
-                      : "bg-zinc-50 dark:bg-[#1a2d45] text-zinc-500 dark:text-[#6a8fa5] border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50"
+                      : "bg-zinc-50 dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#6a8fa5] border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50"
                   }`}>
                   {s === "M" ? "M" : "F"}
                 </button>
@@ -118,7 +118,7 @@ export default function PsiPortCalc() {
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] uppercase tracking-wide mb-2">Idade (anos)</label>
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide mb-2">Idade (anos)</label>
             <input type="number" inputMode="numeric" placeholder="ex: 65" value={idade}
               onChange={(e) => { setIdade(e.target.value); setResultado(null); }}
               className="w-full px-3 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-[#0f1e30] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-300 dark:placeholder:text-[#3a5a70] focus:outline-none focus:border-[#3db8d4] transition-colors"
@@ -129,7 +129,7 @@ export default function PsiPortCalc() {
         {/* Seções de critérios */}
         {SECOES.map((secao) => (
           <div key={secao.titulo}>
-            <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest mb-2">{secao.titulo}</p>
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">{secao.titulo}</p>
             <div className="flex flex-col gap-1.5">
               {secao.itens.map((item) => {
                 const ativo = flags[item.campo];
@@ -162,14 +162,14 @@ export default function PsiPortCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
-              <span className="text-xs text-zinc-500 dark:text-[#6a8fa5]">Mortalidade: <strong>{resultado.mortalidade}</strong></span>
+              <span className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">Mortalidade: <strong>{resultado.mortalidade}</strong></span>
             </div>
             <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3">
               {resultado.conduta}

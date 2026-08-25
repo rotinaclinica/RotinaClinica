@@ -53,14 +53,14 @@ export default function ImcCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Calculadora de IMC</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Classificação nutricional baseada no peso e altura</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Classificação nutricional baseada no peso e altura</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="block text-xs font-semibold text-zinc-500 dark:text-[#8aacbc] mb-1.5">Peso (kg)</label>
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-1.5">Peso (kg)</label>
             <input
               type="text" inputMode="decimal" value={peso}
               onChange={(e) => {
@@ -75,7 +75,7 @@ export default function ImcCalc() {
           </div>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold text-zinc-500 dark:text-[#8aacbc]">Altura</label>
+              <label className="text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Altura</label>
               <div className="flex rounded-lg overflow-hidden border border-zinc-200 dark:border-white/8 text-[11px] font-bold">
                 {(["cm", "m"] as const).map((u) => (
                   <button key={u} type="button"
@@ -83,7 +83,7 @@ export default function ImcCalc() {
                     className={`px-2.5 py-1 transition-colors ${
                       unidadeAltura === u
                         ? "bg-[#3db8d4] text-white"
-                        : "bg-zinc-50 dark:bg-[#1a2d45] text-zinc-400 dark:text-[#5a7a8e] hover:bg-zinc-100 dark:hover:bg-[#1e3450]"
+                        : "bg-zinc-50 dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#5a7a8e] hover:bg-zinc-100 dark:hover:bg-[#1e3450]"
                     }`}>
                     {u}
                   </button>
@@ -122,7 +122,7 @@ export default function ImcCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.imc.toFixed(1)}
               </p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">kg/m²</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">kg/m²</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -133,14 +133,14 @@ export default function ImcCalc() {
 
         {/* Tabela de referência */}
         <div className="rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
-          <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest px-4 py-2.5 border-b border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30]">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest px-4 py-2.5 border-b border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30]">
             Classificação ASMBS
           </p>
           <table className="w-full text-xs">
             <thead>
               <tr className="bg-zinc-50 dark:bg-[#0f1e30] border-b border-zinc-100 dark:border-white/8">
-                <th className="text-left px-4 py-2 font-semibold text-zinc-500 dark:text-[#8aacbc]">Faixa de IMC (kg/m²)</th>
-                <th className="text-left px-4 py-2 font-semibold text-zinc-500 dark:text-[#8aacbc]">Categoria</th>
+                <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Faixa de IMC (kg/m²)</th>
+                <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Categoria</th>
               </tr>
             </thead>
             <tbody>

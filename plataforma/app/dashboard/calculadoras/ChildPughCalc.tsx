@@ -52,14 +52,14 @@ export default function ChildPughCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Child-Pugh</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Gravidade da cirrose hepática</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Gravidade da cirrose hepática</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
               {secao.titulo}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -92,22 +92,22 @@ export default function ChildPughCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
-              <span className="text-xs text-zinc-500 dark:text-[#7a9aae]">{resultado.descricao}</span>
+              <span className="text-xs text-[#0f2d4a] dark:text-[#7a9aae]">{resultado.descricao}</span>
             </div>
             <div className="border-t border-zinc-100 dark:border-white/8 pt-3 flex gap-4">
               <div>
-                <p className="text-[10px] text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide">Sobrevida 1 ano</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-wide">Sobrevida 1 ano</p>
                 <p className="text-lg font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">{resultado.sobrevida1ano}</p>
               </div>
               <div>
-                <p className="text-[10px] text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide">Sobrevida 2 anos</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-wide">Sobrevida 2 anos</p>
                 <p className="text-lg font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">{resultado.sobrevida2anos}</p>
               </div>
             </div>

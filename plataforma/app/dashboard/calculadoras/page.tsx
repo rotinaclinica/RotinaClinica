@@ -246,15 +246,15 @@ export default function CalculadorasPage() {
   return (
     <div className="flex-1 flex flex-col">
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
-        <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
+        <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Calculadoras Clínicas</h1>
-        <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm">Os escores e calculadoras mais utilizados na prática clínica.</p>
-        <p className="text-xs text-zinc-400 dark:text-[#4a6a7e] mt-1 font-medium">{CALCULADORAS.length} calculadoras</p>
+        <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">Os escores e calculadoras mais utilizados na prática clínica.</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] mt-1 font-medium">{CALCULADORAS.length} calculadoras</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
@@ -275,7 +275,7 @@ export default function CalculadorasPage() {
                         <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 uppercase tracking-wide">Beta</span>
                       )}
                     </div>
-                    <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] line-clamp-2 leading-snug">{calc.descricao}</p>
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] line-clamp-2 leading-snug">{calc.descricao}</p>
                   </div>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-300 dark:text-[#3a5a70] group-hover:text-[#3db8d4] transition-colors shrink-0">
                     <polyline points="9 18 15 12 9 6"/>

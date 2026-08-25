@@ -20,7 +20,7 @@ export default async function AirtraqAulaPage({
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-4">
         <Link
           href="/dashboard/cursos/airtraq"
-          className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-2 transition-colors"
+          className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-2 transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
@@ -30,7 +30,7 @@ export default async function AirtraqAulaPage({
         <h1 className="text-base sm:text-lg font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">
           {video.titulo}
         </h1>
-        <p className="text-xs text-zinc-400 dark:text-[#5a7a8e] mt-0.5">Vídeo {idx + 1} de {AIRTRAQ_VIDEOS.length}</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">Vídeo {idx + 1} de {AIRTRAQ_VIDEOS.length}</p>
       </header>
 
       <main className="flex-1 p-4 sm:p-6 flex flex-col items-center">

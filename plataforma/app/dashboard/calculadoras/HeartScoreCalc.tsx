@@ -97,14 +97,14 @@ export default function HeartScoreCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">HEART Score</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Estratificação de risco em dor torácica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Estratificação de risco em dor torácica</p>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
         {PERGUNTAS.map((pergunta) => (
           <div key={pergunta.campo}>
-            <label className="block text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] uppercase tracking-wide mb-2">
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide mb-2">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#3db8d4] text-[#0f2d4a] text-xs font-bold mr-1.5 shrink-0">
                 {pergunta.letra}
               </span>
@@ -127,12 +127,12 @@ export default function HeartScoreCalc() {
                         : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-600 dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
                     }`}
                   >
-                    <span className={`font-bold mr-1.5 ${selecionado ? "text-[#3db8d4]" : "text-zinc-400 dark:text-[#5a7a8e]"}`}>
+                    <span className={`font-bold mr-1.5 ${selecionado ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#5a7a8e]"}`}>
                       {op.valor}
                     </span>
                     {op.label}
                     {op.sublabel && (
-                      <span className="block text-[11px] text-zinc-400 dark:text-[#5a7a8e] mt-0.5 font-normal">
+                      <span className="block text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5 font-normal">
                         {op.sublabel}
                       </span>
                     )}
@@ -159,7 +159,7 @@ export default function HeartScoreCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.total}
               </p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">/ 10 pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ 10 pontos</p>
             </div>
 
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
@@ -170,7 +170,7 @@ export default function HeartScoreCalc() {
               <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>
                 {resultado.label}
               </span>
-              <span className="text-xs text-zinc-500 dark:text-[#6a8fa5]">
+              <span className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">
                 MACE em 6 semanas: <strong>{resultado.mace}</strong>
               </span>
             </div>

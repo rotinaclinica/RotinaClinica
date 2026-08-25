@@ -73,14 +73,14 @@ export default function ChadsvascCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">CHA₂DS₂-VA</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Risco de AVC em fibrilação atrial</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Risco de AVC em fibrilação atrial</p>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
         {/* Faixa etária */}
         <div>
-          <p className="text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] mb-2">
+          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] mb-2">
             Idade — critério A / A₂:
           </p>
           <div className="flex gap-2">
@@ -97,7 +97,7 @@ export default function ChadsvascCalc() {
                   }`}
                 >
                   <span className="block text-xs">{f.label}</span>
-                  <span className={`text-[11px] font-bold ${ativo ? "text-[#3db8d4]" : "text-zinc-400 dark:text-[#3a5a70]"}`}>
+                  <span className={`text-[11px] font-bold ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#3a5a70]"}`}>
                     {f.ajuste}
                   </span>
                 </button>
@@ -108,7 +108,7 @@ export default function ChadsvascCalc() {
 
         {/* Critérios binários */}
         <div>
-          <p className="text-xs font-semibold text-zinc-500 dark:text-[#6a8fa5] mb-2">
+          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] mb-2">
             Critérios clínicos (+1 cada, exceto S₂ = +2):
           </p>
           <div className="space-y-2">
@@ -151,7 +151,7 @@ export default function ChadsvascCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${Math.max(barWidth, 4)}%` }} />

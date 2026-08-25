@@ -58,7 +58,7 @@ export default function MateriaisTabs({ email }: { email: string }) {
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "ebooks"
               ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-zinc-500 dark:text-[#6a8fa5] hover:text-zinc-700 dark:hover:text-[#9ec4de]"
+              : "text-[#0f2d4a] dark:text-[#6a8fa5] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
           }`}
         >
           Ebooks
@@ -68,7 +68,7 @@ export default function MateriaisTabs({ email }: { email: string }) {
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "aulas"
               ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-zinc-500 dark:text-[#6a8fa5] hover:text-zinc-700 dark:hover:text-[#9ec4de]"
+              : "text-[#0f2d4a] dark:text-[#6a8fa5] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
           }`}
         >
           Aulas
@@ -100,12 +100,12 @@ export default function MateriaisTabs({ email }: { email: string }) {
                   <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
                     {ebook.titulo}
                   </h2>
-                  <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] leading-relaxed">
+                  <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
                     {ebook.descricao}
                   </p>
                 </div>
 
-                <div className="flex gap-3 text-[11px] text-zinc-400 dark:text-[#5a7a8e]">
+                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
                   <span>{ebook.paginas}</span>
                   <span>·</span>
                   <span>{ebook.formato}</span>
@@ -156,12 +156,12 @@ export default function MateriaisTabs({ email }: { email: string }) {
                   <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
                     {mat.titulo}
                   </h2>
-                  <p className="text-xs text-zinc-500 dark:text-[#6a8fa5] leading-relaxed">
+                  <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
                     {mat.descricao}
                   </p>
                 </div>
 
-                <div className="flex gap-3 text-[11px] text-zinc-400 dark:text-[#5a7a8e]">
+                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
                   <span>{mat.tamanho}</span>
                   <span>·</span>
                   <span>PDF</span>

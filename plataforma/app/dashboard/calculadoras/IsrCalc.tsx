@@ -30,13 +30,13 @@ export default function IsrCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">ISR — Intubação em Sequência Rápida</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Doses calculadas pelo peso do paciente</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Doses calculadas pelo peso do paciente</p>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
         <div>
-          <label className="text-[11px] text-zinc-500 dark:text-[#8aacbc] mb-1 block">Peso do paciente (kg)</label>
+          <label className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mb-1 block">Peso do paciente (kg)</label>
           <input
             type="number" value={peso} placeholder="ex: 70"
             onChange={(e) => setPeso(e.target.value)}
@@ -54,8 +54,8 @@ export default function IsrCalc() {
 
               {/* Cabeçalho colunas */}
               <div className="grid grid-cols-2 px-3 py-1.5 bg-zinc-50 dark:bg-[#0f1e30] border-b border-zinc-100 dark:border-white/8">
-                <p className="text-[10px] font-bold text-zinc-400 dark:text-[#4a6a7e] uppercase tracking-wide">Medicamento</p>
-                {pesoValido && <p className="text-[10px] font-bold text-zinc-400 dark:text-[#4a6a7e] uppercase tracking-wide">Dose calculada</p>}
+                <p className="text-[10px] font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wide">Medicamento</p>
+                {pesoValido && <p className="text-[10px] font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wide">Dose calculada</p>}
               </div>
 
               {cat.medicamentos.map((med, i) => {
@@ -72,7 +72,7 @@ export default function IsrCalc() {
                       <div className="space-y-1.5">
                         <div>
                           <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">{med.nome}</p>
-                          <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e]">
+                          <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
                             {med.doseMin}{med.doseMax ? `–${med.doseMax}` : ""} {med.unidade}
                           </p>
                         </div>
@@ -95,9 +95,9 @@ export default function IsrCalc() {
                       {calc && (
                         <div>
                           <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{calc.volStr}</p>
-                          <p className="text-[11px] text-zinc-400 dark:text-[#5a7a8e]">{calc.doseStr}</p>
+                          <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">{calc.doseStr}</p>
                           {ap.nota && (
-                            <p className="text-[10px] text-zinc-400 dark:text-[#4a6a7e] mt-0.5">{ap.nota}</p>
+                            <p className="text-[10px] text-[#0f2d4a] dark:text-[#4a6a7e] mt-0.5">{ap.nota}</p>
                           )}
                         </div>
                       )}

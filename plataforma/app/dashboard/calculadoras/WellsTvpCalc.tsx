@@ -56,12 +56,12 @@ export default function WellsTvpCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Wells para TVP</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Probabilidade pré-teste de trombose venosa profunda</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Probabilidade pré-teste de trombose venosa profunda</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
-        <p className="text-[11px] font-bold text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-widest">Critérios</p>
+        <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">Critérios</p>
         <div className="flex flex-col gap-1.5">
           {CRITERIOS.map((item) => {
             const ativo = flags[item.campo];
@@ -78,7 +78,7 @@ export default function WellsTvpCalc() {
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold leading-snug">{item.label}</p>
                   {item.sublabel && (
-                    <p className="text-[11px] text-zinc-500 dark:text-[#8aacbc] mt-0.5">{item.sublabel}</p>
+                    <p className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mt-0.5">{item.sublabel}</p>
                   )}
                 </div>
                 <span className={`text-xs font-bold shrink-0 ${
@@ -102,7 +102,7 @@ export default function WellsTvpCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -111,7 +111,7 @@ export default function WellsTvpCalc() {
             <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3 whitespace-pre-line">
               {resultado.conduta}
             </p>
-            <div className="text-[11px] text-zinc-400 dark:text-[#3a5a70] space-y-0.5 border-t border-zinc-100 dark:border-white/8 pt-3">
+            <div className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] space-y-0.5 border-t border-zinc-100 dark:border-white/8 pt-3">
               <p><span className="font-semibold">≤ 0</span> — Baixa probabilidade (prevalência 5%)</p>
               <p><span className="font-semibold">1 – 2</span> — Moderada (prevalência 17%)</p>
               <p><span className="font-semibold">≥ 3</span> — Alta probabilidade (prevalência 17–53%)</p>

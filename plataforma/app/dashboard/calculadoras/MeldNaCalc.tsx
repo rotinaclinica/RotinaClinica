@@ -51,7 +51,7 @@ export default function MeldNaCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">MELD-Na</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Priorização em transplante hepático</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Priorização em transplante hepático</p>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function MeldNaCalc() {
             { label: "Sódio (mEq/L)",             value: sodio,       set: setSodio,       placeholder: "ex: 135" },
           ].map(({ label, value, set, placeholder }) => (
             <div key={label}>
-              <label className="text-[11px] text-zinc-500 dark:text-[#8aacbc] mb-1 block">{label}</label>
+              <label className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mb-1 block">{label}</label>
               <input
                 type="number" value={value} placeholder={placeholder}
                 onChange={(e) => { set(e.target.value); reset(); }}
@@ -81,7 +81,7 @@ export default function MeldNaCalc() {
               : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
           }`}>
           <span className="flex-1 font-semibold">Em diálise</span>
-          <span className="text-[11px] text-zinc-400 dark:text-[#5a7a8e]">creatinina → 4,0 mg/dL</span>
+          <span className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">creatinina → 4,0 mg/dL</span>
         </button>
 
         {erro && <p className="text-xs text-red-500 dark:text-red-400">{erro}</p>}
@@ -95,12 +95,12 @@ export default function MeldNaCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-4">
               <div>
-                <p className="text-[10px] text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide mb-0.5">MELD-Na</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-wide mb-0.5">MELD-Na</p>
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.meldNa}</p>
               </div>
               <div className="mb-1">
-                <p className="text-[10px] text-zinc-400 dark:text-[#5a7a8e] uppercase tracking-wide mb-0.5">MELD</p>
-                <p className="text-xl font-bold text-zinc-500 dark:text-[#7a9aae] leading-none">{resultado.meld}</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-wide mb-0.5">MELD</p>
+                <p className="text-xl font-bold text-[#0f2d4a] dark:text-[#7a9aae] leading-none">{resultado.meld}</p>
               </div>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">

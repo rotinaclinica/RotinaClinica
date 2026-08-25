@@ -48,12 +48,12 @@ export default function HasbledCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">HAS-BLED</p>
-          <p className="text-xs text-zinc-400 dark:text-[#5a7a8e]">Risco de sangramento maior em anticoagulados</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Risco de sangramento maior em anticoagulados</p>
         </div>
       </div>
 
       <div className="p-5 space-y-3">
-        <p className="text-xs text-zinc-500 dark:text-[#6a8fa5]">Marque os critérios presentes (+1 ponto cada):</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">Marque os critérios presentes (+1 ponto cada):</p>
 
         {CRITERIOS.map((c) => {
           const ativo = valores[c.campo];
@@ -91,7 +91,7 @@ export default function HasbledCalc() {
           <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-zinc-400 dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${Math.max(barWidth, 4)}%` }} />
