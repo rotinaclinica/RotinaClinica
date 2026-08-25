@@ -40,6 +40,18 @@ const IsrIcon = () => (
   <img src="/images/calculadoras/isr.png" alt="ISR" className="w-full h-full object-contain scale-[1.3]" />
 );
 
+const QuatroTsIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
+    <circle cx="20" cy="20" r="14" fill="#e8f4fc" opacity="0.2"/>
+    <circle cx="14" cy="16" r="4" fill="#3db8d4" opacity="0.9"/>
+    <circle cx="26" cy="16" r="4" fill="#3db8d4" opacity="0.6"/>
+    <circle cx="20" cy="26" r="4" fill="#3db8d4" opacity="0.75"/>
+    <line x1="17.5" y1="18" x2="22.5" y2="18" stroke="white" strokeWidth="1.5"/>
+    <line x1="17" y1="20" x2="21" y2="24" stroke="white" strokeWidth="1.5"/>
+    <line x1="23" y1="20" x2="21" y2="24" stroke="white" strokeWidth="1.5"/>
+  </svg>
+);
+
 const AguaLivreIcon = () => (
   <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
     <path d="M20 4 C20 4 8 18 8 26 a12 12 0 0 0 24 0 C32 18 20 4 20 4Z" fill="#3db8d4" opacity="0.85"/>
@@ -229,6 +241,15 @@ const CALCULADORAS = [
     especialidade: "Clínica Geral",
     iconBg: "bg-[#0a1628]",
     icon: <img src="/images/calculadoras/imc.png" alt="IMC" className="w-full h-full object-contain" />,
+  },
+  // — Hematologia —
+  {
+    slug: "4ts",
+    nome: "4Ts Score — TIH",
+    descricao: "Probabilidade de trombocitopenia induzida por heparina",
+    especialidade: "Hematologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <QuatroTsIcon />,
   },
   // — Nefrologia / Hidroeletrolítico —
   {
