@@ -18,7 +18,7 @@ export async function sendPurchaseConfirmation({
 }) {
   const isSubscription = productType === "SUBSCRIPTION";
   const subject = isSubscription
-    ? "Bem-vindo à Rotina Clínica — sua assinatura está ativa!"
+    ? "Bem-vindo ao Rotina Clínica — sua assinatura está ativa!"
     : `Seu acesso a "${productTitle}" está liberado!`;
 
   const headline = isSubscription ? "Assinatura ativa ✅" : "Acesso liberado ✅";
