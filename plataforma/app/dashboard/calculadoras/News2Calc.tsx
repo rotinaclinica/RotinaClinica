@@ -68,7 +68,8 @@ export default function News2Calc() {
 
   const cor = resultado ? COR_MAP[resultado.cor] : null;
 
-  const PONTOS_LABELS: { key: keyof typeof resultado.pontos; label: string }[] = [
+  type PontosKey = "fr" | "spo2" | "o2" | "pas" | "fc" | "consciencia" | "temperatura";
+  const PONTOS_LABELS: { key: PontosKey; label: string }[] = [
     { key: "fr",          label: "Frequência respiratória" },
     { key: "spo2",        label: "Saturação O₂"           },
     { key: "o2",          label: "O₂ suplementar"         },
