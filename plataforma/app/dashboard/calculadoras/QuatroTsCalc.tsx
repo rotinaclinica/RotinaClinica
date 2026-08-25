@@ -151,21 +151,27 @@ export default function QuatroTsCalc() {
             </div>
 
             {/* Conduta */}
-            <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-2">
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">
-                Conduta
-              </p>
-              <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">{conduta.titulo}</p>
-              <div className={`flex gap-2 items-start text-xs leading-relaxed ${conduta.heparinaOk ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
-                <span className="shrink-0 mt-0.5">{conduta.heparinaOk ? "✓" : "✕"}</span>
-                <span>{conduta.heparina}</span>
+            <div className="rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
+              <div className="px-4 py-2.5 bg-zinc-100 dark:bg-[#0f1e30] border-b border-zinc-200 dark:border-white/8">
+                <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">Conduta</p>
               </div>
-              {conduta.substituto && (
-                <div className="flex gap-2 items-start text-xs leading-relaxed text-amber-700 dark:text-amber-400">
-                  <span className="shrink-0 mt-0.5">→</span>
-                  <span>{conduta.substituto}</span>
+              <div className="p-4 space-y-2.5 bg-white dark:bg-[#131c2e]">
+                <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{conduta.titulo}</p>
+                <div className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium ${
+                  conduta.heparinaOk
+                    ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-700/40"
+                    : "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-700/40"
+                }`}>
+                  <span className="text-base shrink-0">{conduta.heparinaOk ? "✓" : "✕"}</span>
+                  <span>{conduta.heparina}</span>
                 </div>
-              )}
+                {conduta.substituto && (
+                  <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-700/40">
+                    <span className="text-base shrink-0">→</span>
+                    <span>{conduta.substituto}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
