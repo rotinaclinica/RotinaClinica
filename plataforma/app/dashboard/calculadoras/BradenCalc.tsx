@@ -80,9 +80,14 @@ export default function BradenCalc() {
 
   return (
     <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8">
-        <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Escala de Braden</p>
-        <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">Risco de lesão por pressão em adultos</p>
+      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+        <div className="w-16 h-16 rounded-xl bg-[#0a1628] overflow-hidden shrink-0 flex items-center justify-center">
+          <img src="/images/calculadoras/lesao-pressao.png" alt="lesão por pressão" className="w-full h-full object-contain" />
+        </div>
+        <div>
+          <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Escala de Braden</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">Risco de lesão por pressão em adultos</p>
+        </div>
       </div>
 
       <div className="p-5 space-y-5">
