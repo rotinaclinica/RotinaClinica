@@ -174,6 +174,15 @@ const CALCULADORAS = [
     iconBg: "bg-[#0a1628]",
     icon: <TevIcon />,
   },
+  // — Cardiologia / Eletrofisiologia —
+  {
+    slug: "qtc",
+    nome: "QTc — Bazett",
+    descricao: "Intervalo QT corrigido pela frequência cardíaca",
+    especialidade: "Cardiologia",
+    iconBg: "bg-[#0a1628]",
+    icon: <HeartIcon />,
+  },
   // — Neurologia (ícone cérebro) —
   {
     slug: "glasgow",
