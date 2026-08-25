@@ -137,8 +137,8 @@ export default function AnionGapCalc() {
           </p>
           <div className="divide-y divide-zinc-100 dark:divide-white/8">
             {[
-              { faixa: "8 – 16",  label: "Normal",  cor: "verde"   },
-              { faixa: "> 16",    label: "Elevado", cor: "laranja" },
+              { faixa: "12 ± 4 (8–16)",  label: "Normal",  cor: "verde"   },
+              { faixa: "> 16",            label: "Elevado", cor: "laranja" },
             ].map((r, i) => {
               const ativo = resultado?.categoria === (r.label === "Normal" ? "normal" : "elevado");
               return (
