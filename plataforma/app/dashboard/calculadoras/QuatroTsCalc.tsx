@@ -7,9 +7,9 @@ const CRITERIOS = [
   {
     titulo: "Trombocitopenia",
     opcoes: [
-      { pts: 2, label: "Queda >50% E nadir ≥20.000/microL" },
-      { pts: 1, label: "Queda 30–50% OU nadir 10.000–19.000/microL" },
-      { pts: 0, label: "Queda <30% OU nadir <10.000/microL" },
+      { pts: 2, label: "Queda >50% E nadir ≥20.000/mm³" },
+      { pts: 1, label: "Queda 30–50% OU nadir 10.000–19.000/mm³" },
+      { pts: 0, label: "Queda <30% OU nadir <10.000/mm³" },
     ],
   },
   {
