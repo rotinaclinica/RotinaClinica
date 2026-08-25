@@ -29,7 +29,7 @@ export default function AnionGapPage() {
               <span className="font-semibold">Fórmulas:</span> AG = Na⁺ − (Cl⁻ + HCO₃⁻) &nbsp;·&nbsp; AG corrigido = AG + 2,5 × (4,5 − albumina g/dL)
             </p>
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
-              <span className="font-semibold">Nota:</span> O intervalo de referência pode variar conforme o analisador laboratorial. Laboratórios com eletrodos íon-seletivos tendem a reportar valores menores (6 ± 3 mEq/L).
+              <span className="font-semibold">Nota:</span> O intervalo de referência histórico é 12 ± 4 mEq/L (8–16). Pode variar conforme o analisador — laboratórios com eletrodos íon-seletivos tendem a reportar valores menores (6 ± 3 mEq/L).
             </p>
             <p className="text-[11px] text-[#0f2d4a] dark:text-[#3a5a70] leading-relaxed">
               <span className="font-semibold">Referência:</span> Serum anion gap in conditions other than metabolic acidosis. <em>UpToDate.</em> 2024.

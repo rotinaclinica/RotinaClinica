@@ -20,9 +20,9 @@ export function calcularAnionGap(
 
   const agRef = agCorrigido ?? ag;
 
-  if (agRef <= 12) {
+  if (agRef <= 16) {
     return { ag, agCorrigido, categoria: "normal", label: "Normal", cor: "verde",
-      descricao: "Ânion gap dentro do intervalo de referência (≤ 12 mEq/L)" };
+      descricao: "Ânion gap dentro do intervalo de referência histórico (12 ± 4 mEq/L)" };
   }
   return { ag, agCorrigido, categoria: "elevado", label: "Elevado", cor: "laranja",
     descricao: "Ânion gap elevado — considerar acidose metabólica com AG elevado (MUDPILES)" };
