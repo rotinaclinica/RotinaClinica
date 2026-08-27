@@ -92,7 +92,7 @@ export default async function HomePage() {
               { emoji: "🩺", titulo: "Casos Clínicos", desc: "Casos clínicos em vídeos e séries visuais com raciocínio e condutas detalhadas para você." },
               { emoji: "📝", titulo: "Modelos de Evolução", desc: "Modelos prontos para agilizar seu atendimento." },
               { emoji: "📄", titulo: "Ebooks e Aulas", desc: "Conteúdo prático em PDF, disponível para download e leitura a qualquer hora." },
-              { emoji: "🎓", titulo: "Cursos e Aulas Online", desc: "Destravando o Plantão, conteúdos da parceira Docstage e muito mais..." },
+              { emoji: "🎓", titulo: "Cursos e Aulas Online", desc: "Destravando o Plantão, conteúdos das parceiras Docstage e Airtraq e muito mais..." },
               { emoji: "✅", titulo: "Compromisso com a Qualidade", desc: "Conteúdo produzido por especialistas em clínica médica, baseado nas melhores evidências disponíveis, com atualizações e melhorias contínuas na plataforma." },
               { emoji: "📱", titulo: "Acesso em qualquer lugar", desc: "Disponível no celular, tablet ou computador — acesse sua conta a qualquer hora, de onde estiver." },
             ].map((item) => (
