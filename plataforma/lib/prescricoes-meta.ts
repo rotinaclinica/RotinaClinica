@@ -63,7 +63,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "rim",
       "diurético",
       "IRA"
-    ]
+    ],
+    "relacionados": ["226"]
   },
   {
     "id": "6",
@@ -108,7 +109,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "hemoglobina",
       "endoscopia"
     ],
-    "relacionados": ["240"]
+    "relacionados": ["240","54","55","56","57"]
   },
   {
     "id": "10",
@@ -130,7 +131,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "AAS",
       "heparina",
       "infarto"
-    ]
+    ],
+    "relacionados": ["200","204","205","199","203","13"]
   },
   {
     "id": "12",
@@ -141,7 +143,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "EAP",
       "morfina",
       "nitrato"
-    ]
+    ],
+    "relacionados": ["212","203","8","191"]
   },
   {
     "id": "13",
@@ -153,7 +156,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "anticoagulante",
       "digoxina"
     ],
-    "relacionados": ["173", "174"]
+    "relacionados": ["30","171","172","173","174","175"]
   },
   {
     "id": "14",
@@ -185,7 +188,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "dopamina",
       "vasopressor",
       "choque"
-    ]
+    ],
+    "relacionados": ["17","18","19","216","217"]
   },
   {
     "id": "17",
@@ -196,7 +200,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "vasopressor",
       "choque",
       "BIC"
-    ]
+    ],
+    "relacionados": ["216","18","19","16"]
   },
   {
     "id": "18",
@@ -207,7 +212,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "inotrópico",
       "choque",
       "BIC"
-    ]
+    ],
+    "relacionados": ["217","17","19","16"]
   },
   {
     "id": "19",
@@ -217,7 +223,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "vasopressina",
       "choque séptico",
       "vasopressor"
-    ]
+    ],
+    "relacionados": ["17","18","16"]
   },
   {
     "id": "20",
@@ -239,7 +246,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "hidratação EV",
       "cristaloide",
       "grupos C e D"
-    ]
+    ],
+    "relacionados": ["65","64","7"]
   },
   {
     "id": "22",
@@ -250,7 +258,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "IOT",
       "intubação",
       "cetamina"
-    ]
+    ],
+    "relacionados": ["193","194","192","195","210","211"]
   },
   {
     "id": "23",
@@ -294,7 +303,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "morfina",
       "tramadol",
       "analgesia"
-    ]
+    ],
+    "relacionados": ["233","148","149","231","232"]
   },
   {
     "id": "27",
@@ -305,7 +315,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "intoxicação",
       "opioide",
       "toxicologia"
-    ]
+    ],
+    "relacionados": ["162","164","163"]
   },
   {
     "id": "28",
@@ -316,7 +327,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "melatonina",
       "insônia",
       "sedativo"
-    ]
+    ],
+    "relacionados": ["166","167","168","169","170"]
   },
   {
     "id": "29",
@@ -338,7 +350,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "warfarina",
       "NOAC",
       "anticoagulante"
-    ]
+    ],
+    "relacionados": ["13","171","172","173","174","175"]
   },
   {
     "id": "31",
@@ -349,7 +362,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "fungo",
       "pele",
       "onicomicose"
-    ]
+    ],
+    "relacionados": ["145","136","128"]
   },
   {
     "id": "32",
@@ -390,7 +404,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "fungo",
       "pele",
       "onicomicose"
-    ]
+    ],
+    "relacionados": ["36"]
   },
   {
     "id": "36",
@@ -401,7 +416,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "fungo",
       "pele",
       "onicomicose"
-    ]
+    ],
+    "relacionados": ["35","145"]
   },
   {
     "id": "37",
@@ -423,7 +439,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "fungo",
       "pele",
       "onicomicose"
-    ]
+    ],
+    "relacionados": ["176","177","178"]
   },
   {
     "id": "39",
@@ -434,7 +451,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "conjuntivite",
       "olho",
       "oftalmologia"
-    ]
+    ],
+    "relacionados": ["40","41"]
   },
   {
     "id": "40",
@@ -445,7 +463,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "conjuntivite",
       "olho",
       "oftalmologia"
-    ]
+    ],
+    "relacionados": ["39","41"]
   },
   {
     "id": "41",
@@ -456,7 +475,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "conjuntivite",
       "olho",
       "oftalmologia"
-    ]
+    ],
+    "relacionados": ["39","40"]
   },
   {
     "id": "42",
@@ -513,7 +533,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "dimenidrinato",
       "náusea",
       "vômito"
-    ]
+    ],
+    "relacionados": ["234","235","236","237","47"]
   },
   {
     "id": "47",
@@ -524,7 +545,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "dexametasona",
       "náusea",
       "vômito"
-    ]
+    ],
+    "relacionados": ["237","46","179","180","181","182"]
   },
   {
     "id": "48",
@@ -606,7 +628,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "omeprazol",
       "domperidona",
       "IBP"
-    ]
+    ],
+    "relacionados": ["55","56","57","240","9"]
   },
   {
     "id": "55",
@@ -617,7 +640,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "antiácido",
       "hidróxido de alumínio",
       "hidróxido de magnésio"
-    ]
+    ],
+    "relacionados": ["54","56","57","240"]
   },
   {
     "id": "56",
@@ -629,7 +653,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "claritromicina",
       "amoxicilina",
       "omeprazol"
-    ]
+    ],
+    "relacionados": ["55","57","54","124"]
   },
   {
     "id": "57",
@@ -641,7 +666,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "pantoprazol",
       "IBP",
       "lansoprazol"
-    ]
+    ],
+    "relacionados": ["56","55","54","240","9"]
   },
   {
     "id": "58",
@@ -730,7 +756,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "dipirona",
       "cefaleia",
       "enxaqueca"
-    ]
+    ],
+    "relacionados": ["185","186","187"]
   },
   {
     "id": "64",
@@ -741,7 +768,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "zika",
       "chikungunya",
       "arbovírus"
-    ]
+    ],
+    "relacionados": ["65","21","66","67"]
   },
   {
     "id": "65",
@@ -749,7 +777,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "categoria": "Temas PS/UPA",
     "tags": [
       "dengue"
-    ]
+    ],
+    "relacionados": ["64","21","66"]
   },
   {
     "id": "66",
@@ -760,7 +789,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "zika",
       "chikungunya",
       "arbovírus"
-    ]
+    ],
+    "relacionados": ["64","65","67"]
   },
   {
     "id": "67",
@@ -771,7 +801,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "zika",
       "chikungunya",
       "arbovírus"
-    ]
+    ],
+    "relacionados": ["64","66"]
   },
   {
     "id": "68",
@@ -798,7 +829,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": [
       "pneumonia",
       "comunitária"
-    ]
+    ],
+    "relacionados": ["136","120","122","123","201","68","69"]
   },
   {
     "id": "71",
@@ -807,7 +839,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": [
       "faringoamigdalite",
       "bacteriana"
-    ]
+    ],
+    "relacionados": ["116","115","146","72","73"]
   },
   {
     "id": "72",
@@ -816,7 +849,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": [
       "sinusite",
       "bacteriana"
-    ]
+    ],
+    "relacionados": ["116","115","127","120","71","73"]
   },
   {
     "id": "73",
@@ -826,7 +860,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "otite",
       "média",
       "aguda"
-    ]
+    ],
+    "relacionados": ["116","115","71","72"]
   },
   {
     "id": "74",
@@ -836,7 +871,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "resfriado",
       "gripe",
       "influenza"
-    ]
+    ],
+    "relacionados": ["206","207","201","208"]
   },
   {
     "id": "75",
@@ -845,7 +881,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": [
       "tosse",
       "pós-infecciosa"
-    ]
+    ],
+    "relacionados": ["76","77","219","209"]
   },
   {
     "id": "76",
@@ -854,7 +891,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": [
       "tosse",
       "produtiva"
-    ]
+    ],
+    "relacionados": ["77","75","219"]
   },
   {
     "id": "77",
@@ -863,7 +901,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": [
       "tosse",
       "produtiva"
-    ]
+    ],
+    "relacionados": ["76","75","219"]
   },
   {
     "id": "78",
@@ -874,7 +913,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "ciprofloxacino",
       "nitrofurantoína",
       "urina"
-    ]
+    ],
+    "relacionados": ["79","80","81"]
   },
   {
     "id": "79",
@@ -885,7 +925,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "ciprofloxacino",
       "nitrofurantoína",
       "urina"
-    ]
+    ],
+    "relacionados": ["80","81","134","119","126","78"]
   },
   {
     "id": "80",
@@ -896,7 +937,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "ciprofloxacino",
       "nitrofurantoína",
       "urina"
-    ]
+    ],
+    "relacionados": ["79","81","136","118","78"]
   },
   {
     "id": "81",
@@ -907,7 +949,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "ciprofloxacino",
       "nitrofurantoína",
       "urina"
-    ]
+    ],
+    "relacionados": ["79","80","134","119","126","78"]
   },
   {
     "id": "82",
@@ -940,7 +983,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["132","133","87"]
   },
   {
     "id": "85",
@@ -951,7 +995,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["146","86","89","90"]
   },
   {
     "id": "86",
@@ -962,7 +1007,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["85","87","88","91","118","123"]
   },
   {
     "id": "87",
@@ -973,7 +1019,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["84","88","124","86"]
   },
   {
     "id": "88",
@@ -984,7 +1031,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["87","124","86"]
   },
   {
     "id": "89",
@@ -995,7 +1043,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["123","85","90"]
   },
   {
     "id": "90",
@@ -1006,7 +1055,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["123","89","85"]
   },
   {
     "id": "91",
@@ -1017,7 +1067,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "levonorgestrel",
       "anticoncepção",
       "profilaxia"
-    ]
+    ],
+    "relacionados": ["99","129","130","86"]
   },
   {
     "id": "92",
@@ -1104,7 +1155,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "herpes",
       "valaciclovir",
       "HSV"
-    ]
+    ],
+    "relacionados": ["91","129","130"]
   },
   {
     "id": "100",
@@ -1126,7 +1178,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["102","105"]
   },
   {
     "id": "102",
@@ -1137,7 +1190,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["101"]
   },
   {
     "id": "103",
@@ -1148,7 +1202,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["104"]
   },
   {
     "id": "104",
@@ -1159,7 +1214,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["103"]
   },
   {
     "id": "105",
@@ -1170,7 +1226,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["106","101"]
   },
   {
     "id": "106",
@@ -1181,7 +1238,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["105"]
   },
   {
     "id": "107",
@@ -1192,7 +1250,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["108"]
   },
   {
     "id": "108",
@@ -1203,7 +1262,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["107"]
   },
   {
     "id": "109",
@@ -1214,7 +1274,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["110"]
   },
   {
     "id": "110",
@@ -1225,7 +1286,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "sódio",
       "eletrólito",
       "cálcio"
-    ]
+    ],
+    "relacionados": ["109"]
   },
   {
     "id": "111",
@@ -1246,7 +1308,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "haloperidol",
       "delirium",
       "agitação"
-    ]
+    ],
+    "relacionados": ["113","188"]
   },
   {
     "id": "113",
@@ -1257,7 +1320,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "alprazolam",
       "ansiedade",
       "pânico"
-    ]
+    ],
+    "relacionados": ["168","112","28"]
   },
   {
     "id": "114",
@@ -1342,19 +1406,22 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "185",
     "titulo": "Cefaleia tensional",
     "categoria": "Temas PS/UPA",
-    "tags": ["cefaleia","dipirona","ibuprofeno","amitriptilina"]
+    "tags": ["cefaleia","dipirona","ibuprofeno","amitriptilina"],
+    "relacionados": ["91","99","129"]
   },
   {
     "id": "186",
     "titulo": "Migrânea / Enxaqueca",
     "categoria": "Temas PS/UPA",
-    "tags": ["migrânea","enxaqueca","sumatriptano","cefaleia"]
+    "tags": ["migrânea","enxaqueca","sumatriptano","cefaleia"],
+    "relacionados": ["63","185","187"]
   },
   {
     "id": "187",
     "titulo": "Cefaleia em salvas",
     "categoria": "Temas PS/UPA",
-    "tags": ["cefaleia","salvas","verapamil","sumatriptano"]
+    "tags": ["cefaleia","salvas","verapamil","sumatriptano"],
+    "relacionados": ["63","185","186"]
   },
   {
     "id": "188",
@@ -1366,103 +1433,120 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "189",
     "titulo": "Insuficiência Respiratória",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["insuficiência respiratória","hipoxemia","hipercapnia","SDRA","IRpA"]
+    "tags": ["insuficiência respiratória","hipoxemia","hipercapnia","SDRA","IRpA"],
+    "relacionados": ["190","191","22","196"]
   },
   {
     "id": "190",
     "titulo": "Oxigenoterapia",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["oxigenoterapia","O2","HFNC","cateter nasal","máscara","Venturi"]
+    "tags": ["oxigenoterapia","O2","HFNC","cateter nasal","máscara","Venturi"],
+    "relacionados": ["189","191"]
   },
   {
     "id": "191",
     "titulo": "Ventilação Não Invasiva (VNI)",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["VNI","CPAP","BIPAP","ventilação não invasiva","DPOC","EAP"]
+    "tags": ["VNI","CPAP","BIPAP","ventilação não invasiva","DPOC","EAP"],
+    "relacionados": ["189","190","196","197","198","12"]
   },
   {
     "id": "192",
     "titulo": "Materiais para Intubação",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["intubação","laringoscópio","TOT","bougie","cuff","IOT","lâmina"]
+    "tags": ["intubação","laringoscópio","TOT","bougie","cuff","IOT","lâmina"],
+    "relacionados": ["22","193","194"]
   },
   {
     "id": "193",
     "titulo": "Os 7 Ps da Intubação",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["7 Ps","intubação","ISR","sequência rápida","pré-oxigenação","posicionamento"]
+    "tags": ["7 Ps","intubação","ISR","sequência rápida","pré-oxigenação","posicionamento"],
+    "relacionados": ["22","192","194"]
   },
   {
     "id": "194",
     "titulo": "Medicações da ISR",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["ISR","fentanil","etomidato","quetamina","midazolam","propofol","succinilcolina","rocurônio"]
+    "tags": ["ISR","fentanil","etomidato","quetamina","midazolam","propofol","succinilcolina","rocurônio"],
+    "relacionados": ["22","193","195","210","211"]
   },
   {
     "id": "195",
     "titulo": "Sedação Pós-Intubação e Bloqueadores Neuromusculares em BIC",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["sedação","pós-intubação","BIC","dexmedetomidina","propofol","midazolam","fentanil","rocurônio","cisatracúrio"]
+    "tags": ["sedação","pós-intubação","BIC","dexmedetomidina","propofol","midazolam","fentanil","rocurônio","cisatracúrio"],
+    "relacionados": ["194","210","211","22"]
   },
   {
     "id": "196",
     "titulo": "Ventilação Mecânica: Fundamentos e Modos",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["ventilação mecânica","PEEP","VCV","PCV","PSV","driving pressure","parâmetros"]
+    "tags": ["ventilação mecânica","PEEP","VCV","PCV","PSV","driving pressure","parâmetros"],
+    "relacionados": ["191","197","198","220","221","20"]
   },
   {
     "id": "197",
     "titulo": "VM em Distúrbios Obstrutivos e Restritivos",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["ventilação mecânica","DPOC","asma","SDRA","obstrutivo","restritivo","auto-PEEP","recrutamento"]
+    "tags": ["ventilação mecânica","DPOC","asma","SDRA","obstrutivo","restritivo","auto-PEEP","recrutamento"],
+    "relacionados": ["196","198","220","221","8","69"]
   },
   {
     "id": "198",
     "titulo": "Síndrome do Desconforto Respiratório Agudo (SDRA)",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["SDRA","Critérios de Berlim","hipoxemia","PaO2/FiO2","insuficiência respiratória aguda","edema pulmonar"]
+    "tags": ["SDRA","Critérios de Berlim","hipoxemia","PaO2/FiO2","insuficiência respiratória aguda","edema pulmonar"],
+    "relacionados": ["196","197","191","7"]
   },
   {
     "id": "199",
     "titulo": "Crises Hipertensivas",
     "categoria": "Temas PS/UPA",
-    "tags": ["crise hipertensiva","urgência hipertensiva","emergência hipertensiva","hidralazina","captopril","clonidina","nitroprussiato","nitroglicerina"]
+    "tags": ["crise hipertensiva","urgência hipertensiva","emergência hipertensiva","hidralazina","captopril","clonidina","nitroprussiato","nitroglicerina"],
+    "relacionados": ["202","203","13","11"]
   },
   {
     "id": "200",
     "titulo": "Dor Torácica/SCA",
     "categoria": "Temas PS/UPA",
-    "tags": ["dor torácica","SCA","infarto","MONABCH","NAO","nitrato","AAS","clopidogrel","nitroglicerina"]
+    "tags": ["dor torácica","SCA","infarto","MONABCH","NAO","nitrato","AAS","clopidogrel","nitroglicerina"],
+    "relacionados": ["11","204","205","13","199"]
   },
   {
     "id": "201",
     "titulo": "Infecções Respiratórias",
     "categoria": "Temas PS/UPA",
-    "tags": ["resfriado","gripe","pneumonia","sinusite","faringoamigdalite","oseltamivir","paxlovid","IVAS","infecção respiratória"]
+    "tags": ["resfriado","gripe","pneumonia","sinusite","faringoamigdalite","oseltamivir","paxlovid","IVAS","infecção respiratória"],
+    "relacionados": ["70","71","72","73","74","208"]
   },
   {
     "id": "202",
     "titulo": "PA muito elevada sem lesão de órgão-alvo",
     "categoria": "Temas PS/UPA",
-    "tags": ["urgência hipertensiva","PA elevada","hidralazina","clonidina","captopril","crise hipertensiva","uso oral"]
+    "tags": ["urgência hipertensiva","PA elevada","hidralazina","clonidina","captopril","crise hipertensiva","uso oral"],
+    "relacionados": ["199","203"]
   },
   {
     "id": "203",
     "titulo": "Emergência Hipertensiva",
     "categoria": "Temas PS/UPA",
-    "tags": ["emergência hipertensiva","PA elevada","lesão de órgão-alvo","nitroglicerina","nitroprussiato","isossorbida","parenteral"]
+    "tags": ["emergência hipertensiva","PA elevada","lesão de órgão-alvo","nitroglicerina","nitroprussiato","isossorbida","parenteral"],
+    "relacionados": ["199","202","12","212"]
   },
   {
     "id": "204",
     "titulo": "Infarto com supra de ST",
     "categoria": "Temas PS/UPA",
-    "tags": ["infarto","IAMCSST","supra de ST","AAS","clopidogrel","cateterismo","antiagregação","SCA"]
+    "tags": ["infarto","IAMCSST","supra de ST","AAS","clopidogrel","cateterismo","antiagregação","SCA"],
+    "relacionados": ["205","11","200"]
   },
   {
     "id": "205",
     "titulo": "Infarto sem supra de ST",
     "categoria": "Temas PS/UPA",
-    "tags": ["infarto","IAMSSST","sem supra de ST","AAS","clopidogrel","antiagregação","SCA"]
+    "tags": ["infarto","IAMSSST","sem supra de ST","AAS","clopidogrel","antiagregação","SCA"],
+    "relacionados": ["204","11","200"]
   },
   {
     "id": "206",
@@ -1480,31 +1564,36 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "208",
     "titulo": "Infecções Respiratórias: Isolamento e Testagem",
     "categoria": "Temas PS/UPA",
-    "tags": ["isolamento","testagem","covid-19","influenza","resfriado","RT-PCR","swab"]
+    "tags": ["isolamento","testagem","covid-19","influenza","resfriado","RT-PCR","swab"],
+    "relacionados": ["74","201","206","207"]
   },
   {
     "id": "209",
     "titulo": "Tosse Persistente ou Refratária",
     "categoria": "Temas PS/UPA",
-    "tags": ["tosse","codeína","tosse persistente","antitussígeno","receita C1","opioide"]
+    "tags": ["tosse","codeína","tosse persistente","antitussígeno","receita C1","opioide"],
+    "relacionados": ["219","75","218"]
   },
   {
     "id": "210",
     "titulo": "Bloqueadores Neuromusculares em BIC",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["bloqueador neuromuscular","BIC","rocurônio","cisatracúrio","BNM","infusão contínua","paralisia","sedação","intubação"]
+    "tags": ["bloqueador neuromuscular","BIC","rocurônio","cisatracúrio","BNM","infusão contínua","paralisia","sedação","intubação"],
+    "relacionados": ["195","211","194"]
   },
   {
     "id": "211",
     "titulo": "Sedação de Manutenção Pós-Intubação",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["sedação","pós-intubação","RASS","fentanil","midazolam","quetamina","propofol","dexmedetomidina","BIC","manutenção","infusão contínua"]
+    "tags": ["sedação","pós-intubação","RASS","fentanil","midazolam","quetamina","propofol","dexmedetomidina","BIC","manutenção","infusão contínua"],
+    "relacionados": ["195","210","194"]
   },
   {
     "id": "212",
     "titulo": "Edema Agudo de Pulmão",
     "categoria": "Temas PS/UPA",
-    "tags": ["EAP","edema agudo de pulmão","furosemida","nitroglicerina","nitroprussiato","VNI","BiPAP","tridil","nipride","morfina"]
+    "tags": ["EAP","edema agudo de pulmão","furosemida","nitroglicerina","nitroprussiato","VNI","BiPAP","tridil","nipride","morfina"],
+    "relacionados": ["12","203","191"]
   },
   {
     "id": "214",
@@ -1522,37 +1611,43 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "216",
     "titulo": "Noradrenalina (BIC)",
     "categoria": "Temas PS/UPA",
-    "tags": ["noradrenalina","norepinefrina","vasopressor","choque séptico","BIC","droga vasoativa","levophed","hyponor"]
+    "tags": ["noradrenalina","norepinefrina","vasopressor","choque séptico","BIC","droga vasoativa","levophed","hyponor"],
+    "relacionados": ["17","217","16"]
   },
   {
     "id": "217",
     "titulo": "Dobutamina (BIC)",
     "categoria": "Temas PS/UPA",
-    "tags": ["dobutamina","choque cardiogênico","BIC","droga vasoativa","inotrópico","insuficiência cardíaca","IC perfil C"]
+    "tags": ["dobutamina","choque cardiogênico","BIC","droga vasoativa","inotrópico","insuficiência cardíaca","IC perfil C"],
+    "relacionados": ["18","216","16"]
   },
   {
     "id": "218",
     "titulo": "Tosse Pós-Infecciosa",
     "categoria": "Temas PS/UPA",
-    "tags": ["tosse pós-infecciosa","tosse pós-viral","dexclorfeniramina","prednisona","budesonida","codeína","IVAS"]
+    "tags": ["tosse pós-infecciosa","tosse pós-viral","dexclorfeniramina","prednisona","budesonida","codeína","IVAS"],
+    "relacionados": ["75","219","209"]
   },
   {
     "id": "219",
     "titulo": "Tosse Produtiva e Não Produtiva",
     "categoria": "Temas PS/UPA",
-    "tags": ["tosse produtiva","tosse seca","acetilcisteína","ambroxol","acebrofilina","codeína","dextrometorfano","mucolítico","antitussígeno"]
+    "tags": ["tosse produtiva","tosse seca","acetilcisteína","ambroxol","acebrofilina","codeína","dextrometorfano","mucolítico","antitussígeno"],
+    "relacionados": ["76","77","218","209"]
   },
   {
     "id": "220",
     "titulo": "VCV — Ventilação Controlada a Volume",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["VCV","ventilação controlada a volume","volume corrente","pressão de pico","pressão de platô","driving pressure","parâmetros ventilatórios","barotrauma"]
+    "tags": ["VCV","ventilação controlada a volume","volume corrente","pressão de pico","pressão de platô","driving pressure","parâmetros ventilatórios","barotrauma"],
+    "relacionados": ["221","196"]
   },
   {
     "id": "221",
     "titulo": "PCV — Ventilação Controlada a Pressão",
     "categoria": "IOT, Sedação e VM",
-    "tags": ["PCV","ventilação controlada a pressão","pressão inspiratória","Pinsp","volume corrente variável","barotrauma","parâmetros ventilatórios"]
+    "tags": ["PCV","ventilação controlada a pressão","pressão inspiratória","Pinsp","volume corrente variável","barotrauma","parâmetros ventilatórios"],
+    "relacionados": ["220","196"]
   },
   {
     "id": "222",
@@ -1570,26 +1665,29 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "224",
     "titulo": "Meta de LDL conforme risco cardiovascular",
     "categoria": "Clínica Médica",
-    "tags": ["LDL","colesterol","risco cardiovascular","estatina","dislipidemia","prevenção","PREVENT","AHA","ACC"]
+    "tags": ["LDL","colesterol","risco cardiovascular","estatina","dislipidemia","prevenção","PREVENT","AHA","ACC"],
+    "relacionados": ["227","239"]
   },
   {
     "id": "225",
     "titulo": "Estadiamento da Doença Renal Crônica",
     "categoria": "Clínica Médica",
-    "tags": ["DRC","doença renal crônica","TFG","KDIGO","estadiamento","albuminúria","GFR","CKD","rim","nefrologia"]
+    "tags": ["DRC","doença renal crônica","TFG","KDIGO","estadiamento","albuminúria","GFR","CKD","rim","nefrologia"],
+    "relacionados": ["226","238"]
   },
   {
     "id": "226",
     "titulo": "Lesão ou Injúria Renal Aguda (IRA)",
     "categoria": "Temas PS/UPA",
-    "tags": ["IRA","AKI","injúria renal aguda","lesão renal aguda","KDIGO","creatinina","diurese","biomarcador","estadiamento","rim","urgência"]
+    "tags": ["IRA","AKI","injúria renal aguda","lesão renal aguda","KDIGO","creatinina","diurese","biomarcador","estadiamento","rim","urgência"],
+    "relacionados": ["225","5","7"]
   },
   {
     "id": "227",
     "titulo": "Sinvastatina",
     "categoria": "Clínica Médica",
     "tags": ["sinvastatina","estatina","colesterol","LDL","dislipidemia","HMG-CoA","cardiovascular","prevenção","hiperlipidemia"],
-    "relacionados": ["239", "238"]
+    "relacionados": ["239","238","224"]
   },
   {
     "id": "228",
@@ -1601,76 +1699,92 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "229",
     "titulo": "Dipirona (Metamizol)",
     "categoria": "Temas PS/UPA",
-    "tags": ["dipirona","metamizol","analgésico","antipirético","AINE","anti-inflamatório","dor","febre","analgesia"]
+    "tags": ["dipirona","metamizol","analgésico","antipirético","AINE","anti-inflamatório","dor","febre","analgesia"],
+    "relacionados": ["230","231","233","26"]
   },
   {
     "id": "230",
     "titulo": "Paracetamol (Acetaminofeno)",
     "categoria": "Temas PS/UPA",
-    "tags": ["paracetamol","acetaminofeno","analgésico","antipirético","dor","febre","analgesia","hepatotoxicidade"]
+    "tags": ["paracetamol","acetaminofeno","analgésico","antipirético","dor","febre","analgesia","hepatotoxicidade"],
+    "relacionados": ["229","231","233","26"]
   },
   {
     "id": "231",
     "titulo": "Opioides Fracos",
     "categoria": "Temas PS/UPA",
-    "tags": ["opioide","tramadol","codeína","analgésico","dor","opioide fraco","cloridrato de tramadol","fosfato de codeína"]
+    "tags": ["opioide","tramadol","codeína","analgésico","dor","opioide fraco","cloridrato de tramadol","fosfato de codeína"],
+    "relacionados": ["232","229","230","233","26"]
   },
   {
     "id": "232",
     "titulo": "Sulfato de Morfina",
     "categoria": "Temas PS/UPA",
-    "tags": ["morfina","sulfato de morfina","opioide","analgésico","dor","dor crônica","opioide forte"]
+    "tags": ["morfina","sulfato de morfina","opioide","analgésico","dor","dor crônica","opioide forte"],
+    "relacionados": ["231","162","233"]
   },
   {
     "id": "233",
     "titulo": "Racional da analgesia",
     "categoria": "Temas PS/UPA",
-    "tags": ["analgesia","dor","escada analgésica","opioide","AINE","dor leve","dor moderada","dor intensa","racional"]
+    "tags": ["analgesia","dor","escada analgésica","opioide","AINE","dor leve","dor moderada","dor intensa","racional"],
+    "relacionados": ["26","229","230","231","232"]
   },
   {
     "id": "234",
     "titulo": "Antieméticos (Anti-histamínicos H1 e receptores muscarínicos)",
     "categoria": "Temas PS/UPA",
-    "tags": ["antiemético","dimenidrato","dramin","náusea","vômito","anti-histamínico","receptor muscarínico","piridoxina"]
+    "tags": ["antiemético","dimenidrato","dramin","náusea","vômito","anti-histamínico","receptor muscarínico","piridoxina"],
+    "relacionados": ["235","236","237","182"]
   },
   {
     "id": "235",
     "titulo": "Antieméticos (Antagonistas dopaminérgicos D2)",
     "categoria": "Temas PS/UPA",
-    "tags": ["antiemético","bromoprida","digesan","metoclopramida","plasil","náusea","vômito","antagonista dopaminérgico","D2"]
+    "tags": ["antiemético","bromoprida","digesan","metoclopramida","plasil","náusea","vômito","antagonista dopaminérgico","D2"],
+    "relacionados": ["234","236","237","179","180"]
   },
   {
     "id": "236",
     "titulo": "Antieméticos (Antagonistas Serotoninérgicos 5HT)",
     "categoria": "Temas PS/UPA",
-    "tags": ["antiemético","ondansetrona","vonau","náusea","vômito","antagonista serotoninérgico","5HT","5-HT3"]
+    "tags": ["antiemético","ondansetrona","vonau","náusea","vômito","antagonista serotoninérgico","5HT","5-HT3"],
+    "relacionados": ["234","235","237","181"]
   },
   {
     "id": "237",
     "titulo": "Abordagem direcionada de náuseas e vômitos",
     "categoria": "Temas PS/UPA",
-    "tags": ["náusea","vômito","antiemético","ondansetrona","metoclopramida","bromoprida","dimenidrato","escopolamina","domperidona","gestante","cinetose","gastroparesia","quimioterapia","pós operatório"]
+    "tags": ["náusea","vômito","antiemético","ondansetrona","metoclopramida","bromoprida","dimenidrato","escopolamina","domperidona","gestante","cinetose","gastroparesia","quimioterapia","pós operatório"],
+    "relacionados": ["234","235","236","46","47"]
   },
   {
     "id": "238",
     "titulo": "DM2 — Abordagem Prática na UBS",
     "categoria": "UBS/Atenção primária",
     "tags": ["dm2","diabetes","diabetes mellitus tipo 2","metformina","gliclazida","dapagliflozina","insulina NPH","insulina regular","glicemia","hba1c","TOTG","rastreio","pré-diabetes","hiperglicemia","ajuste renal","atenção básica","UBS","referenciamento"],
-    "relacionados": ["227", "239", "240"]
+    "relacionados": ["227","239","240","225"]
   },
   {
     "id": "239",
     "titulo": "Ezetimibe",
     "categoria": "Medicamento",
     "tags": ["ezetimibe","colesterol","LDL","dislipidemia","hiperlipidemia","hipercolesterolemia","NPC1L1","lipídios","prevenção cardiovascular","redução LDL"],
-    "relacionados": ["227"]
+    "relacionados": ["227","224"]
   },
   {
     "id": "240",
     "titulo": "Omeprazol",
     "categoria": "Medicamento",
     "tags": ["omeprazol","IBP","bomba de prótons","DRGE","refluxo","dispepsia","gastrite","úlcera","antiácido","esôfago","estômago"],
-    "relacionados": ["9"]
+    "relacionados": ["9","54","55","56","57"]
+  },
+  {
+    "id": "241",
+    "titulo": "Effects of lipid-lowering drugs on serum lipid levels",
+    "categoria": "Guias práticos",
+    "tags": ["estatina","ezetimibe","PCSK9","hipolipemiante","LDL","HDL","triglicerídeos","lipídios","dislipidemia","colesterol","fibrato","ômega-3","colesevelam","ácido bempedóico","sinvastatina","atorvastatina","rosuvastatina"],
+    "relacionados": ["224","227","239"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1679,9 +1793,9 @@ export const intubacaoIds = new Set(["20","22","189","190","191","192","193","19
 
 export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205","210","211","212","214","215","216","217","220","221"]);
 
-export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237"]);
+export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237","241"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241"]);
 
 export const medicamentoIds = new Set([
   "18",
