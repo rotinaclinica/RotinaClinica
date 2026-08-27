@@ -1,10 +1,11 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { canAccessPaidContent } from "@/lib/subscription";
+import { checkSubscriptionAccess } from "@/lib/subscription";
 import { headers } from "next/headers";
 import DashboardSidebar from "@/app/components/DashboardSidebar";
 import DashboardMobileNav from "@/app/components/DashboardMobileNav";
 import ActivityPing from "@/app/components/ActivityPing";
+import SubscriptionExpiryBanner from "@/app/components/SubscriptionExpiryBanner";
 
 // Rotas acessíveis a qualquer usuário logado, independente de assinatura
 const FREE_ROUTES = ["/dashboard/perfil", "/dashboard/pedidos"];
@@ -15,14 +16,20 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const role = (session.user as { role?: string })?.role;
 
+  let expiringAt: string | null = null;
+
   if (role !== "ADMIN" && role !== "TESTER") {
     const hdrs = await headers();
     const pathname = hdrs.get("x-pathname");
     const isExempt = pathname != null && FREE_ROUTES.some((r) => pathname.startsWith(r));
 
     if (!isExempt) {
-      if (!(await canAccessPaidContent(session.user.id))) {
-        redirect("/assinatura?motivo=acesso");
+      const { canAccess, expiresAt } = await checkSubscriptionAccess(session.user.id);
+      if (!canAccess) redirect("/assinatura?motivo=acesso");
+
+      // Aviso somente se faltar ≤ 48h
+      if (expiresAt && expiresAt.getTime() - Date.now() <= 48 * 60 * 60 * 1000) {
+        expiringAt = expiresAt.toISOString();
       }
     }
   }
@@ -46,6 +53,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
+        {expiringAt && <SubscriptionExpiryBanner expiresAt={expiringAt} />}
         {children}
       </div>
 
