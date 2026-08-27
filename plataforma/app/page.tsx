@@ -144,7 +144,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Fundado em 2023</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Desde 2023 formando estudantes, médicas e médicos mais preparados! Mais de 127 alunos já passaram pelos nossos cursos presenciais.</p>
+            <p className="text-zinc-500 text-sm leading-relaxed">Desde 2023 formando estudantes, médicas e médicos mais preparados! Mais de 127 alunos já passaram pelos nossos cursos presenciais — parte de uma comunidade de 900+ alunos.</p>
           </div>
 
           {/* Card 3 — Especialistas */}
