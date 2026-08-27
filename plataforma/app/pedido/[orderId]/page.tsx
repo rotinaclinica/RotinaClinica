@@ -33,25 +33,25 @@ export default async function OrderPage({
   const isProcessing = order.status === "PENDING" && status === "sucesso";
 
   return (
-    <main className="min-h-screen bg-[#f0f4f8] flex flex-col items-center justify-center px-4 py-12">
+    <main className="min-h-screen bg-[#f0f4f8] dark:bg-[#0c1117] flex flex-col items-center justify-center px-4 py-12">
 
       {/* Logo */}
       <div className="mb-8 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-[#0f2d4a] flex items-center justify-center">
-          <div className="w-4 h-4 rounded-sm bg-[#3db8d4]" />
+        <div className="w-8 h-8 rounded-lg bg-[#0f2d4a] dark:bg-[#3db8d4] flex items-center justify-center">
+          <div className="w-4 h-4 rounded-sm bg-[#3db8d4] dark:bg-[#0f2d4a]" />
         </div>
-        <span className="text-[#0f2d4a] font-bold text-lg tracking-wide">ROTINA CLÍNICA</span>
+        <span className="text-[#0f2d4a] dark:text-white font-bold text-lg tracking-wide">ROTINA CLÍNICA</span>
       </div>
 
-      <div className="bg-white border border-[#dde6ef] rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
+      <div className="bg-white dark:bg-[#131c2e] border border-[#dde6ef] dark:border-white/8 rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
 
         {isProcessing ? (
           <>
             <div className="flex justify-center mb-5">
               <div className="w-12 h-12 border-4 border-[#dde6ef] border-t-[#3db8d4] rounded-full animate-spin" />
             </div>
-            <h1 className="text-xl font-bold text-[#0f2d4a] mb-2">Confirmando pagamento…</h1>
-            <p className="text-[#6a8fa5] text-sm mb-2">
+            <h1 className="text-xl font-bold text-[#0f2d4a] dark:text-white mb-2">Confirmando pagamento…</h1>
+            <p className="text-[#6a8fa5] dark:text-[#8fa8bd] text-sm mb-2">
               Aguarde enquanto confirmamos seu pagamento. Isso leva alguns segundos.
             </p>
             <Link href={`/pedido/${orderId}`} className="text-xs text-[#3db8d4] underline">Recarregar</Link>
@@ -60,19 +60,19 @@ export default async function OrderPage({
         ) : isDeclined ? (
           <>
             <div className="text-5xl mb-4">❌</div>
-            <h1 className="text-xl font-bold text-[#0f2d4a] mb-2">Cartão não autorizado</h1>
-            <p className="text-[#6a8fa5] text-sm mb-4 leading-relaxed">
+            <h1 className="text-xl font-bold text-[#0f2d4a] dark:text-white mb-2">Cartão não autorizado</h1>
+            <p className="text-[#6a8fa5] dark:text-[#8fa8bd] text-sm mb-4 leading-relaxed">
               O banco recusou o pagamento. Isso pode ocorrer por limite insuficiente, cartão bloqueado para compras online ou proteção antifraude.
             </p>
-            <div className="bg-[#f0f7ff] border border-[#c8dff5] rounded-xl p-4 mb-5 text-left">
-              <p className="text-sm font-semibold text-[#0f2d4a] mb-1">Tente pagar via PIX</p>
-              <p className="text-xs text-[#4a6a80] leading-relaxed">
+            <div className="bg-[#f0f7ff] dark:bg-[#0f2d4a]/40 border border-[#c8dff5] dark:border-[#3db8d4]/20 rounded-xl p-4 mb-5 text-left">
+              <p className="text-sm font-semibold text-[#0f2d4a] dark:text-white mb-1">Tente pagar via PIX</p>
+              <p className="text-xs text-[#4a6a80] dark:text-[#8fa8bd] leading-relaxed">
                 O PIX é aprovado instantaneamente e sem restrições. Volte à página do produto e selecione Mercado Pago.
               </p>
             </div>
-            <div className="border border-[#e8eef4] rounded-xl p-4 mb-5 text-left">
+            <div className="border border-[#e8eef4] dark:border-white/8 rounded-xl p-4 mb-5 text-left">
               {order.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm text-[#0f2d4a]">
+                <div key={item.id} className="flex justify-between text-sm text-[#0f2d4a] dark:text-zinc-100">
                   <span>{item.product.title}</span>
                   <span className="font-semibold">{formatPrice(item.priceCents, order.currency)}</span>
                 </div>
@@ -85,7 +85,7 @@ export default async function OrderPage({
                   Tentar com outro método
                 </Link>
               )}
-              <Link href="/" className="text-sm text-[#6a8fa5] hover:underline">Voltar para o início</Link>
+              <Link href="/" className="text-sm text-[#6a8fa5] dark:text-[#8fa8bd] hover:underline">Voltar para o início</Link>
             </div>
           </>
 
@@ -94,10 +94,10 @@ export default async function OrderPage({
             <div className="text-5xl mb-4">
               {isPaid ? "✅" : isPending ? "⏳" : "❌"}
             </div>
-            <h1 className="text-xl font-bold text-[#0f2d4a] mb-2">
+            <h1 className="text-xl font-bold text-[#0f2d4a] dark:text-white mb-2">
               {isPaid ? "Pagamento confirmado!" : isPending ? "Aguardando pagamento" : "Pagamento não confirmado"}
             </h1>
-            <p className="text-[#6a8fa5] text-sm mb-6 leading-relaxed">
+            <p className="text-[#6a8fa5] dark:text-[#8fa8bd] text-sm mb-6 leading-relaxed">
               {isPaid
                 ? "Seu acesso foi liberado. Clique abaixo para acessar a plataforma."
                 : isPending
@@ -105,9 +105,9 @@ export default async function OrderPage({
                 : "Se você completou o pagamento, aguarde alguns minutos e recarregue a página."}
             </p>
 
-            <div className="border border-[#e8eef4] rounded-xl p-4 mb-6 text-left">
+            <div className="border border-[#e8eef4] dark:border-white/8 rounded-xl p-4 mb-6 text-left">
               {order.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm text-[#0f2d4a]">
+                <div key={item.id} className="flex justify-between text-sm text-[#0f2d4a] dark:text-zinc-100">
                   <span>{item.product.title}</span>
                   <span className="font-semibold">{formatPrice(item.priceCents, order.currency)}</span>
                 </div>
@@ -123,11 +123,11 @@ export default async function OrderPage({
               )}
               {!isPaid && (
                 <Link href={`/pedido/${orderId}`}
-                  className="border border-[#dde6ef] text-[#6a8fa5] py-3 rounded-xl text-sm hover:bg-[#f0f4f8] transition-colors block">
+                  className="border border-[#dde6ef] dark:border-white/10 text-[#6a8fa5] dark:text-[#8fa8bd] py-3 rounded-xl text-sm hover:bg-[#f0f4f8] dark:hover:bg-white/5 transition-colors block">
                   Recarregar página
                 </Link>
               )}
-              <Link href="/" className="text-sm text-[#6a8fa5] hover:underline">Voltar para o início</Link>
+              <Link href="/" className="text-sm text-[#6a8fa5] dark:text-[#8fa8bd] hover:underline">Voltar para o início</Link>
             </div>
           </>
         )}
