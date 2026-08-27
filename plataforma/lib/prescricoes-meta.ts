@@ -1770,7 +1770,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Ezetimibe",
     "categoria": "Medicamento",
     "tags": ["ezetimibe","colesterol","LDL","dislipidemia","hiperlipidemia","hipercolesterolemia","NPC1L1","lipídios","prevenção cardiovascular","redução LDL"],
-    "relacionados": ["227","224"]
+    "relacionados": ["227","224","241","242"]
   },
   {
     "id": "240",
@@ -1791,7 +1791,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Comparação e equivalência entre estatinas",
     "categoria": "Guias práticos",
     "tags": ["estatina","atorvastatina","rosuvastatina","sinvastatina","fluvastatina","lovastatina","pitavastatina","pravastatina","intensidade","ACC","AHA","LDL","dose","equivalência","hipolipemiante","dislipidemia"],
-    "relacionados": ["241","224","227"]
+    "relacionados": ["241","224","227","239"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
