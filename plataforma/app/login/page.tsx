@@ -20,7 +20,7 @@ function EyeIcon({ open }: { open: boolean }) {
 }
 
 const memberBenefits = [
-  "+200 prescrições e condutas clínicas",
+  "Prescrições e condutas para sua prática clínica",
   "Casos clínicos com raciocínio diagnóstico",
   "Calculadoras clínicas, cursos e videoaulas",
   "Ebooks e modelos de evolução incluídos",

@@ -18,8 +18,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // ADMIN e TESTER têm acesso irrestrito
   if (role !== "ADMIN" && role !== "TESTER") {
     const hdrs = await headers();
-    const pathname = hdrs.get("x-pathname") ?? "";
-    const isExempt = FREE_ROUTES.some((r) => pathname.startsWith(r));
+    const pathname = hdrs.get("x-pathname");
+    // Se x-pathname não foi definido pelo middleware, trata como rota restrita
+    const isExempt = pathname != null && FREE_ROUTES.some((r) => pathname.startsWith(r));
 
     if (!isExempt) {
       const subscription = await db.subscription.findUnique({
