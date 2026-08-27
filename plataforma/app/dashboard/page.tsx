@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { calcularTier, formatarSince } from "@/lib/tier";
+import { canAccessPaidContent } from "@/lib/subscription";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -77,6 +78,10 @@ export default async function DashboardPage() {
   });
 
   const isAdmin = user?.role === "ADMIN";
+  const isTester = user?.role === "TESTER";
+  if (!isAdmin && !isTester && !(await canAccessPaidContent(session.user.id))) {
+    redirect("/assinatura?motivo=acesso");
+  }
   const isTester = user?.role === "TESTER";
 
   const subscription =
