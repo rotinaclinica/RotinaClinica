@@ -23,9 +23,11 @@ export default auth((req: NextAuthRequest) => {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  const response = NextResponse.next();
-  response.headers.set("x-pathname", pathname);
-  return response;
+  // Injeta x-pathname na REQUISIÇÃO (não na resposta) para que o dashboard
+  // layout consiga ler via headers() e aplicar a exceção de FREE_ROUTES.
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
+  return NextResponse.next({ request: { headers: requestHeaders } });
 });
 
 export const config = {
