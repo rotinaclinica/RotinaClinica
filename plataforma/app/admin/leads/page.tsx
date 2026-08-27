@@ -1,36 +1,62 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
+import SearchBox from "../_components/SearchBox";
+import Pagination from "../_components/Pagination";
+import ExportButton from "../_components/ExportButton";
 
 export const metadata = { title: "Leads · Admin" };
 
-export default async function AdminLeadsPage() {
-  const [leads, totalLeads] = await Promise.all([
-    db.lead.findMany({
-      orderBy: { createdAt: "desc" },
-      include: { product: { select: { title: true } } },
-    }),
-    db.lead.count(),
-  ]);
+const PAGE_SIZE = 50;
 
-  const convertidos = await db.user.findMany({
-    where: {
-      email: { in: leads.map((l) => l.email) },
-      subscription: { status: "ACTIVE" },
-    },
+export default async function AdminLeadsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; page?: string }>;
+}) {
+  const { q, page: pageParam } = await searchParams;
+  const query = q?.trim() ?? "";
+  const page = Math.max(1, Number(pageParam) || 1);
+
+  const where = query
+    ? {
+        OR: [
+          { name: { contains: query, mode: "insensitive" as const } },
+          { email: { contains: query, mode: "insensitive" as const } },
+          { phone: { contains: query } },
+        ],
+      }
+    : undefined;
+
+  // Assinantes ativos são poucos (clientes pagantes) → barato de listar e usar
+  // tanto para o badge global de convertidos quanto para a tag por linha.
+  const activeSubUsers = await db.user.findMany({
+    where: { subscription: { status: "ACTIVE" } },
     select: { email: true },
   });
-  const convertidosSet = new Set(convertidos.map((u) => u.email));
+  const activeSet = new Set(activeSubUsers.map((u) => u.email.toLowerCase()));
 
-  const byProduct: Record<string, number> = {};
-  for (const l of leads) {
-    const title = l.product?.title ?? "Sem produto";
-    byProduct[title] = (byProduct[title] ?? 0) + 1;
-  }
+  const [total, leads, convertidosLeads] = await Promise.all([
+    db.lead.count({ where }),
+    db.lead.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: PAGE_SIZE,
+      skip: (page - 1) * PAGE_SIZE,
+      include: { product: { select: { title: true } } },
+    }),
+    db.lead.findMany({
+      where: { email: { in: [...activeSet] } },
+      select: { email: true },
+      distinct: ["email"],
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-zinc-900">Leads</h1>
           <p className="text-sm text-zinc-500 mt-1">
@@ -39,25 +65,18 @@ export default async function AdminLeadsPage() {
         </div>
         <div className="flex items-center gap-3">
           <span className="bg-emerald-100 text-emerald-700 text-sm font-bold px-3 py-1.5 rounded-lg">
-            {convertidosSet.size} convertido{convertidosSet.size !== 1 ? "s" : ""}
+            {convertidosLeads.length} convertido{convertidosLeads.length !== 1 ? "s" : ""}
           </span>
           <span className="bg-violet-100 text-violet-700 text-sm font-bold px-3 py-1.5 rounded-lg">
-            {totalLeads} lead{totalLeads !== 1 ? "s" : ""}
+            {total} lead{total !== 1 ? "s" : ""}
           </span>
         </div>
       </div>
 
-      {/* Resumo por produto */}
-      {Object.keys(byProduct).length > 0 && (
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(byProduct).map(([title, count]) => (
-            <div key={title} className="bg-white border border-zinc-200 rounded-xl px-4 py-3">
-              <p className="text-xs text-zinc-500 mb-0.5">{title}</p>
-              <p className="text-xl font-bold text-zinc-900">{count}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <SearchBox placeholder="Buscar por nome, e-mail ou telefone…" />
+        <ExportButton type="leads" />
+      </div>
 
       {/* Tabela */}
       <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden">
@@ -98,7 +117,7 @@ export default async function AdminLeadsPage() {
                     {new Date(l.createdAt).toLocaleDateString("pt-BR")}
                   </td>
                   <td className="px-4 py-3">
-                    {convertidosSet.has(l.email) && (
+                    {activeSet.has(l.email.toLowerCase()) && (
                       <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Convertido</span>
                     )}
                   </td>
@@ -106,8 +125,8 @@ export default async function AdminLeadsPage() {
               ))}
               {leads.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="px-4 py-12 text-center text-zinc-400">
-                    Nenhum lead cadastrado ainda.
+                  <td colSpan={10} className="px-4 py-12 text-center text-zinc-400">
+                    {query ? `Nenhum lead para "${query}"` : "Nenhum lead cadastrado ainda."}
                   </td>
                 </tr>
               )}
@@ -115,6 +134,8 @@ export default async function AdminLeadsPage() {
           </table>
         </div>
       </div>
+
+      <Pagination page={page} totalPages={totalPages} basePath="/admin/leads" params={{ q: query || undefined }} />
     </div>
   );
 }

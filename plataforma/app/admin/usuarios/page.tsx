@@ -2,8 +2,13 @@ export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
 import Link from "next/link";
+import SearchBox from "../_components/SearchBox";
+import Pagination from "../_components/Pagination";
+import ExportButton from "../_components/ExportButton";
 
 export const metadata = { title: "Usuários · Admin · Rotina Clínica" };
+
+const PAGE_SIZE = 50;
 
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   ACTIVE:    { label: "Ativo",     cls: "bg-emerald-100 text-emerald-700" },
@@ -17,31 +22,64 @@ const PLAN_LABEL: Record<string, string> = {
   ANNUAL:  "Anual",
 };
 
-export default async function AdminUsuariosPage() {
-  const users = await db.user.findMany({
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true,
-      subscription: { select: { plan: true, status: true, currentPeriodStart: true, currentPeriodEnd: true } },
-      orders: {
-        where: { status: "PAID" },
-        select: { paidAt: true, totalCents: true, provider: true },
-        orderBy: { paidAt: "asc" },
+export default async function AdminUsuariosPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; page?: string }>;
+}) {
+  const { q, page: pageParam } = await searchParams;
+  const query = q?.trim() ?? "";
+  const page = Math.max(1, Number(pageParam) || 1);
+
+  const where = query
+    ? {
+        OR: [
+          { name: { contains: query, mode: "insensitive" as const } },
+          { email: { contains: query, mode: "insensitive" as const } },
+          { cpf: { contains: query.replace(/\D/g, "") } },
+        ],
+      }
+    : undefined;
+
+  const [total, users] = await Promise.all([
+    db.user.count({ where }),
+    db.user.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: PAGE_SIZE,
+      skip: (page - 1) * PAGE_SIZE,
+      select: {
+        id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true,
+        subscription: { select: { plan: true, status: true, currentPeriodStart: true, currentPeriodEnd: true } },
+        orders: {
+          where: { status: "PAID" },
+          select: { paidAt: true, totalCents: true, provider: true },
+          orderBy: { paidAt: "asc" },
+        },
       },
-    },
-  });
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   const fmt = (d: Date | null | undefined) =>
     d ? new Date(d).toLocaleDateString("pt-BR") : "—";
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-zinc-900">Usuários</h1>
-          <p className="text-sm text-zinc-500 mt-1">{users.length} cadastros no total</p>
+          <p className="text-sm text-zinc-500 mt-1">
+            {total} cadastro{total !== 1 ? "s" : ""}{query ? ` para "${query}"` : " no total"}
+          </p>
         </div>
         <Link href="/admin" className="text-sm text-violet-600 hover:underline">← Admin</Link>
+      </div>
+
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <SearchBox />
+        <ExportButton type="usuarios" />
       </div>
 
       <div className="bg-white rounded-xl border border-zinc-200 overflow-x-auto">
@@ -58,6 +96,7 @@ export default async function AdminUsuariosPage() {
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">1ª Compra</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Gasto total</th>
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Vence em</th>
+              <th className="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody>
@@ -122,17 +161,29 @@ export default async function AdminUsuariosPage() {
                   <td className="px-4 py-3 text-zinc-500 text-xs">
                     {sub ? fmt(sub.currentPeriodEnd) : "—"}
                   </td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <Link
+                      href={`/admin/acessos?email=${encodeURIComponent(u.email)}`}
+                      className="text-xs font-semibold text-violet-600 hover:underline"
+                    >
+                      Gerenciar
+                    </Link>
+                  </td>
                 </tr>
               );
             })}
             {users.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-zinc-400">Nenhum usuário</td>
+                <td colSpan={11} className="px-4 py-8 text-center text-zinc-400">
+                  {query ? `Nenhum usuário para "${query}"` : "Nenhum usuário"}
+                </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      <Pagination page={page} totalPages={totalPages} basePath="/admin/usuarios" params={{ q: query || undefined }} />
     </div>
   );
 }

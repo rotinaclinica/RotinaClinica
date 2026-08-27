@@ -3,8 +3,13 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/format";
 import Link from "next/link";
+import SearchBox from "../_components/SearchBox";
+import Pagination from "../_components/Pagination";
+import ExportButton from "../_components/ExportButton";
 
 export const metadata = { title: "Pedidos · Admin" };
+
+const PAGE_SIZE = 50;
 
 const STATUS_OPTIONS = [
   { value: "", label: "Todos" },
@@ -26,35 +31,67 @@ const statusLabel: Record<string, { text: string; color: string }> = {
 export default async function AdminPedidosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; q?: string; page?: string }>;
 }) {
-  const { status } = await searchParams;
+  const { status, q, page: pageParam } = await searchParams;
+  const query = q?.trim() ?? "";
+  const page = Math.max(1, Number(pageParam) || 1);
   const statusFilter = STATUS_OPTIONS.map((o) => o.value).includes(status ?? "")
     ? status
     : undefined;
 
-  const orders = await db.order.findMany({
-    where: statusFilter ? { status: statusFilter as "PAID" | "PENDING" | "FAILED" | "EXPIRED" | "REFUNDED" } : undefined,
-    orderBy: { createdAt: "desc" },
-    take: 100,
-    include: {
-      user: { select: { email: true, name: true } },
-      items: { include: { product: { select: { title: true } } } },
-    },
-  });
+  const where = {
+    ...(statusFilter ? { status: statusFilter as "PAID" | "PENDING" | "FAILED" | "EXPIRED" | "REFUNDED" } : {}),
+    ...(query
+      ? {
+          user: {
+            OR: [
+              { email: { contains: query, mode: "insensitive" as const } },
+              { name: { contains: query, mode: "insensitive" as const } },
+            ],
+          },
+        }
+      : {}),
+  };
+  const hasWhere = Object.keys(where).length > 0;
+
+  const [total, orders] = await Promise.all([
+    db.order.count({ where: hasWhere ? where : undefined }),
+    db.order.findMany({
+      where: hasWhere ? where : undefined,
+      orderBy: { createdAt: "desc" },
+      take: PAGE_SIZE,
+      skip: (page - 1) * PAGE_SIZE,
+      include: {
+        user: { select: { email: true, name: true } },
+        items: { include: { product: { select: { title: true } } } },
+      },
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-zinc-900">Pedidos</h1>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h1 className="text-2xl font-bold text-zinc-900">Pedidos</h1>
+        <ExportButton type="pedidos" />
+      </div>
+
+      <SearchBox placeholder="Buscar por cliente ou e-mail…" />
 
       {/* Filtros */}
       <div className="flex flex-wrap gap-2">
         {STATUS_OPTIONS.map((opt) => {
           const isActive = (status ?? "") === opt.value;
+          const sp = new URLSearchParams();
+          if (opt.value) sp.set("status", opt.value);
+          if (query) sp.set("q", query);
+          const qs = sp.toString();
           return (
             <Link
               key={opt.value}
-              href={opt.value ? `/admin/pedidos?status=${opt.value}` : "/admin/pedidos"}
+              href={qs ? `/admin/pedidos?${qs}` : "/admin/pedidos"}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                 isActive
                   ? "bg-violet-600 text-white"
@@ -65,7 +102,7 @@ export default async function AdminPedidosPage({
             </Link>
           );
         })}
-        <span className="ml-auto text-xs text-zinc-400 self-center">{orders.length} resultado{orders.length !== 1 ? "s" : ""}</span>
+        <span className="ml-auto text-xs text-zinc-400 self-center">{total} resultado{total !== 1 ? "s" : ""}</span>
       </div>
 
       <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden overflow-x-auto">
@@ -115,6 +152,13 @@ export default async function AdminPedidosPage({
           <p className="text-center text-zinc-500 py-10">Nenhum pedido encontrado.</p>
         )}
       </div>
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        basePath="/admin/pedidos"
+        params={{ status: statusFilter || undefined, q: query || undefined }}
+      />
     </div>
   );
 }

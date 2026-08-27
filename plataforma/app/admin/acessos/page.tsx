@@ -16,7 +16,12 @@ const statusStyle = (status: string) => {
   return "bg-amber-100 text-amber-700";
 };
 
-export default async function AdminAcessosPage() {
+export default async function AdminAcessosPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string }>;
+}) {
+  const { email } = await searchParams;
   const subscriptions = await db.subscription.findMany({
     orderBy: { createdAt: "desc" },
     include: { user: { select: { email: true, name: true } } },
@@ -32,7 +37,7 @@ export default async function AdminAcessosPage() {
       {/* Formulário de liberar acesso */}
       <div className="bg-white rounded-2xl border border-zinc-200 p-6">
         <h2 className="text-base font-semibold mb-5">Liberar acesso</h2>
-        <GrantAccessForm />
+        <GrantAccessForm defaultEmail={email ?? ""} />
       </div>
 
       {/* Tabela de assinaturas */}
