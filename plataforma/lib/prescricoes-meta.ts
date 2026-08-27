@@ -1781,10 +1781,17 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "241",
-    "titulo": "Effects of lipid-lowering drugs on serum lipid levels",
+    "titulo": "Efeitos dos Hipolipemiantes nos Lipídios Séricos",
     "categoria": "Guias práticos",
     "tags": ["estatina","ezetimibe","PCSK9","hipolipemiante","LDL","HDL","triglicerídeos","lipídios","dislipidemia","colesterol","fibrato","ômega-3","colesevelam","ácido bempedóico","sinvastatina","atorvastatina","rosuvastatina"],
-    "relacionados": ["224","227","239"]
+    "relacionados": ["242","224","227","239"]
+  },
+  {
+    "id": "242",
+    "titulo": "Comparação e equivalência entre estatinas",
+    "categoria": "Guias práticos",
+    "tags": ["estatina","atorvastatina","rosuvastatina","sinvastatina","fluvastatina","lovastatina","pitavastatina","pravastatina","intensidade","ACC","AHA","LDL","dose","equivalência","hipolipemiante","dislipidemia"],
+    "relacionados": ["241","224","227"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1793,9 +1800,9 @@ export const intubacaoIds = new Set(["20","22","189","190","191","192","193","19
 
 export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205","210","211","212","214","215","216","217","220","221"]);
 
-export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237","241"]);
+export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237","241","242"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241","242"]);
 
 export const medicamentoIds = new Set([
   "18",
