@@ -1664,6 +1664,12 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "titulo": "Ezetimibe",
     "categoria": "Medicamento",
     "tags": ["ezetimibe","colesterol","LDL","dislipidemia","hiperlipidemia","hipercolesterolemia","NPC1L1","lipídios","prevenção cardiovascular","redução LDL"]
+  },
+  {
+    "id": "240",
+    "titulo": "Omeprazol",
+    "categoria": "Medicamento",
+    "tags": ["omeprazol","IBP","bomba de prótons","DRGE","refluxo","dispepsia","gastrite","úlcera","antiácido","esôfago","estômago"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1686,7 +1692,7 @@ export const medicamentoIds = new Set([
   "176","177","178",
   "179","180","181","182",
   "206","207","216","217",
-  "227","229","230","231","232","234","235","236","239"
+  "227","229","230","231","232","234","235","236","239","240"
 ]);
 
 export const bibliografiaIds = new Set(["222","223"]);
