@@ -124,19 +124,19 @@ model Lead {
   id                 String   @id @default(cuid())
   name               String
   email              String
-  phone              String
-  age                String
-  profile            String
-  doePlantoes        String
-  state              String
-  university         String
-  contentWish        String   @db.Text
-  contentFormat      String
+  phone              String?
+  age                String?
+  profile            String?
+  doePlantoes        String?
+  state              String?
+  university         String?
+  contentWish        String?  @db.Text
+  contentFormat      String?
   contentFormatOther String?
-  previousPurchase   String
+  previousPurchase   String?
   whatsappOptIn      Boolean  @default(false)
-  productId          String
-  product            Product  @relation(fields: [productId], references: [id])
+  productId          String?
+  product            Product? @relation(fields: [productId], references: [id])
   createdAt          DateTime @default(now())
 
   @@index([email])
