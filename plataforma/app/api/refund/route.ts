@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
   const order = await db.order.findUnique({
     where: { id: parsed.data.orderId },
-    include: { items: true },
+    include: { items: { include: { product: { select: { type: true } } } } },
   });
 
   if (!order || order.userId !== session.user.id) {
@@ -36,6 +36,26 @@ export async function POST(req: NextRequest) {
 
   if (order.status !== "PAID") {
     return NextResponse.json({ error: "Este pedido não pode ser reembolsado." }, { status: 400 });
+  }
+
+  // Bloqueia ciclos assinar→reembolsar→assinar→reembolsar: 1 reembolso de assinatura por usuário
+  const hasSubscriptionItem = order.items.some((i) => i.product.type === "SUBSCRIPTION");
+  if (hasSubscriptionItem) {
+    const prevSubscriptionRefund = await db.order.findFirst({
+      where: {
+        userId: session.user.id,
+        status: "REFUNDED",
+        id: { not: order.id },
+        items: { some: { product: { type: "SUBSCRIPTION" } } },
+      },
+      select: { id: true },
+    });
+    if (prevSubscriptionRefund) {
+      return NextResponse.json(
+        { error: "Você já utilizou o reembolso disponível. Entre em contato com o suporte." },
+        { status: 400 }
+      );
+    }
   }
 
   if (!order.paidAt) {
