@@ -1781,7 +1781,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "241",
-    "titulo": "Efeitos dos Hipolipemiantes nos Lipídios Séricos",
+    "titulo": "Efeito dos hipolipemiantes no colesterol",
     "categoria": "Guias práticos",
     "tags": ["estatina","ezetimibe","PCSK9","hipolipemiante","LDL","HDL","triglicerídeos","lipídios","dislipidemia","colesterol","fibrato","ômega-3","colesevelam","ácido bempedóico","sinvastatina","atorvastatina","rosuvastatina"],
     "relacionados": ["242","224","227","239"]
