@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { canAccessPaidContent } from "@/lib/subscription";
 import { DOCSTAGE_YOUTUBE_IDS } from "@/lib/docstage-videos";
 
 export async function GET(
@@ -12,14 +12,8 @@ export async function GET(
     return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
   }
 
-  const user = await db.user.findUnique({ where: { id: session.user.id } });
-  const isPrivileged = user?.role === "ADMIN" || user?.role === "TESTER";
-
-  if (!isPrivileged) {
-    const sub = await db.subscription.findUnique({ where: { userId: session.user.id } });
-    if (!sub || sub.status !== "ACTIVE") {
-      return NextResponse.json({ error: "Assinatura inativa" }, { status: 403 });
-    }
+  if (!(await canAccessPaidContent(session.user.id))) {
+    return NextResponse.json({ error: "Assinatura inativa" }, { status: 403 });
   }
 
   const { moduloId, aulaId } = await params;

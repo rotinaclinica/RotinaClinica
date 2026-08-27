@@ -12,7 +12,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Muitas tentativas. Tente novamente em 1 hora." }, { status: 429 });
   }
 
-  const { nome, email, assunto, mensagem } = await req.json();
+  const raw = await req.json();
+  const nome = String(raw.nome ?? "");
+  const email = String(raw.email ?? "");
+  const assunto = String(raw.assunto ?? "");
+  const mensagem = String(raw.mensagem ?? "");
+
+  function esc(s: string) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
 
   if (!nome || !email || !assunto || !mensagem) {
     return NextResponse.json({ error: "Preencha todos os campos." }, { status: 400 });
@@ -42,14 +50,14 @@ export async function POST(req: NextRequest) {
         <tr>
           <td style="padding:28px 32px">
             <p style="margin:0 0 4px;color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.05em">Assunto</p>
-            <p style="margin:0 0 16px;color:#0f2d4a;font-size:15px;font-weight:600">${assunto}</p>
+            <p style="margin:0 0 16px;color:#0f2d4a;font-size:15px;font-weight:600">${esc(assunto)}</p>
 
             <p style="margin:0 0 4px;color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.05em">De</p>
-            <p style="margin:0 0 4px;color:#0f2d4a;font-size:14px;font-weight:600">${nome}</p>
-            <p style="margin:0 0 16px;color:#1a6aad;font-size:13px">${email}</p>
+            <p style="margin:0 0 4px;color:#0f2d4a;font-size:14px;font-weight:600">${esc(nome)}</p>
+            <p style="margin:0 0 16px;color:#1a6aad;font-size:13px">${esc(email)}</p>
 
             <p style="margin:0 0 4px;color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.05em">Mensagem</p>
-            <p style="margin:0;color:#334155;font-size:14px;line-height:1.7;white-space:pre-wrap">${mensagem.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+            <p style="margin:0;color:#334155;font-size:14px;line-height:1.7;white-space:pre-wrap">${esc(mensagem)}</p>
           </td>
         </tr>
       </table>

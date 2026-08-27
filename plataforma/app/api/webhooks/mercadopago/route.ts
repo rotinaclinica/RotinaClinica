@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
 
   const eventKey = `mp_payment_${paymentId}`;
   const existing = await db.webhookEvent.findUnique({ where: { externalId: eventKey } });
+  if (existing) return NextResponse.json({ ok: true });
 
   const payment = new Payment(client);
   const paymentData = await payment.get({ id: paymentId });
@@ -47,11 +48,9 @@ export async function POST(req: NextRequest) {
   if (!orderId) return NextResponse.json({ ok: true });
 
   if (paymentData.status === "approved") {
-    if (!existing) {
-      await db.webhookEvent.create({
-        data: { provider: "MERCADOPAGO", externalId: eventKey },
-      });
-    }
+    await db.webhookEvent.create({
+      data: { provider: "MERCADOPAGO", externalId: eventKey },
+    });
 
     const order = await db.order.update({
       where: { id: orderId },

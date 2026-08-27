@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { canAccessPaidContent } from "@/lib/subscription";
 
 export async function GET() {
   const session = await auth();
@@ -8,11 +8,6 @@ export async function GET() {
     return NextResponse.json({ hasActive: false });
   }
 
-  const user = await db.user.findUnique({
-    where: { id: session.user.id },
-    select: { role: true, subscription: { select: { status: true } } },
-  });
-
-  const hasActive = user?.role === "ADMIN" || user?.subscription?.status === "ACTIVE";
+  const hasActive = await canAccessPaidContent(session.user.id);
   return NextResponse.json({ hasActive });
 }

@@ -6,15 +6,19 @@ import { checkRateLimit } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "");
 const FROM = process.env.EMAIL_FROM ?? "noreply@rotinaclinica.com";
-const SECRET = process.env.AUTH_SECRET ?? "fallback-secret";
+const SECRET = process.env.AUTH_SECRET;
 const BASE_URL = process.env.NEXTAUTH_URL ?? "https://www.rotinaclinica.com";
 const TTL = 60 * 60; // 1 hora em segundos
 
 function makeToken(email: string, exp: number): string {
+  if (!SECRET) throw new Error("AUTH_SECRET not set");
   return createHmac("sha256", SECRET).update(`${email}|${exp}`).digest("hex");
 }
 
 export async function POST(req: NextRequest) {
+  if (!SECRET) {
+    return NextResponse.json({ error: "Configuração inválida." }, { status: 500 });
+  }
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (!checkRateLimit("recuperar-senha", ip, 3, 15 * 60 * 1000)) {
     return NextResponse.json({ error: "Muitas tentativas. Tente novamente em alguns minutos." }, { status: 429 });

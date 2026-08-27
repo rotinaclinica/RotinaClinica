@@ -7,7 +7,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(8),
   phone: z.string().min(10),
   cpf: z.string().length(11),
   momentoProfissional: z.string().optional(),
@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
 
-  const { name, email, password, phone, cpf, momentoProfissional, ambienteTrabalho } = parsed.data;
+  const { name, password, phone, cpf, momentoProfissional, ambienteTrabalho } = parsed.data;
+  const email = parsed.data.email.toLowerCase();
 
   const existing = await db.user.findUnique({ where: { email } });
   if (existing) {
