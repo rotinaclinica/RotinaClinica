@@ -24,10 +24,14 @@ function useConteudo(id: string) {
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────────────
-function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () => void }) {
+function PrescricaoModal({ item, onClose, onNavigate }: { item: PrescricaoMeta; onClose: () => void; onNavigate: (item: PrescricaoMeta) => void }) {
   const { conteudo, loading, error } = useConteudo(item.id);
   const emerg = emergenciaIds.has(item.id);
   const evid = evidenciaIds.has(item.id);
+  const relacionados = useMemo(
+    () => (item.relacionados ?? []).map(id => prescricoesMeta.find(p => p.id === id)).filter(Boolean) as PrescricaoMeta[],
+    [item.relacionados]
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center sm:p-4">
@@ -92,7 +96,25 @@ function PrescricaoModal({ item, onClose }: { item: PrescricaoMeta; onClose: () 
           ) : error ? (
             <p className="text-red-500 text-sm text-center py-8">{error}</p>
           ) : conteudo ? (
-            <PrescricaoContent conteudo={conteudo} />
+            <>
+              <PrescricaoContent conteudo={conteudo} />
+              {relacionados.length > 0 && (
+                <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-white/8">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#4a6a7e] mb-2">Ver também</p>
+                  <div className="flex flex-wrap gap-2">
+                    {relacionados.map(rel => (
+                      <button
+                        key={rel.id}
+                        onClick={() => onNavigate(rel)}
+                        className="text-xs font-semibold px-3 py-1.5 rounded-full border border-[#1a6aad]/30 dark:border-[#3db8d4]/30 text-[#1a6aad] dark:text-[#3db8d4] hover:bg-[#1a6aad]/10 dark:hover:bg-[#3db8d4]/10 transition-colors"
+                      >
+                        {rel.titulo}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           ) : null}
         </div>
       </div>
@@ -135,7 +157,7 @@ export default function PrescricoesPage() {
 
   return (
     <>
-      {selected && <PrescricaoModal item={selected} onClose={handleClose} />}
+      {selected && <PrescricaoModal item={selected} onClose={handleClose} onNavigate={setSelected} />}
 
       <div className="flex-1 flex flex-col">
         <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">

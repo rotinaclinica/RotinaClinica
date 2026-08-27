@@ -6,6 +6,7 @@ export interface PrescricaoMeta {
   titulo: string;
   categoria: string;
   tags: string[];
+  relacionados?: string[];
 }
 
 export const prescricoesMeta: PrescricaoMeta[] = [
@@ -106,7 +107,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "HDA",
       "hemoglobina",
       "endoscopia"
-    ]
+    ],
+    "relacionados": ["240"]
   },
   {
     "id": "10",
@@ -150,7 +152,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
       "amiodarona",
       "anticoagulante",
       "digoxina"
-    ]
+    ],
+    "relacionados": ["173", "174"]
   },
   {
     "id": "14",
@@ -1504,12 +1507,6 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "tags": ["EAP","edema agudo de pulmão","furosemida","nitroglicerina","nitroprussiato","VNI","BiPAP","tridil","nipride","morfina"]
   },
   {
-    "id": "213",
-    "titulo": "Fibrilação Atrial",
-    "categoria": "Temas PS/UPA",
-    "tags": ["fibrilação atrial","FA","amiodarona","metoprolol","cardioversão","CHA2DS2","anticoagulação","controle de frequência"]
-  },
-  {
     "id": "214",
     "titulo": "Taquicardia Supraventricular Paroxística",
     "categoria": "Temas PS/UPA",
@@ -1591,7 +1588,8 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "227",
     "titulo": "Sinvastatina",
     "categoria": "Clínica Médica",
-    "tags": ["sinvastatina","estatina","colesterol","LDL","dislipidemia","HMG-CoA","cardiovascular","prevenção","hiperlipidemia"]
+    "tags": ["sinvastatina","estatina","colesterol","LDL","dislipidemia","HMG-CoA","cardiovascular","prevenção","hiperlipidemia"],
+    "relacionados": ["239", "238"]
   },
   {
     "id": "228",
@@ -1657,26 +1655,29 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "id": "238",
     "titulo": "DM2 — Abordagem Prática na UBS",
     "categoria": "UBS/Atenção primária",
-    "tags": ["dm2","diabetes","diabetes mellitus tipo 2","metformina","gliclazida","dapagliflozina","insulina NPH","insulina regular","glicemia","hba1c","TOTG","rastreio","pré-diabetes","hiperglicemia","ajuste renal","atenção básica","UBS","referenciamento"]
+    "tags": ["dm2","diabetes","diabetes mellitus tipo 2","metformina","gliclazida","dapagliflozina","insulina NPH","insulina regular","glicemia","hba1c","TOTG","rastreio","pré-diabetes","hiperglicemia","ajuste renal","atenção básica","UBS","referenciamento"],
+    "relacionados": ["227", "239", "240"]
   },
   {
     "id": "239",
     "titulo": "Ezetimibe",
     "categoria": "Medicamento",
-    "tags": ["ezetimibe","colesterol","LDL","dislipidemia","hiperlipidemia","hipercolesterolemia","NPC1L1","lipídios","prevenção cardiovascular","redução LDL"]
+    "tags": ["ezetimibe","colesterol","LDL","dislipidemia","hiperlipidemia","hipercolesterolemia","NPC1L1","lipídios","prevenção cardiovascular","redução LDL"],
+    "relacionados": ["227"]
   },
   {
     "id": "240",
     "titulo": "Omeprazol",
     "categoria": "Medicamento",
-    "tags": ["omeprazol","IBP","bomba de prótons","DRGE","refluxo","dispepsia","gastrite","úlcera","antiácido","esôfago","estômago"]
+    "tags": ["omeprazol","IBP","bomba de prótons","DRGE","refluxo","dispepsia","gastrite","úlcera","antiácido","esôfago","estômago"],
+    "relacionados": ["9"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
 
 export const intubacaoIds = new Set(["20","22","189","190","191","192","193","194","195","196","197","198","210","211","220","221","222"]);
 
-export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205","210","211","212","213","214","215","216","217","220","221"]);
+export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","101","102","103","104","105","106","107","108","109","110","189","190","191","192","193","194","195","196","197","198","200","204","205","210","211","212","214","215","216","217","220","221"]);
 
 export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237"]);
 
