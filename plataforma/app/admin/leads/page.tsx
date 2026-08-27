@@ -24,7 +24,7 @@ export default async function AdminLeadsPage() {
 
   const byProduct: Record<string, number> = {};
   for (const l of leads) {
-    const title = l.product.title;
+    const title = l.product?.title ?? "Sem produto";
     byProduct[title] = (byProduct[title] ?? 0) + 1;
   }
 
@@ -93,7 +93,7 @@ export default async function AdminLeadsPage() {
                       <span className="bg-zinc-100 text-zinc-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Não</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-zinc-500 text-xs whitespace-nowrap">{l.product.title}</td>
+                  <td className="px-4 py-3 text-zinc-500 text-xs whitespace-nowrap">{l.product?.title ?? "—"}</td>
                   <td className="px-4 py-3 text-zinc-400 text-xs whitespace-nowrap">
                     {new Date(l.createdAt).toLocaleDateString("pt-BR")}
                   </td>

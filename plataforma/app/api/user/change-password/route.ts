@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+    }
+
+    if (!checkRateLimit("change-password", session.user.id, 5, 15 * 60 * 1000)) {
+      return NextResponse.json({ error: "Muitas tentativas. Tente novamente em alguns minutos." }, { status: 429 });
     }
 
     const { currentPassword, newPassword } = await req.json();

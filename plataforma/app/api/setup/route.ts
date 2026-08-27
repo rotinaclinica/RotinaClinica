@@ -17,11 +17,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { type, email, password, name } = await req.json();
+    const { type, email: rawEmail, password, name } = await req.json();
 
-    if (!email || !password || password.length < 8) {
+    if (!rawEmail || typeof rawEmail !== "string" || !password || password.length < 8) {
       return NextResponse.json({ error: "Dados inválidos. Senha mínima de 8 caracteres." }, { status: 400 });
     }
+    const email = rawEmail.trim().toLowerCase();
 
     // Verificar se o e-mail já está em uso
     const emailInUse = await db.user.findUnique({ where: { email } });

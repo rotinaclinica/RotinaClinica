@@ -82,7 +82,6 @@ export default async function DashboardPage() {
   if (!isAdmin && !isTester && !(await canAccessPaidContent(session.user.id))) {
     redirect("/assinatura?motivo=acesso");
   }
-  const isTester = user?.role === "TESTER";
 
   const subscription =
     user && !isAdmin && !isTester

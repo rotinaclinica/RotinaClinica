@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { db } from "@/lib/db";
 import { sendPurchaseConfirmation } from "@/lib/email";
+import { grantAccess } from "@/lib/entitlements";
 import { createHmac } from "crypto";
 
 const client = new MercadoPagoConfig({
@@ -67,6 +68,8 @@ export async function POST(req: NextRequest) {
     const now = new Date();
 
     for (const item of order.items) {
+      await grantAccess(order.userId, item.productId, order.id);
+
       if (item.product.type === "SUBSCRIPTION") {
         // Assinatura: cria ou renova o registro de Subscription
         const isAnnual = item.product.slug === "assinatura-anual";

@@ -27,13 +27,14 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      name, email, phone, age, profile, doePlantoes,
+      name, email: rawEmail, phone, age, profile, doePlantoes,
       state, university, contentWish, contentFormat,
       contentFormatOther, previousPurchase, whatsappOptIn,
       productId,
     } = body;
+    const email = typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
 
-    if (!name || !email || !phone || !age || !profile || !doePlantoes ||
+    if (!name || !email || !email.includes("@") || !phone || !age || !profile || !doePlantoes ||
         !state || !university || !contentWish || !contentFormat ||
         !previousPurchase || !productId) {
       return NextResponse.json({ error: "Campos obrigatórios faltando" }, { status: 400 });
