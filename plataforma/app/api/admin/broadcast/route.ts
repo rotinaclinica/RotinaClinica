@@ -9,16 +9,24 @@ const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
 
 async function getEmailList(): Promise<string[]> {
-  const leads = await db.lead.findMany({ select: { email: true } });
+  // Une TODOS os cadastros da plataforma (User) + quem baixou ebook grátis (Lead).
+  // Assim, cada novo cadastro e cada download entra automaticamente na lista,
+  // sem duplicar registros nem exigir campo extra no banco.
+  const [leads, users] = await Promise.all([
+    db.lead.findMany({ select: { email: true } }),
+    db.user.findMany({ select: { email: true } }),
+  ]);
+
   const seen = new Set<string>();
-  return leads
-    .map((l) => l.email.trim().toLowerCase())
-    .filter((email) => {
-      if (!email || !email.includes("@") || !email.includes(".")) return false;
-      if (seen.has(email)) return false;
-      seen.add(email);
-      return true;
-    });
+  const result: string[] = [];
+  for (const { email } of [...leads, ...users]) {
+    const e = email.trim().toLowerCase();
+    if (!e || !e.includes("@") || !e.includes(".")) continue;
+    if (seen.has(e)) continue;
+    seen.add(e);
+    result.push(e);
+  }
+  return result;
 }
 
 function buildHtml(subject: string, body: string): string {
