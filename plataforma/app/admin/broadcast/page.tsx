@@ -56,7 +56,7 @@ export default function BroadcastPage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-extrabold text-zinc-900 mb-1">Broadcast de Email</h1>
+      <h1 className="text-2xl font-extrabold text-zinc-900 mb-1">Enviar email</h1>
       <p className="text-sm text-zinc-500 mb-8">
         Envio para lista de{" "}
         <strong className="text-zinc-700">{total !== null ? total : "..."} destinatários</strong>{" "}

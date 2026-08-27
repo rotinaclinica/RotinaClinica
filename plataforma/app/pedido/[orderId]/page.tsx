@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
+import OrderStatusPoller from "./OrderStatusPoller";
 
 export const metadata = { title: "Seu Pedido" };
 
@@ -47,14 +48,15 @@ export default async function OrderPage({
 
         {isProcessing ? (
           <>
+            <OrderStatusPoller orderId={orderId} />
             <div className="flex justify-center mb-5">
               <div className="w-12 h-12 border-4 border-[#dde6ef] border-t-[#3db8d4] rounded-full animate-spin" />
             </div>
             <h1 className="text-xl font-bold text-[#0f2d4a] dark:text-white mb-2">Confirmando pagamento…</h1>
             <p className="text-[#6a8fa5] dark:text-[#8fa8bd] text-sm mb-2">
-              Aguarde enquanto confirmamos seu pagamento. Isso leva alguns segundos.
+              Aguarde enquanto confirmamos seu pagamento. A página atualiza sozinha assim que for aprovado.
             </p>
-            <Link href={`/pedido/${orderId}`} className="text-xs text-[#3db8d4] underline">Recarregar</Link>
+            <Link href={`/pedido/${orderId}`} className="text-xs text-[#3db8d4] underline">Recarregar agora</Link>
           </>
 
         ) : isDeclined ? (
@@ -91,6 +93,7 @@ export default async function OrderPage({
 
         ) : (
           <>
+            {!isPaid && <OrderStatusPoller orderId={orderId} />}
             <div className="text-5xl mb-4">
               {isPaid ? "✅" : isPending ? "⏳" : "❌"}
             </div>

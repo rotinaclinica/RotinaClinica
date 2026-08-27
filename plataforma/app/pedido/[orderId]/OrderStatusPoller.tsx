@@ -1,33 +1,50 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
+/**
+ * Consulta /api/order/[id]/status a cada 4s enquanto o pedido está processando.
+ * Ao confirmar (PAID) ou falhar (FAILED/EXPIRED), atualiza a página via router.refresh().
+ * Para após ~2 min para não consultar indefinidamente.
+ */
 export default function OrderStatusPoller({ orderId }: { orderId: string }) {
   const router = useRouter();
+  const attemptsRef = useRef(0);
 
   useEffect(() => {
-    let attempts = 0;
-    const maxAttempts = 20; // 20 × 3s = 60s máximo
+    const MAX_ATTEMPTS = 30; // 30 × 4s ≈ 2 min
+    let stopped = false;
 
     const interval = setInterval(async () => {
-      attempts++;
+      if (stopped) return;
+      attemptsRef.current += 1;
+
       try {
-        const res = await fetch(`/api/order/${orderId}/status`);
-        const data = await res.json();
-        if (data.status === "PAID") {
-          clearInterval(interval);
-          router.replace(`/pedido/${orderId}?status=pago`);
-        } else if (data.status === "FAILED" || attempts >= maxAttempts) {
-          clearInterval(interval);
-          router.replace(`/pedido/${orderId}`);
+        const res = await fetch(`/api/order/${orderId}/status`, { cache: "no-store" });
+        if (res.ok) {
+          const { status } = (await res.json()) as { status?: string };
+          if (status && status !== "PENDING") {
+            stopped = true;
+            clearInterval(interval);
+            router.refresh();
+            return;
+          }
         }
       } catch {
-        // ignora erros de rede, tenta de novo
+        // ignora erro de rede transitório e tenta de novo no próximo tick
       }
-    }, 3000);
 
-    return () => clearInterval(interval);
+      if (attemptsRef.current >= MAX_ATTEMPTS) {
+        stopped = true;
+        clearInterval(interval);
+      }
+    }, 4000);
+
+    return () => {
+      stopped = true;
+      clearInterval(interval);
+    };
   }, [orderId, router]);
 
   return null;
