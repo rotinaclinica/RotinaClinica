@@ -115,10 +115,9 @@ export default function AssinaturaPage({
 
       {/* Números */}
       <section className="bg-white border-b border-zinc-100">
-        <div className="max-w-4xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div className="max-w-4xl mx-auto px-6 py-8 grid grid-cols-3 gap-6 text-center">
           {[
             { value: "900+", label: "Alunos" },
-            { value: "200+", label: "Condutas" },
             { value: "50k+", label: "Seguidores" },
             { value: "2023", label: "Fundado em" },
           ].map(({ value, label }) => (
