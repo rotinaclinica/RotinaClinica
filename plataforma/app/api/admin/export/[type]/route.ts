@@ -3,7 +3,10 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 function csvCell(v: unknown): string {
-  const s = v == null ? "" : String(v);
+  let s = v == null ? "" : String(v);
+  // Mitiga CSV/formula injection: valores começando com = + - @ (ou tab/CR)
+  // podem ser executados como fórmula pelo Excel/Sheets. Prefixa com aspa simples.
+  if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return `"${s.replace(/"/g, '""')}"`;
 }
 

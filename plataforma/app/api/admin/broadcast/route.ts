@@ -116,14 +116,26 @@ export async function POST(req: NextRequest) {
       to,
       subject,
       html,
+      headers: {
+        "List-Unsubscribe": "<mailto:contato@rotinaclinica.com?subject=descadastrar>",
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      },
     }));
 
     try {
-      await resend.batch.send(batch);
-      sent += batch.length;
+      // O SDK do Resend NÃO lança em erro de API — ele retorna { data, error }.
+      // Precisamos inspecionar o error, senão erros (key inválida, domínio não
+      // verificado, rate limit) seriam contados como enviados silenciosamente.
+      const { error } = await resend.batch.send(batch);
+      if (error) {
+        failed += batch.length;
+        errors.push(error.message ?? JSON.stringify(error));
+      } else {
+        sent += batch.length;
+      }
     } catch (err) {
       failed += batch.length;
-      errors.push(String(err));
+      errors.push(err instanceof Error ? err.message : String(err));
     }
 
     if (i + BATCH_SIZE < emails.length) {

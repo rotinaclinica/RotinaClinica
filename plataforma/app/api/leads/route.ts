@@ -40,6 +40,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Campos obrigatórios faltando" }, { status: 400 });
     }
 
+    // Limites de tamanho: evita inflar o banco com payloads gigantes (DoS).
+    const tooLong =
+      [name, email, phone, age, profile, doePlantoes, state, university,
+       contentFormat, contentFormatOther, previousPurchase, productId]
+        .some((v) => typeof v === "string" && v.length > 200) ||
+      (typeof contentWish === "string" && contentWish.length > 2000);
+    if (tooLong) {
+      return NextResponse.json({ error: "Um dos campos excede o tamanho permitido." }, { status: 400 });
+    }
+
     const product = await db.product.findUnique({ where: { id: productId } });
     if (!product || product.type !== "EBOOK_FREE") {
       return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
