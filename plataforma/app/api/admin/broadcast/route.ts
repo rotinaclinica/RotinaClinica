@@ -80,32 +80,8 @@ function buildHtml(subject: string, body: string): string {
 </html>`;
 }
 
-export async function GET() {
-  const session = await (await import("@/lib/auth")).auth();
-  const role = (session?.user as { role?: string })?.role;
-  if (!session || role !== "ADMIN") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  const emails = await getEmailList();
-  return NextResponse.json({ total: emails.length });
-}
-
-export async function POST(req: NextRequest) {
-  const session = await auth();
-  const role = (session?.user as { role?: string })?.role;
-  if (!session || role !== "ADMIN") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const { subject, body } = await req.json() as { subject: string; body: string };
-  if (!subject?.trim() || !body?.trim()) {
-    return NextResponse.json({ error: "subject e body são obrigatórios" }, { status: 400 });
-  }
-
-  const emails = await getEmailList();
-  const html = buildHtml(subject, body);
+async function sendBatches(emails: string[], subject: string, html: string) {
   const BATCH_SIZE = 50;
-
   let sent = 0;
   let failed = 0;
   const errors: string[] = [];
@@ -143,5 +119,57 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ total: emails.length, sent, failed, errors });
+  return { sent, failed, errors };
+}
+
+export async function GET() {
+  const session = await (await import("@/lib/auth")).auth();
+  const role = (session?.user as { role?: string })?.role;
+  if (!session || role !== "ADMIN") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const emails = await getEmailList();
+  return NextResponse.json({ total: emails.length });
+}
+
+export async function POST(req: NextRequest) {
+  const session = await auth();
+  const role = (session?.user as { role?: string })?.role;
+  if (!session || role !== "ADMIN") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { subject, body, testEmails } = await req.json() as {
+    subject: string;
+    body: string;
+    testEmails?: string[];
+  };
+  if (!subject?.trim() || !body?.trim()) {
+    return NextResponse.json({ error: "subject e body são obrigatórios" }, { status: 400 });
+  }
+
+  const html = buildHtml(subject, body);
+
+  // ── Envio de teste: só para os emails informados, sem tocar na lista ──
+  if (Array.isArray(testEmails) && testEmails.length > 0) {
+    const seen = new Set<string>();
+    const list = testEmails
+      .map((e) => String(e).trim().toLowerCase())
+      .filter((e) => {
+        if (!e || !e.includes("@") || !e.includes(".") || seen.has(e)) return false;
+        seen.add(e);
+        return true;
+      })
+      .slice(0, 5);
+    if (list.length === 0) {
+      return NextResponse.json({ error: "Nenhum email de teste válido." }, { status: 400 });
+    }
+    const r = await sendBatches(list, subject, html);
+    return NextResponse.json({ test: true, total: list.length, ...r });
+  }
+
+  // ── Envio para a lista completa ──
+  const emails = await getEmailList();
+  const r = await sendBatches(emails, subject, html);
+  return NextResponse.json({ total: emails.length, ...r });
 }
