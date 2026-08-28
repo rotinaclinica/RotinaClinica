@@ -17,20 +17,22 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const role = (session.user as { role?: string })?.role;
 
   let expiringAt: string | null = null;
+  let hasAccess = role === "ADMIN" || role === "TESTER";
 
-  if (role !== "ADMIN" && role !== "TESTER") {
+  if (!hasAccess) {
     const hdrs = await headers();
     const pathname = hdrs.get("x-pathname");
     const isExempt = pathname != null && FREE_ROUTES.some((r) => pathname.startsWith(r));
 
-    if (!isExempt) {
-      const { canAccess, expiresAt } = await checkSubscriptionAccess(session.user.id);
-      if (!canAccess) redirect("/assinatura?motivo=acesso");
+    const { canAccess, expiresAt } = await checkSubscriptionAccess(session.user.id);
+    hasAccess = canAccess;
 
-      // Aviso somente se faltar ≤ 48h
-      if (expiresAt && expiresAt.getTime() - Date.now() <= 48 * 60 * 60 * 1000) {
-        expiringAt = expiresAt.toISOString();
-      }
+    // Rotas pagas: bloqueia não-assinante (rotas livres seguem acessíveis)
+    if (!canAccess && !isExempt) redirect("/assinatura?motivo=acesso");
+
+    // Aviso somente se faltar ≤ 48h
+    if (canAccess && expiresAt && expiresAt.getTime() - Date.now() <= 48 * 60 * 60 * 1000) {
+      expiringAt = expiresAt.toISOString();
     }
   }
 
@@ -49,6 +51,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         userEmail={session.user.email ?? ""}
         initials={initials}
         isAdmin={role === "ADMIN"}
+        hasAccess={hasAccess}
       />
 
       {/* Main */}
@@ -58,7 +61,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       </div>
 
       {/* Bottom nav — mobile */}
-      <DashboardMobileNav />
+      <DashboardMobileNav hasAccess={hasAccess} />
 
       <ActivityPing />
     </div>

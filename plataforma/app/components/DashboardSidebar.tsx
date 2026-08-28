@@ -54,9 +54,10 @@ interface Props {
   userEmail: string;
   initials: string;
   isAdmin?: boolean;
+  hasAccess?: boolean;
 }
 
-export default function DashboardSidebar({ userName, userEmail, initials, isAdmin }: Props) {
+export default function DashboardSidebar({ userName, userEmail, initials, isAdmin, hasAccess = true }: Props) {
   const pathname = usePathname();
 
   function isActive(item: typeof navItems[number]) {
@@ -83,9 +84,9 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
         </div>
       </div>
 
-      {/* Nav */}
+      {/* Nav — oculto para quem não tem acesso pago (só perfil/voltar/sair) */}
       <nav className="px-3 py-4 space-y-0.5">
-        {navItems.filter((item) => !(isAdmin && item.href === "/dashboard/pedidos")).map((item) => (
+        {hasAccess && navItems.filter((item) => !(isAdmin && item.href === "/dashboard/pedidos")).map((item) => (
           <Link
             key={item.href}
             href={item.href}
