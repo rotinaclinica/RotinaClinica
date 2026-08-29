@@ -61,7 +61,7 @@ export default function CursosPage() {
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
-        <div className="max-w-2xl flex flex-col gap-4">
+        <div className="max-w-4xl flex flex-col gap-4">
           {CURSOS.map((curso) => (
             <Link
               key={curso.slug}
