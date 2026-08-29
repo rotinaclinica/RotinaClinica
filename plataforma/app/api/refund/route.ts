@@ -106,10 +106,18 @@ export async function POST(req: NextRequest) {
         productId: { in: order.items.map((i) => i.productId) },
       },
     }),
-    db.subscription.updateMany({
-      where: { userId: session.user.id, providerRef: order.providerRef },
-      data: { status: "CANCELLED", cancelledAt: new Date() },
-    }),
+    // Reembolsar um pedido de assinatura cancela a assinatura do usuário —
+    // por userId, não por providerRef. Se casássemos pelo providerRef, uma 2ª
+    // compra teria trocado o providerRef da assinatura, e o reembolso do 1º
+    // pedido não a cancelaria (usuário ficaria com acesso após ser reembolsado).
+    ...(hasSubscriptionItem
+      ? [
+          db.subscription.updateMany({
+            where: { userId: session.user.id },
+            data: { status: "CANCELLED", cancelledAt: new Date() },
+          }),
+        ]
+      : []),
   ]);
 
   return NextResponse.json({ ok: true });

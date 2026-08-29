@@ -71,9 +71,14 @@ export async function POST(req: NextRequest) {
       await grantAccess(order.userId, item.productId, order.id);
 
       if (item.product.type === "SUBSCRIPTION") {
-        // Assinatura: cria ou renova o registro de Subscription
+        // Assinatura: cria ou renova. Estende a partir do fim vigente (se ativo)
+        // para renovação/troca não descartar tempo já pago.
         const isAnnual = item.product.slug === "assinatura-anual";
-        const periodEnd = new Date(now);
+        const existing = await db.subscription.findUnique({ where: { userId: order.userId } });
+        const base = existing && existing.status === "ACTIVE" && existing.currentPeriodEnd > now
+          ? new Date(existing.currentPeriodEnd)
+          : new Date(now);
+        const periodEnd = new Date(base);
         periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30));
 
         await db.subscription.upsert({

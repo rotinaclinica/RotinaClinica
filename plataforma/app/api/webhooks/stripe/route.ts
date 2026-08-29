@@ -55,7 +55,13 @@ export async function POST(req: NextRequest) {
 
       if (item.product.type === "SUBSCRIPTION") {
         const isAnnual = item.product.slug === "assinatura-anual";
-        const periodEnd = new Date(now);
+        // Estende a partir do fim vigente (se ainda ativo), para renovações/trocas
+        // não descartarem tempo já pago. Caso contrário, começa de agora.
+        const existing = await db.subscription.findUnique({ where: { userId: order.userId } });
+        const base = existing && existing.status === "ACTIVE" && existing.currentPeriodEnd > now
+          ? new Date(existing.currentPeriodEnd)
+          : new Date(now);
+        const periodEnd = new Date(base);
         periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30));
 
         await db.subscription.upsert({
