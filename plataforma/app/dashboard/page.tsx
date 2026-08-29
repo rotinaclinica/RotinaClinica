@@ -15,7 +15,7 @@ const sections = [
     href: "/dashboard/evolucoes",
     label: "Modelos de evolução",
     description: "Modelos de evolução prontos para facilitar o atendimento.",
-    badge: "Novo",
+    badge: "Agilidade no atendimento",
     color: "from-[#0f2d4a] to-[#1a6aad]",
     icon: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z",
   },
@@ -23,7 +23,7 @@ const sections = [
     href: "/dashboard/prescricoes",
     label: "Condutas Clínicas",
     description: "Busque por queixa, diagnóstico, medicamento ou tema.",
-    badge: "250+",
+    badge: "Atualizações constantes",
     color: "from-[#0f2d4a] to-[#1a6aad]",
     icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
   },
@@ -39,7 +39,7 @@ const sections = [
     href: "/dashboard/cursos",
     label: "Cursos e Videoaulas",
     description: "Conteúdo de qualidade, baseado em evidências. Estude no seu ritmo.",
-    badge: "Novo",
+    badge: "Abordagem prática e sistematizada",
     color: "from-[#3db8d4] to-[#2fa8c4]",
     icon: "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   },
@@ -47,7 +47,7 @@ const sections = [
     href: "/dashboard/materiais",
     label: "Ebooks e Materiais",
     description: "PDFs e materiais de apoio para baixar e consultar offline.",
-    badge: null,
+    badge: "Utilize offline em qualquer dispositivo",
     color: "from-[#0f2d4a] to-[#3db8d4]",
     icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
   },
@@ -55,7 +55,7 @@ const sections = [
     href: "/dashboard/calculadoras",
     label: "Calculadoras Clínicas",
     description: "Escores, doses e ferramentas interativas para o dia a dia.",
-    badge: null,
+    badge: "Agilidade e praticidade",
     color: "from-[#1a6aad] to-[#0f2d4a]",
     icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
   },
@@ -176,7 +176,7 @@ export default async function DashboardPage() {
                     </svg>
                   </div>
                   {s.badge && (
-                    <span className="text-[10px] font-extrabold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2 py-0.5 rounded-full uppercase tracking-wide flex-shrink-0">
+                    <span className="text-[10px] font-bold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2.5 py-1 rounded-xl leading-tight text-right max-w-[130px]">
                       {s.badge}
                     </span>
                   )}

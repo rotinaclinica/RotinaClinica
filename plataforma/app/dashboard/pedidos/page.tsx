@@ -107,6 +107,12 @@ export default async function PedidosPage() {
                     </div>
                   )}
 
+                  {order.status === "PAID" && !canRefund && (
+                    <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
+                      <p className="text-xs text-zinc-400 dark:text-[#4a6a7e]">Prazo de reembolso encerrado.</p>
+                    </div>
+                  )}
+
                   {order.status === "REFUNDED" && (
                     <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
                       <p className="text-xs text-blue-500">Reembolso processado. O acesso foi removido.</p>
