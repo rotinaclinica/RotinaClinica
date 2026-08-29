@@ -176,7 +176,7 @@ export default async function DashboardPage() {
                     </svg>
                   </div>
                   {s.badge && (
-                    <span className="text-[10px] font-bold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2.5 py-1 rounded-xl leading-tight text-right max-w-[130px]">
+                    <span className="text-[10px] font-bold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2.5 py-1 rounded-xl leading-tight text-center w-fit max-w-[130px]">
                       {s.badge}
                     </span>
                   )}

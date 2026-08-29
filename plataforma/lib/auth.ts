@@ -25,9 +25,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const parsed = loginSchema.safeParse(credentials);
         if (!parsed.success) return null;
 
+        // Rate limit por (IP + email): protege contra brute-force numa conta
+        // específica sem barrar vários usuários legítimos atrás do mesmo IP
+        // (ex.: médicos numa mesma rede de hospital/clínica).
         const ip =
           (request as Request | undefined)?.headers?.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-        if (!checkRateLimit(`login:${ip}`, ip, 10, 15 * 60 * 1000)) return null;
+        if (!checkRateLimit("login", `${ip}:${parsed.data.email.toLowerCase()}`, 10, 15 * 60 * 1000)) return null;
 
         const user = await db.user.findUnique({
           where: { email: parsed.data.email.toLowerCase() },
