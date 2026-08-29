@@ -43,10 +43,18 @@ export default function BroadcastPage() {
   const [testResult, setTestResult] = useState<{ sent: number; failed: number; errors?: string[] } | null>(null);
 
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
-  const [result, setResult] = useState<{ sent: number; failed: number; total: number; errors?: string[] } | null>(null);
+  const [result, setResult] = useState<{ sentThisRun: number; remaining: number; alreadySent: number; total: number; done: boolean; errors?: string[] } | null>(null);
+  const [campaign, setCampaign] = useState<{ subject: string; alreadySent: number; remaining: number } | null>(null);
+
+  function loadStatus() {
+    fetch("/api/admin/broadcast")
+      .then((r) => r.json())
+      .then((d) => { setTotal(d.total); setCampaign(d.campaign ?? null); })
+      .catch(() => {});
+  }
 
   useEffect(() => {
-    fetch("/api/admin/broadcast").then((r) => r.json()).then((d) => setTotal(d.total)).catch(() => {});
+    loadStatus();
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setCustomTemplates(JSON.parse(raw));
@@ -125,9 +133,24 @@ export default function BroadcastPage() {
       if (!res.ok) throw new Error(data.error ?? "Erro desconhecido");
       setResult(data);
       setStatus("done");
+      loadStatus();
     } catch (err) {
       console.error(err);
       setStatus("error");
+    }
+  }
+
+  async function handleCancel() {
+    if (!window.confirm("Cancelar a campanha automática? Os lotes restantes não serão enviados.")) return;
+    try {
+      await fetch("/api/admin/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "cancel" }),
+      });
+      loadStatus();
+    } catch {
+      // ignora
     }
   }
 
@@ -142,6 +165,38 @@ export default function BroadcastPage() {
         <strong className="text-zinc-700">{total !== null ? total : "..."} destinatários</strong>{" "}
         via <code className="bg-zinc-100 px-1 rounded">contato@rotinaclinica.com</code>
       </p>
+
+      {/* Campanha automática ativa */}
+      {campaign && (
+        <div className="mb-5 p-4 rounded-xl border border-emerald-200 bg-emerald-50">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-emerald-800">📣 Campanha automática em andamento</p>
+              <p className="text-sm text-emerald-700 mt-0.5 truncate">&ldquo;{campaign.subject}&rdquo;</p>
+              <p className="text-xs text-emerald-700 mt-1">
+                <strong>{campaign.alreadySent}</strong> de <strong>{campaign.alreadySent + campaign.remaining}</strong> enviados ·{" "}
+                <strong>{campaign.remaining}</strong> restantes
+              </p>
+              <p className="text-[11px] text-emerald-600 mt-1">
+                Os próximos lotes (~90/dia) são enviados automaticamente todo dia. Você não precisa fazer nada.
+              </p>
+            </div>
+            <button
+              onClick={handleCancel}
+              className="shrink-0 text-xs font-semibold text-red-600 hover:underline"
+            >
+              Cancelar
+            </button>
+          </div>
+          {/* Barra de progresso */}
+          <div className="mt-3 h-2 rounded-full bg-emerald-100 overflow-hidden">
+            <div
+              className="h-full bg-emerald-500 transition-all"
+              style={{ width: `${Math.round((campaign.alreadySent / Math.max(1, campaign.alreadySent + campaign.remaining)) * 100)}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Modelos */}
       <div className="flex flex-wrap items-end gap-2 mb-5 p-4 bg-zinc-100/60 rounded-xl border border-zinc-200">
@@ -248,14 +303,19 @@ export default function BroadcastPage() {
         </div>
 
         {status === "idle" && (
-          <label className="flex items-center gap-3 cursor-pointer select-none">
+          <label className="flex items-start gap-3 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={confirmed}
               onChange={(e) => setConfirmed(e.target.checked)}
-              className="w-4 h-4 accent-violet-600"
+              className="w-4 h-4 mt-0.5 accent-violet-600"
             />
-            <span className="text-sm text-zinc-700">Confirmo que quero enviar este email para toda a lista</span>
+            <span className="text-sm text-zinc-700">
+              Confirmo que quero iniciar o envio deste email para toda a lista.
+              <span className="block text-xs text-zinc-500 mt-0.5">
+                O 1º lote (~90) sai agora; o restante é enviado automaticamente ~90/dia até terminar.
+              </span>
+            </span>
           </label>
         )}
 
@@ -265,7 +325,7 @@ export default function BroadcastPage() {
             disabled={!confirmed || !subject.trim() || !body.trim()}
             className="self-start bg-violet-600 hover:bg-violet-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold px-8 py-3 rounded-xl text-sm transition-colors"
           >
-            Enviar para lista →
+            Iniciar campanha →
           </button>
         )}
 
@@ -275,25 +335,34 @@ export default function BroadcastPage() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
             </svg>
-            Enviando em batches… isso pode levar 1 a 2 minutos, não feche a página.
+            Enviando o 1º lote… não feche a página.
           </div>
         )}
 
         {status === "done" && result && (
           <div className="rounded-xl border border-green-200 bg-green-50 p-5">
-            <p className="font-bold text-green-800 mb-1">✓ Envio concluído</p>
-            <p className="text-sm text-green-700">
-              {result.sent} enviados · {result.failed} falhas · {result.total} total
+            <p className="font-bold text-green-800 mb-1">
+              {result.done ? "✓ Campanha concluída — todos receberam!" : "✓ 1º lote enviado!"}
             </p>
-            {result.failed > 0 && result.errors?.length ? (
-              <p className="text-xs text-red-600 mt-2 break-words">Erro: {result.errors[0]}</p>
+            <p className="text-sm text-green-700">
+              {result.sentThisRun} enviados agora · {result.alreadySent} de {result.total} no total ·{" "}
+              {result.remaining} restantes
+            </p>
+            {!result.done && (
+              <p className="text-xs text-green-600 mt-2">
+                Os próximos lotes (~90/dia) serão enviados <strong>automaticamente todo dia</strong>.
+                Você não precisa voltar aqui — pode acompanhar o progresso na barra acima.
+              </p>
+            )}
+            {result.errors?.length ? (
+              <p className="text-xs text-amber-600 mt-2 break-words">Obs: {result.errors[0]}</p>
             ) : null}
           </div>
         )}
 
         {status === "error" && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-5">
-            <p className="font-bold text-red-800">Erro ao enviar. Verifique o console e tente novamente.</p>
+            <p className="font-bold text-red-800">Erro ao iniciar. Verifique o console e tente novamente.</p>
           </div>
         )}
       </div>

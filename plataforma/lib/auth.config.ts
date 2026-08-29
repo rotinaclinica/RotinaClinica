@@ -7,7 +7,7 @@ export const authConfig: NextAuthConfig = {
     error: "/login",
     signOut: "/sair",
   },
-  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
+  session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   callbacks: {
     jwt({ token, user }) {
       if (user) {

@@ -1,156 +1,60 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getEmailList, buildHtml, sendBatches, sendCampaignBatch, campaignIdOf } from "@/lib/broadcast";
 
 export const maxDuration = 120;
 
-const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
-const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
-
-async function getEmailList(): Promise<string[]> {
-  // Une TODOS os cadastros da plataforma (User) + quem baixou ebook grátis (Lead).
-  // Assim, cada novo cadastro e cada download entra automaticamente na lista,
-  // sem duplicar registros nem exigir campo extra no banco.
-  const [leads, users] = await Promise.all([
-    db.lead.findMany({ select: { email: true } }),
-    db.user.findMany({ select: { email: true } }),
-  ]);
-
-  const seen = new Set<string>();
-  const result: string[] = [];
-  for (const { email } of [...leads, ...users]) {
-    const e = email.trim().toLowerCase();
-    if (!e || !e.includes("@") || !e.includes(".")) continue;
-    if (seen.has(e)) continue;
-    seen.add(e);
-    result.push(e);
-  }
-  return result;
-}
-
-function buildHtml(subject: string, body: string): string {
-  const paragraphs = body
-    .split("\n")
-    .map((p) => p.trim())
-    .filter(Boolean)
-    .map((p) => `<p style="margin:0 0 18px;color:#4a6a80;font-size:15px;line-height:1.8">${p}</p>`)
-    .join("\n");
-
-  return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f0f4f8;font-family:sans-serif">
-  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px">
-    <tr><td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dde6ef">
-
-        <!-- Header -->
-        <tr>
-          <td style="background:#0f2d4a;padding:36px 40px">
-            <p style="margin:0 0 4px;color:#3db8d4;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Rotina Clínica</p>
-            <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700;line-height:1.4">${subject}</p>
-          </td>
-        </tr>
-
-        <!-- Body -->
-        <tr>
-          <td style="padding:36px 40px">
-            ${paragraphs}
-            <p style="margin:32px 0 0;color:#94a8b8;font-size:13px;text-align:center;line-height:1.6">
-              Dúvidas? Fale com a gente: <a href="mailto:contato@rotinaclinica.com" style="color:#3db8d4;text-decoration:none">contato@rotinaclinica.com</a>
-            </p>
-          </td>
-        </tr>
-
-        <!-- Footer -->
-        <tr>
-          <td style="background:#f0f4f8;padding:20px 40px;text-align:center">
-            <p style="margin:0;color:#94a8b8;font-size:12px">
-              © ${new Date().getFullYear()} Rotina Clínica ·
-              <a href="https://www.rotinaclinica.com" style="color:#94a8b8;text-decoration:none">rotinaclinica.com</a>
-            </p>
-          </td>
-        </tr>
-
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
-}
-
-async function sendBatches(emails: string[], subject: string, html: string) {
-  const BATCH_SIZE = 50;
-  let sent = 0;
-  let failed = 0;
-  const errors: string[] = [];
-
-  for (let i = 0; i < emails.length; i += BATCH_SIZE) {
-    const batch = emails.slice(i, i + BATCH_SIZE).map((to) => ({
-      from: FROM,
-      to,
-      subject,
-      html,
-      headers: {
-        "List-Unsubscribe": "<mailto:contato@rotinaclinica.com?subject=descadastrar>",
-        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-      },
-    }));
-
-    try {
-      // O SDK do Resend NÃO lança em erro de API — ele retorna { data, error }.
-      // Precisamos inspecionar o error, senão erros (key inválida, domínio não
-      // verificado, rate limit) seriam contados como enviados silenciosamente.
-      const { error } = await resend.batch.send(batch);
-      if (error) {
-        failed += batch.length;
-        errors.push(error.message ?? JSON.stringify(error));
-      } else {
-        sent += batch.length;
-      }
-    } catch (err) {
-      failed += batch.length;
-      errors.push(err instanceof Error ? err.message : String(err));
-    }
-
-    if (i + BATCH_SIZE < emails.length) {
-      await new Promise((r) => setTimeout(r, 1000));
-    }
-  }
-
-  return { sent, failed, errors };
+async function isAdmin(): Promise<boolean> {
+  const session = await auth();
+  const role = (session?.user as { role?: string })?.role;
+  return !!session && role === "ADMIN";
 }
 
 export async function GET() {
-  const session = await (await import("@/lib/auth")).auth();
-  const role = (session?.user as { role?: string })?.role;
-  if (!session || role !== "ADMIN") {
+  if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const emails = await getEmailList();
-  return NextResponse.json({ total: emails.length });
+  const active = await db.broadcastCampaign.findFirst({
+    where: { status: "active" },
+    orderBy: { createdAt: "desc" },
+  });
+  let campaign = null;
+  if (active) {
+    const sentCount = await db.broadcastSent.count({ where: { campaignId: active.id } });
+    campaign = {
+      subject: active.subject,
+      alreadySent: sentCount,
+      remaining: Math.max(0, emails.length - sentCount),
+    };
+  }
+  return NextResponse.json({ total: emails.length, campaign });
 }
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  const role = (session?.user as { role?: string })?.role;
-  if (!session || role !== "ADMIN") {
+  if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { subject, body, testEmails } = await req.json() as {
-    subject: string;
-    body: string;
+  const { subject, body, testEmails, action } = await req.json() as {
+    subject?: string;
+    body?: string;
     testEmails?: string[];
+    action?: string;
   };
+
+  // ── Cancelar a campanha automática ativa ──
+  if (action === "cancel") {
+    await db.broadcastCampaign.updateMany({ where: { status: "active" }, data: { status: "cancelled" } });
+    return NextResponse.json({ cancelled: true });
+  }
+
   if (!subject?.trim() || !body?.trim()) {
     return NextResponse.json({ error: "subject e body são obrigatórios" }, { status: 400 });
   }
 
-  const html = buildHtml(subject, body);
-
-  // ── Envio de teste: só para os emails informados, sem tocar na lista ──
+  // ── Envio de teste: só para os emails informados, não conta na campanha ──
   if (Array.isArray(testEmails) && testEmails.length > 0) {
     const seen = new Set<string>();
     const list = testEmails
@@ -164,12 +68,28 @@ export async function POST(req: NextRequest) {
     if (list.length === 0) {
       return NextResponse.json({ error: "Nenhum email de teste válido." }, { status: 400 });
     }
-    const r = await sendBatches(list, subject, html);
-    return NextResponse.json({ test: true, total: list.length, ...r });
+    const r = await sendBatches(list, subject, buildHtml(subject, body));
+    return NextResponse.json({ test: true, total: list.length, sent: r.sent, failed: r.failed, errors: r.errors });
   }
 
-  // ── Envio para a lista completa ──
-  const emails = await getEmailList();
-  const r = await sendBatches(emails, subject, html);
-  return NextResponse.json({ total: emails.length, ...r });
+  // ── Iniciar campanha automática: registra e envia o 1º lote agora.
+  // Os lotes seguintes são enviados automaticamente pelo cron diário. ──
+  const campaignId = campaignIdOf(subject, body);
+
+  // Só uma campanha ativa por vez.
+  await db.broadcastCampaign.updateMany({
+    where: { status: "active", NOT: { id: campaignId } },
+    data: { status: "cancelled" },
+  });
+  await db.broadcastCampaign.upsert({
+    where: { id: campaignId },
+    create: { id: campaignId, subject, body, status: "active" },
+    update: { subject, body, status: "active" },
+  });
+
+  const result = await sendCampaignBatch(subject, body);
+  if (result.done) {
+    await db.broadcastCampaign.update({ where: { id: campaignId }, data: { status: "completed" } });
+  }
+  return NextResponse.json(result);
 }
