@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { evolucoesMeta, type EvolucaoMeta } from "@/lib/evolucoes-meta";
-import EvolucaoContent from "./EvolucaoContent";
+import EvolucaoContent, { evolucaoToPlainText } from "./EvolucaoContent";
 
 // ── Content loader ────────────────────────────────────────────────────────────
 function useConteudo(id: string) {
@@ -23,17 +23,6 @@ function useConteudo(id: string) {
   return { conteudo, loading, error };
 }
 
-// Monta o texto para copiar: conteúdo cru, sem o cabeçalho de seção "Anamnese"
-// (o título do modelo não faz parte do conteúdo) e sem marcadores de imagem.
-function buildCopyText(conteudo: string): string {
-  const lines = conteudo.replace(/\[IMAGE:[^\]]*\]/gi, "").split("\n");
-  // Remove a 1ª linha de cabeçalho "Anamnese" (que contém a palavra "Anamnese"
-  // e, no mesmo local, o título do modelo — ex.: "ANAMNESE: URTICÁRIA").
-  const idx = lines.findIndex((l) => /^anamnese\b/i.test(l.trim()));
-  if (idx !== -1) lines.splice(idx, 1);
-  return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
-}
-
 // ── Modal ─────────────────────────────────────────────────────────────────────
 function EvolucaoModal({ item, onClose }: { item: EvolucaoMeta; onClose: () => void }) {
   const { conteudo, loading, error } = useConteudo(item.id);
@@ -42,7 +31,7 @@ function EvolucaoModal({ item, onClose }: { item: EvolucaoMeta; onClose: () => v
   async function handleCopy() {
     if (!conteudo) return;
     try {
-      await navigator.clipboard.writeText(buildCopyText(conteudo));
+      await navigator.clipboard.writeText(evolucaoToPlainText(conteudo));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {

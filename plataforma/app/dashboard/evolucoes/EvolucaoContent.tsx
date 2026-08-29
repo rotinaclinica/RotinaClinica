@@ -223,6 +223,53 @@ function parse(raw: string): Block[] {
   return blocks;
 }
 
+// ── Texto para copiar ─────────────────────────────────────────────────────────
+// Usa o MESMO parser da tela, então o texto copiado sai limpo (sem caixa alta,
+// com condutas unidas e "EF"→"Exame Físico"). Exclui o título do modelo e a
+// seção "Anamnese", como pedido — mantém o restante das seções.
+export function evolucaoToPlainText(conteudo: string): string {
+  const all = parse(conteudo);
+  const titleCount = all.filter((b) => b.type === "title").length;
+  const blocks = titleCount > 1 ? all : all.filter((b) => b.type !== "title");
+
+  const lines: string[] = [];
+  for (const b of blocks) {
+    switch (b.type) {
+      case "title":
+        break; // exclui o título do modelo
+      case "section":
+        if (b.text.trim().toLowerCase() === "anamnese") break; // exclui "Anamnese"
+        if (lines.length) lines.push("");
+        lines.push(b.text);
+        break;
+      case "field": {
+        const isHd = b.label === "HIPÓTESE DIAGNÓSTICA" || b.label === "HIPOTESE DIAGNOSTICA";
+        const isEf = new Set(["GERAL","NEURO","AR","ACV","ABD","MMII","PELE","MUCOSA","OROSCOPIA","FACE"]).has(b.label);
+        if (isHd) {
+          const v = toSentenceCase(b.value);
+          lines.push(/[.!?:]$/.test(v) ? v : v + ".");
+        } else {
+          const prefix = isEf ? "• " : "";
+          lines.push(b.value ? `${prefix}${b.label}: ${toSentenceCase(b.value)}` : `${prefix}${b.label}:`);
+        }
+        break;
+      }
+      case "sub-text":
+        lines.push(`• ${b.text}`);
+        break;
+      case "list-item": {
+        const t = toSentenceCase(b.text);
+        lines.push(`• ${/[.!?:]$/.test(t) ? t : t + "."}`);
+        break;
+      }
+      case "text":
+        lines.push(toSentenceCase(b.text));
+        break;
+    }
+  }
+  return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
 // ── Renderer ──────────────────────────────────────────────────────────────────
 const EF_FIELD_LABELS = new Set(["GERAL", "NEURO", "AR", "ACV", "ABD", "MMII", "PELE", "MUCOSA", "OROSCOPIA", "FACE"]);
 
