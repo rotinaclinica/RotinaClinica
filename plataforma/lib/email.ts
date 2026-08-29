@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { escapeHtml } from "@/lib/escape";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
@@ -24,7 +25,7 @@ export async function sendPurchaseConfirmation({
   const headline = isSubscription ? "Assinatura ativa ✅" : "Acesso liberado ✅";
   const body = isSubscription
     ? `Seu pagamento foi confirmado e você já tem acesso completo à plataforma Rotina Clínica — prescrições, calculadoras, cursos e materiais à disposição.`
-    : `Seu pagamento foi confirmado e o acesso a <strong>${productTitle}</strong> já está disponível na sua área.`;
+    : `Seu pagamento foi confirmado e o acesso a <strong>${escapeHtml(productTitle)}</strong> já está disponível na sua área.`;
 
   const actionLabel = isSubscription ? "Acessar a plataforma" : productType === "COURSE" ? "Acessar curso" : "Baixar arquivo";
 
@@ -52,7 +53,7 @@ export async function sendPurchaseConfirmation({
         <!-- Body -->
         <tr>
           <td style="padding:36px 40px">
-            <p style="margin:0 0 16px;color:#0f2d4a;font-size:16px">Olá, <strong>${customerName}</strong>!</p>
+            <p style="margin:0 0 16px;color:#0f2d4a;font-size:16px">Olá, <strong>${escapeHtml(customerName)}</strong>!</p>
             <p style="margin:0 0 28px;color:#4a6a80;font-size:15px;line-height:1.7">
               ${body}
             </p>

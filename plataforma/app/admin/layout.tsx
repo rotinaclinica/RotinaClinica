@@ -1,12 +1,9 @@
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AdminNav from "./_components/AdminNav";
+import { isAdminRequest } from "@/lib/require-admin";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
-  const role = (session?.user as { role?: string })?.role;
-
-  if (!session || role !== "ADMIN") redirect("/dashboard");
+  if (!(await isAdminRequest())) redirect("/dashboard");
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">

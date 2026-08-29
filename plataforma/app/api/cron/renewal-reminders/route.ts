@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
+import { escapeHtml } from "@/lib/escape";
 
 export const maxDuration = 60;
 
@@ -22,7 +23,7 @@ function reminderHtml(name: string, venceEm: string) {
         <tr><td style="padding:32px">
           <p style="margin:0 0 12px;color:#0f2d4a;font-size:17px;font-weight:600">Sua assinatura vai expirar</p>
           <p style="margin:0 0 24px;color:#64748b;font-size:15px;line-height:1.6">
-            Olá${name ? `, <strong>${name}</strong>` : ""}! Sua assinatura do Rotina Clínica vence em <strong>${venceEm}</strong>.
+            Olá${name ? `, <strong>${escapeHtml(name)}</strong>` : ""}! Sua assinatura do Rotina Clínica vence em <strong>${escapeHtml(venceEm)}</strong>.
             Renove agora para não perder o acesso às condutas, calculadoras, casos e cursos.
           </p>
           <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { isAdminRequest } from "@/lib/require-admin";
 
 function csvCell(v: unknown): string {
   let s = v == null ? "" : String(v);
@@ -26,9 +26,7 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ type: string }> }
 ) {
-  const session = await auth();
-  const role = (session?.user as { role?: string })?.role;
-  if (!session || role !== "ADMIN") {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

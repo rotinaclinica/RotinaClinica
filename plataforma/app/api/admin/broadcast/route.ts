@@ -1,18 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { isAdminRequest } from "@/lib/require-admin";
 import { getEmailList, buildHtml, sendBatches, sendCampaignBatch, campaignIdOf } from "@/lib/broadcast";
 
 export const maxDuration = 120;
 
-async function isAdmin(): Promise<boolean> {
-  const session = await auth();
-  const role = (session?.user as { role?: string })?.role;
-  return !!session && role === "ADMIN";
-}
-
 export async function GET() {
-  if (!(await isAdmin())) {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const emails = await getEmailList();
@@ -33,7 +27,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  if (!(await isAdmin())) {
+  if (!(await isAdminRequest())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -3,6 +3,7 @@ import { createHmac, randomBytes } from "crypto";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { escapeHtml } from "@/lib/escape";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "");
 const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
@@ -70,7 +71,7 @@ export async function POST(req: NextRequest) {
           <td style="padding:32px">
             <p style="margin:0 0 12px;color:#0f2d4a;font-size:17px;font-weight:600">Redefinir sua senha</p>
             <p style="margin:0 0 24px;color:#64748b;font-size:15px;line-height:1.6">
-              Olá${user.name ? `, <strong>${user.name}</strong>` : ""}! Recebemos uma solicitação para redefinir a senha da sua conta.<br>
+              Olá${user.name ? `, <strong>${escapeHtml(user.name)}</strong>` : ""}! Recebemos uma solicitação para redefinir a senha da sua conta.<br>
               Clique no botão abaixo para criar uma nova senha. O link expira em <strong>1 hora</strong>.
             </p>
             <table width="100%" cellpadding="0" cellspacing="0">

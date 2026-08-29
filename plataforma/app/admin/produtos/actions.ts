@@ -1,14 +1,12 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { isAdminRequest } from "@/lib/require-admin";
 
 async function requireAdmin() {
-  const session = await auth();
-  const role = (session?.user as { role?: string })?.role;
-  if (!session || role !== "ADMIN") redirect("/dashboard");
+  if (!(await isAdminRequest())) redirect("/dashboard");
 }
 
 function slugify(text: string) {
