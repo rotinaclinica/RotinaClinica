@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
-const FROM = process.env.EMAIL_FROM ?? "noreply@rotinaclinica.com";
+const FROM = process.env.EMAIL_FROM ?? "Rotina Clínica <contato@rotinaclinica.com>";
 
 export async function sendPurchaseConfirmation({
   to,

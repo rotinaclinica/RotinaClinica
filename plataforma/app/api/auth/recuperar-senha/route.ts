@@ -5,7 +5,7 @@ import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "");
-const FROM = process.env.EMAIL_FROM ?? "noreply@rotinaclinica.com";
+const FROM = process.env.EMAIL_FROM ?? "Rotina Clínica <contato@rotinaclinica.com>";
 const SECRET = process.env.AUTH_SECRET;
 const BASE_URL = process.env.NEXTAUTH_URL ?? "https://www.rotinaclinica.com";
 const TTL = 60 * 60; // 1 hora em segundos

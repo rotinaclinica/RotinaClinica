@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "");
-const FROM = process.env.EMAIL_FROM ?? "noreply@rotinaclinica.com";
+const FROM = process.env.EMAIL_FROM ?? "Rotina Clínica <contato@rotinaclinica.com>";
 const TO = "contato@rotinaclinica.com";
 
 export async function POST(req: NextRequest) {

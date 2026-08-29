@@ -5,7 +5,7 @@ import { Resend } from "resend";
 export const maxDuration = 60;
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
-const FROM = process.env.EMAIL_FROM ?? "noreply@rotinaclinica.com";
+const FROM = process.env.EMAIL_FROM ?? "Rotina Clínica <contato@rotinaclinica.com>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.rotinaclinica.com";
 
 function reminderHtml(name: string, venceEm: string) {
