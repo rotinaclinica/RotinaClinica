@@ -35,8 +35,11 @@ export default function CheckoutButton({
   const [saving, setSaving] = useState(false);
   const [fieldError, setFieldError] = useState("");
   const [cpfSaved, setCpfSaved] = useState(false);
+  // Qual gateway disparou o modal — pra continuar no fluxo certo após salvar.
+  const [pendingProvider, setPendingProvider] = useState<"stripe" | "mp">("mp");
 
-  const needsPhone = !userPhone;
+  // Celular só é exigido pelo Mercado Pago; a Stripe precisa apenas do CPF (p/ a nota fiscal).
+  const needsPhone = !userPhone && pendingProvider === "mp";
 
   function closeModal() {
     setShowModal(false);
@@ -45,7 +48,7 @@ export default function CheckoutButton({
     setFieldError("");
   }
 
-  async function saveAndCheckoutMp() {
+  async function saveAndContinue() {
     const cpfDigits = cpf.replace(/\D/g, "");
     const phoneDigits = phone.replace(/\D/g, "");
 
@@ -76,11 +79,13 @@ export default function CheckoutButton({
 
     setCpfSaved(true);
     closeModal();
-    await pay("mp", true);
+    await pay(pendingProvider, true);
   }
 
   async function pay(provider: "stripe" | "mp", hasCpf = false) {
-    if (provider === "mp" && !userCpf && !hasCpf && !cpfSaved) {
+    // CPF é necessário para emitir a nota fiscal — exigido nos dois gateways.
+    if (!userCpf && !hasCpf && !cpfSaved) {
+      setPendingProvider(provider);
       setShowModal(true);
       return;
     }
@@ -99,6 +104,7 @@ export default function CheckoutButton({
 
       if (!res.ok) {
         if (data?.code === "CPF_REQUIRED") {
+          setPendingProvider(provider);
           setShowModal(true);
           return;
         }
@@ -124,7 +130,9 @@ export default function CheckoutButton({
             <div>
               <h2 className="text-base font-bold text-zinc-900 mb-1">Dados para pagamento</h2>
               <p className="text-xs text-zinc-500">
-                O Mercado Pago exige CPF{needsPhone ? " e celular" : ""} para processar pagamentos com cartão no Brasil.
+                {pendingProvider === "mp"
+                  ? `O Mercado Pago exige CPF${needsPhone ? " e celular" : ""} para processar pagamentos com cartão no Brasil.`
+                  : "Precisamos do seu CPF para emitir a nota fiscal do pagamento."}
               </p>
             </div>
 
@@ -158,7 +166,7 @@ export default function CheckoutButton({
             </div>
 
             <button
-              onClick={saveAndCheckoutMp}
+              onClick={saveAndContinue}
               disabled={saving}
               className="w-full bg-[#009ee3] hover:bg-[#0088cc] disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors text-sm"
             >

@@ -18,6 +18,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
 
+  // CPF é necessário para emitir a nota fiscal do pagamento. Bloqueia aqui
+  // (não só no frontend) para garantir que toda venda por cartão tenha tomador.
+  const buyer = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { cpf: true },
+  });
+  if (!buyer?.cpf) {
+    return NextResponse.json(
+      { error: "CPF é necessário para emitir a nota fiscal.", code: "CPF_REQUIRED" },
+      { status: 400 }
+    );
+  }
+
   const product = await db.product.findUnique({
     where: { id: parsed.data.productId, active: true },
   });
