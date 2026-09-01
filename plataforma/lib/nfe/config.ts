@@ -19,6 +19,16 @@ export const nfeConfig = {
     token: process.env.FOCUSNFE_TOKEN ?? "",
   },
 
+  asaas: {
+    // produção: https://api.asaas.com/v3 · sandbox: https://api-sandbox.asaas.com/v3
+    baseUrl: process.env.ASAAS_BASE_URL ?? "https://api.asaas.com/v3",
+    apiKey: process.env.ASAAS_API_KEY ?? "",
+    // Serviço municipal cadastrado no Asaas (um dos três identifica o serviço).
+    municipalServiceId: process.env.ASAAS_MUNICIPAL_SERVICE_ID ?? "",
+    municipalServiceCode: process.env.ASAAS_MUNICIPAL_SERVICE_CODE ?? "",
+    municipalServiceName: process.env.ASAAS_MUNICIPAL_SERVICE_NAME ?? "",
+  },
+
   /** Dados do emitente (prestador do serviço) — a sua empresa. */
   emitente: {
     cnpj: (process.env.NFE_CNPJ ?? "").replace(/\D/g, ""),

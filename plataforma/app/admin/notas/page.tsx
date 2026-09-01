@@ -57,7 +57,12 @@ export default async function AdminNotasPage() {
     { label: "Alíquota ISS", ok: cfg.servico.aliquotaIss > 0 },
     {
       label: "Token do provedor",
-      ok: cfg.provider === "focusnfe" ? !!cfg.focusnfe.token : false,
+      ok:
+        cfg.provider === "asaas"
+          ? !!cfg.asaas.apiKey
+          : cfg.provider === "focusnfe"
+            ? !!cfg.focusnfe.token
+            : false,
     },
   ];
   const fiscalPronto = fiscalChecks.every((c) => c.ok);

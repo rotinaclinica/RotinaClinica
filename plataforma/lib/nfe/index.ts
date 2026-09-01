@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { sendNotaFiscal } from "@/lib/email";
 import { nfeConfig, nfeEnabled } from "./config";
 import { focusNfeProvider } from "./providers/focusnfe";
+import { asaasProvider } from "./providers/asaas";
 import type { NfeEmitInput, NfeProvider } from "./types";
 
 /**
@@ -22,6 +23,8 @@ function getProvider(): NfeProvider {
   switch (nfeConfig.provider) {
     case "focusnfe":
       return focusNfeProvider;
+    case "asaas":
+      return asaasProvider;
     // case "nfeio":     return nfeIoProvider;     // adapters futuros
     // case "plugnotas": return plugNotasProvider;
     default:
@@ -132,20 +135,25 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
   for (const inv of pendentes) {
     result.processed++;
     try {
+      // Identificador usado para consultar no provedor: o externalId quando
+      // existe (Asaas), senão a nossa ref (Focus).
+      let externalRef = inv.externalId;
+
       // 1. Se ainda não foi enviada ao provedor, emite.
       if (inv.status === "PENDING") {
         const emit = await provider.emitir(buildEmitInput(inv));
         if (emit.status === "error") {
           throw new Error(emit.error ?? "Erro ao emitir");
         }
+        externalRef = emit.externalId ?? null;
         await db.invoice.update({
           where: { id: inv.id },
-          data: { status: "PROCESSING", attempts: { increment: 1 } },
+          data: { status: "PROCESSING", externalId: externalRef, attempts: { increment: 1 } },
         });
       }
 
       // 2. Consulta o status atual.
-      const consulta = await provider.consultar(inv.providerRef);
+      const consulta = await provider.consultar(externalRef ?? inv.providerRef);
 
       if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
         await db.invoice.update({

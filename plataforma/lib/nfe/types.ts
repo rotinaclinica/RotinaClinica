@@ -32,8 +32,15 @@ export interface NfeConsultaResult {
 
 export interface NfeProvider {
   readonly nome: string;
-  /** Solicita a emissão. Retorna o status inicial (quase sempre "processing"). */
-  emitir(input: NfeEmitInput): Promise<{ status: NfeStatus; error?: string }>;
-  /** Consulta o status atual da nota pela `ref`. */
+  /**
+   * Solicita a emissão. Retorna o status inicial (quase sempre "processing").
+   * `externalId` é o identificador que o provedor gerou para a nota (Asaas usa
+   * um id próprio; Focus reutiliza a nossa `ref`, então retorna undefined).
+   */
+  emitir(input: NfeEmitInput): Promise<{ status: NfeStatus; externalId?: string; error?: string }>;
+  /**
+   * Consulta o status atual da nota. `ref` é o identificador do provedor:
+   * o `externalId` quando existe, senão a nossa `ref` (`nfe_<orderId>`).
+   */
   consultar(ref: string): Promise<NfeConsultaResult>;
 }
