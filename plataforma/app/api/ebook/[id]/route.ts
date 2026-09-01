@@ -54,6 +54,26 @@ const EBOOKS: Record<string, { file: string; name: string; folder?: string }> = 
     name: "Prescrição Racional — Rotina Clínica",
     folder: "aulasconteudooffline",
   },
+  "diarreia-cronica": {
+    file: "Diarreia Crônica.pdf",
+    name: "Diarreia Crônica — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "enzimas-hepaticas": {
+    file: "Enzimas Hepáticas, Icterícia e Cirrose Hepática.pdf",
+    name: "Enzimas Hepáticas, Icterícia e Cirrose Hepática — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "hepatites-virais": {
+    file: "Hepatites Virais.pdf",
+    name: "Hepatites Virais — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
+  "pancreatite": {
+    file: "Pancreatite Aguda e Crônica.pdf",
+    name: "Pancreatite Aguda e Crônica — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
 };
 
 export async function GET(

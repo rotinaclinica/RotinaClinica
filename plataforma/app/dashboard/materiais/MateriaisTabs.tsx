@@ -2,56 +2,124 @@
 
 import { useState } from "react";
 import DownloadButton from "./DownloadButton";
-const AULAS_MATERIAIS = [
+
+type Aula = {
+  id: string;
+  titulo: string;
+  descricao: string;
+  tamanho: string;
+};
+
+// Temas (pastas clicáveis) — cada um agrupa suas aulas.
+const AULAS_TEMAS: { id: string; nome: string; descricao: string; logo: string; aulas: Aula[] }[] = [
   {
-    id: "constipacao-intestinal",
-    titulo: "Abordagem da Constipação Intestinal",
-    descricao: "Material de apoio com abordagem prática e baseada em evidências para o manejo da constipação intestinal.",
-    tamanho: "2,3 MB",
+    id: "gastro-hepato",
+    nome: "Gastroenterologia/Hepatologia",
+    descricao: "Aulas sobre o aparelho digestivo e o fígado.",
+    logo: "/logos-temas/gastro-hepato.png",
+    aulas: [
+      {
+        id: "diarreia-cronica",
+        titulo: "Diarreia Crônica",
+        descricao: "Material de apoio sobre a abordagem da diarreia crônica.",
+        tamanho: "1,3 MB",
+      },
+      {
+        id: "enzimas-hepaticas",
+        titulo: "Enzimas Hepáticas, Icterícia e Cirrose Hepática",
+        descricao: "Material de apoio sobre enzimas hepáticas, icterícia e cirrose hepática.",
+        tamanho: "2,1 MB",
+      },
+      {
+        id: "hepatites-virais",
+        titulo: "Hepatites Virais",
+        descricao: "Material de apoio sobre as hepatites virais.",
+        tamanho: "1,6 MB",
+      },
+      {
+        id: "pancreatite",
+        titulo: "Pancreatite Aguda e Crônica",
+        descricao: "Material de apoio sobre pancreatite aguda e crônica.",
+        tamanho: "2,0 MB",
+      },
+      {
+        id: "constipacao-intestinal",
+        titulo: "Abordagem da Constipação Intestinal",
+        descricao: "Material de apoio com abordagem prática e baseada em evidências para o manejo da constipação intestinal.",
+        tamanho: "2,3 MB",
+      },
+      {
+        id: "nauseas-vomitos",
+        titulo: "Abordagem de Náuseas e Vômitos",
+        descricao: "Material de apoio com abordagem sistematizada para avaliar e tratar náuseas e vômitos no plantão.",
+        tamanho: "2,9 MB",
+      },
+      {
+        id: "drge",
+        titulo: "DRGE e suas complicações — o essencial para o generalista",
+        descricao: "Diagnóstico e tratamento da doença do refluxo gastroesofágico e suas principais complicações.",
+        tamanho: "4,4 MB",
+      },
+    ],
   },
   {
-    id: "nauseas-vomitos",
-    titulo: "Abordagem de Náuseas e Vômitos",
-    descricao: "Material de apoio com abordagem sistematizada para avaliar e tratar náuseas e vômitos no plantão.",
-    tamanho: "2,9 MB",
+    id: "disturbios-eletroliticos",
+    nome: "Distúrbios eletrolíticos",
+    descricao: "Aulas sobre distúrbios dos eletrólitos.",
+    logo: "/logos-temas/disturbios-eletroliticos.png",
+    aulas: [
+      {
+        id: "disturbios-potassio",
+        titulo: "Distúrbios do Potássio",
+        descricao: "Abordagem sistemática da hipocalemia e hipercalemia: causas, diagnóstico e conduta clínica.",
+        tamanho: "1,0 MB",
+      },
+      {
+        id: "disturbios-sodio",
+        titulo: "Distúrbios do Sódio",
+        descricao: "Manejo prático da hiponatremia e hipernatremia, com critérios de correção e cuidados essenciais.",
+        tamanho: "10,6 MB",
+      },
+    ],
   },
   {
-    id: "dor-analgesia",
-    titulo: "Dor e Analgesia",
-    descricao: "Material de apoio com estratégias práticas de avaliação e manejo da dor no paciente adulto.",
-    tamanho: "3,0 MB",
+    id: "arboviroses",
+    nome: "Arboviroses",
+    descricao: "Aulas sobre doenças transmitidas por artrópodes.",
+    logo: "/logos-temas/arboviroses.png",
+    aulas: [
+      {
+        id: "dengue",
+        titulo: "Dengue",
+        descricao: "Abordagem prática da dengue no plantão: classificação de risco, sinais de alarme e manejo clínico.",
+        tamanho: "1,4 MB",
+      },
+    ],
   },
   {
-    id: "dengue",
-    titulo: "Dengue",
-    descricao: "Abordagem prática da dengue no plantão: classificação de risco, sinais de alarme e manejo clínico.",
-    tamanho: "1,4 MB",
-  },
-  {
-    id: "drge",
-    titulo: "DRGE e suas complicações — o essencial para o generalista",
-    descricao: "Diagnóstico e tratamento da doença do refluxo gastroesofágico e suas principais complicações.",
-    tamanho: "4,4 MB",
-  },
-  {
-    id: "disturbios-potassio",
-    titulo: "Distúrbios do Potássio",
-    descricao: "Abordagem sistemática da hipocalemia e hipercalemia: causas, diagnóstico e conduta clínica.",
-    tamanho: "1,0 MB",
-  },
-  {
-    id: "disturbios-sodio",
-    titulo: "Distúrbios do Sódio",
-    descricao: "Manejo prático da hiponatremia e hipernatremia, com critérios de correção e cuidados essenciais.",
-    tamanho: "10,6 MB",
-  },
-  {
-    id: "prescricao-racional",
-    titulo: "Prescrição Racional",
-    descricao: "Princípios e estratégias de prescrição racional de medicamentos para a prática clínica diária.",
-    tamanho: "6,3 MB",
+    id: "prescricao",
+    nome: "Prescrição",
+    descricao: "Aulas sobre prescrição e manejo terapêutico.",
+    logo: "/logos-temas/prescricao.png",
+    aulas: [
+      {
+        id: "dor-analgesia",
+        titulo: "Dor e Analgesia",
+        descricao: "Material de apoio com estratégias práticas de avaliação e manejo da dor no paciente adulto.",
+        tamanho: "3,0 MB",
+      },
+      {
+        id: "prescricao-racional",
+        titulo: "Prescrição Racional",
+        descricao: "Princípios e estratégias de prescrição racional de medicamentos para a prática clínica diária.",
+        tamanho: "6,3 MB",
+      },
+    ],
   },
 ];
+
+// Aulas avulsas (fora de tema). No momento todas estão organizadas em temas.
+const AULAS_MATERIAIS: Aula[] = [];
 
 const EBOOKS = [
   {
@@ -76,15 +144,115 @@ const EBOOKS = [
 
 type Tab = "ebooks" | "aulas";
 
+function AulaCard({ aula, email }: { aula: Aula; email: string }) {
+  return (
+    <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col">
+      {/* Ícone */}
+      <div className="h-40 bg-[#0a1220] flex items-center justify-center rounded-t-2xl">
+        <div className="w-16 h-16 bg-[#1a2d45] rounded-2xl flex items-center justify-center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="p-5 flex flex-col flex-1 gap-3">
+        <div>
+          <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
+            {aula.titulo}
+          </h2>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+            {aula.descricao}
+          </p>
+        </div>
+
+        <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
+          <span>{aula.tamanho}</span>
+          <span>·</span>
+          <span>PDF</span>
+        </div>
+
+        <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
+          <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <p className="text-[11px] text-[#1a6aad] dark:text-[#3db8d4] leading-relaxed">
+            O arquivo será vinculado ao seu e-mail{email ? ` (${email})` : ""} em cada página.
+          </p>
+        </div>
+
+        <DownloadButton ebookId={aula.id} filename={`${aula.titulo}.pdf`} />
+      </div>
+    </div>
+  );
+}
+
+function TemaCard({ tema, onClick }: { tema: (typeof AULAS_TEMAS)[number]; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="text-left bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col hover:border-[#3db8d4] dark:hover:border-[#3db8d4] transition-colors group"
+    >
+      {/* Logo do tema */}
+      <div className="h-40 bg-[#0a1220] flex items-center justify-center rounded-t-2xl overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={tema.logo}
+          alt={tema.nome}
+          className="max-h-full max-w-full object-contain p-3 group-hover:scale-105 transition-transform"
+        />
+      </div>
+
+      <div className="p-5 flex flex-col flex-1 gap-3">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug">
+              {tema.nome}
+            </h2>
+          </div>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+            {tema.descricao}
+          </p>
+        </div>
+
+        <div className="mt-auto flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-full px-2.5 py-1">
+            {tema.aulas.length} aula{tema.aulas.length !== 1 ? "s" : ""}
+          </span>
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#1a6aad] dark:text-[#3db8d4] group-hover:gap-1.5 transition-all">
+            Abrir
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
 export default function MateriaisTabs({ email }: { email: string }) {
   const [tab, setTab] = useState<Tab>("ebooks");
+  const [temaAberto, setTemaAberto] = useState<string | null>(null);
+
+  const temaSelecionado = AULAS_TEMAS.find((t) => t.id === temaAberto) ?? null;
+
+  function switchTab(t: Tab) {
+    setTab(t);
+    setTemaAberto(null); // volta ao topo ao trocar de aba
+  }
 
   return (
     <>
       {/* Tabs */}
       <div className="flex gap-1 mb-6 bg-zinc-100 dark:bg-white/6 rounded-xl p-1 w-fit">
         <button
-          onClick={() => setTab("ebooks")}
+          onClick={() => switchTab("ebooks")}
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "ebooks"
               ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
@@ -94,7 +262,7 @@ export default function MateriaisTabs({ email }: { email: string }) {
           Ebooks
         </button>
         <button
-          onClick={() => setTab("aulas")}
+          onClick={() => switchTab("aulas")}
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "aulas"
               ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
@@ -160,59 +328,40 @@ export default function MateriaisTabs({ email }: { email: string }) {
         </div>
       )}
 
-      {tab === "aulas" && (
+      {tab === "aulas" && !temaSelecionado && (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl">
-          {AULAS_MATERIAIS.map((mat) => (
-            <div
-              key={mat.id}
-              className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col"
-            >
-              {/* Ícone */}
-              <div className="h-40 bg-[#0a1220] flex items-center justify-center rounded-t-2xl">
-                <div className="w-16 h-16 bg-[#1a2d45] rounded-2xl flex items-center justify-center">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10 9 9 9 8 9"/>
-                  </svg>
-                </div>
-              </div>
-
-              {/* Info */}
-              <div className="p-5 flex flex-col flex-1 gap-3">
-                <div>
-                  <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
-                    {mat.titulo}
-                  </h2>
-                  <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
-                    {mat.descricao}
-                  </p>
-                </div>
-
-                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
-                  <span>{mat.tamanho}</span>
-                  <span>·</span>
-                  <span>PDF</span>
-                </div>
-
-                <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
-                  <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <p className="text-[11px] text-[#1a6aad] dark:text-[#3db8d4] leading-relaxed">
-                    O arquivo será vinculado ao seu e-mail{email ? ` (${email})` : ""} em cada página.
-                  </p>
-                </div>
-
-                <DownloadButton
-                  ebookId={mat.id}
-                  filename={`${mat.titulo}.pdf`}
-                />
-              </div>
-            </div>
+          {/* Temas (pastas) primeiro */}
+          {AULAS_TEMAS.map((tema) => (
+            <TemaCard key={tema.id} tema={tema} onClick={() => setTemaAberto(tema.id)} />
           ))}
+          {/* Aulas avulsas */}
+          {AULAS_MATERIAIS.map((aula) => (
+            <AulaCard key={aula.id} aula={aula} email={email} />
+          ))}
+        </div>
+      )}
+
+      {tab === "aulas" && temaSelecionado && (
+        <div>
+          <div className="flex items-center gap-3 mb-5">
+            <button
+              onClick={() => setTemaAberto(null)}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:opacity-80 transition-opacity"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Aulas
+            </button>
+            <span className="text-zinc-300 dark:text-white/20">/</span>
+            <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{temaSelecionado.nome}</h2>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl">
+            {temaSelecionado.aulas.map((aula) => (
+              <AulaCard key={aula.id} aula={aula} email={email} />
+            ))}
+          </div>
         </div>
       )}
     </>
