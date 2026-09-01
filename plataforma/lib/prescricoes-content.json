@@ -127,7 +127,7 @@
     "126":  "Uso oral\nFosfomicina trometamol 3g\nDiluir o conteúdo de 01 sachê em 01 copo de água (aprox. 100 ml) e ingerir em dose única.",
     "127":  "Uso oral\nAxetilcefuroxima 250 mg\nTomar 01 comprimido, de 12/12h",
     "128":  "Uso oral\nClindamicina 300 mg\nTomar 01 cápsula, de 6/6h.\n\nUso endovenoso\nClindamicina injetável 600mg F/A\nDiluir em 100 mL de SF 0,9% e infundir em 60 minutos, de 8/8h. Não é necessário reconstituição.",
-    "129":  "Uso oral\n\nPrimo-infecção:\nValaciclovir 500 mg\nTomar 01 comprimido, de 12/12h, por 5 a 10 dias.\n\nRecorrência:\nValaciclovir 500 mg\nTomar 01 comprimido, de 12/12h, por 5 dias.",
+    "129":  "Uso oral\n\nPrimo-infecção:\nValaciclovir 500 mg\nTomar 01 comprimido, de 12/12h, por 5 a 10 dias.\n\nRecorrência:\nValaciclovir 500 mg\nTomar 01 comprimido, de 12/12h, por 5 dias.\n\n[RENAL:] Ajuste de dose — Valaciclovir 500 mg 12/12h (= 1 g/dia)\nCrCl (mL/min) | Dose ajustada\n≥ 30 | Sem ajuste necessário\n10 a 29 | 500 mg a cada 24h\n\u003c 10 | 500 mg a cada 24h\n\n**Referência: Valacyclovir: Drug information — UpToDate**",
     "130":  "Uso oral\nAciclovir 200 mg\nTomar 01 comprimido de 4/4 horas (5x/dia, pular a dose da madrugada).\nAciclovir 400 mg\nTomar 01 comprimido, de 8/8h",
     "131":  "Atenção:\n→ Iniciar o tratamento nas primeiras 48 horas após o início dos sintomas.\nUso oral:\nFosfato de Oseltamivir 75 mg\nTomar 01 cápsula, de 12/12h, por 05 dias.",
     "132":  "Uso oral\nFluconazol 150 mg\nTomar 01 comprimido, dose única (ou 01 comprimido, uma vez por semana, por x semanas, a depender do diagnóstico).",
