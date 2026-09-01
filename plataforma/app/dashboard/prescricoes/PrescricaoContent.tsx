@@ -16,7 +16,7 @@ const isSection = (l: string) => {
   // A wrapped prose line starting lowercase (e.g. "tratamento também é...") is a
   // sentence continuation, not a section header — headers are always capitalized.
   if (/^[a-záàâãéêíóôõúç]/.test(t)) return false;
-  return /^(Uso\s+(oral|endovenoso|intravenoso|intramuscular|inalatório|tópico|subcutâneo|ocular|retal|nasal|sublingual|vaginal|intravaginal)|Cuidados gerais|Orientaç|Sintom[áa]ticos|Tratamento\b|Critérios|Preparo|Manejo|Medidas|Profilaxia|Posologia|Escolha do|Recomendaç|Fatores de risco)/i.test(t);
+  return /^(Uso\s+(oral|endovenoso|intravenoso|intramuscular|inalatório|tópico|subcutâneo|ocular|retal|nasal|sublingual|vaginal|intravaginal)|Cuidados gerais|Orientaç|Sintom[áa]ticos|Tratamento\b|Critérios|Preparo|Manejo|Medidas|Profilaxia|Posologia|Escolha do|Recomendaç|Fatores de risco|Proped[êe]utica|Farmacoterapia)/i.test(t);
 };
 
 const isConnector = (l: string) =>
