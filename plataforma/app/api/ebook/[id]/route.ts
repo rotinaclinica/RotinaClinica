@@ -9,6 +9,7 @@ const EBOOKS: Record<string, { file: string; name: string; folder?: string }> = 
   "guia-prescricoes": {
     file: "Manual de prescrições Rotina Clínica.pdf",
     name: "Manual de Prescrições — Rotina Clínica",
+    folder: "pastas/ebook",
   },
   "guia-intubacao": {
     file: "Guia de intubação orotraqueal, sedação e ventilação mecânica.pdf",
