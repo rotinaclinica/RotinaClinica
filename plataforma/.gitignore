@@ -47,3 +47,4 @@ next-env.d.ts
 /public/prescricoes-images/[0-9]*/
 /public/prescricoes-images/_index.json
 /public/prescricoes-images/_topic-pages.json
+public/ebook/*.pdf
