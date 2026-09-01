@@ -1792,6 +1792,12 @@ export const prescricoesMeta: PrescricaoMeta[] = [
     "categoria": "Guias práticos",
     "tags": ["estatina","atorvastatina","rosuvastatina","sinvastatina","fluvastatina","lovastatina","pitavastatina","pravastatina","intensidade","ACC","AHA","LDL","dose","equivalência","hipolipemiante","dislipidemia"],
     "relacionados": ["241","224","227","239"]
+  },
+  {
+    "id": "243",
+    "titulo": "Abordagem da Obesidade na atenção primária",
+    "categoria": "UBS/Atenção primária",
+    "tags": ["obesidade","sobrepeso","IMC","circunferência abdominal","GLP-1","semaglutida","tirzepatida","liraglutida","sibutramina","orlistate","naltrexona","bupropiona","bariátrica","UBS","atenção primária","endocrinologia","emagrecimento","farmacoterapia","SAOS","DHGNA"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1802,7 +1808,7 @@ export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","
 
 export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237","241","242"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241","242"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241","242","243"]);
 
 export const medicamentoIds = new Set([
   "18",
