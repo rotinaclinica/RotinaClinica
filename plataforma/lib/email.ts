@@ -91,3 +91,77 @@ export async function sendPurchaseConfirmation({
 </html>`,
   });
 }
+
+/**
+ * Envia a nota fiscal (NFS-e) autorizada com o PDF anexado.
+ * Chamado pelo cron de emissão, após a nota ser autorizada pelo provedor.
+ */
+export async function sendNotaFiscal({
+  to,
+  customerName,
+  numero,
+  pdfUrl,
+  amountCents,
+}: {
+  to: string;
+  customerName: string;
+  numero: string;
+  pdfUrl: string;
+  amountCents: number;
+}) {
+  const valorFormatado = (amountCents / 100).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `Sua nota fiscal — Rotina Clínica (nº ${numero})`,
+    attachments: [{ filename: `nota-fiscal-${numero}.pdf`, path: pdfUrl }],
+    html: `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dde6ef">
+        <tr>
+          <td style="background:#0f2d4a;padding:36px 40px">
+            <p style="margin:0 0 4px;color:#3db8d4;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Rotina Clínica</p>
+            <p style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Nota fiscal emitida 🧾</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:36px 40px">
+            <p style="margin:0 0 16px;color:#0f2d4a;font-size:16px">Olá, <strong>${escapeHtml(customerName)}</strong>!</p>
+            <p style="margin:0 0 20px;color:#4a6a80;font-size:15px;line-height:1.7">
+              Segue em anexo a nota fiscal de serviço referente ao seu pagamento de
+              <strong>${valorFormatado}</strong>.
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;border-radius:12px;margin-bottom:8px">
+              <tr><td style="padding:16px 20px;color:#4a6a80;font-size:14px">
+                Nota fiscal nº <strong style="color:#0f2d4a">${escapeHtml(numero)}</strong><br>
+                Arquivo PDF anexado a este email.
+              </td></tr>
+            </table>
+            <p style="margin:24px 0 0;color:#94a8b8;font-size:13px;text-align:center;line-height:1.6">
+              Em caso de dúvidas, entre em contato pelo <a href="mailto:contato@rotinaclinica.com" style="color:#3db8d4;text-decoration:none">contato@rotinaclinica.com</a>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#f0f4f8;padding:20px 40px;text-align:center">
+            <p style="margin:0;color:#94a8b8;font-size:12px">
+              © ${new Date().getFullYear()} Rotina Clínica · <a href="https://www.rotinaclinica.com/privacidade" style="color:#94a8b8">Política de Privacidade</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+}

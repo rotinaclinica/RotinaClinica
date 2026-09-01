@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin", label: "Dashboard", exact: true },
   { href: "/admin/usuarios", label: "Usuários" },
   { href: "/admin/pedidos", label: "Pedidos" },
+  { href: "/admin/notas", label: "Notas fiscais" },
   { href: "/admin/acessos", label: "Acessos" },
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/reembolsos", label: "Reembolsos" },

@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/broadcast-batch",
       "schedule": "0 13 * * *"
+    },
+    {
+      "path": "/api/cron/emitir-notas",
+      "schedule": "*/15 * * * *"
     }
   ]
 }

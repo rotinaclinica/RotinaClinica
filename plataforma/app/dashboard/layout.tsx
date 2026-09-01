@@ -61,7 +61,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       </div>
 
       {/* Bottom nav — mobile */}
-      <DashboardMobileNav hasAccess={hasAccess} />
+      <DashboardMobileNav hasAccess={hasAccess} isAdmin={role === "ADMIN"} />
 
       <ActivityPing />
     </div>

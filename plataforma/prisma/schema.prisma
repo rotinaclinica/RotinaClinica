@@ -178,6 +178,7 @@ model Order {
   currency      String          @default("BRL")
   paymentMethod String?
   items         OrderItem[]
+  invoice       Invoice?
   createdAt     DateTime        @default(now())
   paidAt        DateTime?
 }
@@ -249,6 +250,43 @@ model BroadcastCampaign {
   updatedAt DateTime @updatedAt
 
   @@index([status])
+}
+
+// Nota fiscal (NFS-e) emitida automaticamente após um pagamento aprovado.
+// Uma por Order paga. O ciclo de vida (emitir → consultar → entregar PDF por
+// email) é conduzido pelo cron /api/cron/emitir-notas, para nunca bloquear o
+// webhook de pagamento. Todos os dados do tomador ficam denormalizados aqui
+// para o cron não depender de joins.
+model Invoice {
+  id            String        @id @default(cuid())
+  orderId       String        @unique
+  order         Order         @relation(fields: [orderId], references: [id])
+  provider      String        // ex: "focusnfe"
+  providerRef   String        @unique // chave de idempotência enviada ao provedor
+  externalId    String?       // id/numero de retorno do provedor
+  numero        String?       // número da nota autorizada
+  status        InvoiceStatus @default(PENDING)
+  amountCents   Int
+  discriminacao String
+  customerName  String
+  customerEmail String
+  customerDoc   String?       // CPF ou CNPJ do tomador
+  pdfUrl        String?
+  xmlUrl        String?
+  attempts      Int           @default(0)
+  errorMessage  String?
+  emailSentAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status])
+}
+
+enum InvoiceStatus {
+  PENDING     // criada, ainda não enviada ao provedor
+  PROCESSING  // enviada ao provedor, aguardando autorização
+  AUTHORIZED  // nota autorizada (numero + PDF disponíveis)
+  FAILED      // erro de emissão após esgotar tentativas
 }
 
 model PasswordResetToken {

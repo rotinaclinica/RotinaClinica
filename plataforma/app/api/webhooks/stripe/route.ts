@@ -3,6 +3,7 @@ import { stripe } from "@/lib/payments/stripe";
 import { db } from "@/lib/db";
 import { grantAccess } from "@/lib/entitlements";
 import { sendPurchaseConfirmation } from "@/lib/email";
+import { createPendingInvoiceForOrder } from "@/lib/nfe";
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
@@ -100,6 +101,10 @@ export async function POST(req: NextRequest) {
         }).catch(() => {});
       }
     }
+
+    // Enfileira a emissão da nota fiscal (no-op se NFE_ENABLED != true).
+    // Nunca deve quebrar a confirmação de pagamento — daí o catch.
+    await createPendingInvoiceForOrder(order.id).catch(() => {});
   }
 
   if (event.type === "checkout.session.expired") {
