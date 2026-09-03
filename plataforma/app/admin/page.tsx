@@ -104,16 +104,14 @@ export default async function AdminPage() {
   let onlineNow = 0;
   let active24h = 0;
   let active7d  = 0;
-  let recentActivity: { createdAt: Date }[] = [];
   try {
-    [onlineNow, active24h, active7d, recentActivity] = await Promise.all([
+    [onlineNow, active24h, active7d] = await Promise.all([
       db.user.count({ where: { lastSeenAt: { gte: fiveMinAgo } } }),
       db.user.count({ where: { lastSeenAt: { gte: last24h } } }),
       db.user.count({ where: { lastSeenAt: { gte: last7   } } }),
-      db.activityLog.findMany({ where: { createdAt: { gte: last7 } }, select: { createdAt: true } }),
     ]);
   } catch {
-    // stale client — values remain 0 / []
+    // stale client — values remain 0
   }
 
   return (
@@ -192,11 +190,6 @@ export default async function AdminPage() {
             <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
           </div>
 
-          {/* Gráfico de horários de pico */}
-          <div className="lg:col-span-4 bg-white rounded-xl border border-zinc-200 p-4">
-            <p className="text-xs text-zinc-500 mb-3">Horários de pico — últimos 7 dias</p>
-            <PeakHoursChart logs={recentActivity} />
-          </div>
         </div>
       </section>
 
@@ -312,29 +305,6 @@ export default async function AdminPage() {
   );
 }
 
-function PeakHoursChart({ logs }: { logs: { createdAt: Date }[] }) {
-  const counts = Array.from({ length: 24 }, (_, h) => ({
-    hour: h,
-    count: logs.filter((l) => new Date(l.createdAt).getHours() === h).length,
-  }));
-  const max = Math.max(...counts.map((c) => c.count), 1);
-
-  return (
-    <div className="flex items-end gap-0.5 h-16">
-      {counts.map(({ hour, count }) => (
-        <div key={hour} className="flex-1 flex flex-col items-center gap-0.5" title={`${hour}h: ${count} pings`}>
-          <div
-            className="w-full rounded-t bg-violet-400"
-            style={{ height: `${Math.round((count / max) * 56)}px`, minHeight: count > 0 ? "2px" : "0" }}
-          />
-          {hour % 6 === 0 && (
-            <span className="text-[8px] text-zinc-400 leading-none">{hour}h</span>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function Tile({
   label,
