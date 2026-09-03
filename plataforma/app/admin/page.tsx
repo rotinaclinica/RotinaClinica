@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
+import { PieChart } from "./PieChart";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -112,6 +113,36 @@ export default async function AdminPage() {
           <Tile label="Expirados"  value={subExpired}   color="red" />
           <Tile label="Em atraso"  value={subPastDue}   color="yellow" />
           <Tile label="Renovando em 30 dias" value={renewingSoon} color="yellow" sub="assinaturas ativas" />
+        </div>
+      </section>
+
+      {/* ── Gráficos ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Visão gráfica</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <PieChart
+            title="Status das assinaturas"
+            slices={[
+              { label: "Ativos",     value: subActive,    color: "#10b981" },
+              { label: "Cancelados", value: subCancelled, color: "#f87171" },
+              { label: "Expirados",  value: subExpired,   color: "#94a3b8" },
+              { label: "Em atraso",  value: subPastDue,   color: "#fbbf24" },
+            ]}
+          />
+          <PieChart
+            title="Plano (assinantes ativos)"
+            slices={[
+              { label: "Anual",   value: subAnnual,   color: "#6366f1" },
+              { label: "Mensal",  value: subMonthly,  color: "#f59e0b" },
+            ]}
+          />
+          <PieChart
+            title="Receita por gateway"
+            slices={[
+              { label: "Stripe",        value: Math.round((revenueStripe._sum.totalCents ?? 0) / 100), color: "#3b82f6" },
+              { label: "Mercado Pago",  value: Math.round((revenueMp._sum.totalCents ?? 0) / 100),    color: "#f97316" },
+            ]}
+          />
         </div>
       </section>
 
