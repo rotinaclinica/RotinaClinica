@@ -178,7 +178,7 @@ export default function BroadcastPage() {
                 <strong>{campaign.remaining}</strong> restantes
               </p>
               <p className="text-[11px] text-emerald-600 mt-1">
-                Os próximos lotes (~90/dia) são enviados automaticamente todo dia. Você não precisa fazer nada.
+                Os próximos lotes (~50/dia) são enviados automaticamente todo dia. Você não precisa fazer nada.
               </p>
             </div>
             <button
@@ -313,7 +313,7 @@ export default function BroadcastPage() {
             <span className="text-sm text-zinc-700">
               Confirmo que quero iniciar o envio deste email para toda a lista.
               <span className="block text-xs text-zinc-500 mt-0.5">
-                O 1º lote (~90) sai agora; o restante é enviado automaticamente ~90/dia até terminar.
+                O 1º lote (~50) sai agora; o restante é enviado automaticamente ~50/dia até terminar.
               </span>
             </span>
           </label>
@@ -350,7 +350,7 @@ export default function BroadcastPage() {
             </p>
             {!result.done && (
               <p className="text-xs text-green-600 mt-2">
-                Os próximos lotes (~90/dia) serão enviados <strong>automaticamente todo dia</strong>.
+                Os próximos lotes (~50/dia) serão enviados <strong>automaticamente todo dia</strong>.
                 Você não precisa voltar aqui — pode acompanhar o progresso na barra acima.
               </p>
             )}
