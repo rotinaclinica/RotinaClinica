@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { db } from "@/lib/db";
-import { sendPurchaseConfirmation, sendNewSubscriberNotification } from "@/lib/email";
+import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendRefundNotification } from "@/lib/email";
 import { grantAccess } from "@/lib/entitlements";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { createHmac } from "crypto";
@@ -131,6 +131,19 @@ export async function POST(req: NextRequest) {
     // Enfileira a emissão da nota fiscal (no-op se NFE_ENABLED != true).
     // Nunca deve quebrar a confirmação de pagamento — daí o catch.
     await createPendingInvoiceForOrder(order.id).catch(() => {});
+  } else if (paymentData.status === "refunded" || paymentData.status === "charged_back") {
+    const order = await db.order.findUnique({
+      where: { id: orderId },
+      include: { user: true },
+    });
+    if (order?.user?.email) {
+      await sendRefundNotification({
+        customerName: order.user.name ?? "Cliente",
+        customerEmail: order.user.email,
+        amountCents: Math.round((paymentData.transaction_amount ?? 0) * 100),
+        paymentMethod: "mercadopago",
+      }).catch(() => {});
+    }
   } else if (paymentData.status === "rejected" || paymentData.status === "cancelled") {
     await db.order.updateMany({
       where: { id: orderId, status: "PENDING" },
