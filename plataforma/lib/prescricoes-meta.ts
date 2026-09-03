@@ -1760,7 +1760,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "238",
-    "titulo": "DM2 — Abordagem Prática na UBS",
+    "titulo": "Abordagem da DM2 na UBS/Atenção primária",
     "categoria": "UBS/Atenção primária",
     "tags": ["dm2","diabetes","diabetes mellitus tipo 2","metformina","gliclazida","dapagliflozina","insulina NPH","insulina regular","glicemia","hba1c","TOTG","rastreio","pré-diabetes","hiperglicemia","ajuste renal","atenção básica","UBS","referenciamento"],
     "relacionados": ["227","239","240","225"]
@@ -1795,7 +1795,7 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "243",
-    "titulo": "Abordagem da Obesidade na atenção primária",
+    "titulo": "Abordagem da Obesidade na UBS/Atenção primária",
     "categoria": "UBS/Atenção primária",
     "tags": ["obesidade","sobrepeso","IMC","circunferência abdominal","GLP-1","semaglutida","tirzepatida","liraglutida","sibutramina","orlistate","naltrexona","bupropiona","bariátrica","UBS","atenção primária","endocrinologia","emagrecimento","farmacoterapia","SAOS","DHGNA"]
   },
@@ -1807,9 +1807,45 @@ export const prescricoesMeta: PrescricaoMeta[] = [
   },
   {
     "id": "245",
-    "titulo": "Osteoartrite — Abordagem na UBS",
+    "titulo": "Osteoartrite ou Osteoartrose — Abordagem na UBS/Atenção primária",
     "categoria": "UBS/Atenção primária",
     "tags": ["osteoartrite","OA","artrose","dor articular","joelho","quadril","mãos","rigidez","nódulos de Heberden","diclofenaco","capsaicina","duloxetina","gabapentina","artroplastia","UBS","atenção primária","reumatologia","ortopedia","analgesia","AINE","dor crônica","nociplástica"]
+  },
+  {
+    "id": "246",
+    "titulo": "Duloxetina",
+    "categoria": "Medicamento",
+    "tags": ["duloxetina","IRSN","dor crônica","fibromialgia","ansiedade","depressão","neuromodulador","serotonina","norepinefrina","analgesia","dor nociplástica","antidepressivo","psiquiatria"]
+  },
+  {
+    "id": "247",
+    "titulo": "Capsaicina 0,025%",
+    "categoria": "Medicamento",
+    "tags": ["capsaicina","creme","tópico","dor","artralgia","analgésico tópico","osteoartrite","neuropatia","TRPV1"]
+  },
+  {
+    "id": "248",
+    "titulo": "Diclofenaco Dietilamônio gel",
+    "categoria": "Medicamento",
+    "tags": ["diclofenaco","dietilamônio","gel","tópico","AINE","anti-inflamatório","artralgia","osteoartrite","dor muscular","dor articular"]
+  },
+  {
+    "id": "249",
+    "titulo": "Abordagem da Osteoporose na UBS/Atenção primária",
+    "categoria": "UBS/Atenção primária",
+    "tags": ["osteoporose","osteopenia","DMO","densitometria","DXA","T-score","FRAX","alendronato","risedronato","ácido zoledrônico","carbonato de cálcio","vitamina D","bifosfonato","fratura","fragilidade","menopausa","UBS","atenção primária","endocrinologia","rastreamento"]
+  },
+  {
+    "id": "250",
+    "titulo": "Alendronato de Sódio",
+    "categoria": "Medicamento",
+    "tags": ["alendronato","bifosfonato","bisfosfonato","osteoporose","osteopenia","reabsorção óssea","densidade mineral óssea","70mg","semanal","medicamento"]
+  },
+  {
+    "id": "251",
+    "titulo": "Risedronato Sódico",
+    "categoria": "Medicamento",
+    "tags": ["risedronato","bifosfonato","bisfosfonato","osteoporose","osteopenia","reabsorção óssea","densidade mineral óssea","35mg","semanal","medicamento"]
   }
 ];
 export const categorias = ["Todos", "Emergência", "Temas PS/UPA", "IOT, Sedação e VM"];
@@ -1820,7 +1856,7 @@ export const emergenciaIds = new Set(["1","2","3","4","5","6","7","8","9","10","
 
 export const evidenciaIds = new Set(["189","190","191","192","193","194","195","196","197","198","210","211","220","221","229","230","231","232","233","234","235","236","237","241","242","244"]);
 
-export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241","242","243","245"]);
+export const ubsIds = new Set(["32","35","36","37","39","40","41","42","43","45","51","54","55","56","57","59","60","61","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","81","84","85","86","87","88","89","90","91","92","94","95","96","99","100","111","113","183","184","185","186","187","224","225","228","233","237","238","241","242","243","245","249"]);
 
 export const medicamentoIds = new Set([
   "18",
@@ -1832,7 +1868,7 @@ export const medicamentoIds = new Set([
   "176","177","178",
   "179","180","181","182",
   "206","207","216","217",
-  "227","229","230","231","232","234","235","236","239","240"
+  "227","229","230","231","232","234","235","236","239","240","246","247","248","250","251"
 ]);
 
 export const bibliografiaIds = new Set(["222","223"]);

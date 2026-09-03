@@ -16,7 +16,7 @@ const isSection = (l: string) => {
   // A wrapped prose line starting lowercase (e.g. "tratamento também é...") is a
   // sentence continuation, not a section header — headers are always capitalized.
   if (/^[a-záàâãéêíóôõúç]/.test(t)) return false;
-  return /^(Uso\s+(oral|endovenoso|intravenoso|intramuscular|inalatório|tópico|subcutâneo|ocular|retal|nasal|sublingual|vaginal|intravaginal)|Cuidados gerais|Orientaç|Sintom[áa]ticos|Tratamento\b|Critérios|Preparo|Manejo|Medidas|Profilaxia|Posologia|Escolha do|Recomendaç|Fatores de risco|Proped[êe]utica|Farmacoterapia|Apresenta[çc][ãa]o\s+cl[íi]nica|Diagn[óo]stico)/i.test(t);
+  return /^(Uso\s+(oral|endovenoso|intravenoso|intramuscular|inalatório|tópico|subcutâneo|ocular|retal|nasal|sublingual|vaginal|intravaginal)|Cuidados gerais|Orientaç|Sintom[áa]ticos|Tratamento\b|Critérios|Preparo|Manejo|Medidas|Profilaxia|Posologia|Escolha do|Recomendaç|Fatores de risco|Proped[êe]utica|Farmacoterapia|Apresenta[çc][ãa]o\s+cl[íi]nica|Diagn[óo]stico|Quadro\s+cl[íi]nico|Rastreamento\b|Quando\s+referenciar)/i.test(t);
 };
 
 const isConnector = (l: string) =>
@@ -90,8 +90,10 @@ const isImageMarker = (l: string) => /^\[IMAGE:[^\]]+\]$/.test(l.trim());
 
 const isRenalMarker = (l: string) => /^\[RENAL:[^\]]+\]$/.test(l.trim());
 
+const isLinkMarker = (l: string) => /^\[LINK:[^\]]+\]$/.test(l.trim());
+
 const isNewUnit = (t: string) =>
-  t.startsWith("**") || t.startsWith("→ ") || isConnector(t) || isSection(t) || isNoteHeader(t) || isInstruction(t) || isDrug(t) || isSubtitle(t) || isTableRow(t) || isImageMarker(t) || isRenalMarker(t);
+  t.startsWith("**") || t.startsWith("→ ") || isConnector(t) || isSection(t) || isNoteHeader(t) || isInstruction(t) || isDrug(t) || isSubtitle(t) || isTableRow(t) || isImageMarker(t) || isRenalMarker(t) || isLinkMarker(t);
 
 const isHeader = (t: string) =>
   isConnector(t) || isSection(t) || isNoteHeader(t) || isSubtitle(t);
@@ -107,7 +109,8 @@ type Block =
   | { type: "text"; text: string }
   | { type: "image"; src: string; caption?: string }
   | { type: "table"; rows: { cells: string[] }[] }
-  | { type: "renal"; text: string };
+  | { type: "renal"; text: string }
+  | { type: "link"; label: string; url: string };
 
 function parse(content: string): Block[] {
   // 1) Re-join wrapped lines into logical lines.
@@ -150,7 +153,14 @@ function parse(content: string): Block[] {
     const t = line.trim();
     if (!t) continue;
 
-    if (isRenalMarker(t)) {
+    if (isLinkMarker(t)) {
+      curDrug = null; curNote = null; curTable = null;
+      const inner = t.slice(6, -1); // strip [LINK: and ]
+      const pipeIdx = inner.indexOf("|");
+      const label = pipeIdx === -1 ? inner : inner.slice(0, pipeIdx).trim();
+      const url = pipeIdx === -1 ? "" : inner.slice(pipeIdx + 1).trim();
+      blocks.push({ type: "link", label, url });
+    } else if (isRenalMarker(t)) {
       curDrug = null; curNote = null; curTable = null;
       const text = t.slice(7, -1).trim(); // strip [RENAL: and ]
       blocks.push({ type: "renal", text });
@@ -416,6 +426,24 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               </div>
             );
           }
+
+          case "link":
+            return (
+              <a
+                key={i}
+                href={b.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#1a6aad]/40 dark:border-[#3db8d4]/35 bg-[#f0f7ff] dark:bg-[#1a2d45] text-[13px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:bg-[#e0eeff] dark:hover:bg-[#1f3550] transition-colors mr-2 mb-1"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                {b.label}
+              </a>
+            );
 
           case "table": {
             const colCount = b.rows[0]?.cells.length ?? 2;
