@@ -45,6 +45,7 @@ export default function BroadcastPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [result, setResult] = useState<{ sentThisRun: number; remaining: number; alreadySent: number; total: number; done: boolean; errors?: string[] } | null>(null);
   const [campaign, setCampaign] = useState<{ subject: string; alreadySent: number; remaining: number } | null>(null);
+  const [cancelConfirm, setCancelConfirm] = useState(false);
 
   function loadStatus() {
     fetch("/api/admin/broadcast")
@@ -141,7 +142,8 @@ export default function BroadcastPage() {
   }
 
   async function handleCancel() {
-    if (!window.confirm("Cancelar a campanha automática? Os lotes restantes não serão enviados.")) return;
+    if (!cancelConfirm) { setCancelConfirm(true); return; }
+    setCancelConfirm(false);
     try {
       await fetch("/api/admin/broadcast", {
         method: "POST",
@@ -181,12 +183,22 @@ export default function BroadcastPage() {
                 Os próximos lotes (~50/dia) são enviados automaticamente todo dia. Você não precisa fazer nada.
               </p>
             </div>
-            <button
-              onClick={handleCancel}
-              className="shrink-0 text-xs font-semibold text-red-600 hover:underline"
-            >
-              Cancelar
-            </button>
+            {!cancelConfirm ? (
+              <button
+                onClick={handleCancel}
+                className="shrink-0 text-xs font-semibold text-red-600 hover:underline"
+              >
+                Cancelar
+              </button>
+            ) : (
+              <div className="shrink-0 flex flex-col items-end gap-1">
+                <p className="text-[11px] text-red-700 font-semibold">Tem certeza?</p>
+                <div className="flex gap-2">
+                  <button onClick={handleCancel} className="text-xs font-bold text-red-600 hover:underline">Sim, cancelar</button>
+                  <button onClick={() => setCancelConfirm(false)} className="text-xs text-zinc-500 hover:underline">Não</button>
+                </div>
+              </div>
+            )}
           </div>
           {/* Barra de progresso */}
           <div className="mt-3 h-2 rounded-full bg-emerald-100 overflow-hidden">

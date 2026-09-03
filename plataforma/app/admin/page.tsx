@@ -123,7 +123,7 @@ export default async function AdminPage() {
 
       {/* ── Usuários & Assinantes ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Usuários & Assinantes</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">Usuários & Assinantes</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Tile label="Usuários cadastrados" value={totalUsers} sub={`+${newUsersWeek} nos últimos 7 dias`} />
           <Tile label="Assinantes ativos" value={subActive} color="green" />
@@ -136,12 +136,7 @@ export default async function AdminPage() {
           <Tile label="Em atraso"  value={subPastDue}   color="yellow" />
           <Tile label="Renovando em 30 dias" value={renewingSoon} color="yellow" sub="assinaturas ativas" />
         </div>
-      </section>
-
-      {/* ── Gráficos ── */}
-      <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Visão gráfica</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 items-start">
           <PieChart
             title="Status das assinaturas"
             slices={[
@@ -158,20 +153,12 @@ export default async function AdminPage() {
               { label: "Mensal",  value: subMonthly,  color: "#f59e0b" },
             ]}
           />
-          <PieChart
-            title="Receita por gateway"
-            slices={[
-              { label: "Stripe",        value: Math.round((revenueStripe._sum.totalCents ?? 0) / 100), color: "#3b82f6" },
-              { label: "Mercado Pago",  value: Math.round((revenueMp._sum.totalCents ?? 0) / 100),    color: "#f97316" },
-            ]}
-          />
-          <BarChart title="Receita mensal — últimos 12 meses (R$)" bars={monthlyBars} />
         </div>
       </section>
 
       {/* ── Atividade em Tempo Real ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Atividade em Tempo Real</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">Atividade em Tempo Real</h2>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
           {/* Online agora */}
           <div className="bg-white rounded-xl border border-zinc-200 p-4 border-l-4 border-l-emerald-400">
@@ -195,7 +182,7 @@ export default async function AdminPage() {
 
       {/* ── Receita ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Receita</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">Receita</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Tile label="Total (all time)"   value={brl(revenueTotal._sum.totalCents)} color="green" sub={`${ordersTotal} vendas confirmadas`} />
           <Tile label="Últimos 7 dias"    value={brl(revenueWeek._sum.totalCents)} />
@@ -223,12 +210,24 @@ export default async function AdminPage() {
             sub={`${reembolsosAggregate._count} de ${ordersTotal} pedidos pagos`}
           />
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 items-start">
+          <PieChart
+            title="Receita por gateway"
+            slices={[
+              { label: "Stripe",        value: Math.round((revenueStripe._sum.totalCents ?? 0) / 100), color: "#3b82f6" },
+              { label: "Mercado Pago",  value: Math.round((revenueMp._sum.totalCents ?? 0) / 100),    color: "#f97316" },
+            ]}
+          />
+          <div className="md:col-span-2">
+            <BarChart title="Receita mensal — últimos 12 meses (R$)" bars={monthlyBars} />
+          </div>
+        </div>
       </section>
 
       {/* ── Renovações Próximas ── */}
       {renovandoLista.length > 0 && (
         <section>
-          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">
             Renovações próximas — próximos 30 dias
           </h2>
           <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
@@ -263,7 +262,7 @@ export default async function AdminPage() {
 
       {/* ── Cancelamentos Recentes ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">
           Cancelamentos recentes — últimos 30 dias
         </h2>
         {cancelamentosRecentes.length === 0 ? (
