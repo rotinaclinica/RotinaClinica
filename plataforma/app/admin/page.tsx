@@ -99,11 +99,17 @@ export default async function AdminPage() {
   // Queries that depend on the new schema (lastSeenAt / ActivityLog).
   // Wrapped in try/catch: the running dev server may have a stale Prisma client
   // cached in globalThis — these work correctly after a server restart.
+  const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
   let onlineNow = 0;
+  let active24h = 0;
+  let active7d  = 0;
   let recentActivity: { createdAt: Date }[] = [];
   try {
-    [onlineNow, recentActivity] = await Promise.all([
+    [onlineNow, active24h, active7d, recentActivity] = await Promise.all([
       db.user.count({ where: { lastSeenAt: { gte: fiveMinAgo } } }),
+      db.user.count({ where: { lastSeenAt: { gte: last24h } } }),
+      db.user.count({ where: { lastSeenAt: { gte: last7   } } }),
       db.activityLog.findMany({ where: { createdAt: { gte: last7 } }, select: { createdAt: true } }),
     ]);
   } catch {
@@ -168,18 +174,26 @@ export default async function AdminPage() {
       {/* ── Atividade em Tempo Real ── */}
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Atividade em Tempo Real</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
           {/* Online agora */}
           <div className="bg-white rounded-xl border border-zinc-200 p-4 border-l-4 border-l-emerald-400">
             <p className="text-xs text-zinc-500 mb-1">Online agora</p>
             <p className="text-4xl font-bold text-zinc-900">{onlineNow}</p>
-            <p className="text-[11px] text-zinc-400 mt-0.5">
-              {onlineNow === 1 ? "usuário ativo" : "usuários ativos"} · janela de 5 min
-            </p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">usuários · janela de 5 min</p>
+          </div>
+          <div className="bg-white rounded-xl border border-zinc-200 p-4">
+            <p className="text-xs text-zinc-500 mb-1">Ativos — últimas 24h</p>
+            <p className="text-4xl font-bold text-zinc-900">{active24h}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
+          </div>
+          <div className="bg-white rounded-xl border border-zinc-200 p-4">
+            <p className="text-xs text-zinc-500 mb-1">Ativos — últimos 7 dias</p>
+            <p className="text-4xl font-bold text-zinc-900">{active7d}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
           </div>
 
           {/* Gráfico de horários de pico */}
-          <div className="lg:col-span-2 bg-white rounded-xl border border-zinc-200 p-4">
+          <div className="lg:col-span-4 bg-white rounded-xl border border-zinc-200 p-4">
             <p className="text-xs text-zinc-500 mb-3">Horários de pico — últimos 7 dias</p>
             <PeakHoursChart logs={recentActivity} />
           </div>
