@@ -163,7 +163,7 @@ export default async function AdminUsuariosPage({
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     <Link
-                      href={`/admin/acessos?email=${encodeURIComponent(u.email)}`}
+                      href={`/admin/usuarios/${u.id}`}
                       className="text-xs font-semibold text-violet-600 hover:underline"
                     >
                       Gerenciar
