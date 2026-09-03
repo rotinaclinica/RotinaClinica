@@ -5,7 +5,6 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import ChangePasswordForm from "./ChangePasswordForm";
-import CancelSubscriptionButton from "./CancelSubscriptionButton";
 
 export const metadata = { title: "Meu Perfil · Rotina Clínica" };
 
@@ -159,11 +158,7 @@ export default async function PerfilPage() {
                   </div>
                 </div>
 
-                {sub.status === "ACTIVE" && (
-                  <CancelSubscriptionButton
-                    accessUntil={sub.currentPeriodEnd.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
-                  />
-                )}
+
               </div>
             );
           })()}
