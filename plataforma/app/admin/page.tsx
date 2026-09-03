@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
 import { PieChart } from "./PieChart";
+import { BarChart } from "./BarChart";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -18,6 +19,7 @@ function pct(part: number, total: number) {
 
 export default async function AdminPage() {
   const now = new Date();
+  const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
   const startOfMonth  = new Date(now.getFullYear(), now.getMonth(), 1);
   const startOfYear   = new Date(now.getFullYear(), 0, 1);
   const last7         = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -45,6 +47,7 @@ export default async function AdminPage() {
     cancelamentosRecentes,
     ordersNaoConcluidos,
     renovandoLista,
+    recentOrdersRaw,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
@@ -76,7 +79,22 @@ export default async function AdminPage() {
       orderBy: { currentPeriodEnd: "asc" },
       select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true } } },
     }),
+    db.order.findMany({
+      where: { status: "PAID", paidAt: { gte: twelveMonthsAgo } },
+      select: { paidAt: true, totalCents: true },
+    }),
   ]);
+
+  const MONTH_LABELS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  const monthlyBars = Array.from({ length: 12 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - 11 + i, 1);
+    const yr = d.getFullYear();
+    const mo = d.getMonth();
+    const value = recentOrdersRaw
+      .filter((o) => o.paidAt && new Date(o.paidAt).getFullYear() === yr && new Date(o.paidAt).getMonth() === mo)
+      .reduce((s, o) => s + o.totalCents, 0);
+    return { label: MONTH_LABELS[mo], value, current: yr === now.getFullYear() && mo === now.getMonth() };
+  });
 
   // Queries that depend on the new schema (lastSeenAt / ActivityLog).
   // Wrapped in try/catch: the running dev server may have a stale Prisma client
@@ -119,7 +137,7 @@ export default async function AdminPage() {
       {/* ── Gráficos ── */}
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-3">Visão gráfica</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-start">
           <PieChart
             title="Status das assinaturas"
             slices={[
@@ -143,6 +161,7 @@ export default async function AdminPage() {
               { label: "Mercado Pago",  value: Math.round((revenueMp._sum.totalCents ?? 0) / 100),    color: "#f97316" },
             ]}
           />
+          <BarChart title="Receita mensal — últimos 12 meses (R$)" bars={monthlyBars} />
         </div>
       </section>
 
