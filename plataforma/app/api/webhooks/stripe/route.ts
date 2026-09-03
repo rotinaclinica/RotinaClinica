@@ -3,6 +3,7 @@ import { stripe } from "@/lib/payments/stripe";
 import { db } from "@/lib/db";
 import { grantAccess } from "@/lib/entitlements";
 import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendRefundNotification } from "@/lib/email";
+import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 
 export async function POST(req: NextRequest) {
@@ -18,7 +19,8 @@ export async function POST(req: NextRequest) {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch {
+  } catch (err) {
+    await logError({ route: "/api/webhooks/stripe", method: "POST", error: err });
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 

@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { hasAccess } from "@/lib/entitlements";
 import { getDownloadUrl } from "@/lib/r2";
+import { logError } from "@/lib/error-logger";
 
 export async function GET(
   _req: NextRequest,
@@ -15,18 +16,23 @@ export async function GET(
 
   const { productId } = await params;
 
-  const product = await db.product.findUnique({
-    where: { id: productId, type: "DOWNLOAD", active: true },
-  });
-  if (!product?.fileKey) {
-    return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
-  }
+  try {
+    const product = await db.product.findUnique({
+      where: { id: productId, type: "DOWNLOAD", active: true },
+    });
+    if (!product?.fileKey) {
+      return NextResponse.json({ error: "Produto não encontrado" }, { status: 404 });
+    }
 
-  const entitled = await hasAccess(session.user.id, productId);
-  if (!entitled) {
-    return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
-  }
+    const entitled = await hasAccess(session.user.id, productId);
+    if (!entitled) {
+      return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
+    }
 
-  const url = await getDownloadUrl(product.fileKey);
-  return NextResponse.redirect(url);
+    const url = await getDownloadUrl(product.fileKey);
+    return NextResponse.redirect(url);
+  } catch (err) {
+    await logError({ route: `/api/downloads/${productId}`, method: "GET", error: err, userId: session.user.id });
+    return NextResponse.json({ error: "Erro ao gerar link de download." }, { status: 500 });
+  }
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { db } from "@/lib/db";
 import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendRefundNotification } from "@/lib/email";
+import { logError } from "@/lib/error-logger";
 import { grantAccess } from "@/lib/entitlements";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { createHmac } from "crypto";

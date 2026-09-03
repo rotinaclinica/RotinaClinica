@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { stripe } from "@/lib/payments/stripe";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { logError } from "@/lib/error-logger";
 
 const schema = z.object({ orderId: z.string() });
 
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
       if (!res.ok) throw new Error(`MP refund failed: ${res.status}`);
     }
   } catch (err) {
-    console.error("Refund error:", err);
+    await logError({ route: "/api/refund", method: "POST", error: err, userId: session.user.id });
     return NextResponse.json(
       { error: "Erro ao processar reembolso. Entre em contato via suporte." },
       { status: 500 }

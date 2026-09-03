@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { processInvoiceBatch } from "@/lib/nfe";
+import { logError } from "@/lib/error-logger";
 
 export const maxDuration = 120;
 
@@ -20,6 +21,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = await processInvoiceBatch(30);
-  return NextResponse.json({ ok: true, ...result });
+  try {
+    const result = await processInvoiceBatch(30);
+    return NextResponse.json({ ok: true, ...result });
+  } catch (err) {
+    await logError({ route: "/api/cron/emitir-notas", method: "GET", error: err });
+    return NextResponse.json({ error: "Erro no cron de notas fiscais." }, { status: 500 });
+  }
 }

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { logError } from "@/lib/error-logger";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -29,13 +30,18 @@ export async function POST(req: NextRequest) {
   const { name, password, phone, cpf, momentoProfissional, ambienteTrabalho } = parsed.data;
   const email = parsed.data.email.toLowerCase();
 
-  const existing = await db.user.findUnique({ where: { email } });
-  if (existing) {
-    return NextResponse.json({ error: "E-mail já cadastrado" }, { status: 409 });
+  try {
+    const existing = await db.user.findUnique({ where: { email } });
+    if (existing) {
+      return NextResponse.json({ error: "E-mail já cadastrado" }, { status: 409 });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+    await db.user.create({ data: { name, email, passwordHash, phone, cpf, momentoProfissional, ambienteTrabalho } });
+
+    return NextResponse.json({ ok: true }, { status: 201 });
+  } catch (err) {
+    await logError({ route: "/api/auth/register", method: "POST", error: err });
+    return NextResponse.json({ error: "Erro ao criar conta." }, { status: 500 });
   }
-
-  const passwordHash = await bcrypt.hash(password, 12);
-  await db.user.create({ data: { name, email, passwordHash, phone, cpf, momentoProfissional, ambienteTrabalho } });
-
-  return NextResponse.json({ ok: true }, { status: 201 });
 }
