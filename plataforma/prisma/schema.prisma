@@ -299,3 +299,16 @@ model PasswordResetToken {
 
   @@index([email])
 }
+
+model ErrorLog {
+  id        String   @id @default(cuid())
+  route     String
+  method    String   @default("UNKNOWN")
+  message   String
+  stack     String?
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([route])
+}

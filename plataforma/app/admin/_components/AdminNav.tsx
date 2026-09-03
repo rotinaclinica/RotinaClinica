@@ -13,6 +13,7 @@ const LINKS = [
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/reembolsos", label: "Reembolsos" },
   { href: "/admin/broadcast", label: "Enviar email" },
+  { href: "/admin/erros", label: "Erros" },
 ];
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
