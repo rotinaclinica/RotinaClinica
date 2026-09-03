@@ -5,9 +5,9 @@ import { db } from "@/lib/db";
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
 
-// Limite diário de broadcast. Deixa folga sob a cota do Resend para os emails
-// transacionais (recuperação de senha, confirmação de compra) não serem bloqueados.
-export const BROADCAST_DAILY_CAP = 90;
+// Limite diário de broadcast. Reserva 50 envios para emails transacionais
+// (recuperação de senha, confirmação de compra, notificação de novo assinante).
+export const BROADCAST_DAILY_CAP = 50;
 
 export function campaignIdOf(subject: string, body: string): string {
   return createHash("sha256").update(`${subject}\n${body}`).digest("hex").slice(0, 32);

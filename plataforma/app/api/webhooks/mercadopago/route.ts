@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { db } from "@/lib/db";
-import { sendPurchaseConfirmation } from "@/lib/email";
+import { sendPurchaseConfirmation, sendNewSubscriberNotification } from "@/lib/email";
 import { grantAccess } from "@/lib/entitlements";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { createHmac } from "crypto";
@@ -115,6 +115,16 @@ export async function POST(req: NextRequest) {
           productType: product.type,
           dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
         }).catch(() => {});
+
+        if (product.type === "SUBSCRIPTION") {
+          const isAnnual = product.slug === "assinatura-anual";
+          await sendNewSubscriberNotification({
+            customerName: user.name ?? "Cliente",
+            customerEmail: user.email,
+            paymentMethod: "mercadopago",
+            subscriptionPeriod: isAnnual ? "Anual (1 ano)" : "Mensal",
+          }).catch(() => {});
+        }
       }
     }
 

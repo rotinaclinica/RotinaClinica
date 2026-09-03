@@ -92,6 +92,67 @@ export async function sendPurchaseConfirmation({
   });
 }
 
+export async function sendNewSubscriberNotification({
+  customerName,
+  customerEmail,
+  paymentMethod,
+  subscriptionPeriod = "Anual (1 ano)",
+}: {
+  customerName: string;
+  customerEmail: string;
+  paymentMethod: "stripe" | "mercadopago";
+  subscriptionPeriod?: string;
+}) {
+  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : "Mercado Pago";
+  await resend.emails.send({
+    from: FROM,
+    to: "rotinaclinica77@gmail.com",
+    subject: "Novo Assinante!",
+    html: `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dde6ef">
+        <tr>
+          <td style="background:#0f2d4a;padding:36px 40px">
+            <p style="margin:0 0 4px;color:#3db8d4;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Rotina Clínica — Admin</p>
+            <p style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Novo Assinante! 🎉</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:36px 40px">
+            <p style="margin:0 0 20px;color:#4a6a80;font-size:15px;line-height:1.7">
+              Um novo assinante acaba de assinar a plataforma Rotina Clínica. Confira os dados abaixo:
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;border-radius:12px;margin-bottom:24px">
+              <tr><td style="padding:20px 24px">
+                <p style="margin:0 0 10px;color:#0f2d4a;font-size:15px"><strong>Nome:</strong> ${escapeHtml(customerName)}</p>
+                <p style="margin:0 0 10px;color:#0f2d4a;font-size:15px"><strong>E-mail:</strong> ${escapeHtml(customerEmail)}</p>
+                <p style="margin:0 0 10px;color:#0f2d4a;font-size:15px"><strong>Período:</strong> ${escapeHtml(subscriptionPeriod)}</p>
+                <p style="margin:0;color:#0f2d4a;font-size:15px"><strong>Método de pagamento:</strong> ${gateway}</p>
+              </td></tr>
+            </table>
+            <p style="margin:0;color:#94a8b8;font-size:13px;text-align:center">
+              Acesse o <a href="https://rotina-clinica.vercel.app/admin/usuarios" style="color:#3db8d4;text-decoration:none">painel admin</a> para ver todos os assinantes.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#f0f4f8;padding:20px 40px;text-align:center">
+            <p style="margin:0;color:#94a8b8;font-size:12px">© ${new Date().getFullYear()} Rotina Clínica</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+}
+
 /**
  * Envia a nota fiscal (NFS-e) autorizada com o PDF anexado.
  * Chamado pelo cron de emissão, após a nota ser autorizada pelo provedor.

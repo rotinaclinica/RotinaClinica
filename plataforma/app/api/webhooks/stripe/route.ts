@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/payments/stripe";
 import { db } from "@/lib/db";
 import { grantAccess } from "@/lib/entitlements";
-import { sendPurchaseConfirmation } from "@/lib/email";
+import { sendPurchaseConfirmation, sendNewSubscriberNotification } from "@/lib/email";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 
 export async function POST(req: NextRequest) {
@@ -99,6 +99,16 @@ export async function POST(req: NextRequest) {
           productType: product.type,
           dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
         }).catch(() => {});
+
+        if (product.type === "SUBSCRIPTION") {
+          const isAnnual = product.slug === "assinatura-anual";
+          await sendNewSubscriberNotification({
+            customerName: user.name ?? "Cliente",
+            customerEmail: user.email,
+            paymentMethod: "stripe",
+            subscriptionPeriod: isAnnual ? "Anual (1 ano)" : "Mensal",
+          }).catch(() => {});
+        }
       }
     }
 
