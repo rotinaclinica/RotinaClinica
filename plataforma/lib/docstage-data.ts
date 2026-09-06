@@ -15,7 +15,7 @@ export interface DocstageModulo {
 export const DOCSTAGE_MODULOS: DocstageModulo[] = [
   {
     id: "financas-medicos",
-    titulo: "Minicurso de Finanças para Médicos",
+    titulo: "Minicurso de Finanças para Médicos (as)",
     descricao:
       "Aprenda a organizar e proteger sua vida financeira de forma prática e objetiva.",
     aulas: [
