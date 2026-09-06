@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
-import PixButton from "./PixButton";
 
 const PLANS = {
   anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,30/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
@@ -35,32 +34,44 @@ export default async function CheckoutPage({
   if (existing?.status === "ACTIVE") redirect("/dashboard");
 
   return (
-    <div className="min-h-screen bg-[#c8d8e8] flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden">
-        <div className="bg-[#0f2d4a] px-6 py-5">
+    <div className="min-h-screen relative flex items-center justify-center px-4">
+      <img src="/images/turma.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-[#0f2d4a]/75" />
+      <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden my-8">
+        <div className="bg-[#0f2d4a] px-6 py-6">
           <p className="text-[#9ec4de] text-xs font-semibold uppercase tracking-wider mb-1">{plan.label}</p>
           <p className="text-white text-3xl font-extrabold">{plan.price}</p>
           <p className="text-[#9ec4de] text-sm mt-1">{plan.detail}</p>
+          <ul className="mt-4 space-y-1.5">
+            {[
+              "Modelos de evolução e de condutas prontas",
+              "Curso Destravando o Plantão",
+              "Discussão de casos clínicos novos toda semana",
+              "Calculadoras e escores clínicos",
+              "Acesso imediato em qualquer dispositivo",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-2 text-sm text-white/90">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#32bcad" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="px-6 py-6 space-y-4">
-          <p className="text-zinc-500 text-sm text-center">
-            Logado como <span className="font-semibold text-zinc-700">{session.user.email}</span>
+          <p className="text-zinc-500 text-xs text-center">
+            Logado como <span className="font-semibold text-zinc-800">{session.user.email}</span>
           </p>
-          <PixButton productId={product.id} />
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-zinc-100" />
-            <span className="text-xs text-zinc-500">ou pague com cartão de crédito</span>
-            <div className="flex-1 h-px bg-zinc-100" />
-          </div>
           <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
-          <div className="flex items-center justify-center gap-1.5 text-xs text-zinc-600 font-medium">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="flex items-center justify-center gap-1.5 text-xs text-zinc-400">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
             </svg>
             Pagamento seguro · Acesso imediato após confirmação
           </div>
           <div className="text-center">
-            <Link href="/assinatura" className="text-xs text-zinc-500 hover:text-zinc-700 hover:underline transition-colors">
+            <Link href="/assinatura" className="text-xs text-zinc-400 hover:text-zinc-600 hover:underline transition-colors">
               ← Ver outros planos
             </Link>
           </div>
