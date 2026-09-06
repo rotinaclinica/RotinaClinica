@@ -47,7 +47,7 @@ export default function SairPage() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-white/40 mt-6">
+        <p className="text-center text-sm text-white/90 mt-6">
           © {new Date().getFullYear()} Rotina Clínica<br />
           Rotina Clinica Educação Médica Ltda. · CNPJ 65.937.147/0001-58
         </p>
