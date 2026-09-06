@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { CopyButton } from "./CopyButton";
+import { ErrorCard } from "./ErrorCard";
 import { deleteError } from "./actions";
 
 export const metadata = { title: "Erros · Admin Rotina Clínica" };
@@ -80,52 +80,17 @@ export default async function ErrosPage({
         ) : (
           <div className="space-y-3 max-w-4xl">
             {errors.map((e) => (
-              <details
+              <ErrorCard
                 key={e.id}
-                className="bg-white dark:bg-zinc-800/60 border border-zinc-200 dark:border-white/8 rounded-xl overflow-hidden"
-              >
-                <summary className="flex items-start justify-between gap-4 px-4 py-3 cursor-pointer hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors list-none">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/10 text-zinc-500 dark:text-zinc-400 font-mono">
-                        {e.method}
-                      </span>
-                      <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-200 font-mono truncate">
-                        {e.route}
-                      </span>
-                    </div>
-                    <p className="text-sm text-red-500 dark:text-red-400 mt-1 truncate">{e.message}</p>
-                  </div>
-                  <div className="text-right shrink-0 flex flex-col items-end gap-1">
-                    <p className="text-xs text-zinc-400">
-                      {e.createdAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
-                      {" "}
-                      {e.createdAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
-                    </p>
-                    {e.userId && (
-                      <p className="text-[11px] text-zinc-400">user: {e.userId.slice(0, 8)}…</p>
-                    )}
-                    <form action={deleteError.bind(null, e.id)} onClick={(ev) => ev.stopPropagation()}>
-                      <button
-                        type="submit"
-                        className="text-[11px] font-semibold px-2 py-0.5 rounded border border-red-200 dark:border-red-900 text-red-400 hover:bg-red-50 dark:hover:bg-red-950 hover:text-red-600 transition-colors"
-                      >
-                        Excluir
-                      </button>
-                    </form>
-                  </div>
-                </summary>
-                {e.stack && (
-                  <div className="border-t border-zinc-100 dark:border-white/6 px-4 py-3">
-                    <div className="flex justify-end mb-2">
-                      <CopyButton text={`${e.message}\n\n${e.stack}`} />
-                    </div>
-                    <pre className="text-[11px] text-zinc-500 dark:text-zinc-400 whitespace-pre-wrap break-all leading-relaxed overflow-x-auto">
-                      {e.stack}
-                    </pre>
-                  </div>
-                )}
-              </details>
+                id={e.id}
+                method={e.method}
+                route={e.route}
+                message={e.message}
+                date={`${e.createdAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" })} ${e.createdAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`}
+                userId={e.userId}
+                stack={e.stack}
+                deleteAction={deleteError.bind(null, e.id)}
+              />
             ))}
           </div>
         )}
