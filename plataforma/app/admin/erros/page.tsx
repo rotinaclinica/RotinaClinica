@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { CopyButton } from "./CopyButton";
+import { deleteError } from "./actions";
 
 export const metadata = { title: "Erros · Admin Rotina Clínica" };
 
@@ -95,15 +96,23 @@ export default async function ErrosPage({
                     </div>
                     <p className="text-sm text-red-500 dark:text-red-400 mt-1 truncate">{e.message}</p>
                   </div>
-                  <div className="text-right shrink-0">
+                  <div className="text-right shrink-0 flex flex-col items-end gap-1">
                     <p className="text-xs text-zinc-400">
                       {e.createdAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" })}
                       {" "}
                       {e.createdAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
                     </p>
                     {e.userId && (
-                      <p className="text-[11px] text-zinc-400 mt-0.5">user: {e.userId.slice(0, 8)}…</p>
+                      <p className="text-[11px] text-zinc-400">user: {e.userId.slice(0, 8)}…</p>
                     )}
+                    <form action={deleteError.bind(null, e.id)} onClick={(ev) => ev.stopPropagation()}>
+                      <button
+                        type="submit"
+                        className="text-[11px] font-semibold px-2 py-0.5 rounded border border-red-200 dark:border-red-900 text-red-400 hover:bg-red-50 dark:hover:bg-red-950 hover:text-red-600 transition-colors"
+                      >
+                        Excluir
+                      </button>
+                    </form>
                   </div>
                 </summary>
                 {e.stack && (
