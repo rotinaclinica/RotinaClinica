@@ -153,7 +153,7 @@ export default function ConhecaPage() {
       <footer className="bg-[#0f2d4a] text-white mt-6">
         <div className="max-w-5xl mx-auto px-6 py-10 flex items-center justify-between">
           <Logo variant="light" />
-          <p className="text-xs text-[#5a8caa]">© {new Date().getFullYear()} Rotina Clínica</p>
+          <p className="text-xs text-[#5a8caa]">© {new Date().getFullYear()} Rotina Clínica<br />Rotina Clinica Educação Médica Ltda. · CNPJ 65.937.147/0001-58</p>
         </div>
       </footer>
     </main>

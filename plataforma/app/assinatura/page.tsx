@@ -283,7 +283,7 @@ export default function AssinaturaPage({
             <Link href="/termos" className="hover:text-white transition-colors">Termos de Uso</Link>
             <Link href="/privacidade" className="hover:text-white transition-colors">Privacidade</Link>
           </div>
-          <p className="text-xs text-[#5a8caa]">© {new Date().getFullYear()} Rotina Clínica</p>
+          <p className="text-xs text-[#5a8caa]">© {new Date().getFullYear()} Rotina Clínica<br />Rotina Clinica Educação Médica Ltda. · CNPJ 65.937.147/0001-58</p>
         </div>
       </footer>
     </main>

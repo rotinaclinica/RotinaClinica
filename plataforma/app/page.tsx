@@ -320,6 +320,8 @@ export default async function HomePage() {
           </div>
           <div className="border-t border-white/10 mt-8 pt-6 text-center text-xs text-[#5a8caa]">
             © {new Date().getFullYear()} Rotina Clínica — Todos os direitos reservados.
+            <br />
+            Rotina Clinica Educação Médica Ltda. · CNPJ 65.937.147/0001-58
           </div>
         </div>
       </footer>

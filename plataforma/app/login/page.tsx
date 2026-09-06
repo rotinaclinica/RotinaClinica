@@ -102,7 +102,7 @@ function LoginForm() {
           </ul>
         </div>
 
-        <p className="text-[#5a8caa] text-xs">© {new Date().getFullYear()} Rotina Clínica</p>
+        <p className="text-[#5a8caa] text-xs text-center">© {new Date().getFullYear()} Rotina Clínica<br />Rotina Clinica Educação Médica Ltda. · CNPJ 65.937.147/0001-58</p>
       </div>
 
       {/* Formulário */}
