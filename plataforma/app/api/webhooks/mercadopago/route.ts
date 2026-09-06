@@ -119,10 +119,11 @@ export async function POST(req: NextRequest) {
 
         if (product.type === "SUBSCRIPTION") {
           const isAnnual = product.slug === "assinatura-anual";
+          const mpMethod = paymentData.payment_method_id === "pix" ? "pix" : "mercadopago";
           await sendNewSubscriberNotification({
             customerName: user.name ?? "Cliente",
             customerEmail: user.email,
-            paymentMethod: "mercadopago",
+            paymentMethod: mpMethod,
             subscriptionPeriod: isAnnual ? "Anual (1 ano)" : "Mensal",
           }).catch(() => {});
         }

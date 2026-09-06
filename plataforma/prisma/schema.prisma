@@ -25,6 +25,18 @@ model User {
   accounts             Account[]
   sessions             Session[]
   subscription         Subscription?
+  emailDrips           EmailDrip[]
+}
+
+model EmailDrip {
+  id        String   @id @default(cuid())
+  userId    String
+  step      Int
+  sentAt    DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, step])
+  @@index([step])
 }
 
 model Subscription {

@@ -100,10 +100,10 @@ export async function sendNewSubscriberNotification({
 }: {
   customerName: string;
   customerEmail: string;
-  paymentMethod: "stripe" | "mercadopago";
+  paymentMethod: "stripe" | "mercadopago" | "pix";
   subscriptionPeriod?: string;
 }) {
-  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : "Mercado Pago";
+  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : paymentMethod === "pix" ? "PIX (Mercado Pago)" : "Mercado Pago (cartão de crédito)";
   await resend.emails.send({
     from: FROM,
     to: "rotinaclinica77@gmail.com",

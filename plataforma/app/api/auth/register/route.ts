@@ -4,6 +4,11 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { logError } from "@/lib/error-logger";
+import { Resend } from "resend";
+import { dripHtml0 } from "@/lib/emails/drip";
+
+const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
+const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -37,7 +42,15 @@ export async function POST(req: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    await db.user.create({ data: { name, email, passwordHash, phone, cpf, momentoProfissional, ambienteTrabalho } });
+    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf, momentoProfissional, ambienteTrabalho } });
+
+    // Drip email 0 — boas-vindas (fire and forget)
+    resend.emails.send({
+      from: FROM,
+      to: email,
+      subject: "Bem-vindo à plataforma do Rotina Clínica!",
+      html: dripHtml0(name),
+    }).then(() => db.emailDrip.create({ data: { userId: user.id, step: 0 } })).catch(() => {});
 
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (err) {
