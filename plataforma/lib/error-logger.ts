@@ -11,6 +11,7 @@ export async function logError({
   error: unknown;
   userId?: string;
 }) {
+  if (process.env.NODE_ENV === "development") return;
   try {
     const message = error instanceof Error ? error.message : String(error);
     const stack = error instanceof Error ? (error.stack ?? null) : null;
