@@ -1,0 +1,114 @@
+[  1] MANTIDO (cov baixa 15%)  Introdução à emergência
+[  2] RE-EXTRAÍDO  p27-28 cov=100%  Anafilaxia
+[  3] MANTIDO (páginas não-contíguas [29, 30, 31, 32, 34])  Cetoacidose diabética
+[  4] RE-EXTRAÍDO  p35-35 cov=100%  Hipoglicemia
+[  5] RE-EXTRAÍDO  p36-39 cov=100%  Teste de estresse com furosemida
+[  6] RE-EXTRAÍDO  p40-41 cov=100%  Queimaduras
+[  7] RE-EXTRAÍDO  p42-54 cov=99%  Sepse
+[  8] RE-EXTRAÍDO  p55-60 cov=100%  DPOC exacerbado
+[  9] RE-EXTRAÍDO  p61-63 cov=100%  Hemorragia digestiva alta
+[ 10] RE-EXTRAÍDO  p64-66 cov=100%  Crise convulsiva
+[ 11] RE-EXTRAÍDO  p67-69 cov=100%  Síndrome coronariana aguda
+[ 12] RE-EXTRAÍDO  p70-74 cov=100%  Edema agudo de pulmão
+[ 13] RE-EXTRAÍDO  p75-77 cov=100%  Fibrilação atrial
+[ 14] RE-EXTRAÍDO  p78-79 cov=100%  Taquicardia supraventricular paroxística
+[ 15] RE-EXTRAÍDO  p80-80 cov=100%  Torsades de Pointes
+[ 16] RE-EXTRAÍDO  p81-90 cov=100%  Drogas vasoativas
+[ 17] MANTIDO (sem heading próprio)  Noradrenalina
+[ 18] MANTIDO (sem heading próprio)  Dobutamina
+[ 19] MANTIDO (sem heading próprio)  Vasopressina
+[ 20] RE-EXTRAÍDO  p91-94 cov=100%  Ventilação mecânica invasiva
+[ 21] MANTIDO (cov baixa 29%)  Dengue grave (grupos C e D)
+[ 22] RE-EXTRAÍDO  p101-107 cov=100%  Intubação de sequência rápida
+[ 23] RE-EXTRAÍDO  p108-108 cov=100%  Estridor laríngeo
+[ 24] RE-EXTRAÍDO  p109-112 cov=100%  Mordedura
+[ 25] MANTIDO (sem heading próprio)  Antimicrobianos
+[ 26] MANTIDO (cov baixa 31%)  Analgésicos
+[ 27] RE-EXTRAÍDO  p149-150 cov=100%  Intoxicação por opioides e benzodiazepínicos
+[ 28] RE-EXTRAÍDO  p153-155 cov=100%  Insônia
+[ 29] RE-EXTRAÍDO  p156-165 cov=100%  Intoxicação por metanol
+[ 30] MANTIDO (sem heading próprio)  Anticoagulantes
+[ 31] RE-EXTRAÍDO  p173-180 cov=100%  Celulite e Erisipela
+[ 32] RE-EXTRAÍDO  p181-183 cov=100%  Escabiose
+[ 33] RE-EXTRAÍDO  p184-186 cov=100%  Tinea corporis
+[ 34] RE-EXTRAÍDO  p187-190 cov=100%  Urticária
+[ 35] RE-EXTRAÍDO  p191-194 cov=100%  Furunculose
+[ 36] MANTIDO (páginas já usadas pelo tema 35)  Furunculose de repetição
+[ 37] RE-EXTRAÍDO  p195-199 cov=100%  ABCDE do melanoma
+[ 38] RE-EXTRAÍDO  p200-202 cov=100%  Onicomicose
+[ 39] RE-EXTRAÍDO  p204-205 cov=100%  Conjuntivite bacteriana aguda
+[ 40] RE-EXTRAÍDO  p206-207 cov=100%  Conjuntivite viral aguda
+[ 41] RE-EXTRAÍDO  p208-208 cov=100%  Conjuntivite alérgica
+[ 42] RE-EXTRAÍDO  p209-210 cov=100%  Hordéolo e terçol
+[ 43] RE-EXTRAÍDO  p211-211 cov=100%  Xeroftalmia (olho seco)
+[ 44] RE-EXTRAÍDO  p213-214 cov=100%  Constipação intestinal
+[ 45] RE-EXTRAÍDO  p215-215 cov=100%  Parasitose intestinal
+[ 46] RE-EXTRAÍDO  p216-219 cov=100%  Antieméticos
+[ 47] RE-EXTRAÍDO  p220-220 cov=100%  Náuseas persistentes
+[ 48] RE-EXTRAÍDO  p221-221 cov=100%  Reação extrapiramidal
+[ 49] RE-EXTRAÍDO  p222-224 cov=100%  Diverticulite aguda não complicada
+[ 50] RE-EXTRAÍDO  p225-227 cov=100%  Diverticulite aguda complicada
+[ 51] MANTIDO (sem heading próprio)  Gastroenterite aguda (GECA)
+[ 52] RE-EXTRAÍDO  p233-235 cov=100%  Disenteria
+[ 53] RE-EXTRAÍDO  p236-238 cov=100%  Pancreatite aguda
+[ 54] RE-EXTRAÍDO  p239-240 cov=100%  Doença do refluxo gastroesofágico (DRGE)
+[ 55] RE-EXTRAÍDO  p241-241 cov=100%  Gastrite
+[ 56] RE-EXTRAÍDO  p242-242 cov=100%  Infecção por Helicobacter pylori
+[ 57] RE-EXTRAÍDO  p243-244 cov=100%  Doença ulcerosa péptica
+[ 58] RE-EXTRAÍDO  p245-247 cov=100%  Infecção por Clostridium difficile
+[ 59] RE-EXTRAÍDO  p248-248 cov=100%  Gases e distensão abdominal
+[ 60] RE-EXTRAÍDO  p249-250 cov=100%  Intolerância à lactose
+[ 61] MANTIDO (sem heading próprio)  Reposição de vitamina D e B12
+[ 62] MANTIDO (sem heading próprio)  Reposição de ferro oral e EV
+[ 63] MANTIDO (páginas não-contíguas [263, 264, 265, 266, 267, 273, 274])  Cefaleia
+[ 64] RE-EXTRAÍDO  p277-281 cov=100%  Dengue, Zika e Chikungunya
+[ 65] MANTIDO (páginas não-contíguas [95, 96, 97, 98, 99, 100, 277, 278, 279, 280, 281])  Dengue
+[ 66] RE-EXTRAÍDO  p282-282 cov=100%  Chikungunya (particularidades)
+[ 67] MANTIDO (sem heading próprio)  Febre do Oropouche
+[ 68] RE-EXTRAÍDO  p287-292 cov=100%  Crise de asma
+[ 69] RE-EXTRAÍDO  p293-299 cov=100%  Exacerbação de DPOC
+[ 70] RE-EXTRAÍDO  p300-307 cov=100%  Pneumonia comunitária
+[ 71] RE-EXTRAÍDO  p309-310 cov=100%  Faringoamigdalite bacteriana
+[ 72] RE-EXTRAÍDO  p311-312 cov=100%  Sinusite bacteriana
+[ 73] RE-EXTRAÍDO  p313-314 cov=100%  Otite média aguda bacteriana
+[ 74] MANTIDO (cov baixa 43%)  Resfriado e gripe (Influenza)
+[ 75] RE-EXTRAÍDO  p322-323 cov=100%  Tosse pós-infecciosa
+[ 76] RE-EXTRAÍDO  p324-326 cov=100%  Tosse produtiva
+[ 77] RE-EXTRAÍDO  p327-327 cov=100%  Tosse não produtiva
+[ 78] MANTIDO (sem heading próprio)  ITU: definições
+[ 79] RE-EXTRAÍDO  p331-333 cov=100%  Cistite
+[ 80] RE-EXTRAÍDO  p334-336 cov=100%  Pielonefrite
+[ 81] MANTIDO (sem heading próprio)  ITU recorrente ou ITU de repetição
+[ 82] RE-EXTRAÍDO  p341-345 cov=100%  Cólica nefrética
+[ 83] RE-EXTRAÍDO  p346-347 cov=100%  Retenção urinária
+[ 84] RE-EXTRAÍDO  p349-351 cov=100%  Candidíase vaginal
+[ 85] RE-EXTRAÍDO  p352-353 cov=100%  Sífilis primária
+[ 86] RE-EXTRAÍDO  p354-355 cov=100%  Uretrite
+[ 87] RE-EXTRAÍDO  p356-356 cov=100%  Vaginose bacteriana
+[ 88] RE-EXTRAÍDO  p357-357 cov=100%  Tricomoníase vaginal
+[ 89] RE-EXTRAÍDO  p358-358 cov=100%  Cancro mole
+[ 90] RE-EXTRAÍDO  p359-359 cov=100%  Linfogranuloma venéreo
+[ 91] RE-EXTRAÍDO  p360-363 cov=100%  Herpes genital
+[ 92] RE-EXTRAÍDO  p364-364 cov=100%  Anticoncepção de emergência
+[ 93] RE-EXTRAÍDO  p365-369 cov=100%  Profilaxias
+[ 94] RE-EXTRAÍDO  p370-373 cov=100%  Dor osteomuscular
+[ 95] RE-EXTRAÍDO  p374-374 cov=100%  Torcicolo
+[ 96] RE-EXTRAÍDO  p375-377 cov=100%  Doença hemorroidária
+[ 97] RE-EXTRAÍDO  p378-380 cov=100%  Epistaxe
+[ 98] RE-EXTRAÍDO  p381-383 cov=100%  Ferimento cortocontuso e sutura
+[ 99] RE-EXTRAÍDO  p384-385 cov=100%  Herpes labial
+[100] MANTIDO (páginas não-contíguas [386, 388, 389, 390, 391, 392, 393])  Tontura e vertigem
+[101] MANTIDO (sem heading próprio)  Hipocalemia
+[102] MANTIDO (sem heading próprio)  Hipercalemia
+[103] MANTIDO (sem heading próprio)  Hiponatremia
+[104] MANTIDO (sem heading próprio)  Hipernatremia
+[105] MANTIDO (sem heading próprio)  Hipomagnesemia
+[106] MANTIDO (sem heading próprio)  Hipermagnesemia
+[107] MANTIDO (sem heading próprio)  Hipofosfatemia
+[108] MANTIDO (sem heading próprio)  Hiperfosfatemia
+[109] MANTIDO (sem heading próprio)  Hipocalcemia
+[110] MANTIDO (sem heading próprio)  Hipercalcemia
+[111] MANTIDO (sem heading próprio)  Desmame de corticoides
+[112] RE-EXTRAÍDO  p456-461 cov=100%  Delirium e agitação psicomotora
+[113] RE-EXTRAÍDO  p464-466 cov=100%  Crise de ansiedade
+[114] MANTIDO (sem heading próprio)  Prescrição no paciente internado
