@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { CopyButton } from "./CopyButton";
 
 export const metadata = { title: "Erros · Admin Rotina Clínica" };
 
@@ -107,6 +108,9 @@ export default async function ErrosPage({
                 </summary>
                 {e.stack && (
                   <div className="border-t border-zinc-100 dark:border-white/6 px-4 py-3">
+                    <div className="flex justify-end mb-2">
+                      <CopyButton text={`${e.message}\n\n${e.stack}`} />
+                    </div>
                     <pre className="text-[11px] text-zinc-500 dark:text-zinc-400 whitespace-pre-wrap break-all leading-relaxed overflow-x-auto">
                       {e.stack}
                     </pre>
