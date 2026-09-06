@@ -20,7 +20,7 @@ export default function SairPage() {
           </div>
 
           <h1 className="text-2xl font-extrabold text-[#0f2d4a] mb-2">Encerrar sessão</h1>
-          <p className="text-zinc-500 text-sm leading-relaxed mb-8">
+          <p className="text-zinc-700 text-sm leading-relaxed mb-8">
             Tem certeza que deseja sair da sua conta?<br />
             Você precisará fazer login novamente para acessar a plataforma.
           </p>
