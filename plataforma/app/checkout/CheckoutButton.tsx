@@ -220,7 +220,7 @@ export default function CheckoutButton({
             </span>
             <span className="min-w-0">
               <span className="block text-sm font-semibold text-zinc-800">{m.label}</span>
-              <span className="block text-xs text-zinc-500 mt-0.5">{m.sub}</span>
+              <span className="block text-xs text-zinc-700 mt-0.5">{m.sub}</span>
             </span>
             <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
               selected === m.id ? (m.id === "pix" ? "border-[#32bcad]" : m.id === "stripe" ? "border-[#635bff]" : "border-[#009ee3]") : "border-zinc-300"
