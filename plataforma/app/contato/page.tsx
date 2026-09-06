@@ -28,7 +28,7 @@ export default function ContatoPage() {
     }
   }
 
-  const inputCls = "w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-800 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent transition";
+  const inputCls = "w-full rounded-xl border border-zinc-400 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent transition";
 
   return (
     <>
@@ -71,26 +71,26 @@ export default function ContatoPage() {
             <form onSubmit={enviar} className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 sm:p-8 space-y-5">
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-[#0f2d4a] mb-1.5">Nome</label>
+                  <label className="block text-xs font-bold text-zinc-800 mb-1.5">Nome</label>
                   <input required value={form.nome} onChange={e => setForm(f => ({ ...f, nome: e.target.value }))}
                     placeholder="Seu nome" className={inputCls} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-[#0f2d4a] mb-1.5">E-mail</label>
+                  <label className="block text-xs font-bold text-zinc-800 mb-1.5">E-mail</label>
                   <input required type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="seu@email.com" className={inputCls} />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#0f2d4a] mb-1.5">Assunto</label>
+                <label className="block text-xs font-bold text-zinc-800 mb-1.5">Assunto</label>
                 <select value={form.assunto} onChange={e => setForm(f => ({ ...f, assunto: e.target.value }))} className={inputCls}>
                   {ASSUNTOS.map(a => <option key={a}>{a}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#0f2d4a] mb-1.5">Mensagem</label>
+                <label className="block text-xs font-bold text-zinc-800 mb-1.5">Mensagem</label>
                 <textarea required rows={6} value={form.mensagem} onChange={e => setForm(f => ({ ...f, mensagem: e.target.value }))}
                   placeholder="Escreva sua mensagem aqui..." className={`${inputCls} resize-none`} />
               </div>
