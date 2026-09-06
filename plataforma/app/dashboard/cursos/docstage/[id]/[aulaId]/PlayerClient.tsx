@@ -207,9 +207,7 @@ export default function DocstagePlayerClient({
                   <p key={i} className="text-sm text-[#8aabb8] leading-relaxed">{p}</p>
                 ))}
               </div>
-            ) : (
-              <p className="text-sm text-[#5a8caa]">Nenhuma descrição disponível.</p>
-            )}
+            ) : null}
             <button
               onClick={() => toggle(completedKey)}
               className={`self-start inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
