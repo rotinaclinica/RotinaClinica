@@ -28,7 +28,7 @@ export default function ContatoPage() {
     }
   }
 
-  const inputCls = "w-full rounded-xl border border-zinc-400 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent transition";
+  const inputCls = "w-full rounded-xl border border-zinc-400 bg-white px-4 py-3 text-sm text-zinc-900 placeholder-zinc-800 focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent transition";
 
   return (
     <>
