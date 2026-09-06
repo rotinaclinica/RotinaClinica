@@ -199,6 +199,22 @@ export default function CheckoutButtons({
           )}
           {loading === "stripe" ? "Aguarde..." : "Cartão de crédito"}
         </button>
+
+        <button
+          onClick={() => checkout("mp")}
+          disabled={!!loading}
+          className="w-full bg-[#009ee3] hover:bg-[#0082bc] disabled:opacity-50 text-white py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+        >
+          {loading === "mp" ? (
+            <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+            </svg>
+          )}
+          {loading === "mp" ? "Aguarde..." : "Mercado Pago — parcelado em até 12x"}
+        </button>
+
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
       </div>
     </>
