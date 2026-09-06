@@ -104,6 +104,14 @@ export default function ContatoPage() {
             </form>
           )}
         </div>
+
+        <footer className="border-t border-zinc-200 bg-[#0f2d4a] mt-8">
+          <div className="max-w-5xl mx-auto px-6 py-8 text-center text-xs text-[#5a8caa]">
+            © {new Date().getFullYear()} Rotina Clínica — Todos os direitos reservados.
+            <br />
+            Rotina Clinica Educação Médica Ltda. · CNPJ 65.937.147/0001-58
+          </div>
+        </footer>
       </div>
     </>
   );
