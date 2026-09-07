@@ -100,7 +100,7 @@ export async function sendNewSubscriberNotification({
 }: {
   customerName: string;
   customerEmail: string;
-  paymentMethod: "stripe" | "mercadopago" | "pix";
+  paymentMethod: "stripe" | "mercadopago" | "pix" | "asaas";
   subscriptionPeriod?: string;
 }) {
   const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : paymentMethod === "pix" ? "PIX (Mercado Pago)" : "Mercado Pago (cartão de crédito)";
