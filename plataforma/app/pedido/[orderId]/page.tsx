@@ -38,9 +38,8 @@ export default async function OrderPage({
 
       {/* Logo */}
       <div className="mb-8 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-[#0f2d4a] dark:bg-[#3db8d4] flex items-center justify-center">
-          <div className="w-4 h-4 rounded-sm bg-[#3db8d4] dark:bg-[#0f2d4a]" />
-        </div>
+        <img src="/images/logo-azul.png" alt="Rotina Clínica" className="h-8 w-auto dark:hidden" />
+        <img src="/images/logo-branco.png" alt="Rotina Clínica" className="h-8 w-auto hidden dark:block" />
         <span className="text-[#0f2d4a] dark:text-white font-bold text-lg tracking-wide">ROTINA CLÍNICA</span>
       </div>
 
