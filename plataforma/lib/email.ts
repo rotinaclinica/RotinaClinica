@@ -220,7 +220,7 @@ export async function sendRefundNotification({
   customerName: string;
   customerEmail: string;
   amountCents: number;
-  paymentMethod: "stripe" | "mercadopago";
+  paymentMethod: "stripe" | "mercadopago" | "asaas";
 }) {
   const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : "Mercado Pago";
   const valor = (amountCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
