@@ -24,10 +24,27 @@ export async function sendPurchaseConfirmation({
 
   const headline = isSubscription ? "Assinatura ativa ✅" : "Acesso liberado ✅";
   const body = isSubscription
-    ? `Seu pagamento foi confirmado e você já tem acesso completo à plataforma Rotina Clínica — prescrições, calculadoras, cursos e materiais à disposição.`
+    ? `Seu pagamento foi confirmado e você já tem acesso completo à plataforma Rotina Clínica.`
     : `Seu pagamento foi confirmado e o acesso a <strong>${escapeHtml(productTitle)}</strong> já está disponível na sua área.`;
 
   const actionLabel = isSubscription ? "Acessar a plataforma" : productType === "COURSE" ? "Acessar curso" : "Baixar arquivo";
+
+  const subscriptionFeatures = isSubscription ? `
+            <!-- Features -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px">
+              <tr>
+                <td style="padding:20px 24px;background:#f0f7ff;border-radius:12px;border:1px solid #dde6ef">
+                  <p style="margin:0 0 14px;color:#0f2d4a;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px">O que você tem acesso:</p>
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📋 &nbsp;<strong>Prescrições prontas</strong> — mais de 200 temas organizados por especialidade</td></tr>
+                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📝 &nbsp;<strong>Modelos de evolução</strong> — registros clínicos estruturados para o dia a dia</td></tr>
+                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">🧮 &nbsp;<strong>Calculadoras clínicas</strong> — escores e cálculos de uso rápido no plantão</td></tr>
+                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📚 &nbsp;<strong>Ebooks para uso offline</strong> — conteúdo para baixar e consultar sem internet</td></tr>
+                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">🎓 &nbsp;<strong>Cursos e videoaulas</strong> — treinamentos práticos para o médico plantonista</td></tr>
+                  </table>
+                </td>
+              </tr>
+            </table>` : "";
 
   await resend.emails.send({
     from: FROM,
@@ -54,9 +71,11 @@ export async function sendPurchaseConfirmation({
         <tr>
           <td style="padding:36px 40px">
             <p style="margin:0 0 16px;color:#0f2d4a;font-size:16px">Olá, <strong>${escapeHtml(customerName)}</strong>!</p>
-            <p style="margin:0 0 28px;color:#4a6a80;font-size:15px;line-height:1.7">
+            <p style="margin:0 0 24px;color:#4a6a80;font-size:15px;line-height:1.7">
               ${body}
             </p>
+
+            ${subscriptionFeatures}
 
             <!-- CTA Button -->
             <table width="100%" cellpadding="0" cellspacing="0">
