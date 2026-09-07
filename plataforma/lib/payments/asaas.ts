@@ -44,6 +44,7 @@ export async function createAsaasPixPayment(params: {
       billingType: "PIX",
       value: params.valueCents / 100,
       dueDate,
+      description: "Assinatura Rotina Clínica",
       externalReference: params.orderId,
     }),
   });
@@ -94,6 +95,7 @@ export async function createAsaasCardPayment(params: {
       billingType: "CREDIT_CARD",
       value: params.valueCents / 100,
       dueDate,
+      description: "Assinatura Rotina Clínica",
       installmentCount: params.installments ?? 1,
       externalReference: params.orderId,
       creditCard: params.card,
