@@ -97,6 +97,7 @@ export async function createAsaasCardPayment(params: {
       dueDate,
       description: "Assinatura Rotina Clínica",
       installmentCount: params.installments ?? 1,
+      installmentValue: params.valueCents / 100 / (params.installments ?? 1),
       externalReference: params.orderId,
       creditCard: params.card,
       creditCardHolderInfo: {
