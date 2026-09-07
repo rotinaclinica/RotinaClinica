@@ -243,7 +243,7 @@ export default function CheckoutButton({
           <button
             type="button"
             onClick={() => setShowAmbassador((v) => !v)}
-            className="text-xs text-[#32bcad] font-medium hover:text-[#28a89a] transition-colors underline underline-offset-2"
+            className="text-xs text-zinc-800 font-medium hover:text-zinc-600 transition-colors underline underline-offset-2"
           >
             {showAmbassador ? "▲ Ocultar código" : "Tenho um código de embaixador"}
           </button>
