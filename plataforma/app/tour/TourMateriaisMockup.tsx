@@ -57,9 +57,9 @@ export default function TourMateriaisMockup() {
       )}
 
       {tab === "aulas" && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {AULAS_TEMAS.map((tema) => (
-            <div key={tema.id} className={`bg-white rounded-2xl border border-zinc-200 shadow-sm flex flex-col ${tema.nome.length > 25 ? "col-span-2" : ""}`}>
+            <div key={tema.id} className="bg-white rounded-2xl border border-zinc-200 shadow-sm flex flex-col">
               <div className="h-28 bg-[#0a1220] flex items-center justify-center overflow-hidden rounded-t-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
