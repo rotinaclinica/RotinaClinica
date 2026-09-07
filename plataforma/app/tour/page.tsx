@@ -403,7 +403,7 @@ export default function TourPage() {
               Destravando o Plantão
             </h2>
             <p className="text-[#0f2d4a] leading-relaxed mb-6">
-              {`Curso completo com ${aulasDestravando.length} aulas em vídeo + ${bonusDestravando.length} módulos bônus, cobrindo as queixas mais comuns do PS, UBS e UPA.
+              {`Curso completo com ${aulasDestravando.length} aulas em vídeo + ${bonusDestravando.length} módulos bônus, cobrindo as queixas mais comuns do paciente adulto no PS, UPA e UBS.
               Cada aula acompanha material de apoio, modelo de evolução e modelo de prescrição em PDF.`}
             </p>
             <ul className="space-y-3 mb-6">
