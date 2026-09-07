@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import ChangePasswordForm from "./ChangePasswordForm";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 export const metadata = { title: "Meu Perfil · Rotina Clínica" };
 
@@ -168,6 +169,18 @@ export default async function PerfilPage() {
         <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
           <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Alterar senha</h2>
           <ChangePasswordForm />
+        </section>
+
+        {/* Aparência */}
+        <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Aparência</h2>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">Tema escuro</p>
+              <p className="text-xs text-zinc-500 dark:text-[#4a6a7e] mt-0.5">Alterne entre o modo claro e escuro da plataforma.</p>
+            </div>
+            <ThemeToggle variant="switch" />
+          </div>
         </section>
 
         {/* Sair — visível apenas no mobile onde a sidebar fica oculta */}
