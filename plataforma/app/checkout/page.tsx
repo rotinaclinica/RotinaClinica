@@ -74,7 +74,7 @@ export default async function CheckoutPage({
             </svg>
             Pagamento seguro · Acesso imediato após confirmação
           </div>
-          <p className="text-center text-xs text-zinc-500">
+          <p className="text-center text-xs text-zinc-700 font-medium">
             Satisfação total ou reembolso em até 7 dias.
           </p>
           <div className="text-center">
