@@ -48,22 +48,19 @@ const MP_ICON = (
   </svg>
 );
 
-const METHODS: { id: Method; label: string; sub: string; icon: React.ReactNode }[] = [
-  { id: "pix", label: "PIX", sub: "Aprovação imediata · Sem taxas extras", icon: PIX_ICON },
-  { id: "card", label: "Cartão de crédito", sub: "Débito imediato · Parcelamento disponível", icon: CARD_ICON },
-  { id: "mp", label: "Mercado Pago", sub: "Parcele em até 12x no cartão", icon: MP_ICON },
+const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?: string; icon: React.ReactNode }[] = [
+  { id: "pix", label: "PIX", sub: "Aprovação imediata · Sem taxas extras", badge: "Recomendado", icon: PIX_ICON },
+  { id: "card", label: "Cartão de crédito", sub: "Parcelamento em até 12x · Débito imediato", icon: CARD_ICON },
 ];
 
-const ACCENT: Record<Method, string> = {
+const ACCENT: Record<"pix" | "card", string> = {
   pix:  "border-[#32bcad] bg-[#f0fdfb]",
   card: "border-[#0f2d4a] bg-[#f0f5f9]",
-  mp:   "border-[#009ee3] bg-[#f0f9ff]",
 };
 
-const BTN_COLOR: Record<Method, string> = {
+const BTN_COLOR: Record<"pix" | "card", string> = {
   pix:  "bg-[#32bcad] hover:bg-[#28a89a]",
   card: "bg-[#0f2d4a] hover:bg-[#1a4a6e]",
-  mp:   "bg-[#009ee3] hover:bg-[#0082bc]",
 };
 
 export default function CheckoutButton({
@@ -76,8 +73,9 @@ export default function CheckoutButton({
   userPhone?: string | null;
 }) {
   const router = useRouter();
-  const [selected, setSelected] = useState<Method>("pix");
+  const [selected, setSelected] = useState<"pix" | "card">("pix");
   const [loading, setLoading] = useState(false);
+  const [mpLoading, setMpLoading] = useState(false);
   const [error, setError] = useState("");
   const [ambassadorCode, setAmbassadorCode] = useState("");
   const [showAmbassador, setShowAmbassador] = useState(false);
@@ -90,6 +88,7 @@ export default function CheckoutButton({
   const [fieldError, setFieldError] = useState("");
   const [cpfSaved, setCpfSaved] = useState(false);
   const [pendingMethod, setPendingMethod] = useState<Method>("pix");
+
 
   // Cartão inline
   const [cardNumber, setCardNumber] = useState("");
@@ -123,10 +122,14 @@ export default function CheckoutButton({
     if (!res.ok) { setFieldError("Erro ao salvar dados. Tente novamente."); return; }
     setCpfSaved(true);
     closeCpfModal();
-    await pay(pendingMethod, true);
+    if (pendingMethod === "mp") {
+      await payMp();
+    } else {
+      await pay(pendingMethod as "pix" | "card", true);
+    }
   }
 
-  async function pay(method: Method, hasCpf = false) {
+  async function pay(method: "pix" | "card", hasCpf = false) {
     const hasCpfNow = !!userCpf || hasCpf || cpfSaved;
 
     if (!hasCpfNow) {
@@ -188,7 +191,24 @@ export default function CheckoutButton({
         return;
       }
 
-      // Mercado Pago fallback
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erro inesperado");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function payMp() {
+    const hasCpfNow = !!userCpf || cpfSaved;
+    if (!hasCpfNow) {
+      setPendingMethod("mp");
+      setShowCpfModal(true);
+      return;
+    }
+    setMpLoading(true);
+    setError("");
+    try {
+      const code = ambassadorCode.trim().toUpperCase() || undefined;
       const res = await fetch("/api/checkout/mercadopago", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -196,14 +216,14 @@ export default function CheckoutButton({
       });
       const data = await res.json();
       if (!res.ok) {
-        if (data?.code === "CPF_REQUIRED") { setPendingMethod(method); setShowCpfModal(true); return; }
+        if (data?.code === "CPF_REQUIRED") { setPendingMethod("mp"); setShowCpfModal(true); return; }
         throw new Error(data.error ?? "Erro ao iniciar pagamento");
       }
       window.location.href = data.url;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erro inesperado");
     } finally {
-      setLoading(false);
+      setMpLoading(false);
     }
   }
 
@@ -257,7 +277,7 @@ export default function CheckoutButton({
       <div className="space-y-3">
         <p className="text-xs font-bold text-zinc-700 uppercase tracking-wider">Forma de pagamento</p>
 
-        {METHODS.map((m) => (
+        {PRIMARY_METHODS.map((m) => (
           <button
             key={m.id}
             onClick={() => setSelected(m.id)}
@@ -267,28 +287,56 @@ export default function CheckoutButton({
           >
             <span className={`flex-shrink-0 ${
               selected === m.id
-                ? m.id === "pix" ? "text-[#32bcad]" : m.id === "card" ? "text-[#0f2d4a]" : "text-[#009ee3]"
+                ? m.id === "pix" ? "text-[#32bcad]" : "text-[#0f2d4a]"
                 : "text-zinc-400"
             }`}>
               {m.icon}
             </span>
             <span className="min-w-0">
-              <span className="block text-sm font-semibold text-zinc-800">{m.label}</span>
+              <span className="flex items-center gap-2 text-sm font-semibold text-zinc-800">
+                {m.label}
+                {m.badge && (
+                  <span className="text-[10px] font-semibold bg-[#dcfdf7] text-[#0f7b6c] px-2 py-0.5 rounded-full">
+                    {m.badge}
+                  </span>
+                )}
+              </span>
               <span className="block text-xs text-zinc-500 mt-0.5">{m.sub}</span>
             </span>
             <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
               selected === m.id
-                ? m.id === "pix" ? "border-[#32bcad]" : m.id === "card" ? "border-[#0f2d4a]" : "border-[#009ee3]"
+                ? m.id === "pix" ? "border-[#32bcad]" : "border-[#0f2d4a]"
                 : "border-zinc-300"
             }`}>
               {selected === m.id && (
-                <span className={`w-2 h-2 rounded-full ${
-                  m.id === "pix" ? "bg-[#32bcad]" : m.id === "card" ? "bg-[#0f2d4a]" : "bg-[#009ee3]"
-                }`} />
+                <span className={`w-2 h-2 rounded-full ${m.id === "pix" ? "bg-[#32bcad]" : "bg-[#0f2d4a]"}`} />
               )}
             </span>
           </button>
         ))}
+
+        {/* Mercado Pago — alternativa */}
+        <div className="flex items-center gap-2 py-0.5">
+          <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-700" />
+          <span className="text-xs text-zinc-400">ou pague via</span>
+          <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-700" />
+        </div>
+        <button
+          onClick={payMp}
+          disabled={mpLoading}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 bg-white hover:border-zinc-300 transition-all text-left disabled:opacity-60"
+        >
+          <span className="flex-shrink-0 text-[#009ee3]">{MP_ICON}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-zinc-800">Mercado Pago</span>
+            <span className="block text-xs text-zinc-400 mt-0.5">Redireciona para o app do Mercado Pago</span>
+          </span>
+          {mpLoading ? (
+            <span className="ml-auto w-4 h-4 border-2 border-zinc-300 border-t-[#009ee3] rounded-full animate-spin" />
+          ) : (
+            <svg className="ml-auto text-zinc-400 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          )}
+        </button>
 
         {/* Formulário de cartão (inline, aparece quando selecionado) */}
         {selected === "card" && (
@@ -376,7 +424,7 @@ export default function CheckoutButton({
               {selected === "card" ? "Processando…" : "Aguarde…"}
             </span>
           ) : (
-            `Pagar com ${METHODS.find((m) => m.id === selected)?.label}`
+            `Pagar com ${selected === "pix" ? "PIX" : "cartão de crédito"}`
           )}
         </button>
       </div>
