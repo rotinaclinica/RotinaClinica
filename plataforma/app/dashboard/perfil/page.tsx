@@ -12,7 +12,6 @@ export const metadata = { title: "Meu Perfil · Rotina Clínica" };
 const roleLabel: Record<string, string> = {
   ADMIN: "Administrador",
   TESTER: "Conta de testes",
-  CUSTOMER: "Assinante",
 };
 
 const planLabel: Record<string, string> = {
@@ -51,14 +50,19 @@ export default async function PerfilPage() {
   return (
     <div className="flex-1 flex flex-col">
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
-        <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-          Início
-        </Link>
-        <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">Meu perfil</h1>
-        <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm mt-0.5">Suas informações e configurações de conta.</p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+              Início
+            </Link>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">Meu perfil</h1>
+            <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm mt-0.5">Suas informações e configurações de conta.</p>
+          </div>
+          <ThemeToggle variant="switch" className="mt-1 flex-shrink-0" />
+        </div>
       </header>
 
       <main className="flex-1 p-6 sm:p-8 space-y-6 max-w-2xl">
@@ -88,7 +92,9 @@ export default async function PerfilPage() {
             </div>
             <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
               <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Tipo de conta</p>
-              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">{roleLabel[user.role] ?? user.role}</p>
+              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
+                {roleLabel[user.role] ?? (sub?.status === "ACTIVE" ? "Assinante" : "Usuário")}
+              </p>
             </div>
             <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
               <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Membro desde</p>
@@ -169,18 +175,6 @@ export default async function PerfilPage() {
         <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
           <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Alterar senha</h2>
           <ChangePasswordForm />
-        </section>
-
-        {/* Aparência */}
-        <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
-          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Aparência</h2>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">Tema escuro</p>
-              <p className="text-xs text-zinc-500 dark:text-[#4a6a7e] mt-0.5">Alterne entre o modo claro e escuro da plataforma.</p>
-            </div>
-            <ThemeToggle variant="switch" />
-          </div>
         </section>
 
         {/* Sair — visível apenas no mobile onde a sidebar fica oculta */}
