@@ -16,7 +16,7 @@ export default function CidPage() {
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">CID-10</h1>
         <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm mt-0.5">
-          Busque por código ou nome da doença — {new Intl.NumberFormat("pt-BR").format(12451)} diagnósticos da Classificação Internacional de Doenças.
+          Busque por código ou nome da doença/condição.
         </p>
       </header>
 
