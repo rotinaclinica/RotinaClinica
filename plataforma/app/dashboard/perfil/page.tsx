@@ -93,7 +93,7 @@ export default async function PerfilPage() {
             <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
               <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Tipo de conta</p>
               <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
-                {roleLabel[user.role] ?? (sub?.status === "ACTIVE" ? "Assinante" : "Usuário")}
+                {roleLabel[user.role] ?? (sub?.status === "ACTIVE" ? "Assinante" : "Não assinante")}
               </p>
             </div>
             <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
