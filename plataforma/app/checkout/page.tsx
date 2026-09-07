@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 const PLANS = {
   anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,30/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
@@ -35,6 +36,9 @@ export default async function CheckoutPage({
 
   return (
     <div className="min-h-screen relative flex items-center justify-center px-4">
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle variant="switch" />
+      </div>
       <img src="/images/turma.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 bg-[#0f2d4a]/75" />
       <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden my-8">
@@ -70,6 +74,9 @@ export default async function CheckoutPage({
             </svg>
             Pagamento seguro · Acesso imediato após confirmação
           </div>
+          <p className="text-center text-xs text-zinc-500">
+            Satisfação total ou reembolso em até 7 dias.
+          </p>
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-600 hover:text-zinc-800 hover:underline transition-colors">
               ← Ver outros planos

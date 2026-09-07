@@ -20,12 +20,16 @@ model User {
   ambienteTrabalho     String?
   cpf                  String?
   phone                String?
+  isAmbassador         Boolean        @default(false)
+  ambassadorCode       String?        @unique
   orders               Order[]
   enrollments          Enrollment[]
   accounts             Account[]
   sessions             Session[]
   subscription         Subscription?
   emailDrips           EmailDrip[]
+  referralsGiven       Referral[]     @relation("AmbassadorReferrals")
+  referralReceived     Referral?      @relation("ReferredUser")
 }
 
 model EmailDrip {
@@ -180,19 +184,21 @@ model Lesson {
 }
 
 model Order {
-  id            String          @id @default(cuid())
-  userId        String
-  user          User            @relation(fields: [userId], references: [id])
-  status        OrderStatus     @default(PENDING)
-  provider      PaymentProvider
-  providerRef   String
-  totalCents    Int
-  currency      String          @default("BRL")
-  paymentMethod String?
-  items         OrderItem[]
-  invoice       Invoice?
-  createdAt     DateTime        @default(now())
-  paidAt        DateTime?
+  id             String          @id @default(cuid())
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  status         OrderStatus     @default(PENDING)
+  provider       PaymentProvider
+  providerRef    String
+  totalCents     Int
+  currency       String          @default("BRL")
+  paymentMethod  String?
+  ambassadorCode String?
+  items          OrderItem[]
+  invoice        Invoice?
+  referral       Referral?
+  createdAt      DateTime        @default(now())
+  paidAt         DateTime?
 }
 
 enum OrderStatus {
@@ -299,6 +305,23 @@ enum InvoiceStatus {
   PROCESSING  // enviada ao provedor, aguardando autorização
   AUTHORIZED  // nota autorizada (numero + PDF disponíveis)
   FAILED      // erro de emissão após esgotar tentativas
+}
+
+model Referral {
+  id                 String    @id @default(cuid())
+  ambassadorId       String
+  ambassador         User      @relation("AmbassadorReferrals", fields: [ambassadorId], references: [id])
+  referredUserId     String    @unique
+  referredUser       User      @relation("ReferredUser", fields: [referredUserId], references: [id])
+  orderId            String    @unique
+  order              Order     @relation(fields: [orderId], references: [id])
+  paymentAmountCents Int
+  commissionCents    Int
+  paidOut            Boolean   @default(false)
+  paidOutAt          DateTime?
+  createdAt          DateTime  @default(now())
+
+  @@index([ambassadorId])
 }
 
 model PasswordResetToken {

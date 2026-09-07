@@ -5,6 +5,7 @@ import { grantAccess } from "@/lib/entitlements";
 import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendRefundNotification } from "@/lib/email";
 import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
+import { processReferral } from "@/lib/referral";
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
@@ -117,6 +118,7 @@ export async function POST(req: NextRequest) {
     // Enfileira a emissão da nota fiscal (no-op se NFE_ENABLED != true).
     // Nunca deve quebrar a confirmação de pagamento — daí o catch.
     await createPendingInvoiceForOrder(order.id).catch(() => {});
+    await processReferral(order.id).catch(() => {});
   }
 
   if (event.type === "charge.refunded") {

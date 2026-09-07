@@ -5,7 +5,7 @@ import { createStripeCheckoutSession } from "@/lib/payments/stripe";
 import { z } from "zod";
 import { logError } from "@/lib/error-logger";
 
-const schema = z.object({ productId: z.string() });
+const schema = z.object({ productId: z.string(), ambassadorCode: z.string().optional() });
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -54,6 +54,13 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Valida código de embaixador se fornecido
+  const code = parsed.data.ambassadorCode?.trim().toUpperCase() || undefined;
+  if (code) {
+    const amb = await db.user.findUnique({ where: { ambassadorCode: code, isAmbassador: true }, select: { id: true } });
+    if (!amb) return NextResponse.json({ error: "Código de embaixador inválido.", code: "INVALID_AMBASSADOR_CODE" }, { status: 400 });
+  }
+
   try {
     const order = await db.order.create({
       data: {
@@ -62,6 +69,7 @@ export async function POST(req: NextRequest) {
         providerRef: "pending",
         totalCents: product.priceCents,
         currency: product.currency,
+        ambassadorCode: code,
         items: {
           create: [{ productId: product.id, priceCents: product.priceCents }],
         },

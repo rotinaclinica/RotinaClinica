@@ -67,6 +67,8 @@ export default function CheckoutButton({
   const [selected, setSelected] = useState<Method>("pix");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [ambassadorCode, setAmbassadorCode] = useState("");
+  const [showAmbassador, setShowAmbassador] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
   const [cpf, setCpf] = useState("");
@@ -115,11 +117,13 @@ export default function CheckoutButton({
     setError("");
 
     try {
+      const code = ambassadorCode.trim().toUpperCase() || undefined;
+
       if (method === "pix") {
         const res = await fetch("/api/checkout/pix", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId }),
+          body: JSON.stringify({ productId, ambassadorCode: code }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error ?? "Erro ao gerar PIX");
@@ -131,7 +135,7 @@ export default function CheckoutButton({
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ productId, ambassadorCode: code }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -233,6 +237,27 @@ export default function CheckoutButton({
         ))}
 
         {error && <p className="text-red-500 text-xs text-center">{error}</p>}
+
+        {/* Código de embaixador (opcional) */}
+        <div>
+          <button
+            type="button"
+            onClick={() => setShowAmbassador((v) => !v)}
+            className="text-xs text-zinc-600 hover:text-zinc-800 transition-colors underline underline-offset-2"
+          >
+            {showAmbassador ? "▲ Ocultar código" : "Tenho um código de embaixador"}
+          </button>
+          {showAmbassador && (
+            <input
+              type="text"
+              placeholder="Ex: ALUNO10"
+              value={ambassadorCode}
+              onChange={(e) => setAmbassadorCode(e.target.value.toUpperCase())}
+              className="mt-2 w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-800 placeholder:text-zinc-400 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/30"
+              maxLength={20}
+            />
+          )}
+        </div>
 
         <button
           onClick={() => pay(selected)}

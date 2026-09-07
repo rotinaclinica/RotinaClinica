@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { signOut } from "@/lib/auth";
 import { Logo } from "@/app/components/Navbar";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 export default function SairPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#0f2d4a] px-4">
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle variant="switch" />
+      </div>
       <div className="w-full max-w-sm">
         <div className="flex justify-center mb-8">
           <Link href="/"><Logo variant="light" /></Link>

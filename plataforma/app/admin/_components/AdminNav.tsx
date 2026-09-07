@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 const LINKS = [
   { href: "/admin", label: "Dashboard", exact: true },
@@ -12,6 +13,7 @@ const LINKS = [
   { href: "/admin/acessos", label: "Acessos" },
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/reembolsos", label: "Reembolsos" },
+  { href: "/admin/embaixadores", label: "Embaixadores" },
   { href: "/admin/broadcast", label: "Enviar email" },
   { href: "/admin/erros", label: "Erros" },
 ];
@@ -42,6 +44,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
 function FooterLinks() {
   return (
     <div className="flex flex-col gap-2">
+      <ThemeToggle variant="switch" className="self-start" />
       <Link href="/dashboard" className="text-xs text-zinc-400 hover:text-zinc-100 transition-colors">
         Acessar a plataforma →
       </Link>
