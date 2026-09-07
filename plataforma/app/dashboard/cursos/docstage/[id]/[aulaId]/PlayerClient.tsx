@@ -144,7 +144,7 @@ export default function DocstagePlayerClient({
           href={`/dashboard/cursos/docstage/${moduloId}`}
           className="flex items-center gap-1.5 text-[#5a8caa] hover:text-white transition-colors text-sm shrink-0"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Voltar
@@ -216,7 +216,7 @@ export default function DocstagePlayerClient({
                   : "bg-[#1a6aad]/20 text-[#3db8d4] hover:bg-[#1a6aad]/30"
               }`}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               {completed.has(completedKey) ? "Concluída" : "Marcar como concluída"}

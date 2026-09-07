@@ -90,7 +90,7 @@ function MaterialDownloadButton({
         <p className="text-sm font-medium text-white truncate">{titulo}</p>
         {tamanho && <p className="text-xs text-[#5a8caa]">PDF · {tamanho}</p>}
       </div>
-      <svg className="shrink-0 text-[#5a8caa]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="shrink-0 text-[#5a8caa]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
       </svg>
     </button>
@@ -231,7 +231,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
           href="/dashboard/cursos/destravando"
           className="flex items-center gap-1.5 text-[#5a8caa] hover:text-white transition-colors text-sm shrink-0"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Voltar
@@ -339,7 +339,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
                         : "bg-[#1a6aad]/20 text-[#3db8d4] hover:bg-[#1a6aad]/30"
                     }`}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                     {completed.has(lessonId) ? "Concluída" : "Marcar como concluída"}
@@ -392,7 +392,7 @@ export default function PlayerClient({ lessonId }: { lessonId: number }) {
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full bg-[#0c1117] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-[#4a6a7e] pr-8 outline-none focus:border-[#3db8d4]/40"
                 />
-                <svg className="absolute right-2.5 top-2.5 text-[#4a6a7e]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="absolute right-2.5 top-2.5 text-[#4a6a7e]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
               </div>

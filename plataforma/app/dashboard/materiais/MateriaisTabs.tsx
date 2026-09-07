@@ -88,7 +88,7 @@ function TemaCard({ tema, onClick }: { tema: (typeof AULAS_TEMAS)[number]; onCli
           </span>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#1a6aad] dark:text-[#3db8d4] group-hover:gap-1.5 transition-all">
             Abrir
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </span>
