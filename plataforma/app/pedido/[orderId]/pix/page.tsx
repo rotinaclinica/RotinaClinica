@@ -3,12 +3,13 @@ export const dynamic = "force-dynamic";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
-import { MercadoPagoConfig, Payment } from "mercadopago";
 import Link from "next/link";
 import CopyButton from "./CopyButton";
 import PixPoller from "./PixPoller";
+import { getAsaasPixQrCode } from "@/lib/payments/asaas";
+import { MercadoPagoConfig, Payment } from "mercadopago";
 
-const client = new MercadoPagoConfig({
+const mpClient = new MercadoPagoConfig({
   accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN ?? "placeholder",
 });
 
@@ -31,14 +32,22 @@ export default async function PixPage({
   if (!order) notFound();
   if (order.status === "PAID") redirect("/dashboard");
 
-  const paymentApi = new Payment(client);
-  const paymentData = await paymentApi.get({ id: order.providerRef });
+  let qrCodeBase64: string | undefined;
+  let pixCode: string | undefined;
 
-  const txData = paymentData.point_of_interaction?.transaction_data;
-  const qrBase64 = txData?.qr_code_base64;
-  const qrCode = txData?.qr_code;
+  if (order.provider === "ASAAS") {
+    const qr = await getAsaasPixQrCode(order.providerRef);
+    qrCodeBase64 = qr?.qrCodeBase64;
+    pixCode = qr?.pixCode;
+  } else {
+    const paymentApi = new Payment(mpClient);
+    const paymentData = await paymentApi.get({ id: order.providerRef });
+    const txData = paymentData.point_of_interaction?.transaction_data;
+    qrCodeBase64 = txData?.qr_code_base64 ?? undefined;
+    pixCode = txData?.qr_code ?? undefined;
+  }
 
-  if (!qrCode) redirect(`/pedido/${orderId}?status=falha`);
+  if (!pixCode) redirect(`/pedido/${orderId}?status=falha`);
 
   const product = order.items[0]?.product;
 
@@ -59,10 +68,10 @@ export default async function PixPage({
             Escaneie o QR code ou copie o código PIX
           </p>
 
-          {qrBase64 && (
+          {qrCodeBase64 && (
             <div className="flex justify-center">
               <img
-                src={`data:image/png;base64,${qrBase64}`}
+                src={`data:image/png;base64,${qrCodeBase64}`}
                 alt="QR Code PIX"
                 className="w-52 h-52 rounded-xl border border-zinc-100"
               />
@@ -75,10 +84,10 @@ export default async function PixPage({
             </p>
             <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-3 max-h-24 overflow-y-auto">
               <p className="text-xs text-zinc-600 break-all font-mono leading-relaxed">
-                {qrCode}
+                {pixCode}
               </p>
             </div>
-            <CopyButton code={qrCode!} />
+            <CopyButton code={pixCode!} />
           </div>
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
