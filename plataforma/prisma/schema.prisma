@@ -138,7 +138,7 @@ enum ProductType {
 }
 
 model Lead {
-  id                 String   @id @default(cuid())
+  id                 String     @id @default(cuid())
   name               String
   email              String
   phone              String?
@@ -147,17 +147,29 @@ model Lead {
   doePlantoes        String?
   state              String?
   university         String?
-  contentWish        String?  @db.Text
+  contentWish        String?    @db.Text
   contentFormat      String?
   contentFormatOther String?
   previousPurchase   String?
-  whatsappOptIn      Boolean  @default(false)
+  whatsappOptIn      Boolean    @default(false)
   productId          String?
-  product            Product? @relation(fields: [productId], references: [id])
-  createdAt          DateTime @default(now())
+  product            Product?   @relation(fields: [productId], references: [id])
+  leadDrips          LeadDrip[]
+  createdAt          DateTime   @default(now())
 
   @@index([email])
   @@index([productId])
+}
+
+model LeadDrip {
+  id        String   @id @default(cuid())
+  leadId    String
+  step      Int
+  sentAt    DateTime @default(now())
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@unique([leadId, step])
+  @@index([step])
 }
 
 model Module {
