@@ -164,7 +164,7 @@ export default async function HomePage() {
               </a>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+50k no Instagram<br />+3k no Youtube</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
+            <p className="text-zinc-800 text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
           </div>
 
           {/* Card 2 — Fundado em 2023 */}
@@ -173,7 +173,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Fundado em 2023</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Desde 2023 formando estudantes, médicas e médicos mais preparados! Mais de 127 alunos já passaram pelos nossos cursos presenciais — parte de uma comunidade de 900+ alunos.</p>
+            <p className="text-zinc-800 text-sm leading-relaxed">Desde 2023 formando estudantes, médicas e médicos mais preparados! Mais de 127 alunos já passaram pelos nossos cursos presenciais — parte de uma comunidade de 900+ alunos.</p>
           </div>
 
           {/* Card 3 — Especialistas */}
@@ -182,7 +182,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2Z"/><path d="M2 20c0-4 4-7 10-7s10 3 10 7"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Conteúdo produzido por especialistas</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Todo o conteúdo é desenvolvido por especialistas em clínica médica, com foco em aplicação prática e segurança no atendimento.</p>
+            <p className="text-zinc-800 text-sm leading-relaxed">Todo o conteúdo é desenvolvido por especialistas em clínica médica, com foco em aplicação prática e segurança no atendimento.</p>
           </div>
 
           {/* Card 4 — Conteúdo por cenário */}
@@ -191,7 +191,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Conteúdo adaptado para sua realidade</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed">Do internato à emergência: conteúdo pensado para quem atua na UBS, PS, UPA e emergência. Discussão de casos clínicos reais toda semana.</p>
+            <p className="text-zinc-800 text-sm leading-relaxed">Do internato à emergência: conteúdo pensado para quem atua na UBS, PS, UPA e emergência. Discussão de casos clínicos reais toda semana.</p>
           </div>
         </div>
       </section>
@@ -330,7 +330,7 @@ export default async function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-3">Dúvidas? Fale conosco</h2>
-          <p className="text-[#4a6fa5] mb-6">Nossa equipe está disponível para ajudar com suporte, dúvidas sobre a plataforma ou qualquer outra questão.</p>
+          <p className="text-zinc-700 mb-6">Nossa equipe está disponível para ajudar com suporte, dúvidas sobre a plataforma ou qualquer outra questão.</p>
           <CopyEmailButton email="contato@rotinaclinica.com" />
         </div>
       </section>
