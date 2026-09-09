@@ -67,6 +67,14 @@ const sections = [
     color: "from-[#0f2d4a] to-[#1a4a6e]",
     icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
   },
+  {
+    href: "/dashboard/anotacoes",
+    label: "Anotações",
+    description: "Registre casos interessantes ou informações relevantes para consultar depois.",
+    badge: "Gerar PDF",
+    color: "from-[#0e7490] to-[#0f2d4a]",
+    icon: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z",
+  },
 ];
 
 function greeting() {

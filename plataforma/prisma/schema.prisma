@@ -30,6 +30,7 @@ model User {
   emailDrips           EmailDrip[]
   referralsGiven       Referral[]     @relation("AmbassadorReferrals")
   referralReceived     Referral?      @relation("ReferredUser")
+  notes                Note[]
 }
 
 model EmailDrip {
@@ -323,6 +324,18 @@ model Referral {
   createdAt          DateTime  @default(now())
 
   @@index([ambassadorId])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String   @default("")
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model PasswordResetToken {
