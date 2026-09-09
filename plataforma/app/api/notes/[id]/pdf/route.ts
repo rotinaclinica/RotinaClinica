@@ -94,7 +94,10 @@ export async function GET(
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const note = await db.note.findUnique({ where: { id, userId: session.user.id } });
+  const [note, user] = await Promise.all([
+    db.note.findUnique({ where: { id, userId: session.user.id } }),
+    db.user.findUnique({ where: { id: session.user.id }, select: { name: true, email: true } }),
+  ]);
   if (!note) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const pdfDoc = await PDFDocument.create();
@@ -138,9 +141,59 @@ export async function GET(
   drawLine(ctx, `Atualizado em ${date}`, 9, regular, [0.58, 0.66, 0.72]);
   ctx.y -= 10;
 
-  // Conteúdo
+  // Conteúdo (reserva 36px na base para o rodapé)
+  ctx.margin = margin + 36;
   for (const line of htmlToLines(note.content)) {
     drawWrapped(ctx, line);
+  }
+
+  // Rodapé em todas as páginas
+  const footerSize = 8;
+  const userName = user?.name ?? "";
+  const userEmail = user?.email ?? "";
+  const footerLeft = userName ? `${userName} · ${userEmail}` : userEmail;
+  const footerRight = "rotinaclinica.com.br";
+  const totalPages = ctx.pages.length;
+
+  for (let i = 0; i < totalPages; i++) {
+    const p = ctx.pages[i];
+    const footerY = 28;
+
+    // Linha divisória do rodapé
+    p.drawLine({
+      start: { x: margin, y: footerY + footerSize + 6 },
+      end: { x: pageW - margin, y: footerY + footerSize + 6 },
+      thickness: 0.4,
+      color: rgb(0.88, 0.91, 0.94),
+    });
+
+    // Identificação do usuário (esquerda)
+    try {
+      p.drawText(footerLeft.slice(0, 60), {
+        x: margin, y: footerY,
+        size: footerSize, font: regular,
+        color: rgb(0.65, 0.70, 0.75),
+      });
+    } catch { /* chars fora do WinAnsi */ }
+
+    // URL do site (direita)
+    const rightW = regular.widthOfTextAtSize(footerRight, footerSize);
+    p.drawText(footerRight, {
+      x: pageW - margin - rightW, y: footerY,
+      size: footerSize, font: bold,
+      color: rgb(0.059, 0.176, 0.29),
+    });
+
+    // Número da página (centro)
+    if (totalPages > 1) {
+      const pageLabel = `${i + 1} / ${totalPages}`;
+      const labelW = regular.widthOfTextAtSize(pageLabel, footerSize);
+      p.drawText(pageLabel, {
+        x: (pageW - labelW) / 2, y: footerY,
+        size: footerSize, font: regular,
+        color: rgb(0.75, 0.78, 0.82),
+      });
+    }
   }
 
   const pdfBytes = await pdfDoc.save();
