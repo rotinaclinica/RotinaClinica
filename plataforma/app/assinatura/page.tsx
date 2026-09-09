@@ -131,10 +131,10 @@ export default function AssinaturaPage({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { nome: "Joana", texto: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões, material super completo, que não deixa ninguém passar sufoco no plantão." },
-              { nome: "Leticia", texto: "Indispensável para os plantões, realmente facilita e otimiza os atendimentos. Atualizado, claro e objetivo, com ótimas referências. Excelente!" },
               { nome: "Ruth", texto: "Pensado exatamente para o que é mais necessário na prática clínica — seja no pronto-socorro, na enfermaria ou nos ambulatórios. As referências são de fontes sérias e atualizadas." },
-              { nome: "Felipe", texto: "De fato, uma grande ajuda para os plantões. Me surpreendi positivamente com a qualidade do material e já estou usando no dia a dia." },
+              { nome: "Felipe", texto: "Muito completo! Tem tudo que a gente precisa. O material descomplica esse assunto. Muito bom mesmo!" },
+              { nome: "José", texto: "Muito bom." },
+              { nome: "Leticia", texto: "Material super completo. Atualizado, claro e objetivo. Muito prático e com ótimas referências. Indispensável para os plantões, realmente facilita e otimiza os atendimentos. Excelente!!" },
             ].map(({ nome, texto }) => (
               <div key={nome} className="bg-zinc-50/60 border border-zinc-100 rounded-2xl p-5 flex flex-col gap-3">
                 <div className="flex gap-0.5">
@@ -145,6 +145,15 @@ export default function AssinaturaPage({
                 <p className="text-sm text-[#334e68] leading-relaxed flex-1">&ldquo;{texto}&rdquo;</p>
                 <p className="text-xs font-bold text-[#0f2d4a] uppercase tracking-wide">{nome}</p>
               </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="text-xs text-zinc-400 font-medium mr-1">Também avaliaram com 5 estrelas:</span>
+            {["Cinthia", "Amanda", "Marlon", "Beatriz", "Susanna", "Larissa", "Mariza"].map((nome) => (
+              <span key={nome} className="inline-flex items-center gap-1 bg-zinc-50 border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-600 font-medium">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {nome}
+              </span>
             ))}
           </div>
         </div>

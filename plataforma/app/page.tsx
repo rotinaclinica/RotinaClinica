@@ -89,7 +89,7 @@ export default async function HomePage() {
               { nome: "Joana", texto: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões. Não deixa ninguém passar sufoco no plantão." },
               { nome: "Anna", texto: "Indico para todos os médicos recém formados que querem manejar seus pacientes com mais rapidez e com prescrições baseadas em evidências. Vai ser o seu melhor amigo de plantão." },
               { nome: "Leticia", texto: "Indispensável para os plantões. Atualizado, claro e objetivo. Muito prático e com ótimas referências. Realmente facilita e otimiza os atendimentos." },
-              { nome: "Ruth", texto: "Pensado exatamente para o que é mais necessário na prática clínica — seja no pronto-socorro, na enfermaria ou nos ambulatórios. As referências são de fontes sérias e atualizadas." },
+              { nome: "Mateus", texto: "Produto excelente. O conteúdo é confiável, baseado em evidências, completo e reúne todos os principais tópicos da prática do generalista. O uso também é muito prático e tem uma facilidade na navegação do documento. Recomendo bastante!!!" },
             ].map(({ nome, texto }) => (
               <div key={nome + texto} className="flex flex-col gap-3 p-5 rounded-2xl border border-zinc-100 bg-zinc-50/60">
                 <div className="flex gap-0.5">
@@ -100,6 +100,15 @@ export default async function HomePage() {
                 <p className="text-sm text-[#334e68] leading-relaxed flex-1">&ldquo;{texto}&rdquo;</p>
                 <p className="text-[11px] font-bold text-[#0f2d4a] uppercase tracking-widest">{nome}</p>
               </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="text-xs text-zinc-400 font-medium mr-1">Também avaliaram com 5 estrelas:</span>
+            {["Cinthia", "Amanda", "Marlon", "Beatriz", "Susanna", "Larissa", "Mariza"].map((nome) => (
+              <span key={nome} className="inline-flex items-center gap-1 bg-zinc-50 border border-zinc-200 rounded-full px-3 py-1 text-xs text-zinc-600 font-medium">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {nome}
+              </span>
             ))}
           </div>
         </div>
