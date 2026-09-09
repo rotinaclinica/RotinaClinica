@@ -177,7 +177,7 @@ export default function AssinaturaPage({
             {[
               { nome: "Joana", texto: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões, material super completo, que não deixa ninguém passar sufoco no plantão." },
               { nome: "Leticia", texto: "Indispensável para os plantões, realmente facilita e otimiza os atendimentos. Atualizado, claro e objetivo, com ótimas referências. Excelente!" },
-              { nome: "Anna", texto: "Amei o curso! Super completo para quem é médico recém formado e quer ter mais segurança para dar plantões!!!" },
+              { nome: "Ruth", texto: "Pensado exatamente para o que é mais necessário na prática clínica — seja no pronto-socorro, na enfermaria ou nos ambulatórios. As referências são de fontes sérias e atualizadas." },
               { nome: "Felipe", texto: "De fato, uma grande ajuda para os plantões. Me surpreendi positivamente com a qualidade do material e já estou usando no dia a dia." },
             ].map(({ nome, texto }) => (
               <div key={nome} className="bg-zinc-50/60 border border-zinc-100 rounded-2xl p-5 flex flex-col gap-3">
