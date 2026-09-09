@@ -158,28 +158,45 @@ function RegistroForm() {
         <div className="space-y-8">
           <Link href="/"><Logo variant="light" /></Link>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 bg-[#3db8d4]/15 border border-[#3db8d4]/30 rounded-full px-4 py-1.5 w-fit">
+              <span className="w-2 h-2 rounded-full bg-[#3db8d4] animate-pulse" />
+              <span className="text-[#3db8d4] text-xs font-bold tracking-wider uppercase">Novo membro</span>
+            </div>
+
+            <div>
+              <p className="text-white font-extrabold text-lg leading-snug mb-1">
+                Comece sua jornada.
+              </p>
+              <p className="text-[#9ec4de] text-sm leading-relaxed">
+                Tudo que você precisa no plantão, em um só lugar.
+              </p>
+            </div>
+
             {plan && (
-              <div className={`${plan.color} rounded-2xl px-5 py-4 mb-6`}>
+              <div className={`${plan.color} rounded-2xl px-5 py-4`}>
                 <p className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">{plan.label}</p>
                 <p className="font-extrabold text-lg leading-tight">{plan.price}</p>
               </div>
             )}
-            {[
-              "+200 prescrições prontas para usar",
-              "Casos clínicos semanais com especialistas",
-              "Cursos e videoaulas em qualquer dispositivo",
-              "Ebooks e materiais de apoio incluídos",
-            ].map((text) => (
-              <div key={text} className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-[#3db8d4] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6l3 3 5-5" stroke="#0f2d4a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <p className="text-[#9ec4de] text-sm leading-relaxed">{text}</p>
-              </div>
-            ))}
+
+            <ul className="space-y-3">
+              {[
+                "Prescrições e condutas para sua prática clínica",
+                "Casos clínicos com raciocínio diagnóstico",
+                "Calculadoras clínicas, cursos e videoaulas",
+                "Ebooks e modelos de evolução incluídos",
+              ].map((text) => (
+                <li key={text} className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#3db8d4]/20 border border-[#3db8d4]/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke="#3db8d4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <p className="text-[#9ec4de] text-sm leading-relaxed">{text}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
