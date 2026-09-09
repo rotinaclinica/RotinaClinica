@@ -88,7 +88,7 @@ export default function ProdutosPage() {
                 <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
                   {e.title}
                 </h3>
-                <p className="text-zinc-700 text-sm flex-1 mb-4">{e.description}</p>
+                <p className="text-[#334e68] text-sm flex-1 mb-4">{e.description}</p>
                 <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
                   Baixar grátis →
                 </span>
@@ -129,7 +129,7 @@ export default function ProdutosPage() {
                 <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
                   {p.title}
                 </h3>
-                <p className="text-zinc-700 text-sm flex-1 mb-4">{p.description}</p>
+                <p className="text-[#334e68] text-sm flex-1 mb-4">{p.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-extrabold text-[#0f2d4a]">{p.price}</span>
                   <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">

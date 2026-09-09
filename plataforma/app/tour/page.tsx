@@ -109,7 +109,7 @@ const bonusDestravando = [
 
 function CheckItem({ text }: { text: string }) {
   return (
-    <li className="flex items-start gap-3 text-sm text-[#0f2d4a]">
+    <li className="flex items-start gap-3 text-sm text-[#334e68]">
       <span className="w-5 h-5 rounded-full bg-[#3db8d4]/20 text-[#1a6aad] flex items-center justify-center flex-shrink-0 mt-0.5">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </span>
@@ -219,7 +219,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               {`${evolucoesMeta.length} modelos de evolução prontos para usar`}
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               Modelos de evolução médica para as queixas mais comuns do PS e UPA —
               estruturados, editáveis e prontos para facilitar o atendimento na linha de frente.
             </p>
@@ -246,7 +246,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               {`Mais de ${prescricoesMeta.length} modelos de prescrição e conteúdos práticos`}
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               Busque por queixa, diagnóstico ou medicamento e acesse prescrições completas com doses, vias,
               diluições e instruções — organizadas por cenário clínico e sempre atualizadas.
             </p>
@@ -344,7 +344,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Um novo caso toda semana com raciocínio diagnóstico e conduta
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               Sequências de slides e vídeos semanais cobrindo temas práticos do plantão —
               desde condutas gerais até casos clínicos completos com raciocínio e discussão.
             </p>
@@ -402,7 +402,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Destravando o Plantão
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               {`Curso completo com ${aulasDestravando.length} aulas em vídeo + ${bonusDestravando.length} módulos bônus, cobrindo as queixas mais comuns do paciente adulto no PS, UPA e UBS.
               Cada aula acompanha material de apoio, modelo de evolução e modelo de prescrição em PDF.`}
             </p>
@@ -427,7 +427,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Guias práticos para download
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed max-w-2xl">
+            <p className="text-[#334e68] leading-relaxed max-w-2xl">
               Arquivos em PDF disponíveis dentro da plataforma — para estudar offline, imprimir ou consultar a qualquer hora, direto pelo celular ou computador.
             </p>
           </div>
@@ -472,7 +472,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               {calculadoras.length} calculadoras clínicas validadas
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               Os principais escores da prática clínica e calculadoras de infusão de drogas vasoativas —
               integrados na plataforma, sem precisar de apps separados.
             </p>
@@ -500,7 +500,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Classificação Internacional de Doenças na palma da mão
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               Pesquise por diagnóstico ou código e acesse a descrição completa do CID-10 —
               para preencher atestados, laudos e AIH com precisão e agilidade.
             </p>
@@ -608,7 +608,7 @@ export default function TourPage() {
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
               Seu bloco de notas clínico, sempre com você
             </h2>
-            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+            <p className="text-[#334e68] leading-relaxed mb-6">
               Registre resumos e lembretes do plantão em anotações salvas na sua conta —
               acessíveis em qualquer dispositivo, exportáveis em PDF com sua identificação.
             </p>

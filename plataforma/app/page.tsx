@@ -98,7 +98,7 @@ export default async function HomePage() {
                     <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                   ))}
                 </div>
-                <p className="text-sm text-zinc-800 leading-relaxed flex-1">&ldquo;{texto}&rdquo;</p>
+                <p className="text-sm text-[#334e68] leading-relaxed flex-1">&ldquo;{texto}&rdquo;</p>
                 <p className="text-[11px] font-bold text-[#0f2d4a] uppercase tracking-widest">{nome}</p>
               </div>
             ))}
