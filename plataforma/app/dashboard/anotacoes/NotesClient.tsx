@@ -115,29 +115,45 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
   async function printNote() {
     const area = document.getElementById("print-area");
     if (!area) return;
-    const { default: jsPDF } = await import("jspdf");
-    const { default: html2canvas } = await import("html2canvas");
-    const canvas = await html2canvas(area, { scale: 2, useCORS: true });
-    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-    const pageW = pdf.internal.pageSize.getWidth();
-    const pageH = pdf.internal.pageSize.getHeight();
-    const imgW = pageW;
-    const imgH = (canvas.height * imgW) / canvas.width;
-    let yPos = 0;
-    let remainingH = imgH;
-    while (remainingH > 0) {
-      const sliceH = Math.min(pageH, remainingH);
-      const sliceCanvas = document.createElement("canvas");
-      sliceCanvas.width = canvas.width;
-      sliceCanvas.height = (sliceH * canvas.width) / imgW;
-      const ctx = sliceCanvas.getContext("2d")!;
-      ctx.drawImage(canvas, 0, (yPos * canvas.width) / imgW, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
-      if (yPos > 0) pdf.addPage();
-      pdf.addImage(sliceCanvas.toDataURL("image/png"), "PNG", 0, 0, imgW, sliceH);
-      yPos += sliceH;
-      remainingH -= sliceH;
+    try {
+      const [{ jsPDF }, { default: html2canvas }] = await Promise.all([
+        import("jspdf"),
+        import("html2canvas"),
+      ]);
+      const titleEl = document.createElement("h2");
+      titleEl.style.cssText = "font-size:18px;font-weight:700;margin-bottom:16px;color:#0f2d4a;font-family:inherit";
+      titleEl.textContent = title || "Anotação";
+      area.prepend(titleEl);
+      const canvas = await html2canvas(area, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+      titleEl.remove();
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const imgW = pageW;
+      const imgH = (canvas.height * imgW) / canvas.width;
+      let yPos = 0;
+      let remaining = imgH;
+      let first = true;
+      while (remaining > 0) {
+        const sliceH = Math.min(pageH, remaining);
+        const sc = document.createElement("canvas");
+        sc.width = canvas.width;
+        sc.height = Math.round((sliceH * canvas.width) / imgW);
+        const ctx = sc.getContext("2d")!;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, sc.width, sc.height);
+        ctx.drawImage(canvas, 0, Math.round((yPos * canvas.width) / imgW), canvas.width, sc.height, 0, 0, canvas.width, sc.height);
+        if (!first) pdf.addPage();
+        pdf.addImage(sc.toDataURL("image/png"), "PNG", 0, 0, imgW, sliceH);
+        yPos += sliceH;
+        remaining -= sliceH;
+        first = false;
+      }
+      pdf.save(`${title || "anotacao"}.pdf`);
+    } catch (err) {
+      console.error("PDF error:", err);
+      alert("Erro ao gerar PDF. Tente novamente.");
     }
-    pdf.save(`${title || "anotacao"}.pdf`);
   }
 
   function exec(cmd: string, value?: string) {
