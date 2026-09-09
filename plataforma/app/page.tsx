@@ -112,7 +112,7 @@ export default async function HomePage() {
           <div className="text-center mb-10">
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Tudo em um só lugar</span>
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mt-2">O que está incluído na assinatura</h2>
-            <p className="text-zinc-500 dark:text-[#6a8fa5] mt-2 text-base">Uma plataforma completa e projetada para te acompanhar em todos os cenários.</p>
+            <p className="text-[#334e68] dark:text-[#6a8fa5] mt-2 text-base">Uma plataforma completa e projetada para te acompanhar em todos os cenários.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
@@ -129,7 +129,7 @@ export default async function HomePage() {
                 <span className="text-[#1a6aad] flex-shrink-0 mt-0.5">{item.icon}</span>
                 <div>
                   <p className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm">{item.titulo}</p>
-                  <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm mt-0.5 leading-snug">{item.desc}</p>
+                  <p className="text-[#334e68] dark:text-[#6a8fa5] text-sm mt-0.5 leading-snug">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -164,7 +164,7 @@ export default async function HomePage() {
               </a>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">+50k no Instagram<br />+3k no Youtube</h3>
-            <p className="text-zinc-800 text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
+            <p className="text-[#334e68] text-sm leading-relaxed">Uma comunidade ativa de médicos e estudantes que acompanham conteúdo diário de qualidade. Siga e faça parte.</p>
           </div>
 
           {/* Card 2 — Fundado em 2023 */}
@@ -173,7 +173,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Fundado em 2023</h3>
-            <p className="text-zinc-800 text-sm leading-relaxed">Desde 2023 formando estudantes, médicas e médicos mais preparados! Mais de 127 alunos já passaram pelos nossos cursos presenciais — parte de uma comunidade de 900+ alunos.</p>
+            <p className="text-[#334e68] text-sm leading-relaxed">Desde 2023 formando estudantes, médicas e médicos mais preparados! Mais de 127 alunos já passaram pelos nossos cursos presenciais — parte de uma comunidade de 900+ alunos.</p>
           </div>
 
           {/* Card 3 — Especialistas */}
@@ -182,7 +182,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2Z"/><path d="M2 20c0-4 4-7 10-7s10 3 10 7"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Conteúdo produzido por especialistas</h3>
-            <p className="text-zinc-800 text-sm leading-relaxed">Todo o conteúdo é desenvolvido por especialistas em clínica médica, com foco em aplicação prática e segurança no atendimento.</p>
+            <p className="text-[#334e68] text-sm leading-relaxed">Todo o conteúdo é desenvolvido por especialistas em clínica médica, com foco em aplicação prática e segurança no atendimento.</p>
           </div>
 
           {/* Card 4 — Conteúdo por cenário */}
@@ -191,7 +191,7 @@ export default async function HomePage() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
             <h3 className="text-lg font-extrabold text-[#0f2d4a] mb-2">Conteúdo adaptado para sua realidade</h3>
-            <p className="text-zinc-800 text-sm leading-relaxed">Do internato à emergência: conteúdo pensado para quem atua na UBS, PS, UPA e emergência. Discussão de casos clínicos reais toda semana.</p>
+            <p className="text-[#334e68] text-sm leading-relaxed">Do internato à emergência: conteúdo pensado para quem atua na UBS, PS, UPA e emergência. Discussão de casos clínicos reais toda semana.</p>
           </div>
         </div>
       </section>

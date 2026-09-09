@@ -141,7 +141,7 @@ export default function AssinaturaPage({
           ].map(({ value, label }) => (
             <div key={label}>
               <p className="text-2xl sm:text-3xl font-extrabold text-[#0f2d4a]">{value}</p>
-              <p className="text-xs sm:text-sm text-zinc-500 mt-1">{label}</p>
+              <p className="text-xs sm:text-sm text-[#334e68] mt-1 font-medium">{label}</p>
             </div>
           ))}
         </div>
