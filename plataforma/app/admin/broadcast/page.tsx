@@ -12,7 +12,7 @@ O que vem por aí:
 ✦ Aulas do nosso curso Destravando o Plantão
 ✦ Condutas práticas e prescrições prontas para o atendimento
 ✦ Modelos de evolução para cada cenário clínico
-✦ Conteúdos para acessar mesmo offline — ebooks e aulas em PDF
+✦ Ebooks e materiais em PDF para baixar e ler quando quiser
 ✦ Calculadoras, escores e muito mais 📲
 
 Ainda não podemos contar tudo. Mas anote a data: 01/09/2026.
@@ -21,9 +21,36 @@ Em breve, mais detalhes.
 
 Obrigado por confiarem na gente. 🤝`;
 
+const NURTURE_BODY = `Você criou sua conta no Rotina Clínica, mas ainda não ativou o acesso à plataforma.
+
+Queria entender se ficou alguma dúvida ou se posso ajudar em alguma coisa.
+
+Enquanto isso, deixa eu te lembrar o que está te esperando lá dentro:
+
+✦ Prescrições prontas para PS, UPA, UBS e emergência — busca por queixa ou diagnóstico, em segundos
+✦ Mais de 224 temas clínicos organizados e atualizados com as diretrizes mais recentes
+✦ Calculadoras e escores validados para sua prática clínica diária
+✦ Modelos de evolução prontos para agilizar o atendimento
+✦ Casos clínicos com raciocínio diagnóstico e conduta detalhada
+✦ Cursos e videoaulas — incluindo o Destravando o Plantão
+
+Tudo isso no celular, disponível em qualquer lugar.
+
+O plano mensal começa em R$ 39,90/mês. Se preferir o anual, sai por R$ 33,30/mês (equivale a 2 meses grátis).
+
+E se por algum motivo não gostar, devolvemos 100% em até 7 dias — sem burocracia.
+
+Para ativar o seu acesso: https://rotinaclinica.com.br/assinatura
+
+Qualquer dúvida, é só responder este email.
+
+Lucas e Yan
+Rotina Clínica`;
+
 // Modelos embutidos (sempre disponíveis)
 const BUILTIN_TEMPLATES: Template[] = [
   { name: "Lançamento — 01/09", subject: "🗓️ Algo grande está chegando — 01/09/2026", body: LAUNCH_BODY },
+  { name: "Cadastrou mas não assinou", subject: "Ainda dá tempo de ativar seu acesso", body: NURTURE_BODY },
 ];
 
 const STORAGE_KEY = "broadcast_templates";
@@ -41,6 +68,10 @@ export default function BroadcastPage() {
   const [testEmails, setTestEmails] = useState("lucasrdiniz10@gmail.com, rotinaclinica77@gmail.com");
   const [testStatus, setTestStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [testResult, setTestResult] = useState<{ sent: number; failed: number; errors?: string[] } | null>(null);
+
+  const [individualEmails, setIndividualEmails] = useState("");
+  const [individualStatus, setIndividualStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [individualResult, setIndividualResult] = useState<{ sent: number; failed: number; total: number; errors?: string[] } | null>(null);
 
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [result, setResult] = useState<{ sentThisRun: number; remaining: number; alreadySent: number; total: number; done: boolean; errors?: string[] } | null>(null);
@@ -99,6 +130,25 @@ export default function BroadcastPage() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
       // ignora
+    }
+  }
+
+  async function handleIndividual() {
+    const list = individualEmails.split(/[,;\s\n]+/).map((s) => s.trim()).filter(Boolean);
+    if (list.length === 0 || !subject.trim() || !body.trim()) return;
+    setIndividualStatus("sending");
+    setIndividualResult(null);
+    try {
+      const res = await fetch("/api/admin/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subject, body, individualEmails: list }),
+      });
+      const data = await res.json();
+      setIndividualResult(data);
+      setIndividualStatus(res.ok && !data.error ? "done" : "error");
+    } catch {
+      setIndividualStatus("error");
     }
   }
 
@@ -312,6 +362,40 @@ export default function BroadcastPage() {
               Falha no teste{(testResult as { error?: string })?.error ? `: ${(testResult as { error?: string }).error}` : testResult?.errors?.length ? `: ${testResult.errors[0]}` : "."}
             </p>
           )}
+        </div>
+
+        {/* Envio direcionado */}
+        <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
+          <label className="block text-xs font-bold text-zinc-600 uppercase tracking-wide mb-1">
+            Envio direcionado{" "}
+            <span className="font-normal text-zinc-400 normal-case">(emails individuais ou pequenos grupos — um por linha ou separados por vírgula)</span>
+          </label>
+          <textarea
+            value={individualEmails}
+            onChange={(e) => setIndividualEmails(e.target.value)}
+            disabled={locked}
+            rows={4}
+            placeholder={"medico@email.com\noutro@email.com, terceiro@email.com"}
+            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm text-zinc-900 font-mono focus:outline-none focus:ring-2 focus:ring-violet-400 disabled:opacity-50 resize-y mb-2"
+          />
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleIndividual}
+              disabled={locked || individualStatus === "sending" || !individualEmails.trim() || !subject.trim() || !body.trim()}
+              className="px-4 py-2 rounded-lg text-sm font-semibold bg-violet-600 hover:bg-violet-700 text-white disabled:opacity-40 transition-colors"
+            >
+              {individualStatus === "sending" ? "Enviando…" : "Enviar para esses emails"}
+            </button>
+            {individualStatus === "done" && individualResult && individualResult.failed === 0 && (
+              <p className="text-sm text-green-700">✓ {individualResult.sent} de {individualResult.total} enviado(s) com sucesso.</p>
+            )}
+            {individualStatus === "done" && individualResult && individualResult.failed > 0 && (
+              <p className="text-sm text-amber-700">⚠ {individualResult.sent} enviados · {individualResult.failed} falha(s){individualResult.errors?.length ? `: ${individualResult.errors[0]}` : "."}</p>
+            )}
+            {individualStatus === "error" && (
+              <p className="text-sm text-red-700">Falha no envio. Verifique os emails e tente novamente.</p>
+            )}
+          </div>
         </div>
 
         {status === "idle" && (

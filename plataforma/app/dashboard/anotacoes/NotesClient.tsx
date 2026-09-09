@@ -128,48 +128,26 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
     setTimeout(() => setCopied(false), 2000);
   }
 
-  async function printNote() {
+  function printNote() {
     if (!acquireLock()) return;
-    const area = document.getElementById("print-area");
-    if (!area) { releaseLock(); return; }
     try {
-      const [{ jsPDF }, { default: html2canvas }] = await Promise.all([
-        import("jspdf"),
-        import("html2canvas"),
-      ]);
-      const titleEl = document.createElement("h2");
-      titleEl.style.cssText = "font-size:18px;font-weight:700;margin-bottom:16px;color:#0f2d4a;font-family:inherit";
-      titleEl.textContent = title || "Anotação";
-      area.prepend(titleEl);
-      const canvas = await html2canvas(area, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
-      titleEl.remove();
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-      const imgW = pageW;
-      const imgH = (canvas.height * imgW) / canvas.width;
-      let yPos = 0;
-      let remaining = imgH;
-      let first = true;
-      while (remaining > 0) {
-        const sliceH = Math.min(pageH, remaining);
-        const sc = document.createElement("canvas");
-        sc.width = canvas.width;
-        sc.height = Math.round((sliceH * canvas.width) / imgW);
-        const ctx = sc.getContext("2d")!;
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, sc.width, sc.height);
-        ctx.drawImage(canvas, 0, Math.round((yPos * canvas.width) / imgW), canvas.width, sc.height, 0, 0, canvas.width, sc.height);
-        if (!first) pdf.addPage();
-        pdf.addImage(sc.toDataURL("image/png"), "PNG", 0, 0, imgW, sliceH);
-        yPos += sliceH;
-        remaining -= sliceH;
-        first = false;
-      }
-      pdf.save(`${title || "anotacao"}.pdf`);
-    } catch (err) {
-      console.error("PDF error:", err);
-      alert("Erro ao gerar PDF. Tente novamente.");
+      const content = editorRef.current?.innerHTML ?? "";
+      const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title || "Anotação"}</title><style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:system-ui,-apple-system,sans-serif;padding:2cm;color:#1a1a1a;line-height:1.6;font-size:12pt}
+        h1{font-size:18pt;font-weight:700;margin-bottom:18px;color:#0f2d4a;padding-bottom:10px;border-bottom:1px solid #e2e8f0}
+        ul,ol{padding-left:24px;margin:8px 0}li{margin:4px 0}
+        b,strong{font-weight:700}i,em{font-style:italic}u{text-decoration:underline}
+        p,div{margin-bottom:6px}
+      </style></head><body>
+        <h1>${title || "Anotação"}</h1>${content}
+        <script>window.onload=function(){window.print()}<\/script>
+      </body></html>`;
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const win = window.open(url, "_blank", "width=900,height=700");
+      if (!win) alert("Permita popups para este site e tente novamente.");
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
     } finally {
       releaseLock();
     }
