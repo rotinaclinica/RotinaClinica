@@ -154,7 +154,7 @@ function RegistroForm() {
   return (
     <div className="min-h-screen flex bg-[#f0f7ff]">
       {/* Painel esquerdo */}
-      <div className="hidden lg:flex flex-col justify-between w-96 bg-[#0f2d4a] p-10">
+      <div className="hidden lg:flex flex-col justify-between w-96 min-h-screen sticky top-0 bg-[#0f2d4a] p-10">
         <Link href="/"><Logo variant="light" /></Link>
 
         <div className="space-y-6">
