@@ -128,26 +128,22 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
     setTimeout(() => setCopied(false), 2000);
   }
 
-  function printNote() {
-    if (!acquireLock()) return;
+  async function downloadPdf() {
+    if (!open?.id || !acquireLock()) return;
     try {
-      const content = editorRef.current?.innerHTML ?? "";
-      const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title || "Anotação"}</title><style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:system-ui,-apple-system,sans-serif;padding:2cm;color:#1a1a1a;line-height:1.6;font-size:12pt}
-        h1{font-size:18pt;font-weight:700;margin-bottom:18px;color:#0f2d4a;padding-bottom:10px;border-bottom:1px solid #e2e8f0}
-        ul,ol{padding-left:24px;margin:8px 0}li{margin:4px 0}
-        b,strong{font-weight:700}i,em{font-style:italic}u{text-decoration:underline}
-        p,div{margin-bottom:6px}
-      </style></head><body>
-        <h1>${title || "Anotação"}</h1>${content}
-        <script>window.onload=function(){window.print()}<\/script>
-      </body></html>`;
-      const blob = new Blob([html], { type: "text/html" });
+      const res = await fetch(`/api/notes/${open.id}/pdf`);
+      if (!res.ok) throw new Error("pdf");
+      const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      const win = window.open(url, "_blank", "width=900,height=700");
-      if (!win) alert("Permita popups para este site e tente novamente.");
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${title || "anotacao"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } catch {
+      alert("Erro ao gerar PDF. Tente novamente.");
     } finally {
       releaseLock();
     }
@@ -257,12 +253,12 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
                 )}
               </button>
               <button
-                onClick={printNote}
+                onClick={downloadPdf}
                 disabled={busy}
                 className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                {busy ? "Gerando…" : "Gerar PDF"}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                {busy ? "Gerando…" : "Baixar PDF"}
               </button>
               <button
                 onClick={save}
