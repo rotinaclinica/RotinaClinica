@@ -156,7 +156,7 @@ export default function TourPage() {
       <section className="bg-gradient-to-br from-[#0a1e30] via-[#0f2d4a] to-[#1a4a6e] py-20 px-6 text-center">
         <div className="max-w-3xl mx-auto">
           <span className="inline-block bg-[#3db8d4]/20 text-[#3db8d4] text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6 border border-[#3db8d4]/30">
-            Tour da plataforma
+            Veja como funciona nosso ecossistema
           </span>
           <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-5">
             Veja o que está dentro{" "}
@@ -491,6 +491,138 @@ export default function TourPage() {
         </div>
       </section>
 
+
+      {/* Seção 6 — CID-10 */}
+      <section className="py-20 px-6 bg-[#f0f7ff]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-start">
+          <div>
+            <span className="text-[#1a6aad] text-xs font-bold tracking-widest uppercase">CID-10</span>
+            <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
+              Classificação Internacional de Doenças na palma da mão
+            </h2>
+            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+              Pesquise por diagnóstico ou código e acesse a descrição completa do CID-10 —
+              para preencher atestados, laudos e AIH com precisão e agilidade.
+            </p>
+            <ul className="space-y-3">
+              {[
+                "Busca por nome da doença ou código CID",
+                "Descrição completa de cada código",
+                "Cobertura total da tabela CID-10 vigente",
+                "Ideal para atestados médicos e laudos",
+              ].map((item) => <CheckItem key={item} text={item} />)}
+            </ul>
+          </div>
+
+          {/* Mockup */}
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
+            <WindowBar label="CID-10 · Classificação Internacional" />
+            <div className="p-4">
+              <div className="flex items-center gap-2 bg-[#f8fafc] border border-zinc-200 rounded-xl px-4 py-2.5 mb-4 shadow-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <span className="text-zinc-400 text-sm">Buscar diagnóstico ou código...</span>
+              </div>
+              <div className="space-y-1.5">
+                {[
+                  { code: "J18.9", desc: "Pneumonia não especificada", group: "Respiratório" },
+                  { code: "A90", desc: "Dengue [dengue clássico]", group: "Infeccioso" },
+                  { code: "I10", desc: "Hipertensão essencial (primária)", group: "Cardiovascular" },
+                  { code: "E11.9", desc: "Diabetes mellitus tipo 2 sem complicações", group: "Endócrino" },
+                  { code: "J06.9", desc: "Infecção aguda do trato respiratório superior não especificada", group: "Respiratório" },
+                  { code: "K29.7", desc: "Gastrite não especificada", group: "Digestivo" },
+                ].map((item) => (
+                  <div key={item.code} className="flex items-start justify-between bg-[#f8fafc] border border-zinc-100 rounded-xl px-3 py-2.5 gap-3">
+                    <div className="flex items-start gap-2.5">
+                      <span className="text-[10px] font-bold text-[#1a6aad] bg-[#e8f4fc] px-1.5 py-0.5 rounded-md font-mono flex-shrink-0 mt-0.5">{item.code}</span>
+                      <span className="text-xs text-[#0f2d4a] leading-snug">{item.desc}</span>
+                    </div>
+                    <span className="text-[9px] font-semibold text-zinc-400 bg-zinc-100 px-1.5 py-0.5 rounded-full flex-shrink-0">{item.group}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Seção 7 — Anotações */}
+      <section className="py-20 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-start">
+          {/* Mockup */}
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden order-2 md:order-1">
+            <WindowBar label="Anotações · Bloco de notas clínico" />
+            <div className="flex h-[340px]">
+              {/* Lista lateral */}
+              <div className="w-36 border-r border-zinc-100 bg-[#f8fafc] flex flex-col">
+                <div className="px-2 pt-2 pb-1">
+                  <div className="flex items-center gap-1 bg-[#e8f4fc] text-[#1a6aad] text-[9px] font-bold px-2 py-1 rounded-lg justify-center">
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Nova nota
+                  </div>
+                </div>
+                <div className="flex-1 overflow-hidden px-1.5 space-y-0.5 py-1">
+                  {[
+                    { title: "Sepse — resumo", date: "ago 2026" },
+                    { title: "HAS resistente", date: "ago 2026" },
+                    { title: "Taquicardia SVP", date: "jul 2026" },
+                    { title: "Protocolo dengue", date: "jul 2026" },
+                  ].map((n, i) => (
+                    <div key={n.title} className={`px-2 py-1.5 rounded-lg cursor-pointer ${i === 0 ? "bg-[#0f2d4a] text-white" : "hover:bg-white"}`}>
+                      <p className={`text-[9px] font-semibold leading-tight truncate ${i === 0 ? "text-white" : "text-[#0f2d4a]"}`}>{n.title}</p>
+                      <p className={`text-[8px] mt-0.5 ${i === 0 ? "text-[#9ec4de]" : "text-zinc-400"}`}>{n.date}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Área de edição */}
+              <div className="flex-1 flex flex-col">
+                <div className="px-4 pt-3 pb-2 border-b border-zinc-100">
+                  <p className="text-xs font-bold text-[#0f2d4a]">Sepse — resumo</p>
+                  <p className="text-[9px] text-zinc-400 mt-0.5">Atualizado em agosto de 2026</p>
+                </div>
+                <div className="flex-1 p-4 overflow-hidden">
+                  <p className="text-[10px] text-zinc-600 leading-relaxed">
+                    <span className="font-bold text-[#0f2d4a]">Critérios de Sepse (Sepsis-3):</span><br />
+                    • Disfunção orgânica aguda suspeita ou confirmada<br />
+                    • SOFA ≥ 2 pontos<br /><br />
+                    <span className="font-bold text-[#0f2d4a]">Sepse → 1ª hora:</span><br />
+                    • Hemocultura antes do ATB (não atrasar)<br />
+                    • ATB empírico + cristaloide 30 mL/kg EV...
+                  </p>
+                </div>
+                <div className="px-3 pb-3 flex justify-end">
+                  <div className="flex items-center gap-1 bg-[#0f2d4a] text-white text-[9px] font-bold px-2.5 py-1.5 rounded-lg">
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Baixar PDF
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="order-1 md:order-2">
+            <span className="inline-flex items-center gap-1.5 text-[#1a6aad] text-xs font-bold tracking-widest uppercase">
+              Anotações
+              <span className="bg-[#3db8d4] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full tracking-normal normal-case">NOVO</span>
+            </span>
+            <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
+              Seu bloco de notas clínico, sempre com você
+            </h2>
+            <p className="text-[#0f2d4a] leading-relaxed mb-6">
+              Registre resumos, fluxogramas e lembretes do plantão em anotações salvas na sua conta —
+              acessíveis em qualquer dispositivo, exportáveis em PDF com sua identificação.
+            </p>
+            <ul className="space-y-3">
+              {[
+                "Crie e edite anotações com formatação rich text",
+                "Sincronizadas automaticamente na sua conta",
+                "Acesse pelo celular ou computador",
+                "Baixe em PDF com cabeçalho e identificação",
+              ].map((item) => <CheckItem key={item} text={item} />)}
+            </ul>
+          </div>
+        </div>
+      </section>
 
       {/* CTA final */}
       <section className="py-20 px-6 bg-gradient-to-br from-[#0a1e30] via-[#0f2d4a] to-[#1a4a6e] text-center">
