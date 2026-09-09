@@ -45,7 +45,7 @@ export default function ContatoPage() {
             </Link>
             <p className="text-[#3db8d4] text-xs font-bold tracking-widest uppercase mb-2">Rotina Clínica</p>
             <h1 className="text-3xl font-extrabold text-white mb-3">Fale conosco</h1>
-            <p className="text-[#9ec4de] text-sm leading-relaxed">
+            <p className="text-[#9ec4de] text-base leading-relaxed">
               Dúvidas, sugestões ou reclamações — nossa equipe responde pelo e-mail <strong className="text-white">contato@rotinaclinica.com</strong> em até 48 horas.
             </p>
           </div>

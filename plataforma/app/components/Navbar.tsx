@@ -118,7 +118,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-0.5 text-sm font-bold">
           <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Início</Link>
           <Link href="/tour" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Conhecer a plataforma</Link>
-          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Conheça o Rotina Clínica</Link>
+          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Sobre nós</Link>
           <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Ebooks e Cursos</Link>
           <Link href="/contato" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Contato</Link>
         </div>
@@ -149,7 +149,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-white/10 bg-[#0f2d4a] px-6 py-4 space-y-1">
           <Link href="/" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Início</Link>
           <Link href="/tour" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Conhecer a plataforma</Link>
-          <Link href="/conheca" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Conheça o Rotina Clínica</Link>
+          <Link href="/conheca" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Sobre nós</Link>
           <Link href="/produtos" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Ebooks e Cursos</Link>
           <Link href="/contato" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Contato</Link>
           <div className="pt-3 flex flex-col gap-3">
