@@ -218,18 +218,18 @@ export async function GET(
     }
   }
 
-  const pdfBytes = await pdfDoc.save();
+  const pdfBuffer = Buffer.from(await pdfDoc.save());
 
   const safeTitle = (note.title || "anotacao")
     .normalize("NFD").replace(/[̀-ͯ]/g, "")
     .replace(/[^a-zA-Z0-9\s-]/g, "").trim()
     .replace(/\s+/g, "-").toLowerCase().slice(0, 60) || "anotacao";
 
-  return new NextResponse(pdfBytes, {
+  return new NextResponse(pdfBuffer, {
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename="${safeTitle}.pdf"`,
-      "Content-Length": String(pdfBytes.length),
+      "Content-Length": String(pdfBuffer.length),
     },
   });
 }
