@@ -24,10 +24,22 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
   const [open, setOpen] = useState<Note | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [title, setTitle] = useState("");
-  const [saving, setSaving] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const editorRef = useRef<HTMLDivElement>(null);
+  const busyRef = useRef(false);
+
+  function acquireLock() {
+    if (busyRef.current) return false;
+    busyRef.current = true;
+    setBusy(true);
+    return true;
+  }
+  function releaseLock() {
+    busyRef.current = false;
+    setBusy(false);
+  }
 
   useEffect(() => {
     if (open !== null && editorRef.current) {
@@ -53,9 +65,8 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
   }
 
   async function save() {
-    if (!open) return;
+    if (!open || !acquireLock()) return;
     const content = editorRef.current?.innerHTML ?? "";
-    setSaving(true);
     try {
       if (isNew) {
         const res = await fetch("/api/notes", {
@@ -84,15 +95,20 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
         setOpen(updated);
       }
     } finally {
-      setSaving(false);
+      releaseLock();
     }
   }
 
   async function deleteNote(id: string) {
-    await fetch(`/api/notes/${id}`, { method: "DELETE" });
-    setNotes(prev => prev.filter(n => n.id !== id));
-    setDeleteConfirm(null);
-    if (open?.id === id) closeEditor();
+    if (!acquireLock()) return;
+    try {
+      await fetch(`/api/notes/${id}`, { method: "DELETE" });
+      setNotes(prev => prev.filter(n => n.id !== id));
+      setDeleteConfirm(null);
+      if (open?.id === id) closeEditor();
+    } finally {
+      releaseLock();
+    }
   }
 
   async function copyText() {
@@ -113,8 +129,9 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
   }
 
   async function printNote() {
+    if (!acquireLock()) return;
     const area = document.getElementById("print-area");
-    if (!area) return;
+    if (!area) { releaseLock(); return; }
     try {
       const [{ jsPDF }, { default: html2canvas }] = await Promise.all([
         import("jspdf"),
@@ -153,6 +170,8 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
     } catch (err) {
       console.error("PDF error:", err);
       alert("Erro ao gerar PDF. Tente novamente.");
+    } finally {
+      releaseLock();
     }
   }
 
@@ -161,12 +180,12 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
     editorRef.current?.focus();
   }
 
-  const toolbarBtn = (label: string, cmd: string, value?: string, title?: string) => (
+  const tbBtn = (label: string, cmd: string, val?: string, ttl?: string) => (
     <button
       type="button"
-      onMouseDown={e => { e.preventDefault(); exec(cmd, value); }}
-      title={title ?? label}
-      className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 text-sm font-medium transition-colors"
+      onMouseDown={e => { e.preventDefault(); exec(cmd, val); }}
+      title={ttl ?? label}
+      className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 text-sm font-medium transition-colors"
     >
       {label}
     </button>
@@ -174,18 +193,18 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
 
   return (
     <>
-<div className="min-h-screen bg-[#f4f8fc]">
+      <div className="min-h-screen bg-[#f4f8fc] dark:bg-[#0d1829]">
         {/* Header */}
-        <div className="bg-white border-b border-zinc-200 px-6 py-5 flex items-center justify-between">
+        <div className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 py-5 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-[#0f2d4a]">Anotações</h1>
-            <p className="text-sm text-zinc-500 mt-0.5">
+            <h1 className="text-xl font-bold text-[#0f2d4a] dark:text-[#e8edf5]">Anotações</h1>
+            <p className="text-sm text-zinc-500 dark:text-[#6a8fa5] mt-0.5">
               {notes.length}/{LIMIT} anotações salvas
             </p>
           </div>
           <button
             onClick={openNew}
-            disabled={notes.length >= LIMIT}
+            disabled={notes.length >= LIMIT || busy}
             className="flex items-center gap-2 bg-[#1a6aad] hover:bg-[#155d96] disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -197,32 +216,32 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
         <div className="max-w-5xl mx-auto px-6 py-8">
           {notes.length === 0 ? (
             <div className="text-center py-20">
-              <svg className="mx-auto mb-4 text-zinc-300" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              <p className="text-zinc-400 font-medium">Nenhuma anotação ainda</p>
-              <p className="text-zinc-400 text-sm mt-1">Clique em &quot;Nova anotação&quot; para começar.</p>
+              <svg className="mx-auto mb-4 text-zinc-300 dark:text-zinc-600" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <p className="text-zinc-500 dark:text-zinc-400 font-medium">Nenhuma anotação ainda</p>
+              <p className="text-zinc-400 dark:text-zinc-500 text-sm mt-1">Clique em &quot;Nova anotação&quot; para começar.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {notes.map(note => (
                 <div
                   key={note.id}
-                  className="group bg-white border border-zinc-200 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] transition-all cursor-pointer relative"
+                  className="group bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all cursor-pointer relative"
                   onClick={() => openNote(note)}
                 >
                   <button
                     onClick={e => { e.stopPropagation(); setDeleteConfirm(note.id); }}
-                    className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 text-zinc-300 hover:text-red-500 transition-all p-1 rounded"
+                    className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-red-500 transition-all p-1 rounded"
                     title="Excluir"
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
                   </button>
-                  <h3 className="font-bold text-[#0f2d4a] text-sm mb-2 pr-6 line-clamp-2">
+                  <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm mb-2 pr-6 line-clamp-2">
                     {note.title || "Sem título"}
                   </h3>
-                  <p className="text-zinc-500 text-xs leading-relaxed line-clamp-3 mb-3">
+                  <p className="text-zinc-700 dark:text-zinc-400 text-xs leading-relaxed line-clamp-3 mb-3">
                     {stripHtml(note.content) || "Sem conteúdo"}
                   </p>
-                  <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-wide">
+                  <p className="text-[10px] text-zinc-500 dark:text-zinc-500 font-medium uppercase tracking-wide">
                     {formatDate(note.updatedAt)}
                   </p>
                 </div>
@@ -234,10 +253,10 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
 
       {/* Editor Modal */}
       {open !== null && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white">
+        <div className="fixed inset-0 z-50 flex flex-col bg-white dark:bg-[#0d1829]">
           {/* Modal header */}
-          <div className="flex items-center gap-3 px-5 py-3 border-b border-zinc-200 bg-white no-print">
-            <button onClick={closeEditor} className="text-zinc-400 hover:text-zinc-700 transition-colors p-1 rounded-lg hover:bg-zinc-100">
+          <div className="flex items-center gap-3 px-5 py-3 border-b border-zinc-200 dark:border-white/8 bg-white dark:bg-[#131c2e]">
+            <button onClick={closeEditor} className="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/8">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             </button>
             <input
@@ -245,12 +264,13 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Título da anotação"
-              className="flex-1 text-lg font-bold text-[#0f2d4a] bg-transparent border-none outline-none placeholder-zinc-300"
+              className="flex-1 text-lg font-bold text-[#0f2d4a] dark:text-[#e8edf5] bg-transparent border-none outline-none placeholder-zinc-300 dark:placeholder-zinc-600"
             />
             <div className="flex items-center gap-2">
               <button
                 onClick={copyText}
-                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 hover:text-[#0f2d4a] border border-zinc-200 hover:border-zinc-400 px-3 py-1.5 rounded-lg transition-all"
+                disabled={busy}
+                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
                 {copied ? (
                   <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copiado</>
@@ -260,31 +280,32 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               </button>
               <button
                 onClick={printNote}
-                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 hover:text-[#0f2d4a] border border-zinc-200 hover:border-zinc-400 px-3 py-1.5 rounded-lg transition-all"
+                disabled={busy}
+                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                Gerar PDF
+                {busy ? "Gerando…" : "Gerar PDF"}
               </button>
               <button
                 onClick={save}
-                disabled={saving}
+                disabled={busy}
                 className="flex items-center gap-1.5 text-xs font-semibold bg-[#1a6aad] hover:bg-[#155d96] disabled:opacity-60 text-white px-4 py-1.5 rounded-lg transition-colors"
               >
-                {saving ? "Salvando…" : "Salvar"}
+                {busy ? "Salvando…" : "Salvar"}
               </button>
             </div>
           </div>
 
           {/* Toolbar */}
-          <div className="flex flex-wrap items-center gap-0.5 px-4 py-2 border-b border-zinc-100 bg-zinc-50 no-print text-xs">
-            {toolbarBtn("N", "bold", undefined, "Negrito")}
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("italic"); }} title="Itálico" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 italic text-sm font-medium transition-colors">I</button>
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("underline"); }} title="Sublinhado" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 underline text-sm font-medium transition-colors">S</button>
-            <div className="w-px h-5 bg-zinc-300 mx-1" />
+          <div className="flex flex-wrap items-center gap-0.5 px-4 py-2 border-b border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#131c2e] text-xs">
+            {tbBtn("N", "bold", undefined, "Negrito")}
+            <button type="button" onMouseDown={e => { e.preventDefault(); exec("italic"); }} title="Itálico" className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 italic text-sm font-medium transition-colors">I</button>
+            <button type="button" onMouseDown={e => { e.preventDefault(); exec("underline"); }} title="Sublinhado" className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 underline text-sm font-medium transition-colors">S</button>
+            <div className="w-px h-5 bg-zinc-300 dark:bg-white/10 mx-1" />
             <select
               onChange={e => exec("fontName", e.target.value)}
               defaultValue=""
-              className="text-xs border border-zinc-200 rounded px-1 py-0.5 bg-white text-zinc-700 cursor-pointer"
+              className="text-xs border border-zinc-200 dark:border-white/10 rounded px-1 py-0.5 bg-white dark:bg-[#1a2a3a] text-zinc-700 dark:text-zinc-300 cursor-pointer"
             >
               <option value="" disabled>Fonte</option>
               <option value="Arial, sans-serif">Sans-serif</option>
@@ -294,7 +315,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
             <select
               onChange={e => exec("fontSize", e.target.value)}
               defaultValue=""
-              className="text-xs border border-zinc-200 rounded px-1 py-0.5 bg-white text-zinc-700 cursor-pointer"
+              className="text-xs border border-zinc-200 dark:border-white/10 rounded px-1 py-0.5 bg-white dark:bg-[#1a2a3a] text-zinc-700 dark:text-zinc-300 cursor-pointer"
             >
               <option value="" disabled>Tamanho</option>
               <option value="2">Pequeno</option>
@@ -302,36 +323,34 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               <option value="4">Grande</option>
               <option value="5">X-Grande</option>
             </select>
-            <div className="w-px h-5 bg-zinc-300 mx-1" />
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("justifyLeft"); }} title="Alinhar à esquerda" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
-            </button>
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("justifyCenter"); }} title="Centralizar" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-            </button>
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("justifyRight"); }} title="Alinhar à direita" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
-            </button>
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("justifyFull"); }} title="Justificar" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 transition-colors">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            </button>
-            <div className="w-px h-5 bg-zinc-300 mx-1" />
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("insertUnorderedList"); }} title="Lista com marcadores" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 transition-colors">
+            <div className="w-px h-5 bg-zinc-300 dark:bg-white/10 mx-1" />
+            {[
+              { title: "Alinhar à esquerda", cmd: "justifyLeft", d: "M3 6h18M3 12h12M3 18h15" },
+              { title: "Centralizar",        cmd: "justifyCenter", d: "M3 6h18M6 12h12M4 18h16" },
+              { title: "Alinhar à direita",  cmd: "justifyRight",  d: "M3 6h18M9 12h12M6 18h15" },
+              { title: "Justificar",         cmd: "justifyFull",   d: "M3 6h18M3 12h18M3 18h18" },
+            ].map(b => (
+              <button key={b.cmd} type="button" onMouseDown={e => { e.preventDefault(); exec(b.cmd); }} title={b.title} className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{b.d.split("M").filter(Boolean).map((seg, i) => <path key={i} d={`M${seg}`}/>)}</svg>
+              </button>
+            ))}
+            <div className="w-px h-5 bg-zinc-300 dark:bg-white/10 mx-1" />
+            <button type="button" onMouseDown={e => { e.preventDefault(); exec("insertUnorderedList"); }} title="Lista com marcadores" className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 transition-colors">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
             </button>
-            <button type="button" onMouseDown={e => { e.preventDefault(); exec("insertOrderedList"); }} title="Lista numerada" className="px-2 py-1 rounded hover:bg-zinc-200 text-zinc-700 transition-colors">
+            <button type="button" onMouseDown={e => { e.preventDefault(); exec("insertOrderedList"); }} title="Lista numerada" className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 transition-colors">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
             </button>
           </div>
 
           {/* Editor area */}
-          <div className="flex-1 overflow-y-auto p-6 sm:p-10">
+          <div className="flex-1 overflow-y-auto p-6 sm:p-10 bg-white dark:bg-[#0d1829]">
             <div id="print-area">
               <div
                 ref={editorRef}
                 contentEditable
                 suppressContentEditableWarning
-                className="max-w-3xl mx-auto min-h-[400px] text-zinc-800 text-base leading-relaxed outline-none"
+                className="max-w-3xl mx-auto min-h-[400px] text-zinc-800 dark:text-zinc-100 text-base leading-relaxed outline-none"
                 style={{ fontFamily: "inherit" }}
                 onKeyDown={e => {
                   if ((e.ctrlKey || e.metaKey) && e.key === "s") {
@@ -348,12 +367,12 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
       {/* Delete confirm */}
       {deleteConfirm && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
-            <h3 className="font-bold text-[#0f2d4a] text-base mb-2">Excluir anotação?</h3>
-            <p className="text-zinc-500 text-sm mb-5">Esta ação não pode ser desfeita.</p>
+          <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+            <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-base mb-2">Excluir anotação?</h3>
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-5">Esta ação não pode ser desfeita.</p>
             <div className="flex gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="flex-1 border border-zinc-200 text-zinc-600 font-semibold py-2 rounded-xl text-sm hover:bg-zinc-50 transition-colors">Cancelar</button>
-              <button onClick={() => deleteNote(deleteConfirm)} className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-xl text-sm transition-colors">Excluir</button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-400 font-semibold py-2 rounded-xl text-sm hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors">Cancelar</button>
+              <button onClick={() => deleteNote(deleteConfirm)} disabled={busy} className="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white font-semibold py-2 rounded-xl text-sm transition-colors">Excluir</button>
             </div>
           </div>
         </div>
