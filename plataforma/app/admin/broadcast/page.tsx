@@ -136,6 +136,8 @@ export default function BroadcastPage() {
   async function handleIndividual() {
     const list = individualEmails.split(/[,;\s\n]+/).map((s) => s.trim()).filter(Boolean);
     if (list.length === 0 || !subject.trim() || !body.trim()) return;
+    const plural = list.length === 1 ? "1 email" : `${list.length} emails`;
+    if (!window.confirm(`Enviar "${subject}" para ${plural} específico(s)?\n\n${list.join("\n")}`)) return;
     setIndividualStatus("sending");
     setIndividualResult(null);
     try {
