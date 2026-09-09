@@ -84,12 +84,11 @@ export default async function HomePage() {
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Quem conhece, confia</span>
             <p className="text-[#0f2d4a] text-base mt-2">Os ebooks e cursos que fazem parte da plataforma já foram avaliados por centenas de alunos.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { nome: "Joana", texto: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões. Não deixa ninguém passar sufoco no plantão." },
               { nome: "Anna", texto: "Indico para todos os médicos recém formados que querem manejar seus pacientes com mais rapidez e com prescrições baseadas em evidências. Vai ser o seu melhor amigo de plantão." },
               { nome: "Leticia", texto: "Indispensável para os plantões. Atualizado, claro e objetivo. Muito prático e com ótimas referências. Realmente facilita e otimiza os atendimentos." },
-              { nome: "Felipe", texto: "De fato, uma grande ajuda para os plantões. Me surpreendi muito positivamente com a qualidade do material e já estou usando no dia a dia." },
               { nome: "Ruth", texto: "Pensado exatamente para o que é mais necessário na prática clínica — seja no pronto-socorro, na enfermaria ou nos ambulatórios. As referências são de fontes sérias e atualizadas." },
             ].map(({ nome, texto }) => (
               <div key={nome + texto} className="flex flex-col gap-3 p-5 rounded-2xl border border-zinc-100 bg-zinc-50/60">
