@@ -81,10 +81,10 @@ function LoginForm() {
 
           <div>
             <p className="text-white font-extrabold text-lg leading-snug mb-1">
-              Bem-vindo(a) de volta.
+              Entre na sua conta.
             </p>
             <p className="text-[#9ec4de] text-sm leading-relaxed">
-              Você tem acesso completo à plataforma. Entre para continuar de onde parou.
+              Tudo que você precisa no plantão, em um só lugar.
             </p>
           </div>
 
