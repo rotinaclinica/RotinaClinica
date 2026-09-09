@@ -136,7 +136,7 @@ export default function AssinaturaPage({
               { nome: "José", texto: "Muito bom." },
               { nome: "Leticia", texto: "Material super completo. Atualizado, claro e objetivo. Muito prático e com ótimas referências. Indispensável para os plantões, realmente facilita e otimiza os atendimentos. Excelente!!" },
             ].map(({ nome, texto }) => (
-              <div key={nome} className="bg-zinc-50/60 border border-zinc-100 rounded-2xl p-5 flex flex-col gap-3">
+              <div key={nome} className="bg-white border border-zinc-300 rounded-2xl p-5 flex flex-col gap-3">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
