@@ -609,12 +609,12 @@ export default function TourPage() {
               Seu bloco de notas clínico, sempre com você
             </h2>
             <p className="text-[#0f2d4a] leading-relaxed mb-6">
-              Registre resumos, fluxogramas e lembretes do plantão em anotações salvas na sua conta —
+              Registre resumos e lembretes do plantão em anotações salvas na sua conta —
               acessíveis em qualquer dispositivo, exportáveis em PDF com sua identificação.
             </p>
             <ul className="space-y-3">
               {[
-                "Crie e edite anotações com formatação rich text",
+                "Crie e edite anotações",
                 "Sincronizadas automaticamente na sua conta",
                 "Acesse pelo celular ou computador",
                 "Baixe em PDF com cabeçalho e identificação",
