@@ -122,7 +122,7 @@ export async function sendNewSubscriberNotification({
   paymentMethod: "stripe" | "mercadopago" | "pix" | "asaas";
   subscriptionPeriod?: string;
 }) {
-  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : paymentMethod === "pix" ? "PIX (Mercado Pago)" : "Mercado Pago (cartão de crédito)";
+  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : paymentMethod === "pix" ? "PIX" : paymentMethod === "asaas" ? "Asaas" : "Mercado Pago (cartão de crédito)";
   await resend.emails.send({
     from: FROM,
     to: "rotinaclinica77@gmail.com",
@@ -241,7 +241,7 @@ export async function sendRefundNotification({
   amountCents: number;
   paymentMethod: "stripe" | "mercadopago" | "asaas";
 }) {
-  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : "Mercado Pago";
+  const gateway = paymentMethod === "stripe" ? "Stripe (cartão de crédito)" : paymentMethod === "asaas" ? "Asaas" : "Mercado Pago";
   const valor = (amountCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
   await resend.emails.send({
