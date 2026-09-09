@@ -39,6 +39,24 @@ const benefits = [
     title: "Ebooks e materiais de apoio",
     description: "Materiais exclusivos para complementar sua prática. Do internato à emergência, tudo em um só lugar.",
   },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+      </svg>
+    ),
+    title: "CID-10",
+    description: "Busca rápida por diagnóstico ou código para atestados, laudos e AIH — tabela completa DATASUS.",
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
+    ),
+    title: "Anotações",
+    description: "Bloco de notas clínico salvo na sua conta — acessível em qualquer dispositivo, exportável em PDF.",
+  },
 ];
 
 const monthlyItems = [
