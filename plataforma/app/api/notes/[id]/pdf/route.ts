@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { PDFDocument, StandardFonts, rgb, PDFPage, PDFFont } from "pdf-lib";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 export const runtime = "nodejs";
 
@@ -104,6 +106,13 @@ export async function GET(
   const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
+  // Logo
+  let logoImage: Awaited<ReturnType<typeof pdfDoc.embedPng>> | null = null;
+  try {
+    const logoBytes = readFileSync(join(process.cwd(), "public", "images", "logo-azul.png"));
+    logoImage = await pdfDoc.embedPng(logoBytes);
+  } catch { /* logo opcional — ignora se não encontrar */ }
+
   const pageW = 595.28;
   const pageH = 841.89;
   const margin = 56;
@@ -124,6 +133,19 @@ export async function GET(
 
   // Faixa azul no topo
   firstPage.drawRectangle({ x: 0, y: pageH - 6, width: pageW, height: 6, color: rgb(0.059, 0.176, 0.29) });
+
+  // Logo no canto superior direito
+  if (logoImage) {
+    const logoH = 28;
+    const logoW = (logoImage.width / logoImage.height) * logoH;
+    firstPage.drawImage(logoImage, {
+      x: pageW - margin - logoW,
+      y: pageH - margin - logoH + 4,
+      width: logoW,
+      height: logoH,
+    });
+  }
+
   ctx.y = pageH - margin - 8;
 
   // Título
