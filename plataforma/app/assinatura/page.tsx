@@ -142,24 +142,52 @@ export default function AssinaturaPage({
                 {b.icon}
               </div>
               <h3 className="font-extrabold text-[#0f2d4a] text-base mb-2">{b.title}</h3>
-              <p className="text-zinc-700 text-sm leading-relaxed text-justify">{b.description}</p>
+              <p className="text-zinc-700 text-sm leading-relaxed leading-relaxed">{b.description}</p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* Depoimentos */}
+      <section className="bg-white border-b border-zinc-100 py-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Quem conhece, confia</span>
+            <p className="text-[#0f2d4a] text-base mt-2">Os ebooks e cursos que fazem parte da plataforma já foram avaliados por centenas de alunos.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { nome: "Joana", texto: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões, material super completo, que não deixa ninguém passar sufoco no plantão." },
+              { nome: "Leticia", texto: "Indispensável para os plantões, realmente facilita e otimiza os atendimentos. Atualizado, claro e objetivo, com ótimas referências. Excelente!" },
+              { nome: "Anna", texto: "Amei o curso! Super completo para quem é médico recém formado e quer ter mais segurança para dar plantões!!!" },
+              { nome: "Felipe", texto: "De fato, uma grande ajuda para os plantões. Me surpreendi positivamente com a qualidade do material e já estou usando no dia a dia." },
+            ].map(({ nome, texto }) => (
+              <div key={nome} className="bg-zinc-50/60 border border-zinc-100 rounded-2xl p-5 flex flex-col gap-3">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  ))}
+                </div>
+                <p className="text-sm text-zinc-800 leading-relaxed flex-1">&ldquo;{texto}&rdquo;</p>
+                <p className="text-xs font-bold text-[#0f2d4a] uppercase tracking-wide">{nome}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Planos */}
-      <section id="planos" className="bg-[#c2d8e8] py-14 sm:py-20 px-6">
+      <section id="planos" className="bg-[#0a1e30] py-14 sm:py-20 px-6">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Escolha seu plano</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0f2d4a] mt-2">Invista na sua carreira</h2>
+            <span className="text-[#3db8d4] text-sm font-semibold tracking-widest uppercase">Escolha seu plano</span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-2">Invista na sua carreira</h2>
           </div>
 
           <div className="flex flex-col gap-6">
 
             {/* Anual — destaque principal */}
-            <div className="relative bg-[#0f2d4a] rounded-3xl p-8 flex flex-col shadow-2xl">
+            <div className="relative bg-[#163558] rounded-3xl p-8 flex flex-col shadow-2xl ring-1 ring-white/10">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#3db8d4] text-[#0f2d4a] text-xs font-extrabold px-5 py-1.5 rounded-full uppercase tracking-wider shadow-md whitespace-nowrap">
                 ⭐ Recomendado — Melhor valor
               </div>
@@ -199,6 +227,10 @@ export default function AssinaturaPage({
               >
                 Assinar agora — R$ 33,30/mês
               </Link>
+              <p className="flex items-center justify-center gap-2 mt-3 text-xs text-white/70">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Garantia de 7 dias — se não gostar, devolvemos 100%
+              </p>
             </div>
 
             {/* Mensal — secundário */}
@@ -235,7 +267,7 @@ export default function AssinaturaPage({
 
           </div>
 
-          <p className="text-center text-zinc-600 text-xs mt-8 font-medium">
+          <p className="text-center text-[#9ec4de] text-xs mt-8 font-medium">
             Pagamento seguro · Acesso imediato após confirmação
           </p>
         </div>
@@ -246,12 +278,17 @@ export default function AssinaturaPage({
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0f2d4a]">Dúvidas frequentes</h2>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map(({ q, a }) => (
-            <div key={q} className="bg-white border border-zinc-200 rounded-2xl p-6">
-              <p className="font-bold text-[#0f2d4a] mb-2">{q}</p>
-              <p className="text-zinc-700 text-sm leading-relaxed">{a}</p>
-            </div>
+            <details key={q} className="group bg-white border border-zinc-200 rounded-2xl overflow-hidden">
+              <summary className="flex items-center justify-between px-6 py-5 cursor-pointer font-bold text-[#0f2d4a] list-none select-none">
+                {q}
+                <svg className="flex-shrink-0 ml-4 transition-transform duration-200 group-open:rotate-180" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <div className="px-6 pb-5">
+                <p className="text-zinc-700 text-sm leading-relaxed">{a}</p>
+              </div>
+            </details>
           ))}
         </div>
       </section>

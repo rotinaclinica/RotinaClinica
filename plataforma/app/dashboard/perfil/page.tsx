@@ -162,6 +162,13 @@ export default async function PerfilPage() {
                     <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
                       {sub.currentPeriodEnd.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
                     </p>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-0.5">
+                      {(() => {
+                        const dias = Math.ceil((sub.currentPeriodEnd.getTime() - Date.now()) / 86400000);
+                        if (dias <= 0) return "acesso encerrado";
+                        return `faltam ${dias} dia${dias !== 1 ? "s" : ""}`;
+                      })()}
+                    </p>
                   </div>
                 </div>
 

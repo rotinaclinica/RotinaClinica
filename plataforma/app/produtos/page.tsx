@@ -61,9 +61,51 @@ export default function ProdutosPage() {
         </div>
       </section>
 
-      {/* Produtos pagos */}
-      <section className="max-w-5xl mx-auto px-6 py-14">
-        <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-8">Produtos</h2>
+      {/* Gratuitos — destaque no topo */}
+      <section className="max-w-5xl mx-auto px-6 pt-14 pb-6">
+        <div className="flex items-center gap-3 mb-6">
+          <h2 className="text-2xl font-extrabold text-[#0f2d4a]">Comece por aqui — grátis</h2>
+          <span className="bg-[#3db8d4]/15 text-[#1a6aad] text-xs font-bold px-3 py-1 rounded-full border border-[#3db8d4]/30">Sem custo</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {FREE_EBOOKS.map((e) => (
+            <Link
+              key={e.slug}
+              href={`/download/${e.slug}`}
+              className="group bg-white rounded-2xl overflow-hidden border border-zinc-200 hover:shadow-xl hover:border-[#3db8d4] transition-all flex flex-col"
+            >
+              <div className="relative bg-white flex items-center justify-center h-60 overflow-hidden border-b border-zinc-100">
+                <img
+                  src={e.image}
+                  alt={e.title}
+                  className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                />
+                <span className="absolute top-3 left-3 bg-[#3db8d4] text-[#0f2d4a] text-xs font-bold px-3 py-1 rounded-full">
+                  Gratuito
+                </span>
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
+                  {e.title}
+                </h3>
+                <p className="text-zinc-700 text-sm flex-1 mb-4">{e.description}</p>
+                <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
+                  Baixar grátis →
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Divisor */}
+      <div className="max-w-5xl mx-auto px-6">
+        <hr className="border-zinc-200" />
+      </div>
+
+      {/* O que produzimos */}
+      <section className="max-w-5xl mx-auto px-6 py-10 pb-14">
+        <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-8">O que produzimos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {PAID_PRODUCTS.map((p) => (
             <a
@@ -97,45 +139,6 @@ export default function ProdutosPage() {
               </div>
             </a>
           ))}
-        </div>
-      </section>
-
-      {/* E-books gratuitos */}
-      <section className="bg-[#e8f4fc] py-14 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-2">E-books Gratuitos</h2>
-          <p className="text-zinc-700 mb-8 text-sm">
-            Preencha um breve questionário e faça o download imediatamente.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {FREE_EBOOKS.map((e) => (
-              <Link
-                key={e.slug}
-                href={`/download/${e.slug}`}
-                className="group bg-white rounded-2xl overflow-hidden border border-zinc-200 hover:shadow-xl hover:border-[#3db8d4] transition-all flex flex-col"
-              >
-                <div className="relative bg-white flex items-center justify-center h-60 overflow-hidden border-b border-zinc-100">
-                  <img
-                    src={e.image}
-                    alt={e.title}
-                    className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <span className="absolute top-3 left-3 bg-[#3db8d4] text-[#0f2d4a] text-xs font-bold px-3 py-1 rounded-full">
-                    Gratuito
-                  </span>
-                </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
-                    {e.title}
-                  </h3>
-                  <p className="text-zinc-700 text-sm flex-1 mb-4">{e.description}</p>
-                  <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
-                    Baixar grátis →
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 

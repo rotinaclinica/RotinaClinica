@@ -33,8 +33,8 @@ export default async function HomePage() {
         <div className="relative max-w-7xl mx-auto px-6 py-14 md:py-20 w-full">
           <div className="max-w-xl">
             <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-tight mb-5">
-              Com você em toda a sua{" "}
-              <span className="text-[#3db8d4]">trajetória médica</span>
+              Nunca mais trave{" "}
+              <span className="text-[#3db8d4]">no plantão</span>
             </h1>
             <p className="text-[#b8d8ee] text-lg leading-relaxed mb-6">
               O <span className="font-semibold text-white">Rotina Clínica</span> acompanha você desde o internato, passando por UBS, plantões em UPA e no PS, até os plantões na emergência.
@@ -77,8 +77,38 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Depoimentos — logo abaixo do hero */}
+      <section className="bg-white border-b border-zinc-100 py-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Quem conhece, confia</span>
+            <p className="text-[#0f2d4a] text-base mt-2">Os ebooks e cursos que fazem parte da plataforma já foram avaliados por centenas de alunos.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { nome: "Joana", texto: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões. Não deixa ninguém passar sufoco no plantão." },
+              { nome: "Anna", texto: "Indico para todos os médicos recém formados que querem manejar seus pacientes com mais rapidez e com prescrições baseadas em evidências. Vai ser o seu melhor amigo de plantão." },
+              { nome: "Leticia", texto: "Indispensável para os plantões. Atualizado, claro e objetivo. Muito prático e com ótimas referências. Realmente facilita e otimiza os atendimentos." },
+              { nome: "Felipe", texto: "De fato, uma grande ajuda para os plantões. Me surpreendi muito positivamente com a qualidade do material e já estou usando no dia a dia." },
+              { nome: "Anna", texto: "Amei o curso! Super completo para quem é médico recém formado e quer ter mais segurança para dar plantões!" },
+              { nome: "Ruth", texto: "Pensado exatamente para o que é mais necessário na prática clínica — seja no pronto-socorro, na enfermaria ou nos ambulatórios. As referências são de fontes sérias e atualizadas." },
+            ].map(({ nome, texto }) => (
+              <div key={nome + texto} className="flex flex-col gap-3 p-5 rounded-2xl border border-zinc-100 bg-zinc-50/60">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  ))}
+                </div>
+                <p className="text-sm text-zinc-800 leading-relaxed flex-1">&ldquo;{texto}&rdquo;</p>
+                <p className="text-[11px] font-bold text-[#0f2d4a] uppercase tracking-widest">{nome}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* O que você recebe */}
-      <section className="py-16 px-6 bg-[#f0f7ff] dark:bg-[#0a1628]">
+      <section className="py-16 px-6 bg-[#f4f8fc] dark:bg-[#0a1628]">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Tudo em um só lugar</span>
@@ -87,17 +117,15 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { emoji: "📋", titulo: "Condutas Clínicas", desc: "Prescrições e condutas prontas para PS, UPA, UBS, ambulatório, emergência e internação." },
-              { emoji: "🧮", titulo: "Calculadoras Clínicas", desc: "Calculadoras e Escores validados para sua prática clínica." },
-              { emoji: "🩺", titulo: "Casos Clínicos", desc: "Casos clínicos em vídeos e séries visuais com raciocínio e condutas detalhadas para você." },
-              { emoji: "📝", titulo: "Modelos de Evolução", desc: "Modelos prontos para agilizar seu atendimento." },
-              { emoji: "📄", titulo: "Ebooks e Aulas", desc: "Conteúdo prático em PDF, disponível para download e leitura a qualquer hora." },
-              { emoji: "🎓", titulo: "Cursos e Aulas Online", desc: "Destravando o Plantão, conteúdos das parceiras Docstage e Airtraq e muito mais..." },
-              { emoji: "✅", titulo: "Compromisso com a Qualidade", desc: "Conteúdo produzido por especialistas em clínica médica, baseado nas melhores evidências disponíveis, com atualizações e melhorias contínuas na plataforma." },
-              { emoji: "📱", titulo: "Acesso em qualquer lugar", desc: "Disponível no celular, tablet ou computador — acesse sua conta a qualquer hora, de onde estiver." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>, titulo: "Condutas Clínicas", desc: "Prescrições e condutas prontas para PS, UPA, UBS, ambulatório, emergência e internação." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>, titulo: "Calculadoras Clínicas", desc: "Calculadoras e Escores validados para sua prática clínica." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M12 2a10 10 0 0 0 0 20"/><line x1="12" y1="9" x2="12" y2="2"/><line x1="12" y1="15" x2="12" y2="22"/></svg>, titulo: "Casos Clínicos", desc: "Casos clínicos em vídeos e séries visuais com raciocínio e condutas detalhadas." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>, titulo: "Modelos de Evolução", desc: "Modelos prontos para agilizar seus registros no atendimento." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>, titulo: "Ebooks e Materiais", desc: "Conteúdo prático em PDF, disponível para download e leitura a qualquer hora." },
+              { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>, titulo: "Cursos e Aulas Online", desc: "Destravando o Plantão, conteúdos das parceiras Docstage e Airtraq e muito mais." },
             ].map((item) => (
               <div key={item.titulo} className="flex gap-4 bg-white dark:bg-[#101c30] rounded-2xl p-5 shadow-sm border border-zinc-100 dark:border-white/8">
-                <span className="text-2xl flex-shrink-0 mt-0.5">{item.emoji}</span>
+                <span className="text-[#1a6aad] flex-shrink-0 mt-0.5">{item.icon}</span>
                 <div>
                   <p className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm">{item.titulo}</p>
                   <p className="text-zinc-500 dark:text-[#6a8fa5] text-sm mt-0.5 leading-snug">{item.desc}</p>
@@ -207,7 +235,7 @@ export default async function HomePage() {
       )}
 
       {/* Redes sociais */}
-      <section className="py-14 sm:py-20 px-6 bg-[#f7fafc]">
+      <section className="py-14 sm:py-20 px-6 bg-[#f4f8fc]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
             <span className="text-[#1a6aad] text-sm font-semibold tracking-widest uppercase">Nossas redes</span>
@@ -298,7 +326,7 @@ export default async function HomePage() {
       </section>
 
       {/* Contato */}
-      <section className="py-16 bg-[#f0f6fb]">
+      <section className="py-16 bg-white">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-3">Dúvidas? Fale conosco</h2>
           <p className="text-[#4a6fa5] mb-6">Nossa equipe está disponível para ajudar com suporte, dúvidas sobre a plataforma ou qualquer outra questão.</p>

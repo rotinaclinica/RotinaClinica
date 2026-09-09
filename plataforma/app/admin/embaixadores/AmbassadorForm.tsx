@@ -23,32 +23,34 @@ export function AmbassadorForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-zinc-800/60 border border-zinc-200 dark:border-white/8 rounded-xl p-5 space-y-3 max-w-md">
-      <h2 className="text-sm font-bold text-zinc-800 dark:text-zinc-100">Adicionar embaixador</h2>
-      <div>
-        <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">E-mail do usuário</label>
-        <input
-          type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-          placeholder="medico@email.com"
-          className="w-full text-sm px-3 py-2 rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 placeholder:text-zinc-400"
-        />
-      </div>
-      <div>
-        <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">Código do embaixador</label>
-        <input
-          type="text" required value={code} onChange={(e) => setCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
-          placeholder="Ex: ALUNO10" maxLength={20}
-          className="w-full text-sm px-3 py-2 rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 placeholder:text-zinc-400 uppercase tracking-widest"
-        />
-        <p className="text-[11px] text-zinc-400 mt-1">Somente letras e números, sem espaços.</p>
-      </div>
-      {status && (
-        <p className={`text-xs font-medium ${status.type === "error" ? "text-red-500" : "text-green-600"}`}>{status.msg}</p>
-      )}
-      <button type="submit" disabled={loading}
-        className="px-4 py-2 text-sm font-semibold bg-zinc-800 dark:bg-zinc-700 text-white rounded-lg hover:bg-zinc-700 transition-colors disabled:opacity-50">
-        {loading ? "Salvando…" : "Adicionar embaixador"}
-      </button>
-    </form>
+    <div className="bg-white rounded-xl border border-zinc-200 p-6 max-w-lg">
+      <h2 className="text-sm font-bold text-zinc-900 mb-4">Adicionar embaixador</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-xs font-semibold text-zinc-500 mb-1.5">E-mail do usuário</label>
+          <input
+            type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+            placeholder="medico@email.com"
+            className="w-full text-sm px-3 py-2 rounded-lg border border-zinc-200 bg-white text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-zinc-500 mb-1.5">Código do embaixador</label>
+          <input
+            type="text" required value={code} onChange={(e) => setCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
+            placeholder="Ex: DRJOAO" maxLength={20}
+            className="w-full text-sm px-3 py-2 rounded-lg border border-zinc-200 bg-white text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-300 uppercase tracking-widest font-mono"
+          />
+          <p className="text-[11px] text-zinc-400 mt-1">Somente letras e números, sem espaços (3–20 caracteres).</p>
+        </div>
+        {status && (
+          <p className={`text-xs font-medium ${status.type === "error" ? "text-red-500" : "text-emerald-600"}`}>{status.msg}</p>
+        )}
+        <button type="submit" disabled={loading}
+          className="px-4 py-2 text-sm font-semibold bg-zinc-900 text-white rounded-lg hover:bg-zinc-700 transition-colors disabled:opacity-50">
+          {loading ? "Salvando…" : "Adicionar embaixador"}
+        </button>
+      </form>
+    </div>
   );
 }

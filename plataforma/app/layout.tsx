@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import ThemeProvider from "@/app/components/ThemeProvider";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap", weight: ["500", "600", "700", "800"] });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm", display: "swap", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "Rotina Clínica", template: "%s | Rotina Clínica" },
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={geist.variable} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${jakarta.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-white dark:bg-[#0c1117] text-zinc-900 antialiased">
         <ThemeProvider>{children}</ThemeProvider>
         <Script id="meta-pixel" strategy="afterInteractive">{`

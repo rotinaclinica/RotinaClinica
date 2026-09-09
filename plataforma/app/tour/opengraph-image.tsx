@@ -29,7 +29,7 @@ export default function Image() {
         </div>
 
         <span style={{ color: "#3db8d4", fontSize: 22, fontWeight: 600, letterSpacing: 3, marginBottom: 20 }}>
-          TOUR DA PLATAFORMA
+          VEJA COMO FUNCIONA NOSSO ECOSSISTEMA
         </span>
 
         <span style={{ color: "#ffffff", fontSize: 64, fontWeight: 800, lineHeight: 1.15, marginBottom: 28 }}>

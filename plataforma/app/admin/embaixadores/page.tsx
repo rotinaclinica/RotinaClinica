@@ -8,8 +8,8 @@ import { RemoveButton, MarkPaidButton } from "./AmbassadorActions";
 
 export const metadata = { title: "Embaixadores · Admin Rotina Clínica" };
 
-function fmt(cents: number) {
-  return (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+function brl(cents: number | null | undefined) {
+  return ((cents ?? 0) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 export default async function EmbaixadoresPage() {
@@ -27,7 +27,14 @@ export default async function EmbaixadoresPage() {
       email: true,
       ambassadorCode: true,
       referralsGiven: {
-        select: { id: true, paymentAmountCents: true, commissionCents: true, paidOut: true, createdAt: true, referredUser: { select: { name: true, email: true } } },
+        select: {
+          id: true,
+          paymentAmountCents: true,
+          commissionCents: true,
+          paidOut: true,
+          createdAt: true,
+          referredUser: { select: { name: true, email: true } },
+        },
         orderBy: { createdAt: "desc" },
       },
     },
@@ -35,88 +42,96 @@ export default async function EmbaixadoresPage() {
   });
 
   return (
-    <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
-        <h1 className="text-xl font-extrabold text-zinc-800 dark:text-zinc-100">Embaixadores</h1>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-0.5">{ambassadors.length} embaixador{ambassadors.length !== 1 ? "es" : ""} ativo{ambassadors.length !== 1 ? "s" : ""}</p>
-      </header>
+    <div className="space-y-8">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-zinc-900">Embaixadores</h1>
+          <p className="text-sm text-zinc-500 mt-1">
+            {ambassadors.length} embaixador{ambassadors.length !== 1 ? "es" : ""} ativo{ambassadors.length !== 1 ? "s" : ""}
+          </p>
+        </div>
+      </div>
 
-      <main className="flex-1 p-6 sm:p-8 space-y-8">
-        <AmbassadorForm />
+      <AmbassadorForm />
 
-        {ambassadors.length === 0 ? (
-          <div className="py-12 text-center text-zinc-400">
-            <p className="text-lg font-medium">Nenhum embaixador ainda</p>
-          </div>
-        ) : (
-          <div className="space-y-4 max-w-4xl">
-            {ambassadors.map((amb) => {
-              const totalReferrals = amb.referralsGiven.length;
-              const pendingCents = amb.referralsGiven.filter(r => !r.paidOut).reduce((s, r) => s + r.commissionCents, 0);
-              const paidCents = amb.referralsGiven.filter(r => r.paidOut).reduce((s, r) => s + r.commissionCents, 0);
-              const bonusMonths = Math.floor(totalReferrals / 2);
+      {ambassadors.length === 0 ? (
+        <div className="bg-white rounded-xl border border-zinc-200 py-16 text-center">
+          <p className="text-zinc-400 font-medium">Nenhum embaixador cadastrado ainda.</p>
+        </div>
+      ) : (
+        <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
+          <table className="w-full text-sm min-w-[700px]">
+            <thead>
+              <tr className="border-b border-zinc-100 bg-zinc-50">
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Embaixador</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Código</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Indicações</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Meses bônus</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Comissão pendente</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-500">Já pago</th>
+                <th className="px-4 py-3" />
+              </tr>
+            </thead>
+            <tbody>
+              {ambassadors.map((amb) => {
+                const total = amb.referralsGiven.length;
+                const pendingCents = amb.referralsGiven.filter(r => !r.paidOut).reduce((s, r) => s + r.commissionCents, 0);
+                const paidCents = amb.referralsGiven.filter(r => r.paidOut).reduce((s, r) => s + r.commissionCents, 0);
+                const bonusMonths = Math.floor(total / 2);
 
-              return (
-                <div key={amb.id} className="bg-white dark:bg-zinc-800/60 border border-zinc-200 dark:border-white/8 rounded-xl overflow-hidden">
-                  {/* Cabeçalho do embaixador */}
-                  <div className="flex items-start justify-between gap-4 px-5 py-4">
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-bold text-zinc-800 dark:text-zinc-100">{amb.name ?? "Sem nome"}</span>
-                        <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#0f2d4a] text-white tracking-widest">{amb.ambassadorCode}</span>
-                      </div>
-                      <p className="text-xs text-zinc-500 mt-0.5">{amb.email}</p>
-                    </div>
-                    <RemoveButton userId={amb.id} />
-                  </div>
-
-                  {/* Estatísticas */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-zinc-100 dark:bg-white/6 border-t border-b border-zinc-100 dark:border-white/6">
-                    {[
-                      { label: "Indicações", value: String(totalReferrals) },
-                      { label: "Meses bônus", value: String(bonusMonths) },
-                      { label: "Pendente", value: fmt(pendingCents), highlight: pendingCents > 0 },
-                      { label: "Já pago", value: fmt(paidCents) },
-                    ].map(({ label, value, highlight }) => (
-                      <div key={label} className="bg-white dark:bg-zinc-800/60 px-4 py-3 text-center">
-                        <p className="text-[11px] text-zinc-400 uppercase tracking-wide">{label}</p>
-                        <p className={`text-base font-extrabold mt-0.5 ${highlight ? "text-amber-600 dark:text-amber-400" : "text-zinc-800 dark:text-zinc-100"}`}>{value}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Ações e lista de indicações */}
-                  <div className="px-5 py-3 flex items-center justify-between gap-2">
-                    <p className="text-xs text-zinc-500">Comissão pendente de repasse</p>
-                    <MarkPaidButton ambassadorId={amb.id} pending={pendingCents} />
-                  </div>
-
-                  {amb.referralsGiven.length > 0 && (
-                    <div className="border-t border-zinc-100 dark:border-white/6">
-                      {amb.referralsGiven.map((r) => (
-                        <div key={r.id} className="flex items-center justify-between px-5 py-2.5 text-xs border-b border-zinc-50 dark:border-white/4 last:border-0">
-                          <div>
-                            <span className="font-semibold text-zinc-700 dark:text-zinc-200">{r.referredUser.name ?? r.referredUser.email}</span>
-                            <span className="text-zinc-400 ml-2">{r.createdAt.toLocaleDateString("pt-BR")}</span>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <span className="text-zinc-500">{fmt(r.paymentAmountCents)}</span>
-                            <span className="font-semibold text-zinc-700 dark:text-zinc-200">comissão: {fmt(r.commissionCents)}</span>
-                            {r.paidOut
-                              ? <span className="text-green-600 dark:text-green-400 font-semibold">✓ pago</span>
-                              : <span className="text-amber-600 dark:text-amber-400 font-semibold">pendente</span>
-                            }
-                          </div>
+                return (
+                  <>
+                    <tr key={amb.id} className="border-b border-zinc-100 hover:bg-zinc-50">
+                      <td className="px-4 py-3">
+                        <p className="font-medium text-zinc-800">{amb.name ?? "Sem nome"}</p>
+                        <p className="text-xs text-zinc-400">{amb.email}</p>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="inline-block font-mono font-bold text-xs px-2.5 py-1 rounded bg-[#0f2d4a] text-white tracking-widest">
+                          {amb.ambassadorCode}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-zinc-700 font-semibold">{total}</td>
+                      <td className="px-4 py-3 text-zinc-700">{bonusMonths > 0 ? `+${bonusMonths} mês${bonusMonths !== 1 ? "es" : ""}` : "—"}</td>
+                      <td className="px-4 py-3">
+                        {pendingCents > 0
+                          ? <span className="font-semibold text-amber-600">{brl(pendingCents)}</span>
+                          : <span className="text-zinc-400">—</span>}
+                      </td>
+                      <td className="px-4 py-3 text-zinc-500">{paidCents > 0 ? brl(paidCents) : "—"}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2 justify-end">
+                          <MarkPaidButton ambassadorId={amb.id} pending={pendingCents} />
+                          <RemoveButton userId={amb.id} />
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </main>
+                      </td>
+                    </tr>
+                    {amb.referralsGiven.length > 0 && amb.referralsGiven.map((r) => (
+                      <tr key={r.id} className="border-b border-zinc-50 last:border-0 bg-zinc-50/60">
+                        <td className="pl-10 pr-4 py-2" colSpan={2}>
+                          <p className="text-xs text-zinc-600 font-medium">{r.referredUser.name ?? r.referredUser.email}</p>
+                          <p className="text-[11px] text-zinc-400">{r.referredUser.email}</p>
+                        </td>
+                        <td className="px-4 py-2 text-xs text-zinc-500" colSpan={2}>
+                          {r.createdAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                        </td>
+                        <td className="px-4 py-2 text-xs font-semibold text-zinc-700">
+                          comissão: {brl(r.commissionCents)}
+                        </td>
+                        <td className="px-4 py-2" colSpan={2}>
+                          {r.paidOut
+                            ? <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">✓ pago</span>
+                            : <span className="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">pendente</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

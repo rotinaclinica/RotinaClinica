@@ -31,10 +31,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { subject, body, testEmails, action } = await req.json() as {
+  const { subject, body, testEmails, individualEmails, action } = await req.json() as {
     subject?: string;
     body?: string;
     testEmails?: string[];
+    individualEmails?: string[];
     action?: string;
   };
 
@@ -64,6 +65,23 @@ export async function POST(req: NextRequest) {
     }
     const r = await sendBatches(list, subject, buildHtml(subject, body));
     return NextResponse.json({ test: true, total: list.length, sent: r.sent, failed: r.failed, errors: r.errors });
+  }
+
+  // ── Envio direcionado: emails específicos, sem limite, sem campanha ──
+  if (Array.isArray(individualEmails) && individualEmails.length > 0) {
+    const seen = new Set<string>();
+    const list = individualEmails
+      .map((e) => String(e).trim().toLowerCase())
+      .filter((e) => {
+        if (!e || !e.includes("@") || !e.includes(".") || seen.has(e)) return false;
+        seen.add(e);
+        return true;
+      });
+    if (list.length === 0) {
+      return NextResponse.json({ error: "Nenhum email válido informado." }, { status: 400 });
+    }
+    const r = await sendBatches(list, subject, buildHtml(subject, body));
+    return NextResponse.json({ individual: true, total: list.length, sent: r.sent, failed: r.failed, errors: r.errors });
   }
 
   // ── Iniciar campanha automática: registra e envia o 1º lote agora.

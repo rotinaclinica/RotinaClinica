@@ -61,7 +61,7 @@ export default function TurmaCarousel() {
       </div>
 
       <div className="bg-white px-5 py-3 text-center">
-        <p className="text-xs text-zinc-400 font-medium tracking-wide uppercase">
+        <p className="text-xs text-zinc-600 font-semibold tracking-wide uppercase">
           Nossas turmas · {current + 1} / {photos.length}
         </p>
       </div>

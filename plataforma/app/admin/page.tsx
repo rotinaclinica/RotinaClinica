@@ -41,6 +41,7 @@ export default async function AdminPage() {
     revenueYear,
     revenueStripe,
     revenueMp,
+    revenueAsaas,
     revenueWeek,
     ordersTotal,
     reembolsosAggregate,
@@ -65,6 +66,7 @@ export default async function AdminPage() {
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfYear } }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", provider: "STRIPE" }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", provider: "MERCADOPAGO" }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", provider: "ASAAS" }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: last7 } }, _sum: { totalCents: true } }),
     db.order.count({ where: { status: "PAID" } }),
     db.order.aggregate({ where: { status: "REFUNDED" }, _sum: { totalCents: true }, _count: true }),
@@ -192,6 +194,7 @@ export default async function AdminPage() {
         <div className="grid grid-cols-2 gap-3 mt-3">
           <Tile label="Receita via Stripe"       value={brl(revenueStripe._sum.totalCents)} sub="gateway internacional" />
           <Tile label="Receita via Mercado Pago" value={brl(revenueMp._sum.totalCents)}    sub="gateway nacional" />
+          <Tile label="Receita via Asaas"        value={brl(revenueAsaas._sum.totalCents)} sub="gateway nacional" />
         </div>
         <div className="grid grid-cols-2 gap-3 mt-3">
           <Tile label="Total reembolsado" value={brl(reembolsosAggregate._sum.totalCents)} color="red" sub={`${reembolsosAggregate._count} reembolso${reembolsosAggregate._count !== 1 ? "s" : ""}`} />
@@ -216,6 +219,7 @@ export default async function AdminPage() {
             slices={[
               { label: "Stripe",        value: Math.round((revenueStripe._sum.totalCents ?? 0) / 100), color: "#3b82f6" },
               { label: "Mercado Pago",  value: Math.round((revenueMp._sum.totalCents ?? 0) / 100),    color: "#f97316" },
+              { label: "Asaas",         value: Math.round((revenueAsaas._sum.totalCents ?? 0) / 100), color: "#10b981" },
             ]}
           />
           <div className="md:col-span-2">
