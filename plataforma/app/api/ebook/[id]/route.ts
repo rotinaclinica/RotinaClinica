@@ -1,25 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { canAccessPaidContent } from "@/lib/subscription";
-import { getObjectBytes } from "@/lib/r2";
+import { getBlobBytes } from "@/lib/blob";
 import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
 import fs from "fs";
 import path from "path";
 
 export const maxDuration = 60;
 
-// Ebooks grandes (>50MB) são servidos do R2 (fora do bundle da Vercel);
-// os menores continuam no public/ do deploy. `r2Key` indica a via R2.
-const EBOOKS: Record<string, { file: string; name: string; folder?: string; r2Key?: string }> = {
+// Ebooks grandes (>50MB) são servidos do Vercel Blob (fora do bundle da
+// Vercel); os menores continuam no public/ do deploy. `blobUrl` indica a via Blob.
+const EBOOKS: Record<string, { file: string; name: string; folder?: string; blobUrl?: string }> = {
   "guia-prescricoes": {
     file: "Manual de prescrições Rotina Clínica.pdf",
     name: "Manual de Prescrições — Rotina Clínica",
-    r2Key: "ebooks/manual-prescricoes.pdf",
+    blobUrl: "https://ou9gedwcm8mxxcyr.private.blob.vercel-storage.com/ebooks/manual-prescricoes.pdf",
   },
   "guia-intubacao": {
     file: "Guia de intubação orotraqueal, sedação e ventilação mecânica.pdf",
     name: "Guia de Intubação, Sedação e VM — Rotina Clínica",
-    r2Key: "ebooks/guia-intubacao.pdf",
+    blobUrl: "https://ou9gedwcm8mxxcyr.private.blob.vercel-storage.com/ebooks/guia-intubacao.pdf",
   },
   "constipacao-intestinal": {
     file: "Abordagem da Constipação Intestinal.pdf",
@@ -103,9 +103,9 @@ export async function GET(
   }
 
   let pdfBytes: Buffer;
-  if (ebook.r2Key) {
+  if (ebook.blobUrl) {
     try {
-      pdfBytes = await getObjectBytes(ebook.r2Key);
+      pdfBytes = await getBlobBytes(ebook.blobUrl);
     } catch {
       return NextResponse.json({ error: "Arquivo não disponível" }, { status: 500 });
     }
