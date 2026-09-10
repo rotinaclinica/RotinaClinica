@@ -27,7 +27,7 @@ export function AmbassadorForm() {
       <h2 className="text-sm font-bold text-zinc-900 mb-4">Adicionar embaixador</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">E-mail do usuário</label>
+          <label className="block text-xs font-semibold text-zinc-700 mb-1.5">E-mail do usuário</label>
           <input
             type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
             placeholder="medico@email.com"
@@ -35,13 +35,13 @@ export function AmbassadorForm() {
           />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Código do embaixador</label>
+          <label className="block text-xs font-semibold text-zinc-700 mb-1.5">Código do embaixador</label>
           <input
             type="text" required value={code} onChange={(e) => setCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
             placeholder="Ex: DRJOAO" maxLength={20}
             className="w-full text-sm px-3 py-2 rounded-lg border border-zinc-200 bg-white text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-300 uppercase tracking-widest font-mono"
           />
-          <p className="text-[11px] text-zinc-700 dark:text-zinc-300 mt-1">Somente letras e números, sem espaços (3–20 caracteres).</p>
+          <p className="text-[11px] text-zinc-700 mt-1">Somente letras e números, sem espaços (3–20 caracteres).</p>
         </div>
         {status && (
           <p className={`text-xs font-medium ${status.type === "error" ? "text-red-500" : "text-emerald-600"}`}>{status.msg}</p>

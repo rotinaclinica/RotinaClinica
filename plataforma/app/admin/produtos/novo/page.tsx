@@ -24,7 +24,7 @@ export default function NovoProdutoPage() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center gap-3 mb-8">
-        <Link href="/admin/produtos" className="text-zinc-700 dark:text-zinc-300 hover:text-zinc-600 text-sm">
+        <Link href="/admin/produtos" className="text-zinc-700 hover:text-zinc-600 text-sm">
           ← Produtos
         </Link>
         <span className="text-zinc-300">/</span>
@@ -57,7 +57,7 @@ export default function NovoProdutoPage() {
             className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="curso-de-pilates"
           />
-          <p className="text-xs text-zinc-700 dark:text-zinc-300 mt-1">Deixe em branco para gerar automaticamente do título.</p>
+          <p className="text-xs text-zinc-700 mt-1">Deixe em branco para gerar automaticamente do título.</p>
         </div>
 
         <div>
@@ -106,7 +106,7 @@ export default function NovoProdutoPage() {
             className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="arquivos/meu-ebook.pdf"
           />
-          <p className="text-xs text-zinc-700 dark:text-zinc-300 mt-1">Caminho do arquivo no Cloudflare R2.</p>
+          <p className="text-xs text-zinc-700 mt-1">Caminho do arquivo no Cloudflare R2.</p>
         </div>
 
         <div className="flex items-center gap-2">

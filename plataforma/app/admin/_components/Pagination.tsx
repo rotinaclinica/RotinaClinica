@@ -30,7 +30,7 @@ export default function Pagination({
 
   const linkCls =
     "px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors";
-  const enabled = "bg-white border-zinc-200 text-zinc-700 dark:text-zinc-300 hover:border-violet-400";
+  const enabled = "bg-white border-zinc-200 text-zinc-700 hover:border-violet-400";
   const disabled = "bg-zinc-50 border-zinc-100 text-zinc-300 pointer-events-none";
 
   return (
@@ -38,7 +38,7 @@ export default function Pagination({
       <Link href={href(prev)} className={`${linkCls} ${page <= 1 ? disabled : enabled}`}>
         ← Anterior
       </Link>
-      <span className="text-xs text-zinc-700 dark:text-zinc-300">
+      <span className="text-xs text-zinc-700">
         Página <span className="font-semibold text-zinc-700">{page}</span> de {totalPages}
       </span>
       <Link href={href(next)} className={`${linkCls} ${page >= totalPages ? disabled : enabled}`}>
