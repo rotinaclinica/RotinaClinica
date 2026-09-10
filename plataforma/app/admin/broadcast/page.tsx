@@ -213,11 +213,11 @@ export default function BroadcastPage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-extrabold text-zinc-900 mb-1">Enviar email</h1>
-      <p className="text-sm text-zinc-700 mb-6">
+      <h1 className="text-2xl font-extrabold text-zinc-100 mb-1">Enviar email</h1>
+      <p className="text-sm text-zinc-400 mb-6">
         Envio para lista de{" "}
-        <strong className="text-zinc-700">{total !== null ? total : "..."} destinatários</strong>{" "}
-        via <code className="bg-zinc-100 px-1 rounded">contato@rotinaclinica.com</code>
+        <strong className="text-zinc-400">{total !== null ? total : "..."} destinatários</strong>{" "}
+        via <code className="bg-white/10 px-1 rounded">contato@rotinaclinica.com</code>
       </p>
 
       {/* Campanha automática ativa */}
@@ -247,7 +247,7 @@ export default function BroadcastPage() {
                 <p className="text-[11px] text-red-700 font-semibold">Tem certeza?</p>
                 <div className="flex gap-2">
                   <button onClick={handleCancel} className="text-xs font-bold text-red-600 hover:underline">Sim, cancelar</button>
-                  <button onClick={() => setCancelConfirm(false)} className="text-xs text-zinc-700 hover:underline">Não</button>
+                  <button onClick={() => setCancelConfirm(false)} className="text-xs text-zinc-400 hover:underline">Não</button>
                 </div>
               </div>
             )}
@@ -263,14 +263,14 @@ export default function BroadcastPage() {
       )}
 
       {/* Modelos */}
-      <div className="flex flex-wrap items-end gap-2 mb-5 p-4 bg-zinc-100/60 rounded-xl border border-zinc-200">
+      <div className="flex flex-wrap items-end gap-2 mb-5 p-4 bg-white/10/60 rounded-xl border border-white/10">
         <div className="flex-1 min-w-[180px]">
-          <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wide mb-1">Modelo</label>
+          <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wide mb-1">Modelo</label>
           <select
             value={selected}
             onChange={(e) => applyTemplate(e.target.value)}
             disabled={locked}
-            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm bg-white text-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50"
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm bg-[#161b22] text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50"
           >
             <option value="">— Selecione um modelo —</option>
             {allTemplates.map((t) => (
@@ -281,7 +281,7 @@ export default function BroadcastPage() {
         <button
           onClick={saveAsTemplate}
           disabled={locked || (!subject.trim() && !body.trim())}
-          className="px-3 py-2 rounded-lg text-xs font-semibold bg-white border border-zinc-300 text-zinc-700 hover:border-violet-400 disabled:opacity-40 transition-colors"
+          className="px-3 py-2 rounded-lg text-xs font-semibold bg-[#161b22] border border-white/10 text-zinc-400 hover:border-violet-400 disabled:opacity-40 transition-colors"
         >
           Salvar como modelo
         </button>
@@ -289,7 +289,7 @@ export default function BroadcastPage() {
           <button
             onClick={deleteTemplate}
             disabled={locked}
-            className="px-3 py-2 rounded-lg text-xs font-semibold bg-white border border-red-200 text-red-600 hover:border-red-400 disabled:opacity-40 transition-colors"
+            className="px-3 py-2 rounded-lg text-xs font-semibold bg-[#161b22] border border-red-200 text-red-600 hover:border-red-400 disabled:opacity-40 transition-colors"
           >
             Excluir modelo
           </button>
@@ -298,20 +298,20 @@ export default function BroadcastPage() {
 
       <div className="flex flex-col gap-5">
         <div>
-          <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wide mb-1">Assunto</label>
+          <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wide mb-1">Assunto</label>
           <input
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             disabled={locked}
             placeholder="Assunto do email"
-            className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50"
+            className="w-full border border-white/10 rounded-lg px-4 py-2.5 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500 disabled:opacity-50"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wide mb-1">
+          <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wide mb-1">
             Corpo do email{" "}
-            <span className="font-normal text-zinc-700 normal-case">(texto simples — parágrafo por linha)</span>
+            <span className="font-normal text-zinc-400 normal-case">(texto simples — parágrafo por linha)</span>
           </label>
           <textarea
             value={body}
@@ -319,15 +319,15 @@ export default function BroadcastPage() {
             disabled={locked}
             rows={18}
             placeholder="Escreva o conteúdo do email aqui…"
-            className="w-full border border-zinc-300 rounded-lg px-4 py-3 text-sm text-zinc-900 font-mono focus:outline-none focus:ring-2 focus:ring-violet-500 resize-y disabled:opacity-50"
+            className="w-full border border-white/10 rounded-lg px-4 py-3 text-sm text-zinc-100 font-mono focus:outline-none focus:ring-2 focus:ring-violet-500 resize-y disabled:opacity-50"
           />
         </div>
 
         {/* Envio de teste */}
         <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
-          <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wide mb-1">
+          <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wide mb-1">
             Enviar teste primeiro{" "}
-            <span className="font-normal text-zinc-700 normal-case">(até 5 emails, separados por vírgula)</span>
+            <span className="font-normal text-zinc-400 normal-case">(até 5 emails, separados por vírgula)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             <input
@@ -335,7 +335,7 @@ export default function BroadcastPage() {
               onChange={(e) => setTestEmails(e.target.value)}
               disabled={locked}
               placeholder="voce@email.com, outro@email.com"
-              className="flex-1 min-w-[200px] border border-zinc-300 rounded-lg px-3 py-2 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+              className="flex-1 min-w-[200px] border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
             />
             <button
               onClick={handleTest}
@@ -368,9 +368,9 @@ export default function BroadcastPage() {
 
         {/* Envio direcionado */}
         <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
-          <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wide mb-1">
+          <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wide mb-1">
             Envio direcionado{" "}
-            <span className="font-normal text-zinc-700 normal-case">(emails individuais ou pequenos grupos — um por linha ou separados por vírgula)</span>
+            <span className="font-normal text-zinc-400 normal-case">(emails individuais ou pequenos grupos — um por linha ou separados por vírgula)</span>
           </label>
           <textarea
             value={individualEmails}
@@ -378,7 +378,7 @@ export default function BroadcastPage() {
             disabled={locked}
             rows={4}
             placeholder={"medico@email.com\noutro@email.com, terceiro@email.com"}
-            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm text-zinc-900 font-mono focus:outline-none focus:ring-2 focus:ring-violet-400 disabled:opacity-50 resize-y mb-2"
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 font-mono focus:outline-none focus:ring-2 focus:ring-violet-400 disabled:opacity-50 resize-y mb-2"
           />
           <div className="flex items-center gap-3 flex-wrap">
             <button
@@ -408,9 +408,9 @@ export default function BroadcastPage() {
               onChange={(e) => setConfirmed(e.target.checked)}
               className="w-4 h-4 mt-0.5 accent-violet-600"
             />
-            <span className="text-sm text-zinc-700">
+            <span className="text-sm text-zinc-400">
               Confirmo que quero iniciar o envio deste email para toda a lista.
-              <span className="block text-xs text-zinc-700 mt-0.5">
+              <span className="block text-xs text-zinc-400 mt-0.5">
                 O 1º lote (~50) sai agora; o restante é enviado automaticamente ~50/dia até terminar.
               </span>
             </span>
@@ -428,7 +428,7 @@ export default function BroadcastPage() {
         )}
 
         {status === "sending" && (
-          <div className="flex items-center gap-3 text-sm text-zinc-700">
+          <div className="flex items-center gap-3 text-sm text-zinc-400">
             <svg className="animate-spin w-5 h-5 text-violet-500" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -453,7 +453,7 @@ export default function BroadcastPage() {
               </p>
             )}
             {result.errors?.length ? (
-              <p className="text-xs text-amber-600 mt-2 break-words">Obs: {result.errors[0]}</p>
+              <p className="text-xs text-amber-400 mt-2 break-words">Obs: {result.errors[0]}</p>
             ) : null}
           </div>
         )}

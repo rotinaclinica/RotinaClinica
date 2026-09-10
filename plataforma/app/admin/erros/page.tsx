@@ -40,9 +40,9 @@ export default async function ErrosPage({
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
-        <h1 className="text-xl font-extrabold text-zinc-800 dark:text-zinc-100">Erros de servidor</h1>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-0.5">
+      <header className="bg-[#161b22] dark:bg-zinc-900 border-b border-white/10 dark:border-white/8 px-6 sm:px-8 py-6">
+        <h1 className="text-xl font-extrabold text-zinc-100 dark:text-zinc-100">Erros de servidor</h1>
+        <p className="text-zinc-400 dark:text-zinc-400 text-sm mt-0.5">
           {total} registro{total !== 1 ? "s" : ""} encontrado{total !== 1 ? "s" : ""}
         </p>
       </header>
@@ -55,18 +55,18 @@ export default async function ErrosPage({
             name="route"
             defaultValue={routeFilter ?? ""}
             placeholder="Filtrar por rota (ex: /api/refund)"
-            className="flex-1 text-sm px-3 py-2 rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 placeholder:text-zinc-400"
+            className="flex-1 text-sm px-3 py-2 rounded-lg border border-white/10 dark:border-white/10 bg-[#161b22] dark:bg-zinc-800 text-zinc-100 dark:text-zinc-100 placeholder:text-zinc-400"
           />
           <button
             type="submit"
-            className="px-4 py-2 text-sm font-semibold bg-zinc-800 dark:bg-zinc-700 text-white rounded-lg hover:bg-zinc-700 transition-colors"
+            className="px-4 py-2 text-sm font-semibold bg-violet-600 text-white rounded-lg hover:bg-violet-500 transition-colors"
           >
             Filtrar
           </button>
           {routeFilter && (
             <a
               href="/admin/erros"
-              className="px-4 py-2 text-sm font-semibold border border-zinc-200 dark:border-white/10 rounded-lg text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-100 transition-colors"
+              className="px-4 py-2 text-sm font-semibold border border-white/10 dark:border-white/10 rounded-lg text-zinc-400 hover:text-zinc-100 dark:hover:text-zinc-100 transition-colors"
             >
               Limpar
             </a>
@@ -101,7 +101,7 @@ export default async function ErrosPage({
             {page > 1 && (
               <a
                 href={`/admin/erros?page=${page - 1}${routeFilter ? `&route=${encodeURIComponent(routeFilter)}` : ""}`}
-                className="px-3 py-1.5 text-sm border border-zinc-200 dark:border-white/10 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5"
+                className="px-3 py-1.5 text-sm border border-white/10 dark:border-white/10 rounded-lg text-zinc-400 dark:text-zinc-300 hover:bg-white/5 dark:hover:bg-white/5"
               >
                 ← Anterior
               </a>
@@ -112,7 +112,7 @@ export default async function ErrosPage({
             {page < totalPages && (
               <a
                 href={`/admin/erros?page=${page + 1}${routeFilter ? `&route=${encodeURIComponent(routeFilter)}` : ""}`}
-                className="px-3 py-1.5 text-sm border border-zinc-200 dark:border-white/10 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/5"
+                className="px-3 py-1.5 text-sm border border-white/10 dark:border-white/10 rounded-lg text-zinc-400 dark:text-zinc-300 hover:bg-white/5 dark:hover:bg-white/5"
               >
                 Próxima →
               </a>

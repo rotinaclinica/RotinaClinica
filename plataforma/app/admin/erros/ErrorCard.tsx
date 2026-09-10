@@ -34,22 +34,22 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
     <details className={`border rounded-xl overflow-hidden transition-colors ${
       resolved
         ? "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-900"
-        : "bg-white dark:bg-zinc-800/60 border-zinc-200 dark:border-white/8"
+        : "bg-[#161b22] dark:bg-zinc-800/60 border-white/10 dark:border-white/8"
     }`}>
-      <summary className="flex items-start justify-between gap-4 px-4 py-3 cursor-pointer hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors list-none">
+      <summary className="flex items-start justify-between gap-4 px-4 py-3 cursor-pointer hover:bg-white/5 dark:hover:bg-white/5 transition-colors list-none">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-zinc-100 dark:bg-white/10 text-zinc-500 dark:text-zinc-400 font-mono">
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-white/10 dark:bg-white/10 text-zinc-400 dark:text-zinc-400 font-mono">
               {method}
             </span>
-            <span className={`text-sm font-semibold font-mono truncate ${resolved ? "line-through text-zinc-400 dark:text-zinc-500" : "text-zinc-700 dark:text-zinc-200"}`}>
+            <span className={`text-sm font-semibold font-mono truncate ${resolved ? "line-through text-zinc-400 dark:text-zinc-400" : "text-zinc-400 dark:text-zinc-200"}`}>
               {route}
             </span>
             {resolved && (
               <span className="text-[11px] font-semibold text-green-600 dark:text-green-400">✓ Resolvido</span>
             )}
           </div>
-          <p className={`text-sm mt-1 truncate ${resolved ? "text-zinc-400 dark:text-zinc-500" : "text-red-500 dark:text-red-400"}`}>
+          <p className={`text-sm mt-1 truncate ${resolved ? "text-zinc-400 dark:text-zinc-400" : "text-red-500 dark:text-red-400"}`}>
             {message}
           </p>
         </div>
@@ -65,7 +65,7 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
               className={`text-[11px] font-semibold px-2 py-0.5 rounded border transition-colors ${
                 resolved
                   ? "border-green-300 dark:border-green-800 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900"
-                  : "border-zinc-200 dark:border-white/10 text-zinc-400 hover:border-green-300 hover:text-green-600 dark:hover:border-green-800 dark:hover:text-green-400"
+                  : "border-white/10 dark:border-white/10 text-zinc-400 hover:border-green-300 hover:text-green-600 dark:hover:border-green-800 dark:hover:text-green-400"
               }`}
             >
               {resolved ? "✓ OK" : "✓"}
@@ -82,11 +82,11 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
         </div>
       </summary>
       {stack && (
-        <div className="border-t border-zinc-100 dark:border-white/6 px-4 py-3">
+        <div className="border-t border-white/10 dark:border-white/6 px-4 py-3">
           <div className="flex justify-end mb-2">
             <CopyButton text={`${message}\n\n${stack}`} />
           </div>
-          <pre className="text-[11px] text-zinc-500 dark:text-zinc-400 whitespace-pre-wrap break-all leading-relaxed overflow-x-auto">
+          <pre className="text-[11px] text-zinc-400 dark:text-zinc-400 whitespace-pre-wrap break-all leading-relaxed overflow-x-auto">
             {stack}
           </pre>
         </div>

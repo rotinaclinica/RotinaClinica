@@ -58,8 +58,8 @@ export default async function AdminLeadsPage({
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Leads</h1>
-          <p className="text-sm text-zinc-700 mt-1">
+          <h1 className="text-2xl font-bold text-zinc-100">Leads</h1>
+          <p className="text-sm text-zinc-400 mt-1">
             Usuários cadastrados via produtos gratuitos
           </p>
         </div>
@@ -79,41 +79,41 @@ export default async function AdminLeadsPage({
       </div>
 
       {/* Tabela */}
-      <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden">
+      <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-zinc-50 border-b border-zinc-200">
+            <thead className="bg-white/5 border-b border-white/10">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Nome</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">E-mail</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Telefone</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Perfil</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Estado</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Faz plantão</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">WhatsApp</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Produto</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 whitespace-nowrap">Data</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Nome</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">E-mail</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Telefone</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Perfil</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Estado</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Faz plantão</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">WhatsApp</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Produto</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400 whitespace-nowrap">Data</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {leads.map((l) => (
-                <tr key={l.id} className="border-b border-zinc-50 last:border-0 hover:bg-zinc-50 align-top">
-                  <td className="px-4 py-3 font-medium text-zinc-900 whitespace-nowrap">{l.name}</td>
-                  <td className="px-4 py-3 text-zinc-700">{l.email}</td>
-                  <td className="px-4 py-3 text-zinc-700 whitespace-nowrap">{l.phone}</td>
-                  <td className="px-4 py-3 text-zinc-700 whitespace-nowrap">{l.profile}</td>
-                  <td className="px-4 py-3 text-zinc-700 whitespace-nowrap">{l.state}</td>
-                  <td className="px-4 py-3 text-zinc-700 whitespace-nowrap">{l.doePlantoes}</td>
+                <tr key={l.id} className="border-b border-white/5 last:border-0 hover:bg-white/5 align-top">
+                  <td className="px-4 py-3 font-medium text-zinc-100 whitespace-nowrap">{l.name}</td>
+                  <td className="px-4 py-3 text-zinc-400">{l.email}</td>
+                  <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{l.phone}</td>
+                  <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{l.profile}</td>
+                  <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{l.state}</td>
+                  <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{l.doePlantoes}</td>
                   <td className="px-4 py-3">
                     {l.whatsappOptIn ? (
                       <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Sim</span>
                     ) : (
-                      <span className="bg-zinc-100 text-zinc-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Não</span>
+                      <span className="bg-white/10 text-zinc-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Não</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-zinc-700 text-xs whitespace-nowrap">{l.product?.title ?? "—"}</td>
-                  <td className="px-4 py-3 text-zinc-700 text-xs whitespace-nowrap">
+                  <td className="px-4 py-3 text-zinc-400 text-xs whitespace-nowrap">{l.product?.title ?? "—"}</td>
+                  <td className="px-4 py-3 text-zinc-400 text-xs whitespace-nowrap">
                     {new Date(l.createdAt).toLocaleDateString("pt-BR")}
                   </td>
                   <td className="px-4 py-3">
@@ -125,7 +125,7 @@ export default async function AdminLeadsPage({
               ))}
               {leads.length === 0 && (
                 <tr>
-                  <td colSpan={10} className="px-4 py-12 text-center text-zinc-700">
+                  <td colSpan={10} className="px-4 py-12 text-center text-zinc-400">
                     {query ? `Nenhum lead para "${query}"` : "Nenhum lead cadastrado ainda."}
                   </td>
                 </tr>

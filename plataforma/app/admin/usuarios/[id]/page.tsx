@@ -76,43 +76,43 @@ export default async function AdminUserDetailPage({
       </div>
 
       <div>
-        <h1 className="text-2xl font-extrabold text-zinc-900">{user.name || "Sem nome"}</h1>
-        <p className="text-sm text-zinc-700 mt-0.5">{user.email}</p>
+        <h1 className="text-2xl font-extrabold text-zinc-100">{user.name || "Sem nome"}</h1>
+        <p className="text-sm text-zinc-400 mt-0.5">{user.email}</p>
       </div>
 
       {/* Dados pessoais */}
-      <div className="bg-white rounded-xl border border-zinc-200 p-5">
-        <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wide mb-4">Dados pessoais</h2>
+      <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
+        <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wide mb-4">Dados pessoais</h2>
         <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
           <div>
-            <dt className="text-xs text-zinc-700 font-medium">CPF</dt>
-            <dd className="text-zinc-700 font-mono mt-0.5">
+            <dt className="text-xs text-zinc-400 font-medium">CPF</dt>
+            <dd className="text-zinc-400 font-mono mt-0.5">
               {user.cpf
                 ? user.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")
                 : <span className="text-red-400">sem CPF</span>}
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-700 font-medium">Celular</dt>
-            <dd className="text-zinc-700 mt-0.5">{user.phone || <span className="text-zinc-300">—</span>}</dd>
+            <dt className="text-xs text-zinc-400 font-medium">Celular</dt>
+            <dd className="text-zinc-400 mt-0.5">{user.phone || <span className="text-zinc-300">—</span>}</dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-700 font-medium">Cadastro</dt>
-            <dd className="text-zinc-700 mt-0.5">{fmt(user.createdAt)}</dd>
+            <dt className="text-xs text-zinc-400 font-medium">Cadastro</dt>
+            <dd className="text-zinc-400 mt-0.5">{fmt(user.createdAt)}</dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-700 font-medium">Último acesso</dt>
-            <dd className="text-zinc-700 mt-0.5">{fmt(user.lastSeenAt)}</dd>
+            <dt className="text-xs text-zinc-400 font-medium">Último acesso</dt>
+            <dd className="text-zinc-400 mt-0.5">{fmt(user.lastSeenAt)}</dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-700 font-medium">Gasto total</dt>
-            <dd className="text-zinc-700 font-semibold mt-0.5">
+            <dt className="text-xs text-zinc-400 font-medium">Gasto total</dt>
+            <dd className="text-zinc-400 font-semibold mt-0.5">
               {totalPaid > 0 ? fmtBRL(totalPaid) : <span className="text-zinc-300 font-normal">—</span>}
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-700 font-medium">Perfil</dt>
-            <dd className="text-zinc-700 mt-0.5">{user.role}</dd>
+            <dt className="text-xs text-zinc-400 font-medium">Perfil</dt>
+            <dd className="text-zinc-400 mt-0.5">{user.role}</dd>
           </div>
         </dl>
       </div>
@@ -121,24 +121,24 @@ export default async function AdminUserDetailPage({
       <UserActions userId={user.id} sub={user.subscription} />
 
       {/* Pedidos */}
-      <div className="bg-white rounded-xl border border-zinc-200 p-5">
-        <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wide mb-4">
+      <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
+        <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wide mb-4">
           Pedidos ({user.orders.length})
         </h2>
         {user.orders.length === 0 ? (
-          <p className="text-sm text-zinc-700">Nenhum pedido.</p>
+          <p className="text-sm text-zinc-400">Nenhum pedido.</p>
         ) : (
           <div className="space-y-2">
             {user.orders.map((o) => (
               <div
                 key={o.id}
-                className="flex items-center justify-between gap-3 py-2 border-b border-zinc-50 last:border-0 text-sm flex-wrap"
+                className="flex items-center justify-between gap-3 py-2 border-b border-white/5 last:border-0 text-sm flex-wrap"
               >
                 <div className="min-w-0">
-                  <p className="text-zinc-700 font-medium">
+                  <p className="text-zinc-400 font-medium">
                     {o.items.map((i) => i.product.title).join(", ") || "—"}
                   </p>
-                  <p className="text-xs text-zinc-700 mt-0.5">
+                  <p className="text-xs text-zinc-400 mt-0.5">
                     {o.provider} · {fmt(o.paidAt ?? o.createdAt)}
                   </p>
                 </div>
@@ -149,12 +149,12 @@ export default async function AdminUserDetailPage({
                         ? "bg-emerald-100 text-emerald-700"
                         : o.status === "REFUNDED"
                         ? "bg-red-100 text-red-700"
-                        : "bg-zinc-100 text-zinc-700"
+                        : "bg-white/10 text-zinc-400"
                     }`}
                   >
                     {o.status === "PAID" ? "Pago" : o.status === "REFUNDED" ? "Reembolsado" : o.status}
                   </span>
-                  <span className="font-semibold text-zinc-800">{fmtBRL(o.totalCents)}</span>
+                  <span className="font-semibold text-zinc-100">{fmtBRL(o.totalCents)}</span>
                   {o.status === "PAID" && (
                     <Link
                       href={`/admin/reembolsos?orderId=${o.id}`}

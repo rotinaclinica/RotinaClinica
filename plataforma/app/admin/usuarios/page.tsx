@@ -13,7 +13,7 @@ const PAGE_SIZE = 50;
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   ACTIVE:    { label: "Ativo",     cls: "bg-emerald-100 text-emerald-700" },
   CANCELLED: { label: "Cancelado", cls: "bg-red-100 text-red-700" },
-  EXPIRED:   { label: "Expirado",  cls: "bg-zinc-100 text-zinc-700" },
+  EXPIRED:   { label: "Expirado",  cls: "bg-white/10 text-zinc-400" },
   PAST_DUE:  { label: "Em atraso", cls: "bg-amber-100 text-amber-700" },
 };
 
@@ -69,8 +69,8 @@ export default async function AdminUsuariosPage({
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Usuários</h1>
-          <p className="text-sm text-zinc-700 mt-1">
+          <h1 className="text-2xl font-bold text-zinc-100">Usuários</h1>
+          <p className="text-sm text-zinc-400 mt-1">
             {total} cadastro{total !== 1 ? "s" : ""}{query ? ` para "${query}"` : " no total"}
           </p>
         </div>
@@ -82,20 +82,20 @@ export default async function AdminUsuariosPage({
         <ExportButton type="usuarios" />
       </div>
 
-      <div className="bg-white rounded-xl border border-zinc-200 overflow-x-auto">
+      <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-x-auto">
         <table className="w-full text-sm min-w-[700px]">
           <thead>
-            <tr className="border-b border-zinc-100 bg-zinc-50">
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Usuário</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">CPF</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Celular</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Cadastro</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Último acesso</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Plano</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Status</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">1ª Compra</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Gasto total</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700">Vence em</th>
+            <tr className="border-b border-white/10 bg-white/5">
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Usuário</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">CPF</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Celular</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Cadastro</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Último acesso</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Plano</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Status</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">1ª Compra</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Gasto total</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Vence em</th>
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
@@ -107,36 +107,36 @@ export default async function AdminUsuariosPage({
               const status = sub ? STATUS_LABEL[sub.status] : null;
 
               return (
-                <tr key={u.id} className="border-b border-zinc-50 last:border-0 hover:bg-zinc-50">
+                <tr key={u.id} className="border-b border-white/5 last:border-0 hover:bg-white/5">
                   <td className="px-4 py-3">
-                    <p className="font-medium text-zinc-800">{u.name || "—"}</p>
-                    <p className="text-xs text-zinc-700">{u.email}</p>
+                    <p className="font-medium text-zinc-100">{u.name || "—"}</p>
+                    <p className="text-xs text-zinc-400">{u.email}</p>
                   </td>
                   <td className="px-4 py-3 text-xs">
                     {u.cpf ? (
-                      <span className="text-zinc-700 font-mono">{u.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")}</span>
+                      <span className="text-zinc-400 font-mono">{u.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")}</span>
                     ) : (
                       <span className="text-red-400 font-medium">sem CPF</span>
                     )}
                   </td>
                   <td className="px-4 py-3 text-xs">
                     {u.phone ? (
-                      <span className="text-zinc-700">{u.phone}</span>
+                      <span className="text-zinc-400">{u.phone}</span>
                     ) : (
                       <span className="text-amber-400 font-medium">sem phone</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-zinc-700 text-xs">{fmt(u.createdAt)}</td>
+                  <td className="px-4 py-3 text-zinc-400 text-xs">{fmt(u.createdAt)}</td>
                   <td className="px-4 py-3 text-xs">
                     {u.lastSeenAt ? (
-                      <span className="text-zinc-700">{fmt(u.lastSeenAt)}</span>
+                      <span className="text-zinc-400">{fmt(u.lastSeenAt)}</span>
                     ) : (
                       <span className="text-zinc-300">—</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
                     {sub ? (
-                      <span className="text-zinc-700">{PLAN_LABEL[sub.plan] ?? sub.plan}</span>
+                      <span className="text-zinc-400">{PLAN_LABEL[sub.plan] ?? sub.plan}</span>
                     ) : (
                       <span className="text-zinc-300">—</span>
                     )}
@@ -150,15 +150,15 @@ export default async function AdminUsuariosPage({
                       <span className="text-zinc-300 text-xs">Sem assinatura</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-zinc-700 text-xs">
+                  <td className="px-4 py-3 text-zinc-400 text-xs">
                     {firstOrder ? (
                       <span title={firstOrder.provider}>{fmt(firstOrder.paidAt)}</span>
                     ) : "—"}
                   </td>
-                  <td className="px-4 py-3 text-xs font-semibold text-zinc-700">
+                  <td className="px-4 py-3 text-xs font-semibold text-zinc-400">
                     {gastoTotal > 0 ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(gastoTotal / 100) : <span className="text-zinc-300 font-normal">—</span>}
                   </td>
-                  <td className="px-4 py-3 text-zinc-700 text-xs">
+                  <td className="px-4 py-3 text-zinc-400 text-xs">
                     {sub ? fmt(sub.currentPeriodEnd) : "—"}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
@@ -174,7 +174,7 @@ export default async function AdminUsuariosPage({
             })}
             {users.length === 0 && (
               <tr>
-                <td colSpan={11} className="px-4 py-8 text-center text-zinc-700">
+                <td colSpan={11} className="px-4 py-8 text-center text-zinc-400">
                   {query ? `Nenhum usuário para "${query}"` : "Nenhum usuário"}
                 </td>
               </tr>

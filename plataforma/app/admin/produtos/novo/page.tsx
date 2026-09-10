@@ -24,7 +24,7 @@ export default function NovoProdutoPage() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center gap-3 mb-8">
-        <Link href="/admin/produtos" className="text-zinc-700 hover:text-zinc-600 text-sm">
+        <Link href="/admin/produtos" className="text-zinc-400 hover:text-zinc-400 text-sm">
           ← Produtos
         </Link>
         <span className="text-zinc-300">/</span>
@@ -37,76 +37,76 @@ export default function NovoProdutoPage() {
         </div>
       )}
 
-      <form action={action} className="bg-white rounded-2xl border border-zinc-200 p-6 space-y-5">
+      <form action={action} className="bg-[#161b22] rounded-2xl border border-white/10 p-6 space-y-5">
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1">Título</label>
+          <label className="block text-sm font-medium text-zinc-400 mb-1">Título</label>
           <input
             name="title"
             required
             onBlur={handleTitleBlur}
-            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="Ex: Curso de Pilates"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1">Slug (URL)</label>
+          <label className="block text-sm font-medium text-zinc-400 mb-1">Slug (URL)</label>
           <input
             id="slug"
             name="slug"
-            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="curso-de-pilates"
           />
-          <p className="text-xs text-zinc-700 mt-1">Deixe em branco para gerar automaticamente do título.</p>
+          <p className="text-xs text-zinc-400 mt-1">Deixe em branco para gerar automaticamente do título.</p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1">Descrição</label>
+          <label className="block text-sm font-medium text-zinc-400 mb-1">Descrição</label>
           <textarea
             name="description"
             required
             rows={4}
-            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
             placeholder="Descreva o produto..."
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Tipo</label>
+            <label className="block text-sm font-medium text-zinc-400 mb-1">Tipo</label>
             <select
               name="type"
               required
-              className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
             >
               <option value="COURSE">Curso online</option>
               <option value="DOWNLOAD">Download digital</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Preço (R$)</label>
+            <label className="block text-sm font-medium text-zinc-400 mb-1">Preço (R$)</label>
             <input
               name="price"
               type="number"
               min="0"
               step="0.01"
               required
-              className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
               placeholder="97.00"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-700 mb-1">
+          <label className="block text-sm font-medium text-zinc-400 mb-1">
             Chave do arquivo (somente para Download)
           </label>
           <input
             name="fileKey"
-            className="w-full border border-zinc-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="arquivos/meu-ebook.pdf"
           />
-          <p className="text-xs text-zinc-700 mt-1">Caminho do arquivo no Cloudflare R2.</p>
+          <p className="text-xs text-zinc-400 mt-1">Caminho do arquivo no Cloudflare R2.</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -117,7 +117,7 @@ export default function NovoProdutoPage() {
             defaultChecked
             className="w-4 h-4 accent-violet-600"
           />
-          <label htmlFor="active" className="text-sm font-medium text-zinc-700">
+          <label htmlFor="active" className="text-sm font-medium text-zinc-400">
             Publicar imediatamente
           </label>
         </div>
@@ -133,7 +133,7 @@ export default function NovoProdutoPage() {
           <button
             type="button"
             onClick={() => router.push("/admin/produtos")}
-            className="border border-zinc-300 text-zinc-700 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-zinc-50 transition-colors"
+            className="border border-white/10 text-zinc-400 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-white/5 transition-colors"
           >
             Cancelar
           </button>

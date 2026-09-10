@@ -22,7 +22,7 @@ export function RetryButton({ invoiceId }: { invoiceId: string }) {
     <button
       onClick={() => start(() => reprocessarNota(invoiceId))}
       disabled={pending}
-      className="px-2.5 py-1 rounded-md text-xs font-semibold border border-zinc-300 text-zinc-600 hover:border-violet-400 hover:text-violet-600 disabled:opacity-50 transition-colors"
+      className="px-2.5 py-1 rounded-md text-xs font-semibold border border-white/10 text-zinc-400 hover:border-violet-400 hover:text-violet-600 disabled:opacity-50 transition-colors"
     >
       {pending ? "…" : "Reprocessar"}
     </button>

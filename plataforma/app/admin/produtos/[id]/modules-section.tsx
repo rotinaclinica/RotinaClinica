@@ -14,7 +14,7 @@ export function ModulesSection({
   modules: ModuleWithLessons[];
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-zinc-200 p-6">
+    <div className="bg-[#161b22] rounded-2xl border border-white/10 p-6">
       <h2 className="text-base font-semibold mb-5">Módulos e aulas</h2>
 
       <div className="space-y-4 mb-6">
@@ -22,7 +22,7 @@ export function ModulesSection({
           <ModuleCard key={mod.id} module={mod} productId={product.id} />
         ))}
         {modules.length === 0 && (
-          <p className="text-sm text-zinc-700">Nenhum módulo criado ainda.</p>
+          <p className="text-sm text-zinc-400">Nenhum módulo criado ainda.</p>
         )}
       </div>
 
@@ -33,9 +33,9 @@ export function ModulesSection({
 
 function ModuleCard({ module, productId }: { module: ModuleWithLessons; productId: string }) {
   return (
-    <div className="border border-zinc-200 rounded-xl overflow-hidden">
-      <div className="flex items-center justify-between bg-zinc-50 px-4 py-3">
-        <span className="text-sm font-semibold text-zinc-700">
+    <div className="border border-white/10 rounded-xl overflow-hidden">
+      <div className="flex items-center justify-between bg-white/5 px-4 py-3">
+        <span className="text-sm font-semibold text-zinc-400">
           {module.position}. {module.title}
         </span>
         <form action={deleteModule.bind(null, module.id, productId)}>
@@ -54,7 +54,7 @@ function ModuleCard({ module, productId }: { module: ModuleWithLessons; productI
           <LessonRow key={lesson.id} lesson={lesson} productId={productId} />
         ))}
         {module.lessons.length === 0 && (
-          <p className="text-xs text-zinc-700">Nenhuma aula neste módulo.</p>
+          <p className="text-xs text-zinc-400">Nenhuma aula neste módulo.</p>
         )}
         <AddLessonForm moduleId={module.id} productId={productId} />
       </div>
@@ -64,10 +64,10 @@ function ModuleCard({ module, productId }: { module: ModuleWithLessons; productI
 
 function LessonRow({ lesson, productId }: { lesson: Lesson; productId: string }) {
   return (
-    <div className="flex items-center justify-between py-1.5 border-b border-zinc-100 last:border-none">
+    <div className="flex items-center justify-between py-1.5 border-b border-white/10 last:border-none">
       <div className="flex items-center gap-2">
-        <span className="text-xs text-zinc-700">{lesson.position}.</span>
-        <span className="text-sm text-zinc-700">{lesson.title}</span>
+        <span className="text-xs text-zinc-400">{lesson.position}.</span>
+        <span className="text-sm text-zinc-400">{lesson.title}</span>
         {lesson.freePreview && (
           <span className="text-xs bg-violet-100 text-violet-600 px-1.5 py-0.5 rounded font-medium">
             Prévia
@@ -102,12 +102,12 @@ function AddModuleForm({ productId }: { productId: string }) {
         name="title"
         required
         placeholder="Nome do módulo"
-        className="flex-1 border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="flex-1 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
       <button
         type="submit"
         disabled={pending}
-        className="bg-zinc-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-zinc-700 transition-colors disabled:opacity-60 whitespace-nowrap"
+        className="bg-violet-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-violet-500 transition-colors disabled:opacity-60 whitespace-nowrap"
       >
         + Módulo
       </button>
@@ -126,9 +126,9 @@ function AddLessonForm({ moduleId, productId }: { moduleId: string; productId: s
         name="title"
         required
         placeholder="Nome da aula"
-        className="flex-1 border border-zinc-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="flex-1 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
-      <label className="flex items-center gap-1 text-xs text-zinc-700 whitespace-nowrap">
+      <label className="flex items-center gap-1 text-xs text-zinc-400 whitespace-nowrap">
         <input type="checkbox" name="freePreview" className="accent-violet-600" />
         Prévia grátis
       </label>

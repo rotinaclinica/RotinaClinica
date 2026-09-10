@@ -24,7 +24,7 @@ const statusLabel: Record<string, { text: string; color: string }> = {
   PENDING:  { text: "Pendente",     color: "bg-yellow-100 text-yellow-700" },
   PAID:     { text: "Pago",         color: "bg-green-100 text-green-700" },
   FAILED:   { text: "Falhou",       color: "bg-red-100 text-red-700" },
-  EXPIRED:  { text: "Expirado",     color: "bg-zinc-100 text-zinc-700" },
+  EXPIRED:  { text: "Expirado",     color: "bg-white/10 text-zinc-400" },
   REFUNDED: { text: "Reembolsado",  color: "bg-blue-100 text-blue-700" },
 };
 
@@ -74,7 +74,7 @@ export default async function AdminPedidosPage({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-2xl font-bold text-zinc-900">Pedidos</h1>
+        <h1 className="text-2xl font-bold text-zinc-100">Pedidos</h1>
         <ExportButton type="pedidos" />
       </div>
 
@@ -95,44 +95,44 @@ export default async function AdminPedidosPage({
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                 isActive
                   ? "bg-violet-600 text-white"
-                  : "bg-white border border-zinc-200 text-zinc-700 hover:border-violet-400"
+                  : "bg-[#161b22] border border-white/10 text-zinc-400 hover:border-violet-400"
               }`}
             >
               {opt.label}
             </Link>
           );
         })}
-        <span className="ml-auto text-xs text-zinc-700 self-center">{total} resultado{total !== 1 ? "s" : ""}</span>
+        <span className="ml-auto text-xs text-zinc-400 self-center">{total} resultado{total !== 1 ? "s" : ""}</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden overflow-x-auto">
+      <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden overflow-x-auto">
         <table className="w-full text-sm min-w-[700px]">
-          <thead className="bg-zinc-50 border-b border-zinc-200">
+          <thead className="bg-white/5 border-b border-white/10">
             <tr>
-              <th className="text-left px-5 py-3 font-medium text-zinc-700">Cliente</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-700">Produto(s)</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-700">Valor</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-700">Gateway</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-700">Status</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-700">Data</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-400">Cliente</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-400">Produto(s)</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-400">Valor</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-400">Gateway</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-400">Status</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-400">Data</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => {
               const st = statusLabel[order.status] ?? { text: order.status, color: "" };
               return (
-                <tr key={order.id} className="border-b border-zinc-100 last:border-none hover:bg-zinc-50">
+                <tr key={order.id} className="border-b border-white/10 last:border-none hover:bg-white/5">
                   <td className="px-5 py-4">
-                    <div className="font-medium text-zinc-900">{order.user.name}</div>
-                    <div className="text-xs text-zinc-700">{order.user.email}</div>
+                    <div className="font-medium text-zinc-100">{order.user.name}</div>
+                    <div className="text-xs text-zinc-400">{order.user.email}</div>
                   </td>
-                  <td className="px-5 py-4 text-zinc-700 text-xs">
+                  <td className="px-5 py-4 text-zinc-400 text-xs">
                     {order.items.map((i) => i.product.title).join(", ")}
                   </td>
-                  <td className="px-5 py-4 font-medium text-zinc-900">
+                  <td className="px-5 py-4 font-medium text-zinc-100">
                     {formatPrice(order.totalCents, order.currency)}
                   </td>
-                  <td className="px-5 py-4 text-zinc-700 text-xs">
+                  <td className="px-5 py-4 text-zinc-400 text-xs">
                     {order.provider === "MERCADOPAGO" ? "Mercado Pago" : "Stripe"}
                   </td>
                   <td className="px-5 py-4">
@@ -140,7 +140,7 @@ export default async function AdminPedidosPage({
                       {st.text}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-zinc-700 text-xs">
+                  <td className="px-5 py-4 text-zinc-400 text-xs">
                     {new Date(order.createdAt).toLocaleDateString("pt-BR")}
                   </td>
                 </tr>
@@ -149,7 +149,7 @@ export default async function AdminPedidosPage({
           </tbody>
         </table>
         {orders.length === 0 && (
-          <p className="text-center text-zinc-700 py-10">Nenhum pedido encontrado.</p>
+          <p className="text-center text-zinc-400 py-10">Nenhum pedido encontrado.</p>
         )}
       </div>
 

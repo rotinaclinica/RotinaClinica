@@ -6,7 +6,7 @@ import { grantAccessToUser, revokeUserSubscription } from "./actions";
 const STATUS_COLORS: Record<string, string> = {
   ACTIVE:    "bg-emerald-100 text-emerald-700",
   CANCELLED: "bg-red-100 text-red-700",
-  EXPIRED:   "bg-zinc-100 text-zinc-700",
+  EXPIRED:   "bg-white/10 text-zinc-400",
   PAST_DUE:  "bg-amber-100 text-amber-700",
 };
 
@@ -27,19 +27,19 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
   return (
     <div className="space-y-6">
       {/* Status atual */}
-      <div className="bg-white rounded-xl border border-zinc-200 p-5">
-        <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wide mb-3">Assinatura atual</h2>
+      <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
+        <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wide mb-3">Assinatura atual</h2>
         {sub ? (
           <div className="space-y-3">
             <div className="flex items-center gap-3 flex-wrap">
-              <span className={`inline-block px-2.5 py-1 rounded text-xs font-bold uppercase ${STATUS_COLORS[sub.status] ?? "bg-zinc-100 text-zinc-700"}`}>
+              <span className={`inline-block px-2.5 py-1 rounded text-xs font-bold uppercase ${STATUS_COLORS[sub.status] ?? "bg-white/10 text-zinc-400"}`}>
                 {STATUS_LABEL[sub.status] ?? sub.status}
               </span>
-              <span className="text-sm text-zinc-700">
+              <span className="text-sm text-zinc-400">
                 {sub.plan === "ANNUAL" ? "Anual" : sub.plan === "MONTHLY" ? "Mensal" : sub.plan}
               </span>
               {sub.currentPeriodEnd && (
-                <span className="text-sm text-zinc-700">
+                <span className="text-sm text-zinc-400">
                   · vence {new Date(sub.currentPeriodEnd).toLocaleDateString("pt-BR")}
                 </span>
               )}
@@ -61,13 +61,13 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
             )}
           </div>
         ) : (
-          <p className="text-sm text-zinc-700">Sem assinatura ativa.</p>
+          <p className="text-sm text-zinc-400">Sem assinatura ativa.</p>
         )}
       </div>
 
       {/* Conceder acesso */}
-      <div className="bg-white rounded-xl border border-zinc-200 p-5">
-        <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wide mb-3">
+      <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
+        <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wide mb-3">
           {sub?.status === "ACTIVE" ? "Alterar / renovar acesso" : "Conceder acesso"}
         </h2>
 
@@ -85,11 +85,11 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
         <form action={grantAction} className="flex flex-wrap items-end gap-3">
           <input type="hidden" name="userId" value={userId} />
           <div>
-            <label className="block text-xs font-medium text-zinc-700 mb-1">Plano</label>
+            <label className="block text-xs font-medium text-zinc-400 mb-1">Plano</label>
             <select
               name="plan"
               required
-              className="border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
             >
               <option value="">Selecione...</option>
               <option value="ANNUAL">Anual (365 dias)</option>
