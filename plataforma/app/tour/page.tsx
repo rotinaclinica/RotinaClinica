@@ -27,8 +27,6 @@ function getEvolucaoContent(id: string): string {
   return all[id] ?? "";
 }
 
-export const metadata = { title: "Conheça a Plataforma · Rotina Clínica" };
-
 const prescricoesEmergencia = [
   "Anafilaxia", "Cetoacidose diabética", "Hipoglicemia", "Sepse",
   "DPOC exacerbado", "Hemorragia digestiva alta", "Crise convulsiva",

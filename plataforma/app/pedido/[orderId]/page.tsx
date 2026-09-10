@@ -6,6 +6,7 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
 import OrderStatusPoller from "./OrderStatusPoller";
+import PixelPurchase from "./PixelPurchase";
 
 export const metadata = { title: "Seu Pedido" };
 
@@ -93,6 +94,7 @@ export default async function OrderPage({
         ) : (
           <>
             {!isPaid && <OrderStatusPoller orderId={orderId} />}
+            {isPaid && <PixelPurchase orderId={orderId} valueCents={order.totalCents} currency={order.currency} />}
             <div className="text-5xl mb-4">
               {isPaid ? "✅" : isPending ? "⏳" : "❌"}
             </div>
