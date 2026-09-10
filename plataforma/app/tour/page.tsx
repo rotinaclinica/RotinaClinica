@@ -9,6 +9,12 @@ import TourEvolucaoModal from "./TourEvolucaoModal";
 import TourCasosMockup from "./TourCasosMockup";
 import TourMateriaisMockup from "./TourMateriaisMockup";
 
+export const metadata = {
+  title: "Tour pela plataforma",
+  description:
+    "Faça um tour pela plataforma do Rotina Clínica: veja por dentro as prescrições, os modelos de evolução, os casos clínicos e os materiais que agilizam a sua rotina.",
+};
+
 function getPrescricaoContent(id: string): string {
   const filePath = join(process.cwd(), "lib", "prescricoes-content.json");
   const all: Record<string, string> = JSON.parse(readFileSync(filePath, "utf-8"));

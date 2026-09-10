@@ -2,6 +2,12 @@ import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
 import TurmaCarousel from "@/app/components/TurmaCarousel";
 
+export const metadata = {
+  title: "Conheça a plataforma",
+  description:
+    "Conheça o Rotina Clínica: a plataforma completa para o médico generalista e o estudante — prescrições, calculadoras, cursos e materiais para a rotina no plantão, na UBS e na emergência.",
+};
+
 export default function ConhecaPage() {
   return (
     <main className="min-h-screen bg-[#f7fafc]">
