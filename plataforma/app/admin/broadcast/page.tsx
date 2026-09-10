@@ -263,7 +263,7 @@ export default function BroadcastPage() {
       )}
 
       {/* Modelos */}
-      <div className="flex flex-wrap items-end gap-2 mb-5 p-4 bg-white/10/60 rounded-xl border border-white/10">
+      <div className="flex flex-wrap items-end gap-2 mb-5 p-4 bg-white/5 rounded-xl border border-white/10">
         <div className="flex-1 min-w-[180px]">
           <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wide mb-1">Modelo</label>
           <select

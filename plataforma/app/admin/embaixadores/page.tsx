@@ -107,7 +107,7 @@ export default async function EmbaixadoresPage() {
                       </td>
                     </tr>
                     {amb.referralsGiven.length > 0 && amb.referralsGiven.map((r) => (
-                      <tr key={r.id} className="border-b border-white/5 last:border-0 bg-white/5/60">
+                      <tr key={r.id} className="border-b border-white/5 last:border-0 bg-white/5">
                         <td className="pl-10 pr-4 py-2" colSpan={2}>
                           <p className="text-xs text-zinc-400 font-medium">{r.referredUser.name ?? r.referredUser.email}</p>
                           <p className="text-[11px] text-zinc-400">{r.referredUser.email}</p>
