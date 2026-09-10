@@ -16,6 +16,7 @@ const schema = z.object({
   password: z.string().min(8),
   phone: z.string().min(10),
   cpf: z.string().length(11),
+  cep: z.string().length(8).optional(),
   momentoProfissional: z.string().optional(),
   ambienteTrabalho: z.string().optional(),
 });
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
 
-  const { name, password, phone, cpf, momentoProfissional, ambienteTrabalho } = parsed.data;
+  const { name, password, phone, cpf, cep, momentoProfissional, ambienteTrabalho } = parsed.data;
   const email = parsed.data.email.toLowerCase();
 
   try {
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf, momentoProfissional, ambienteTrabalho } });
+    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf, cep, momentoProfissional, ambienteTrabalho } });
 
     // Drip email 0 — boas-vindas (fire and forget)
     resend.emails.send({

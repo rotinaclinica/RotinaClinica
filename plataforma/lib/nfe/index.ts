@@ -43,7 +43,7 @@ export async function createPendingInvoiceForOrder(orderId: string): Promise<voi
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: {
-      user: { select: { name: true, email: true, cpf: true } },
+      user: { select: { name: true, email: true, cpf: true, cep: true } },
       items: { include: { product: { select: { title: true } } } },
     },
   });
@@ -56,6 +56,7 @@ export async function createPendingInvoiceForOrder(orderId: string): Promise<voi
   if (existing) return;
 
   const doc = order.user.cpf?.replace(/\D/g, "") || null;
+  const cep = order.user.cep?.replace(/\D/g, "") || null;
   const titulos = order.items.map((i) => i.product.title).filter(Boolean);
   const discriminacao = titulos.length
     ? `${nfeConfig.servico.discriminacaoPadrao} — ${titulos.join(", ")}`
@@ -72,6 +73,7 @@ export async function createPendingInvoiceForOrder(orderId: string): Promise<voi
       customerName: order.user.name ?? "Cliente",
       customerEmail: order.user.email,
       customerDoc: doc,
+      customerCep: cep,
     },
   });
 }
@@ -83,8 +85,10 @@ function buildEmitInput(inv: {
   customerName: string;
   customerEmail: string;
   customerDoc: string | null;
+  customerCep?: string | null;
 }): NfeEmitInput {
   const doc = inv.customerDoc?.replace(/\D/g, "") || undefined;
+  const cep = inv.customerCep?.replace(/\D/g, "") || undefined;
   return {
     ref: inv.providerRef,
     valorCents: inv.amountCents,
@@ -94,6 +98,7 @@ function buildEmitInput(inv: {
       email: inv.customerEmail,
       documento: doc,
       tipoDocumento: doc ? (doc.length > 11 ? "CNPJ" : "CPF") : undefined,
+      cep,
     },
   };
 }

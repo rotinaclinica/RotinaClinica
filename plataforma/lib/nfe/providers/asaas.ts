@@ -53,6 +53,7 @@ export const asaasProvider: NfeProvider = {
         email: input.tomador.email,
         cpfCnpj: doc,
         externalReference: input.ref,
+        ...(input.tomador.cep ? { postalCode: input.tomador.cep } : {}),
       }),
     });
     if (!custRes.ok) {

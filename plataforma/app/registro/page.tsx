@@ -84,6 +84,7 @@ function RegistroForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [cpf, setCpf] = useState("");
+  const [cep, setCep] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [momentoProfissional, setMomentoProfissional] = useState("");
@@ -99,6 +100,12 @@ function RegistroForm() {
     if (d.length <= 2) return d.replace(/^(\d{0,2})/, "($1");
     if (d.length <= 7) return d.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
     return d.replace(/^(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+  }
+
+  function maskCep(v: string) {
+    const d = v.replace(/\D/g, "").slice(0, 8);
+    if (d.length <= 5) return d;
+    return d.replace(/^(\d{5})(\d{0,3})/, "$1-$2");
   }
 
   function maskCpf(v: string) {
@@ -126,7 +133,7 @@ function RegistroForm() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined }),
+      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined }),
     });
 
     setLoading(false);
@@ -266,6 +273,17 @@ function RegistroForm() {
                 onChange={(e) => setCpf(maskCpf(e.target.value))}
                 required
                 placeholder="000.000.000-00"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CEP</label>
+              <input
+                type="text"
+                value={cep}
+                onChange={(e) => setCep(maskCep(e.target.value))}
+                placeholder="00000-000"
                 className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>

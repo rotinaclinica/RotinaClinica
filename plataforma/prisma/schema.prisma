@@ -19,6 +19,7 @@ model User {
   momentoProfissional  String?
   ambienteTrabalho     String?
   cpf                  String?
+  cep                  String?
   phone                String?
   isAmbassador         Boolean        @default(false)
   ambassadorCode       String?        @unique
@@ -303,6 +304,7 @@ model Invoice {
   customerName  String
   customerEmail String
   customerDoc   String?       // CPF ou CNPJ do tomador
+  customerCep   String?       // CEP do tomador (só dígitos)
   pdfUrl        String?
   xmlUrl        String?
   attempts      Int           @default(0)

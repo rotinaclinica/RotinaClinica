@@ -18,6 +18,7 @@ export interface NfeEmitInput {
     email: string;
     documento?: string; // CPF ou CNPJ (só dígitos)
     tipoDocumento?: "CPF" | "CNPJ";
+    cep?: string; // só dígitos
   };
 }
 
