@@ -75,7 +75,7 @@ export default async function AdminNotasPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-zinc-900">Notas fiscais</h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
             Emissão automática de NFS-e após cada pagamento aprovado
           </p>
         </div>
@@ -123,10 +123,10 @@ export default async function AdminNotasPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {fiscalChecks.map((c) => (
             <div key={c.label} className="flex items-center gap-2 text-sm">
-              <span className={c.ok ? "text-green-600" : "text-zinc-600 dark:text-zinc-400"}>
+              <span className={c.ok ? "text-green-600" : "text-zinc-700 dark:text-zinc-300"}>
                 {c.ok ? "✓" : "○"}
               </span>
-              <span className={c.ok ? "text-zinc-700" : "text-zinc-600 dark:text-zinc-400"}>{c.label}</span>
+              <span className={c.ok ? "text-zinc-700" : "text-zinc-700 dark:text-zinc-300"}>{c.label}</span>
             </div>
           ))}
         </div>
@@ -144,7 +144,7 @@ export default async function AdminNotasPage() {
           const meta = statusLabel[s];
           return (
             <div key={s} className="bg-white rounded-xl border border-zinc-200 p-4">
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">{meta.text}</p>
+              <p className="text-xs text-zinc-700 dark:text-zinc-300 mb-1">{meta.text}</p>
               <p className="text-2xl font-bold text-zinc-900">{counts[s] ?? 0}</p>
             </div>
           );
@@ -156,14 +156,14 @@ export default async function AdminNotasPage() {
         <table className="w-full text-sm min-w-[820px]">
           <thead className="bg-zinc-50 border-b border-zinc-200">
             <tr>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Cliente</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Valor</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Gateway</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Nº</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Status</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">PDF</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Criada em</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400"></th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Cliente</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Valor</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Gateway</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Nº</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Status</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">PDF</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Criada em</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300"></th>
             </tr>
           </thead>
           <tbody>
@@ -173,7 +173,7 @@ export default async function AdminNotasPage() {
                 <tr key={inv.id} className="border-b border-zinc-100 last:border-none hover:bg-zinc-50 align-top">
                   <td className="px-5 py-4">
                     <div className="font-medium text-zinc-900">{inv.customerName}</div>
-                    <div className="text-xs text-zinc-600 dark:text-zinc-400">{inv.customerEmail}</div>
+                    <div className="text-xs text-zinc-700 dark:text-zinc-300">{inv.customerEmail}</div>
                     {inv.errorMessage && (
                       <div className="text-xs text-red-500 mt-1 max-w-[240px]">{inv.errorMessage}</div>
                     )}
@@ -181,16 +181,16 @@ export default async function AdminNotasPage() {
                   <td className="px-5 py-4 font-medium text-zinc-900">
                     {formatPrice(inv.amountCents, "BRL")}
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 dark:text-zinc-400 text-xs">
+                  <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300 text-xs">
                     {inv.order?.provider === "MERCADOPAGO" ? "Mercado Pago" : "Stripe"}
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 text-xs">{inv.numero ?? "—"}</td>
+                  <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300 text-xs">{inv.numero ?? "—"}</td>
                   <td className="px-5 py-4">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${st.color}`}>
                       {st.text}
                     </span>
                     {inv.attempts > 0 && inv.status !== "AUTHORIZED" && (
-                      <div className="text-[11px] text-zinc-600 dark:text-zinc-400 mt-1">{inv.attempts} tentativa{inv.attempts !== 1 ? "s" : ""}</div>
+                      <div className="text-[11px] text-zinc-700 dark:text-zinc-300 mt-1">{inv.attempts} tentativa{inv.attempts !== 1 ? "s" : ""}</div>
                     )}
                   </td>
                   <td className="px-5 py-4 text-xs">
@@ -202,7 +202,7 @@ export default async function AdminNotasPage() {
                       <span className="text-zinc-300">—</span>
                     )}
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 dark:text-zinc-400 text-xs">{fmt(inv.createdAt)}</td>
+                  <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300 text-xs">{fmt(inv.createdAt)}</td>
                   <td className="px-5 py-4">
                     {inv.status !== "AUTHORIZED" && <RetryButton invoiceId={inv.id} />}
                   </td>
@@ -211,7 +211,7 @@ export default async function AdminNotasPage() {
             })}
             {invoices.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-5 py-12 text-center text-zinc-600 dark:text-zinc-400">
+                <td colSpan={8} className="px-5 py-12 text-center text-zinc-700 dark:text-zinc-300">
                   Nenhuma nota emitida até o momento.
                 </td>
               </tr>

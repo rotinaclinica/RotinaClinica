@@ -24,7 +24,7 @@ const statusLabel: Record<string, { text: string; color: string }> = {
   PENDING:  { text: "Pendente",     color: "bg-yellow-100 text-yellow-700" },
   PAID:     { text: "Pago",         color: "bg-green-100 text-green-700" },
   FAILED:   { text: "Falhou",       color: "bg-red-100 text-red-700" },
-  EXPIRED:  { text: "Expirado",     color: "bg-zinc-100 text-zinc-600 dark:text-zinc-400" },
+  EXPIRED:  { text: "Expirado",     color: "bg-zinc-100 text-zinc-700 dark:text-zinc-300" },
   REFUNDED: { text: "Reembolsado",  color: "bg-blue-100 text-blue-700" },
 };
 
@@ -95,26 +95,26 @@ export default async function AdminPedidosPage({
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                 isActive
                   ? "bg-violet-600 text-white"
-                  : "bg-white border border-zinc-200 text-zinc-600 hover:border-violet-400"
+                  : "bg-white border border-zinc-200 text-zinc-700 dark:text-zinc-300 hover:border-violet-400"
               }`}
             >
               {opt.label}
             </Link>
           );
         })}
-        <span className="ml-auto text-xs text-zinc-600 dark:text-zinc-400 self-center">{total} resultado{total !== 1 ? "s" : ""}</span>
+        <span className="ml-auto text-xs text-zinc-700 dark:text-zinc-300 self-center">{total} resultado{total !== 1 ? "s" : ""}</span>
       </div>
 
       <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden overflow-x-auto">
         <table className="w-full text-sm min-w-[700px]">
           <thead className="bg-zinc-50 border-b border-zinc-200">
             <tr>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Cliente</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Produto(s)</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Valor</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Gateway</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Status</th>
-              <th className="text-left px-5 py-3 font-medium text-zinc-600 dark:text-zinc-400">Data</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Cliente</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Produto(s)</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Valor</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Gateway</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Status</th>
+              <th className="text-left px-5 py-3 font-medium text-zinc-700 dark:text-zinc-300">Data</th>
             </tr>
           </thead>
           <tbody>
@@ -124,15 +124,15 @@ export default async function AdminPedidosPage({
                 <tr key={order.id} className="border-b border-zinc-100 last:border-none hover:bg-zinc-50">
                   <td className="px-5 py-4">
                     <div className="font-medium text-zinc-900">{order.user.name}</div>
-                    <div className="text-xs text-zinc-600 dark:text-zinc-400">{order.user.email}</div>
+                    <div className="text-xs text-zinc-700 dark:text-zinc-300">{order.user.email}</div>
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 text-xs">
+                  <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300 text-xs">
                     {order.items.map((i) => i.product.title).join(", ")}
                   </td>
                   <td className="px-5 py-4 font-medium text-zinc-900">
                     {formatPrice(order.totalCents, order.currency)}
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 dark:text-zinc-400 text-xs">
+                  <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300 text-xs">
                     {order.provider === "MERCADOPAGO" ? "Mercado Pago" : "Stripe"}
                   </td>
                   <td className="px-5 py-4">
@@ -140,7 +140,7 @@ export default async function AdminPedidosPage({
                       {st.text}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-zinc-600 dark:text-zinc-400 text-xs">
+                  <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300 text-xs">
                     {new Date(order.createdAt).toLocaleDateString("pt-BR")}
                   </td>
                 </tr>
@@ -149,7 +149,7 @@ export default async function AdminPedidosPage({
           </tbody>
         </table>
         {orders.length === 0 && (
-          <p className="text-center text-zinc-600 dark:text-zinc-400 py-10">Nenhum pedido encontrado.</p>
+          <p className="text-center text-zinc-700 dark:text-zinc-300 py-10">Nenhum pedido encontrado.</p>
         )}
       </div>
 

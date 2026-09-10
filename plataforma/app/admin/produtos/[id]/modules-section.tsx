@@ -22,7 +22,7 @@ export function ModulesSection({
           <ModuleCard key={mod.id} module={mod} productId={product.id} />
         ))}
         {modules.length === 0 && (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">Nenhum módulo criado ainda.</p>
+          <p className="text-sm text-zinc-700 dark:text-zinc-300">Nenhum módulo criado ainda.</p>
         )}
       </div>
 
@@ -54,7 +54,7 @@ function ModuleCard({ module, productId }: { module: ModuleWithLessons; productI
           <LessonRow key={lesson.id} lesson={lesson} productId={productId} />
         ))}
         {module.lessons.length === 0 && (
-          <p className="text-xs text-zinc-600 dark:text-zinc-400">Nenhuma aula neste módulo.</p>
+          <p className="text-xs text-zinc-700 dark:text-zinc-300">Nenhuma aula neste módulo.</p>
         )}
         <AddLessonForm moduleId={module.id} productId={productId} />
       </div>
@@ -66,7 +66,7 @@ function LessonRow({ lesson, productId }: { lesson: Lesson; productId: string })
   return (
     <div className="flex items-center justify-between py-1.5 border-b border-zinc-100 last:border-none">
       <div className="flex items-center gap-2">
-        <span className="text-xs text-zinc-600 dark:text-zinc-400">{lesson.position}.</span>
+        <span className="text-xs text-zinc-700 dark:text-zinc-300">{lesson.position}.</span>
         <span className="text-sm text-zinc-700">{lesson.title}</span>
         {lesson.freePreview && (
           <span className="text-xs bg-violet-100 text-violet-600 px-1.5 py-0.5 rounded font-medium">
@@ -128,7 +128,7 @@ function AddLessonForm({ moduleId, productId }: { moduleId: string; productId: s
         placeholder="Nome da aula"
         className="flex-1 border border-zinc-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
-      <label className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 whitespace-nowrap">
+      <label className="flex items-center gap-1 text-xs text-zinc-700 dark:text-zinc-300 whitespace-nowrap">
         <input type="checkbox" name="freePreview" className="accent-violet-600" />
         Prévia grátis
       </label>

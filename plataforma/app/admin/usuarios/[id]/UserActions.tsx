@@ -6,7 +6,7 @@ import { grantAccessToUser, revokeUserSubscription } from "./actions";
 const STATUS_COLORS: Record<string, string> = {
   ACTIVE:    "bg-emerald-100 text-emerald-700",
   CANCELLED: "bg-red-100 text-red-700",
-  EXPIRED:   "bg-zinc-100 text-zinc-600",
+  EXPIRED:   "bg-zinc-100 text-zinc-700 dark:text-zinc-300",
   PAST_DUE:  "bg-amber-100 text-amber-700",
 };
 
@@ -32,14 +32,14 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
         {sub ? (
           <div className="space-y-3">
             <div className="flex items-center gap-3 flex-wrap">
-              <span className={`inline-block px-2.5 py-1 rounded text-xs font-bold uppercase ${STATUS_COLORS[sub.status] ?? "bg-zinc-100 text-zinc-600"}`}>
+              <span className={`inline-block px-2.5 py-1 rounded text-xs font-bold uppercase ${STATUS_COLORS[sub.status] ?? "bg-zinc-100 text-zinc-700 dark:text-zinc-300"}`}>
                 {STATUS_LABEL[sub.status] ?? sub.status}
               </span>
-              <span className="text-sm text-zinc-600">
+              <span className="text-sm text-zinc-700 dark:text-zinc-300">
                 {sub.plan === "ANNUAL" ? "Anual" : sub.plan === "MONTHLY" ? "Mensal" : sub.plan}
               </span>
               {sub.currentPeriodEnd && (
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="text-sm text-zinc-700 dark:text-zinc-300">
                   · vence {new Date(sub.currentPeriodEnd).toLocaleDateString("pt-BR")}
                 </span>
               )}
@@ -61,7 +61,7 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
             )}
           </div>
         ) : (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">Sem assinatura ativa.</p>
+          <p className="text-sm text-zinc-700 dark:text-zinc-300">Sem assinatura ativa.</p>
         )}
       </div>
 
@@ -85,7 +85,7 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
         <form action={grantAction} className="flex flex-wrap items-end gap-3">
           <input type="hidden" name="userId" value={userId} />
           <div>
-            <label className="block text-xs font-medium text-zinc-600 mb-1">Plano</label>
+            <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">Plano</label>
             <select
               name="plan"
               required

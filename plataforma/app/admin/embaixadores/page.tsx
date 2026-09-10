@@ -46,7 +46,7 @@ export default async function EmbaixadoresPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-zinc-900">Embaixadores</h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
             {ambassadors.length} embaixador{ambassadors.length !== 1 ? "es" : ""} ativo{ambassadors.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -56,19 +56,19 @@ export default async function EmbaixadoresPage() {
 
       {ambassadors.length === 0 ? (
         <div className="bg-white rounded-xl border border-zinc-200 py-16 text-center">
-          <p className="text-zinc-600 dark:text-zinc-400 font-medium">Nenhum embaixador cadastrado ainda.</p>
+          <p className="text-zinc-700 dark:text-zinc-300 font-medium">Nenhum embaixador cadastrado ainda.</p>
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
           <table className="w-full text-sm min-w-[700px]">
             <thead>
               <tr className="border-b border-zinc-100 bg-zinc-50">
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">Embaixador</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">Código</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">Indicações</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">Meses bônus</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">Comissão pendente</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400">Já pago</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Embaixador</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Código</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Indicações</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Meses bônus</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Comissão pendente</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300">Já pago</th>
                 <th className="px-4 py-3" />
               </tr>
             </thead>
@@ -84,7 +84,7 @@ export default async function EmbaixadoresPage() {
                     <tr key={amb.id} className="border-b border-zinc-100 hover:bg-zinc-50">
                       <td className="px-4 py-3">
                         <p className="font-medium text-zinc-800">{amb.name ?? "Sem nome"}</p>
-                        <p className="text-xs text-zinc-600 dark:text-zinc-400">{amb.email}</p>
+                        <p className="text-xs text-zinc-700 dark:text-zinc-300">{amb.email}</p>
                       </td>
                       <td className="px-4 py-3">
                         <span className="inline-block font-mono font-bold text-xs px-2.5 py-1 rounded bg-[#0f2d4a] text-white tracking-widest">
@@ -96,9 +96,9 @@ export default async function EmbaixadoresPage() {
                       <td className="px-4 py-3">
                         {pendingCents > 0
                           ? <span className="font-semibold text-amber-600">{brl(pendingCents)}</span>
-                          : <span className="text-zinc-600 dark:text-zinc-400">—</span>}
+                          : <span className="text-zinc-700 dark:text-zinc-300">—</span>}
                       </td>
-                      <td className="px-4 py-3 text-zinc-600 dark:text-zinc-400">{paidCents > 0 ? brl(paidCents) : "—"}</td>
+                      <td className="px-4 py-3 text-zinc-700 dark:text-zinc-300">{paidCents > 0 ? brl(paidCents) : "—"}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2 justify-end">
                           <MarkPaidButton ambassadorId={amb.id} pending={pendingCents} />
@@ -109,10 +109,10 @@ export default async function EmbaixadoresPage() {
                     {amb.referralsGiven.length > 0 && amb.referralsGiven.map((r) => (
                       <tr key={r.id} className="border-b border-zinc-50 last:border-0 bg-zinc-50/60">
                         <td className="pl-10 pr-4 py-2" colSpan={2}>
-                          <p className="text-xs text-zinc-600 font-medium">{r.referredUser.name ?? r.referredUser.email}</p>
-                          <p className="text-[11px] text-zinc-600 dark:text-zinc-400">{r.referredUser.email}</p>
+                          <p className="text-xs text-zinc-700 dark:text-zinc-300 font-medium">{r.referredUser.name ?? r.referredUser.email}</p>
+                          <p className="text-[11px] text-zinc-700 dark:text-zinc-300">{r.referredUser.email}</p>
                         </td>
-                        <td className="px-4 py-2 text-xs text-zinc-600 dark:text-zinc-400" colSpan={2}>
+                        <td className="px-4 py-2 text-xs text-zinc-700 dark:text-zinc-300" colSpan={2}>
                           {r.createdAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
                         </td>
                         <td className="px-4 py-2 text-xs font-semibold text-zinc-700">
