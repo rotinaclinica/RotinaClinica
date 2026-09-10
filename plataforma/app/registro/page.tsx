@@ -266,7 +266,7 @@ function RegistroForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CPF</label>
+              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CPF <span className="text-zinc-400 font-normal">(necessário para emitir nota fiscal)</span></label>
               <input
                 type="text"
                 value={cpf}
@@ -278,7 +278,7 @@ function RegistroForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CEP</label>
+              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CEP <span className="text-zinc-400 font-normal">(necessário para emitir nota fiscal)</span></label>
               <input
                 type="text"
                 value={cep}
