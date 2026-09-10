@@ -39,7 +39,7 @@ export default function NovoProdutoPage() {
 
       <form action={action} className="bg-[#161b22] rounded-2xl border border-white/10 p-6 space-y-5">
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">Título</label>
+          <label className="block text-sm font-medium text-zinc-300 mb-1">Título</label>
           <input
             name="title"
             required
@@ -50,7 +50,7 @@ export default function NovoProdutoPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">Slug (URL)</label>
+          <label className="block text-sm font-medium text-zinc-300 mb-1">Slug (URL)</label>
           <input
             id="slug"
             name="slug"
@@ -61,7 +61,7 @@ export default function NovoProdutoPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">Descrição</label>
+          <label className="block text-sm font-medium text-zinc-300 mb-1">Descrição</label>
           <textarea
             name="description"
             required
@@ -73,7 +73,7 @@ export default function NovoProdutoPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-400 mb-1">Tipo</label>
+            <label className="block text-sm font-medium text-zinc-300 mb-1">Tipo</label>
             <select
               name="type"
               required
@@ -84,7 +84,7 @@ export default function NovoProdutoPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-400 mb-1">Preço (R$)</label>
+            <label className="block text-sm font-medium text-zinc-300 mb-1">Preço (R$)</label>
             <input
               name="price"
               type="number"
@@ -98,7 +98,7 @@ export default function NovoProdutoPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-1">
+          <label className="block text-sm font-medium text-zinc-300 mb-1">
             Chave do arquivo (somente para Download)
           </label>
           <input
@@ -117,7 +117,7 @@ export default function NovoProdutoPage() {
             defaultChecked
             className="w-4 h-4 accent-violet-600"
           />
-          <label htmlFor="active" className="text-sm font-medium text-zinc-400">
+          <label htmlFor="active" className="text-sm font-medium text-zinc-300">
             Publicar imediatamente
           </label>
         </div>

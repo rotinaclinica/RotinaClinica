@@ -128,7 +128,7 @@ function AddLessonForm({ moduleId, productId }: { moduleId: string; productId: s
         placeholder="Nome da aula"
         className="flex-1 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
-      <label className="flex items-center gap-1 text-xs text-zinc-400 whitespace-nowrap">
+      <label className="flex items-center gap-1 text-xs text-zinc-300 whitespace-nowrap">
         <input type="checkbox" name="freePreview" className="accent-violet-600" />
         Prévia grátis
       </label>

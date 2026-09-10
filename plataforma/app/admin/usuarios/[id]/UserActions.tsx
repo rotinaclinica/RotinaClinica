@@ -85,7 +85,7 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
         <form action={grantAction} className="flex flex-wrap items-end gap-3">
           <input type="hidden" name="userId" value={userId} />
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1">Plano</label>
+            <label className="block text-xs font-medium text-zinc-300 mb-1">Plano</label>
             <select
               name="plan"
               required

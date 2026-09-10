@@ -27,7 +27,7 @@ export function AmbassadorForm() {
       <h2 className="text-sm font-bold text-zinc-100 mb-4">Adicionar embaixador</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-zinc-400 mb-1.5">E-mail do usuário</label>
+          <label className="block text-xs font-semibold text-zinc-300 mb-1.5">E-mail do usuário</label>
           <input
             type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
             placeholder="medico@email.com"
@@ -35,7 +35,7 @@ export function AmbassadorForm() {
           />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-zinc-400 mb-1.5">Código do embaixador</label>
+          <label className="block text-xs font-semibold text-zinc-300 mb-1.5">Código do embaixador</label>
           <input
             type="text" required value={code} onChange={(e) => setCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
             placeholder="Ex: DRJOAO" maxLength={20}
