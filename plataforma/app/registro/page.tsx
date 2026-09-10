@@ -144,6 +144,11 @@ function RegistroForm() {
       return;
     }
 
+    if (typeof window !== "undefined") {
+      const w = window as unknown as { fbq?: (...args: unknown[]) => void };
+      w.fbq?.("track", "CompleteRegistration");
+    }
+
     const result = await signIn("credentials", {
       email,
       password,

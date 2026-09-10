@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
+import PixelViewContent from "@/app/components/PixelViewContent";
 
 export const metadata = {
   title: "Planos e Assinatura",
@@ -58,6 +59,7 @@ export default function AssinaturaPage({
   const semAcesso = searchParams?.motivo === "acesso";
   return (
     <main className="min-h-screen bg-[#f7fafc]">
+      <PixelViewContent name="Planos" />
       <Navbar />
       {semAcesso && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-3 text-center">
