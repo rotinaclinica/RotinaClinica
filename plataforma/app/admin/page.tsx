@@ -119,13 +119,13 @@ export default async function AdminPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900">Painel Admin</h1>
-        <p className="text-sm text-zinc-700 mt-1">Visão geral da plataforma</p>
+        <h1 className="text-2xl font-bold text-zinc-100">Painel Admin</h1>
+        <p className="text-sm text-zinc-400 mt-1">Visão geral da plataforma</p>
       </div>
 
       {/* ── Usuários & Assinantes ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">Usuários & Assinantes</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Usuários & Assinantes</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Tile label="Usuários cadastrados" value={totalUsers} sub={`+${newUsersWeek} nos últimos 7 dias`} />
           <Tile label="Assinantes ativos" value={subActive} color="green" />
@@ -160,23 +160,23 @@ export default async function AdminPage() {
 
       {/* ── Atividade em Tempo Real ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">Atividade em Tempo Real</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Atividade em Tempo Real</h2>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
           {/* Online agora */}
-          <div className="bg-white rounded-xl border border-zinc-200 p-4 border-l-4 border-l-emerald-400">
-            <p className="text-xs text-zinc-700 mb-1">Online agora</p>
-            <p className="text-4xl font-bold text-zinc-900">{onlineNow}</p>
-            <p className="text-[11px] text-zinc-700 mt-0.5">usuários · janela de 5 min</p>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 border-l-emerald-400">
+            <p className="text-xs text-zinc-400 mb-1">Online agora</p>
+            <p className="text-4xl font-bold text-zinc-100">{onlineNow}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">usuários · janela de 5 min</p>
           </div>
-          <div className="bg-white rounded-xl border border-zinc-200 p-4">
-            <p className="text-xs text-zinc-700 mb-1">Ativos — últimas 24h</p>
-            <p className="text-4xl font-bold text-zinc-900">{active24h}</p>
-            <p className="text-[11px] text-zinc-700 mt-0.5">usuários únicos logados</p>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4">
+            <p className="text-xs text-zinc-400 mb-1">Ativos — últimas 24h</p>
+            <p className="text-4xl font-bold text-zinc-100">{active24h}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
           </div>
-          <div className="bg-white rounded-xl border border-zinc-200 p-4">
-            <p className="text-xs text-zinc-700 mb-1">Ativos — últimos 7 dias</p>
-            <p className="text-4xl font-bold text-zinc-900">{active7d}</p>
-            <p className="text-[11px] text-zinc-700 mt-0.5">usuários únicos logados</p>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4">
+            <p className="text-xs text-zinc-400 mb-1">Ativos — últimos 7 dias</p>
+            <p className="text-4xl font-bold text-zinc-100">{active7d}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
           </div>
 
         </div>
@@ -184,7 +184,7 @@ export default async function AdminPage() {
 
       {/* ── Receita ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">Receita</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Receita</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Tile label="Total (all time)"   value={brl(revenueTotal._sum.totalCents)} color="green" sub={`${ordersTotal} vendas confirmadas`} />
           <Tile label="Últimos 7 dias"    value={brl(revenueWeek._sum.totalCents)} />
@@ -231,29 +231,29 @@ export default async function AdminPage() {
       {/* ── Renovações Próximas ── */}
       {renovandoLista.length > 0 && (
         <section>
-          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">
             Renovações próximas — próximos 30 dias
           </h2>
-          <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
+          <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-zinc-50 border-b border-zinc-200">
+              <thead className="bg-white/5 border-b border-white/10">
                 <tr>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-700">Usuário</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-700">Plano</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-700">Vence em</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Vence em</th>
                 </tr>
               </thead>
               <tbody>
                 {renovandoLista.map((s, i) => (
-                  <tr key={i} className="border-b border-zinc-50 last:border-0">
+                  <tr key={i} className="border-b border-white/5 last:border-0">
                     <td className="px-4 py-3">
-                      <p className="font-medium text-zinc-800">{s.user.name ?? "—"}</p>
-                      <p className="text-xs text-zinc-700">{s.user.email}</p>
+                      <p className="font-medium text-zinc-100">{s.user.name ?? "—"}</p>
+                      <p className="text-xs text-zinc-400">{s.user.email}</p>
                     </td>
-                    <td className="px-4 py-3 text-zinc-700 text-xs">
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
                       {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
                     </td>
-                    <td className="px-4 py-3 text-xs font-medium text-amber-600">
+                    <td className="px-4 py-3 text-xs font-medium text-amber-400">
                       {s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR") : "—"}
                     </td>
                   </tr>
@@ -266,34 +266,34 @@ export default async function AdminPage() {
 
       {/* ── Cancelamentos Recentes ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-900 mb-3">
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">
           Cancelamentos recentes — últimos 30 dias
         </h2>
         {cancelamentosRecentes.length === 0 ? (
-          <div className="bg-white rounded-xl border border-zinc-200 p-5 text-sm text-zinc-700">
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-5 text-sm text-zinc-400">
             Nenhum cancelamento registrado nos últimos 30 dias.
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-zinc-200 overflow-hidden">
+          <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-zinc-50 border-b border-zinc-200">
+              <thead className="bg-white/5 border-b border-white/10">
                 <tr>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-700">Usuário</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-700">Plano</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-700">Cancelado em</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Cancelado em</th>
                 </tr>
               </thead>
               <tbody>
                 {cancelamentosRecentes.map((s, i) => (
-                  <tr key={i} className="border-b border-zinc-50 last:border-0">
+                  <tr key={i} className="border-b border-white/5 last:border-0">
                     <td className="px-4 py-3">
-                      <p className="font-medium text-zinc-800">{s.user.name ?? "—"}</p>
-                      <p className="text-xs text-zinc-700">{s.user.email}</p>
+                      <p className="font-medium text-zinc-100">{s.user.name ?? "—"}</p>
+                      <p className="text-xs text-zinc-400">{s.user.email}</p>
                     </td>
-                    <td className="px-4 py-3 text-zinc-700 text-xs">
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
                       {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
                     </td>
-                    <td className="px-4 py-3 text-zinc-700 text-xs">
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
                       {s.cancelledAt ? new Date(s.cancelledAt).toLocaleDateString("pt-BR") : "—"}
                     </td>
                   </tr>
@@ -327,10 +327,10 @@ function Tile({
     "";
 
   return (
-    <div className={`bg-white rounded-xl border border-zinc-200 p-4 ${accent}`}>
-      <p className="text-xs text-zinc-700 mb-1">{label}</p>
-      <p className="text-2xl font-bold text-zinc-900">{value}</p>
-      {sub && <p className="text-[11px] text-zinc-700 mt-0.5">{sub}</p>}
+    <div className={`bg-[#161b22] rounded-xl border border-white/10 p-4 ${accent}`}>
+      <p className="text-xs text-zinc-400 mb-1">{label}</p>
+      <p className="text-2xl font-bold text-zinc-100">{value}</p>
+      {sub && <p className="text-[11px] text-zinc-400 mt-0.5">{sub}</p>}
     </div>
   );
 }

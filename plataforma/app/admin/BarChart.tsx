@@ -23,8 +23,8 @@ export function BarChart({ title, bars }: { title: string; bars: Bar[] }) {
   const bw = barW - gap;
 
   return (
-    <div className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-4 col-span-full">
-      <p className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold uppercase tracking-wider mb-3">{title}</p>
+    <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 col-span-full">
+      <p className="text-xs text-zinc-400 font-semibold uppercase tracking-wider mb-3">{title}</p>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: H }}>
         {bars.map((bar, i) => {
           const x = PAD_L + i * barW + gap / 2;
@@ -41,7 +41,7 @@ export function BarChart({ title, bars }: { title: string; bars: Bar[] }) {
                   y={labelY}
                   textAnchor="middle"
                   fontSize="9"
-                  fill={bar.current ? "#4f46e5" : "#6b7280"}
+                  fill={bar.current ? "#818cf8" : "#9ca3af"}
                   fontWeight={bar.current ? "700" : "400"}
                 >
                   {fmtBRL(bar.value)}
@@ -52,7 +52,7 @@ export function BarChart({ title, bars }: { title: string; bars: Bar[] }) {
                 y={H - 6}
                 textAnchor="middle"
                 fontSize="9"
-                fill={bar.current ? "#4f46e5" : "#9ca3af"}
+                fill={bar.current ? "#818cf8" : "#9ca3af"}
                 fontWeight={bar.current ? "700" : "400"}
               >
                 {bar.label}
