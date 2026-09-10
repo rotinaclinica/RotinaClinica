@@ -53,7 +53,7 @@ export default async function HomePage() {
             </ul>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/assinatura"
+                href="/assinatura#planos"
                 className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
               >
                 Começar agora
@@ -143,7 +143,7 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <a href="/assinatura" className="inline-flex items-center gap-2 bg-[#1a6aad] hover:bg-[#155d96] text-white font-bold px-8 py-3.5 rounded-xl transition-colors text-sm">
+            <a href="/assinatura#planos" className="inline-flex items-center gap-2 bg-[#1a6aad] hover:bg-[#155d96] text-white font-bold px-8 py-3.5 rounded-xl transition-colors text-sm">
               Ver planos e assinar
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
