@@ -50,7 +50,7 @@ export function RevokeButton({ subscriptionId }: { subscriptionId: string }) {
     <button
       type="button"
       onClick={() => setConfirming(true)}
-      className="text-xs text-red-400 hover:text-red-600 transition-colors"
+      className="text-xs text-red-400 hover:text-red-400 transition-colors"
     >
       Cancelar
     </button>

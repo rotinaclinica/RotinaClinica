@@ -70,7 +70,7 @@ export default async function AdminUserDetailPage({
   return (
     <div className="max-w-3xl space-y-6">
       <div className="flex items-center gap-3 flex-wrap">
-        <Link href="/admin/usuarios" className="text-sm text-violet-600 hover:underline">
+        <Link href="/admin/usuarios" className="text-sm text-violet-400 hover:underline">
           ← Usuários
         </Link>
       </div>
@@ -146,9 +146,9 @@ export default async function AdminUserDetailPage({
                   <span
                     className={`text-xs font-bold px-2 py-0.5 rounded uppercase ${
                       o.status === "PAID"
-                        ? "bg-emerald-100 text-emerald-700"
+                        ? "bg-emerald-500/20 text-emerald-300"
                         : o.status === "REFUNDED"
-                        ? "bg-red-100 text-red-700"
+                        ? "bg-red-500/20 text-red-300"
                         : "bg-white/10 text-zinc-400"
                     }`}
                   >

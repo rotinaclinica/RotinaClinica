@@ -222,38 +222,38 @@ export default function BroadcastPage() {
 
       {/* Campanha automática ativa */}
       {campaign && (
-        <div className="mb-5 p-4 rounded-xl border border-emerald-200 bg-emerald-50">
+        <div className="mb-5 p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-sm font-bold text-emerald-800">📣 Campanha automática em andamento</p>
-              <p className="text-sm text-emerald-700 mt-0.5 truncate">&ldquo;{campaign.subject}&rdquo;</p>
-              <p className="text-xs text-emerald-700 mt-1">
+              <p className="text-sm font-bold text-emerald-300">📣 Campanha automática em andamento</p>
+              <p className="text-sm text-emerald-300 mt-0.5 truncate">&ldquo;{campaign.subject}&rdquo;</p>
+              <p className="text-xs text-emerald-300 mt-1">
                 <strong>{campaign.alreadySent}</strong> de <strong>{campaign.alreadySent + campaign.remaining}</strong> enviados ·{" "}
                 <strong>{campaign.remaining}</strong> restantes
               </p>
-              <p className="text-[11px] text-emerald-600 mt-1">
+              <p className="text-[11px] text-emerald-400 mt-1">
                 Os próximos lotes (~50/dia) são enviados automaticamente todo dia. Você não precisa fazer nada.
               </p>
             </div>
             {!cancelConfirm ? (
               <button
                 onClick={handleCancel}
-                className="shrink-0 text-xs font-semibold text-red-600 hover:underline"
+                className="shrink-0 text-xs font-semibold text-red-400 hover:underline"
               >
                 Cancelar
               </button>
             ) : (
               <div className="shrink-0 flex flex-col items-end gap-1">
-                <p className="text-[11px] text-red-700 font-semibold">Tem certeza?</p>
+                <p className="text-[11px] text-red-300 font-semibold">Tem certeza?</p>
                 <div className="flex gap-2">
-                  <button onClick={handleCancel} className="text-xs font-bold text-red-600 hover:underline">Sim, cancelar</button>
+                  <button onClick={handleCancel} className="text-xs font-bold text-red-400 hover:underline">Sim, cancelar</button>
                   <button onClick={() => setCancelConfirm(false)} className="text-xs text-zinc-400 hover:underline">Não</button>
                 </div>
               </div>
             )}
           </div>
           {/* Barra de progresso */}
-          <div className="mt-3 h-2 rounded-full bg-emerald-100 overflow-hidden">
+          <div className="mt-3 h-2 rounded-full bg-emerald-500/20 overflow-hidden">
             <div
               className="h-full bg-emerald-500 transition-all"
               style={{ width: `${Math.round((campaign.alreadySent / Math.max(1, campaign.alreadySent + campaign.remaining)) * 100)}%` }}
@@ -289,7 +289,7 @@ export default function BroadcastPage() {
           <button
             onClick={deleteTemplate}
             disabled={locked}
-            className="px-3 py-2 rounded-lg text-xs font-semibold bg-[#161b22] border border-red-200 text-red-600 hover:border-red-400 disabled:opacity-40 transition-colors"
+            className="px-3 py-2 rounded-lg text-xs font-semibold bg-[#161b22] border border-red-500/30 text-red-400 hover:border-red-400 disabled:opacity-40 transition-colors"
           >
             Excluir modelo
           </button>
@@ -346,13 +346,13 @@ export default function BroadcastPage() {
             </button>
           </div>
           {testStatus === "done" && testResult && testResult.failed === 0 && (
-            <p className="mt-2 text-sm text-green-700">
+            <p className="mt-2 text-sm text-green-300">
               ✓ Teste enviado: {testResult.sent} enviado(s) · 0 falhas.
               {" "}Cheque a caixa de entrada (e o spam).
             </p>
           )}
           {testStatus === "done" && testResult && testResult.failed > 0 && (
-            <div className="mt-2 text-sm text-red-700">
+            <div className="mt-2 text-sm text-red-300">
               <p className="font-semibold">✗ {testResult.failed} falha(s) — nada foi entregue.</p>
               {testResult.errors?.length ? (
                 <p className="mt-1 text-xs break-words">Motivo: {testResult.errors[0]}</p>
@@ -360,7 +360,7 @@ export default function BroadcastPage() {
             </div>
           )}
           {testStatus === "error" && (
-            <p className="mt-2 text-sm text-red-700">
+            <p className="mt-2 text-sm text-red-300">
               Falha no teste{(testResult as { error?: string })?.error ? `: ${(testResult as { error?: string }).error}` : testResult?.errors?.length ? `: ${testResult.errors[0]}` : "."}
             </p>
           )}
@@ -389,13 +389,13 @@ export default function BroadcastPage() {
               {individualStatus === "sending" ? "Enviando…" : "Enviar para esses emails"}
             </button>
             {individualStatus === "done" && individualResult && individualResult.failed === 0 && (
-              <p className="text-sm text-green-700">✓ {individualResult.sent} de {individualResult.total} enviado(s) com sucesso.</p>
+              <p className="text-sm text-green-300">✓ {individualResult.sent} de {individualResult.total} enviado(s) com sucesso.</p>
             )}
             {individualStatus === "done" && individualResult && individualResult.failed > 0 && (
-              <p className="text-sm text-amber-700">⚠ {individualResult.sent} enviados · {individualResult.failed} falha(s){individualResult.errors?.length ? `: ${individualResult.errors[0]}` : "."}</p>
+              <p className="text-sm text-amber-300">⚠ {individualResult.sent} enviados · {individualResult.failed} falha(s){individualResult.errors?.length ? `: ${individualResult.errors[0]}` : "."}</p>
             )}
             {individualStatus === "error" && (
-              <p className="text-sm text-red-700">Falha no envio. Verifique os emails e tente novamente.</p>
+              <p className="text-sm text-red-300">Falha no envio. Verifique os emails e tente novamente.</p>
             )}
           </div>
         </div>
@@ -438,16 +438,16 @@ export default function BroadcastPage() {
         )}
 
         {status === "done" && result && (
-          <div className="rounded-xl border border-green-200 bg-green-50 p-5">
-            <p className="font-bold text-green-800 mb-1">
+          <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-5">
+            <p className="font-bold text-green-300 mb-1">
               {result.done ? "✓ Campanha concluída — todos receberam!" : "✓ 1º lote enviado!"}
             </p>
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-green-300">
               {result.sentThisRun} enviados agora · {result.alreadySent} de {result.total} no total ·{" "}
               {result.remaining} restantes
             </p>
             {!result.done && (
-              <p className="text-xs text-green-600 mt-2">
+              <p className="text-xs text-green-400 mt-2">
                 Os próximos lotes (~50/dia) serão enviados <strong>automaticamente todo dia</strong>.
                 Você não precisa voltar aqui — pode acompanhar o progresso na barra acima.
               </p>
@@ -459,8 +459,8 @@ export default function BroadcastPage() {
         )}
 
         {status === "error" && (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-5">
-            <p className="font-bold text-red-800">Erro ao iniciar. Verifique o console e tente novamente.</p>
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-5">
+            <p className="font-bold text-red-300">Erro ao iniciar. Verifique o console e tente novamente.</p>
           </div>
         )}
       </div>

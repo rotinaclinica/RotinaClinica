@@ -8,10 +8,10 @@ import { ProcessAllButton, RetryButton } from "./process-button";
 export const metadata = { title: "Notas fiscais · Admin" };
 
 const statusLabel: Record<string, { text: string; color: string }> = {
-  PENDING:    { text: "Pendente",       color: "bg-yellow-100 text-yellow-700" },
-  PROCESSING: { text: "Processando",    color: "bg-blue-100 text-blue-700" },
-  AUTHORIZED: { text: "Autorizada",     color: "bg-green-100 text-green-700" },
-  FAILED:     { text: "Falhou",         color: "bg-red-100 text-red-700" },
+  PENDING:    { text: "Pendente",       color: "bg-yellow-500/20 text-yellow-300" },
+  PROCESSING: { text: "Processando",    color: "bg-blue-500/20 text-blue-300" },
+  AUTHORIZED: { text: "Autorizada",     color: "bg-green-500/20 text-green-300" },
+  FAILED:     { text: "Falhou",         color: "bg-red-500/20 text-red-300" },
 };
 
 function loadInvoices() {
@@ -83,12 +83,12 @@ export default async function AdminNotasPage() {
       </div>
 
       {!dbReady && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
-          <p className="font-semibold text-red-800 mb-1">Migração do banco pendente</p>
-          <p className="text-sm text-red-700">
+        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-5">
+          <p className="font-semibold text-red-300 mb-1">Migração do banco pendente</p>
+          <p className="text-sm text-red-300">
             A tabela de notas fiscais ainda não existe no banco. Rode{" "}
-            <code className="px-1 py-0.5 bg-red-100 rounded">npx prisma db push</code> em{" "}
-            <code className="px-1 py-0.5 bg-red-100 rounded">plataforma/</code> para criá-la.
+            <code className="px-1 py-0.5 bg-red-500/20 rounded">npx prisma db push</code> em{" "}
+            <code className="px-1 py-0.5 bg-red-500/20 rounded">plataforma/</code> para criá-la.
           </p>
         </div>
       )}
@@ -97,8 +97,8 @@ export default async function AdminNotasPage() {
       <div
         className={`rounded-2xl border p-5 ${
           cfg.enabled
-            ? "bg-green-50 border-green-200"
-            : "bg-amber-50 border-amber-200"
+            ? "bg-green-500/10 border-green-500/30"
+            : "bg-amber-500/10 border-amber-500/30"
         }`}
       >
         <div className="flex items-center gap-2 mb-3">
@@ -114,16 +114,16 @@ export default async function AdminNotasPage() {
           </p>
         </div>
         {!cfg.enabled && (
-          <p className="text-sm text-amber-800 mb-3">
+          <p className="text-sm text-amber-300 mb-3">
             O sistema está pronto, mas não vai emitir notas até você definir{" "}
-            <code className="px-1 py-0.5 bg-amber-100 rounded">NFE_ENABLED=true</code> e
+            <code className="px-1 py-0.5 bg-amber-500/20 rounded">NFE_ENABLED=true</code> e
             preencher os dados fiscais nas variáveis de ambiente da Vercel.
           </p>
         )}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {fiscalChecks.map((c) => (
             <div key={c.label} className="flex items-center gap-2 text-sm">
-              <span className={c.ok ? "text-green-600" : "text-zinc-400"}>
+              <span className={c.ok ? "text-green-400" : "text-zinc-400"}>
                 {c.ok ? "✓" : "○"}
               </span>
               <span className={c.ok ? "text-zinc-400" : "text-zinc-400"}>{c.label}</span>
@@ -131,7 +131,7 @@ export default async function AdminNotasPage() {
           ))}
         </div>
         {cfg.enabled && !fiscalPronto && (
-          <p className="text-sm text-amber-800 mt-3">
+          <p className="text-sm text-amber-300 mt-3">
             ⚠️ Emissão ligada mas há campos fiscais faltando — as notas vão falhar até
             completar.
           </p>
@@ -195,7 +195,7 @@ export default async function AdminNotasPage() {
                   </td>
                   <td className="px-5 py-4 text-xs">
                     {inv.pdfUrl ? (
-                      <a href={inv.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-violet-600 hover:underline">
+                      <a href={inv.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:underline">
                         abrir
                       </a>
                     ) : (

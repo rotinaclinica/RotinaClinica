@@ -33,7 +33,7 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
   return (
     <details className={`border rounded-xl overflow-hidden transition-colors ${
       resolved
-        ? "bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-900"
+        ? "bg-green-500/10 dark:bg-green-950/30 border-green-500/30 dark:border-green-900"
         : "bg-[#161b22] dark:bg-zinc-800/60 border-white/10 dark:border-white/8"
     }`}>
       <summary className="flex items-start justify-between gap-4 px-4 py-3 cursor-pointer hover:bg-white/5 dark:hover:bg-white/5 transition-colors list-none">
@@ -46,7 +46,7 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
               {route}
             </span>
             {resolved && (
-              <span className="text-[11px] font-semibold text-green-600 dark:text-green-400">✓ Resolvido</span>
+              <span className="text-[11px] font-semibold text-green-400 dark:text-green-400">✓ Resolvido</span>
             )}
           </div>
           <p className={`text-sm mt-1 truncate ${resolved ? "text-zinc-400 dark:text-zinc-400" : "text-red-500 dark:text-red-400"}`}>
@@ -64,8 +64,8 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
               title={resolved ? "Marcar como pendente" : "Marcar como resolvido"}
               className={`text-[11px] font-semibold px-2 py-0.5 rounded border transition-colors ${
                 resolved
-                  ? "border-green-300 dark:border-green-800 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900"
-                  : "border-white/10 dark:border-white/10 text-zinc-400 hover:border-green-300 hover:text-green-600 dark:hover:border-green-800 dark:hover:text-green-400"
+                  ? "border-green-300 dark:border-green-800 text-green-400 dark:text-green-400 hover:bg-green-500/20 dark:hover:bg-green-900"
+                  : "border-white/10 dark:border-white/10 text-zinc-400 hover:border-green-300 hover:text-green-400 dark:hover:border-green-800 dark:hover:text-green-400"
               }`}
             >
               {resolved ? "✓ OK" : "✓"}
@@ -73,7 +73,7 @@ export function ErrorCard({ id, method, route, message, date, userId, stack, del
             <form action={deleteAction}>
               <button
                 type="submit"
-                className="text-[11px] font-semibold px-2 py-0.5 rounded border border-red-200 dark:border-red-900 text-red-400 hover:bg-red-50 dark:hover:bg-red-950 hover:text-red-600 transition-colors"
+                className="text-[11px] font-semibold px-2 py-0.5 rounded border border-red-500/30 dark:border-red-900 text-red-400 hover:bg-red-500/10 dark:hover:bg-red-950 hover:text-red-400 transition-colors"
               >
                 Excluir
               </button>

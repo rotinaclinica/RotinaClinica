@@ -64,10 +64,10 @@ export default async function AdminLeadsPage({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <span className="bg-emerald-100 text-emerald-700 text-sm font-bold px-3 py-1.5 rounded-lg">
+          <span className="bg-emerald-500/20 text-emerald-300 text-sm font-bold px-3 py-1.5 rounded-lg">
             {convertidosLeads.length} convertido{convertidosLeads.length !== 1 ? "s" : ""}
           </span>
-          <span className="bg-violet-100 text-violet-700 text-sm font-bold px-3 py-1.5 rounded-lg">
+          <span className="bg-violet-500/20 text-violet-300 text-sm font-bold px-3 py-1.5 rounded-lg">
             {total} lead{total !== 1 ? "s" : ""}
           </span>
         </div>
@@ -107,7 +107,7 @@ export default async function AdminLeadsPage({
                   <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{l.doePlantoes}</td>
                   <td className="px-4 py-3">
                     {l.whatsappOptIn ? (
-                      <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Sim</span>
+                      <span className="bg-green-500/20 text-green-300 text-[10px] font-bold px-2 py-0.5 rounded-full">Sim</span>
                     ) : (
                       <span className="bg-white/10 text-zinc-400 text-[10px] font-bold px-2 py-0.5 rounded-full">Não</span>
                     )}
@@ -118,7 +118,7 @@ export default async function AdminLeadsPage({
                   </td>
                   <td className="px-4 py-3">
                     {activeSet.has(l.email.toLowerCase()) && (
-                      <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Convertido</span>
+                      <span className="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Convertido</span>
                     )}
                   </td>
                 </tr>

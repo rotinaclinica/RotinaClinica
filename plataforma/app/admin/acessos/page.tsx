@@ -10,10 +10,10 @@ const planLabel = (plan: string) =>
   plan === "ANNUAL" ? "Anual" : "Mensal";
 
 const statusStyle = (status: string) => {
-  if (status === "ACTIVE")    return "bg-green-100 text-green-700";
-  if (status === "CANCELLED") return "bg-red-100 text-red-600";
+  if (status === "ACTIVE")    return "bg-green-500/20 text-green-300";
+  if (status === "CANCELLED") return "bg-red-500/20 text-red-400";
   if (status === "EXPIRED")   return "bg-white/10 text-zinc-400";
-  return "bg-amber-100 text-amber-700";
+  return "bg-amber-500/20 text-amber-300";
 };
 
 export default async function AdminAcessosPage({

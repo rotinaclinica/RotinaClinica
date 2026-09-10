@@ -44,7 +44,7 @@ export function AmbassadorForm() {
           <p className="text-[11px] text-zinc-400 mt-1">Somente letras e números, sem espaços (3–20 caracteres).</p>
         </div>
         {status && (
-          <p className={`text-xs font-medium ${status.type === "error" ? "text-red-500" : "text-emerald-600"}`}>{status.msg}</p>
+          <p className={`text-xs font-medium ${status.type === "error" ? "text-red-500" : "text-emerald-400"}`}>{status.msg}</p>
         )}
         <button type="submit" disabled={loading}
           className="px-4 py-2 text-sm font-semibold bg-violet-600 text-white rounded-lg hover:bg-violet-500 transition-colors disabled:opacity-50">

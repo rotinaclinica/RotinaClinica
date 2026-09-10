@@ -21,11 +21,11 @@ const STATUS_OPTIONS = [
 ];
 
 const statusLabel: Record<string, { text: string; color: string }> = {
-  PENDING:  { text: "Pendente",     color: "bg-yellow-100 text-yellow-700" },
-  PAID:     { text: "Pago",         color: "bg-green-100 text-green-700" },
-  FAILED:   { text: "Falhou",       color: "bg-red-100 text-red-700" },
+  PENDING:  { text: "Pendente",     color: "bg-yellow-500/20 text-yellow-300" },
+  PAID:     { text: "Pago",         color: "bg-green-500/20 text-green-300" },
+  FAILED:   { text: "Falhou",       color: "bg-red-500/20 text-red-300" },
   EXPIRED:  { text: "Expirado",     color: "bg-white/10 text-zinc-400" },
-  REFUNDED: { text: "Reembolsado",  color: "bg-blue-100 text-blue-700" },
+  REFUNDED: { text: "Reembolsado",  color: "bg-blue-500/20 text-blue-300" },
 };
 
 export default async function AdminPedidosPage({

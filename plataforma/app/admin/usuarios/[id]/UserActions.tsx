@@ -4,10 +4,10 @@ import { useActionState } from "react";
 import { grantAccessToUser, revokeUserSubscription } from "./actions";
 
 const STATUS_COLORS: Record<string, string> = {
-  ACTIVE:    "bg-emerald-100 text-emerald-700",
-  CANCELLED: "bg-red-100 text-red-700",
+  ACTIVE:    "bg-emerald-500/20 text-emerald-300",
+  CANCELLED: "bg-red-500/20 text-red-300",
   EXPIRED:   "bg-white/10 text-zinc-400",
-  PAST_DUE:  "bg-amber-100 text-amber-700",
+  PAST_DUE:  "bg-amber-500/20 text-amber-300",
 };
 
 const STATUS_LABEL: Record<string, string> = {
@@ -53,7 +53,7 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
               >
                 <button
                   type="submit"
-                  className="text-sm font-semibold text-red-600 hover:underline"
+                  className="text-sm font-semibold text-red-400 hover:underline"
                 >
                   Cancelar assinatura
                 </button>
@@ -72,12 +72,12 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
         </h2>
 
         {grantState?.error && (
-          <div className="mb-3 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
+          <div className="mb-3 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg px-4 py-3 text-sm">
             {grantState.error}
           </div>
         )}
         {grantState?.success && (
-          <div className="mb-3 bg-green-50 border border-green-200 text-green-700 rounded-lg px-4 py-3 text-sm">
+          <div className="mb-3 bg-green-500/10 border border-green-500/30 text-green-300 rounded-lg px-4 py-3 text-sm">
             {grantState.success}
           </div>
         )}

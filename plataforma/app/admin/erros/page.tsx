@@ -39,15 +39,15 @@ export default async function ErrosPage({
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
-    <div className="flex-1 flex flex-col">
-      <header className="bg-[#161b22] dark:bg-zinc-900 border-b border-white/10 dark:border-white/8 px-6 sm:px-8 py-6">
-        <h1 className="text-xl font-extrabold text-zinc-100 dark:text-zinc-100">Erros de servidor</h1>
-        <p className="text-zinc-400 dark:text-zinc-400 text-sm mt-0.5">
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-zinc-100">Erros de servidor</h1>
+        <p className="text-zinc-400 text-sm mt-1">
           {total} registro{total !== 1 ? "s" : ""} encontrado{total !== 1 ? "s" : ""}
         </p>
-      </header>
+      </div>
 
-      <main className="flex-1 p-6 sm:p-8 space-y-4">
+      <div className="space-y-4">
 
         {/* Filtro por rota */}
         <form method="GET" className="flex gap-2 max-w-md">
@@ -119,7 +119,7 @@ export default async function ErrosPage({
             )}
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }

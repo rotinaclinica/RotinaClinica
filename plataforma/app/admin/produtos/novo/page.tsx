@@ -32,7 +32,7 @@ export default function NovoProdutoPage() {
       </div>
 
       {state?.error && (
-        <div className="mb-6 bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
+        <div className="mb-6 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg px-4 py-3 text-sm">
           {state.error}
         </div>
       )}

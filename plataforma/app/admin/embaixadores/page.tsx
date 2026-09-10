@@ -120,8 +120,8 @@ export default async function EmbaixadoresPage() {
                         </td>
                         <td className="px-4 py-2" colSpan={2}>
                           {r.paidOut
-                            ? <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">✓ pago</span>
-                            : <span className="text-[11px] font-bold text-amber-400 bg-amber-50 px-2 py-0.5 rounded">pendente</span>}
+                            ? <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">✓ pago</span>
+                            : <span className="text-[11px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">pendente</span>}
                         </td>
                       </tr>
                     ))}

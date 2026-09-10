@@ -11,10 +11,10 @@ export const metadata = { title: "Usuários · Admin · Rotina Clínica" };
 const PAGE_SIZE = 50;
 
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
-  ACTIVE:    { label: "Ativo",     cls: "bg-emerald-100 text-emerald-700" },
-  CANCELLED: { label: "Cancelado", cls: "bg-red-100 text-red-700" },
+  ACTIVE:    { label: "Ativo",     cls: "bg-emerald-500/20 text-emerald-300" },
+  CANCELLED: { label: "Cancelado", cls: "bg-red-500/20 text-red-300" },
   EXPIRED:   { label: "Expirado",  cls: "bg-white/10 text-zinc-400" },
-  PAST_DUE:  { label: "Em atraso", cls: "bg-amber-100 text-amber-700" },
+  PAST_DUE:  { label: "Em atraso", cls: "bg-amber-500/20 text-amber-300" },
 };
 
 const PLAN_LABEL: Record<string, string> = {
@@ -74,7 +74,7 @@ export default async function AdminUsuariosPage({
             {total} cadastro{total !== 1 ? "s" : ""}{query ? ` para "${query}"` : " no total"}
           </p>
         </div>
-        <Link href="/admin" className="text-sm text-violet-600 hover:underline">← Admin</Link>
+        <Link href="/admin" className="text-sm text-violet-400 hover:underline">← Admin</Link>
       </div>
 
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -164,7 +164,7 @@ export default async function AdminUsuariosPage({
                   <td className="px-4 py-3 whitespace-nowrap">
                     <Link
                       href={`/admin/usuarios/${u.id}`}
-                      className="text-xs font-semibold text-violet-600 hover:underline"
+                      className="text-xs font-semibold text-violet-400 hover:underline"
                     >
                       Gerenciar
                     </Link>

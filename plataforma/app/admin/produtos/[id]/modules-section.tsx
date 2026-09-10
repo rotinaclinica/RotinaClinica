@@ -41,7 +41,7 @@ function ModuleCard({ module, productId }: { module: ModuleWithLessons; productI
         <form action={deleteModule.bind(null, module.id, productId)}>
           <button
             type="submit"
-            className="text-xs text-red-400 hover:text-red-600"
+            className="text-xs text-red-400 hover:text-red-400"
             onClick={(e) => { if (!confirm("Excluir módulo e todas as aulas?")) e.preventDefault(); }}
           >
             Excluir módulo
@@ -69,12 +69,12 @@ function LessonRow({ lesson, productId }: { lesson: Lesson; productId: string })
         <span className="text-xs text-zinc-400">{lesson.position}.</span>
         <span className="text-sm text-zinc-400">{lesson.title}</span>
         {lesson.freePreview && (
-          <span className="text-xs bg-violet-100 text-violet-600 px-1.5 py-0.5 rounded font-medium">
+          <span className="text-xs bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded font-medium">
             Prévia
           </span>
         )}
         {lesson.muxPlaybackId && (
-          <span className="text-xs bg-green-100 text-green-600 px-1.5 py-0.5 rounded font-medium">
+          <span className="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded font-medium">
             Vídeo
           </span>
         )}
@@ -82,7 +82,7 @@ function LessonRow({ lesson, productId }: { lesson: Lesson; productId: string })
       <form action={deleteLesson.bind(null, lesson.id, productId)}>
         <button
           type="submit"
-          className="text-xs text-red-400 hover:text-red-600"
+          className="text-xs text-red-400 hover:text-red-400"
           onClick={(e) => { if (!confirm("Excluir esta aula?")) e.preventDefault(); }}
         >
           Excluir
@@ -135,7 +135,7 @@ function AddLessonForm({ moduleId, productId }: { moduleId: string; productId: s
       <button
         type="submit"
         disabled={pending}
-        className="bg-violet-100 text-violet-700 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-violet-200 transition-colors disabled:opacity-60 whitespace-nowrap"
+        className="bg-violet-500/20 text-violet-300 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-violet-200 transition-colors disabled:opacity-60 whitespace-nowrap"
       >
         + Aula
       </button>
