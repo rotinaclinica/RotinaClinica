@@ -125,6 +125,12 @@ export async function GET(
   const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
+  // Corrige o título interno do PDF (mostrado na barra do visualizador).
+  // Os arquivos originais vinham com metadados como "NÃO EDITAR - BACKUP 2".
+  pdfDoc.setTitle(ebook.name);
+  pdfDoc.setAuthor("Rotina Clínica");
+  pdfDoc.setSubject(ebook.name);
+
   const userEmail = session.user.email;
   const downloadDate = new Date().toLocaleDateString("pt-BR");
   const watermarkText = `${userEmail} — baixado em ${downloadDate} — uso pessoal e intransferível`;
