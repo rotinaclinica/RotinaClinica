@@ -12,9 +12,11 @@ const sections = [
       </svg>
     ),
     itens: [
-      "Nome e e-mail para criação de conta",
+      "Nome, e-mail e telefone para criação de conta e contato",
+      "CPF e CEP, utilizados para emissão de nota fiscal do serviço",
+      "Informações profissionais opcionais (momento de carreira e ambiente de trabalho) para personalizar sua experiência",
       "Histórico de compras para controle de acesso",
-      "Dados de pagamento processados de forma segura pelos gateways Stripe e Mercado Pago",
+      "Dados de pagamento processados de forma segura pelos gateways Stripe, Mercado Pago e Asaas",
     ],
   },
   {
@@ -25,7 +27,7 @@ const sections = [
         <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
       </svg>
     ),
-    texto: "Não vendemos ou compartilhamos seus dados com terceiros, exceto os gateways de pagamento para processamento da transação.",
+    texto: "Não vendemos ou compartilhamos seus dados com terceiros, exceto com os gateways de pagamento (Stripe, Mercado Pago e Asaas) para processamento da transação e com a administração tributária municipal para emissão da nota fiscal, quando aplicável.",
   },
   {
     titulo: "Seus direitos (LGPD)",
@@ -101,7 +103,7 @@ export default function PrivacidadePage() {
           ))}
 
           <p className="text-center text-zinc-400 text-xs pt-4">
-            Última atualização: agosto de 2026
+            Última atualização: setembro de 2026
           </p>
         </div>
       </div>

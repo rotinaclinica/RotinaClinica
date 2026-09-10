@@ -34,7 +34,7 @@ function PasswordInput({ value, onChange, placeholder }: { value: string; onChan
         required
         minLength={6}
         placeholder={placeholder}
-        className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+        className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
       />
       <button
         type="button"
@@ -224,77 +224,77 @@ function RegistroForm() {
           )}
 
           <h1 className="text-2xl font-extrabold text-[#0f2d4a] mb-1">Crie sua conta</h1>
-          <p className="text-zinc-500 text-sm mb-8">
+          <p className="text-[#334e68] text-sm mb-8">
             {plan ? "Crie sua conta para finalizar a assinatura." : "Leva menos de 1 minuto."}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Nome completo</label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Nome completo</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="Seu nome"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">E-mail</label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">E-mail</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="voce@email.com"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Celular</label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Celular</label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(maskPhone(e.target.value))}
                 required
                 placeholder="(99) 99999-9999"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CPF <span className="text-zinc-400 font-normal">(necessário para emitir nota fiscal)</span></label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">CPF <span className="text-zinc-500 font-normal">(necessário para emitir nota fiscal)</span></label>
               <input
                 type="text"
                 value={cpf}
                 onChange={(e) => setCpf(maskCpf(e.target.value))}
                 required
                 placeholder="000.000.000-00"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">CEP <span className="text-zinc-400 font-normal">(necessário para emitir nota fiscal)</span></label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">CEP <span className="text-zinc-500 font-normal">(necessário para emitir nota fiscal)</span></label>
               <input
                 type="text"
                 value={cep}
                 onChange={(e) => setCep(maskCep(e.target.value))}
                 placeholder="00000-000"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Senha</label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Senha</label>
               <PasswordInput value={password} onChange={setPassword} placeholder="Mínimo 6 caracteres" />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 mb-1.5">Confirme sua senha</label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Confirme sua senha</label>
               <div className="relative">
                 <PasswordInput value={confirm} onChange={setConfirm} placeholder="Repita a senha" />
               </div>
@@ -305,8 +305,8 @@ function RegistroForm() {
 
             {/* Momento profissional */}
             <div>
-              <p className="text-sm font-semibold text-zinc-700 mb-2">
-                Qual é o seu momento profissional? <span className="text-zinc-400 font-normal">(opcional)</span>
+              <p className="text-sm font-semibold text-[#0f2d4a] mb-2">
+                Qual é o seu momento profissional? <span className="text-zinc-500 font-normal">(opcional)</span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {["Estudante", "Recém-formado(a)", "Formado(a) há mais de 5 anos"].map((op) => (
@@ -328,8 +328,8 @@ function RegistroForm() {
 
             {/* Ambiente de trabalho */}
             <div>
-              <p className="text-sm font-semibold text-zinc-700 mb-2">
-                Em qual ambiente você trabalha? <span className="text-zinc-400 font-normal">(opcional)</span>
+              <p className="text-sm font-semibold text-[#0f2d4a] mb-2">
+                Em qual ambiente você trabalha? <span className="text-zinc-500 font-normal">(opcional)</span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {["UBS", "UPA ou PS", "Emergência", "Enfermaria", "UTI", "Outro"].map((op) => (
@@ -358,7 +358,7 @@ function RegistroForm() {
                 required
                 className="mt-0.5 w-4 h-4 rounded border-zinc-300 text-[#1a6aad] accent-[#1a6aad] flex-shrink-0"
               />
-              <span className="text-xs text-zinc-500 leading-relaxed">
+              <span className="text-xs text-zinc-600 leading-relaxed">
                 Ao criar sua conta, você concorda com os{" "}
                 <Link href="/termos" className="text-[#1a6aad] hover:underline font-medium" target="_blank">
                   Termos de Uso
@@ -386,7 +386,7 @@ function RegistroForm() {
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-zinc-500 text-center">
+          <p className="mt-6 text-sm text-[#334e68] text-center">
             Já tem conta?{" "}
             <Link
               href={plano ? `/login?plano=${plano}` : "/login"}
