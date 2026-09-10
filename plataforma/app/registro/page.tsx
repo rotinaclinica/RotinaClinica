@@ -332,7 +332,7 @@ function RegistroForm() {
                 Em qual ambiente você trabalha? <span className="text-zinc-500 font-normal">(opcional)</span>
               </p>
               <div className="flex flex-wrap gap-2">
-                {["UBS", "UPA ou PS", "Emergência", "Enfermaria", "UTI", "Outro"].map((op) => (
+                {["UBS", "UPA ou PS", "Emergência", "Enfermaria", "UTI", "Ambulatório/Consultório", "Outro"].map((op) => (
                   <button
                     key={op}
                     type="button"
