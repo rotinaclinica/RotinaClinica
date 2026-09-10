@@ -106,7 +106,12 @@ export async function GET(
   if (ebook.blobUrl) {
     try {
       pdfBytes = await getBlobBytes(ebook.blobUrl);
-    } catch {
+    } catch (err) {
+      const hasToken = !!process.env.BLOB_READ_WRITE_TOKEN;
+      console.error(
+        `[ebook:${id}] falha ao ler do Blob (tokenPresente=${hasToken}):`,
+        err instanceof Error ? err.message : String(err)
+      );
       return NextResponse.json({ error: "Arquivo não disponível" }, { status: 500 });
     }
   } else {
