@@ -13,7 +13,7 @@ export function RevokeButton({ subscriptionId }: { subscriptionId: string }) {
   if (confirming) {
     return (
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs text-zinc-500">Confirmar?</span>
+        <span className="text-xs text-zinc-600 dark:text-zinc-400">Confirmar?</span>
         <button
           type="button"
           disabled={pending}
@@ -37,7 +37,7 @@ export function RevokeButton({ subscriptionId }: { subscriptionId: string }) {
           type="button"
           disabled={pending}
           onClick={() => setConfirming(false)}
-          className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors"
+          className="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-600 transition-colors"
         >
           Não
         </button>

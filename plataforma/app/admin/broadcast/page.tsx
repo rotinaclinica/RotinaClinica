@@ -214,7 +214,7 @@ export default function BroadcastPage() {
   return (
     <div className="max-w-2xl">
       <h1 className="text-2xl font-extrabold text-zinc-900 mb-1">Enviar email</h1>
-      <p className="text-sm text-zinc-500 mb-6">
+      <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6">
         Envio para lista de{" "}
         <strong className="text-zinc-700">{total !== null ? total : "..."} destinatários</strong>{" "}
         via <code className="bg-zinc-100 px-1 rounded">contato@rotinaclinica.com</code>
@@ -247,7 +247,7 @@ export default function BroadcastPage() {
                 <p className="text-[11px] text-red-700 font-semibold">Tem certeza?</p>
                 <div className="flex gap-2">
                   <button onClick={handleCancel} className="text-xs font-bold text-red-600 hover:underline">Sim, cancelar</button>
-                  <button onClick={() => setCancelConfirm(false)} className="text-xs text-zinc-500 hover:underline">Não</button>
+                  <button onClick={() => setCancelConfirm(false)} className="text-xs text-zinc-600 dark:text-zinc-400 hover:underline">Não</button>
                 </div>
               </div>
             )}
@@ -311,7 +311,7 @@ export default function BroadcastPage() {
         <div>
           <label className="block text-xs font-bold text-zinc-600 uppercase tracking-wide mb-1">
             Corpo do email{" "}
-            <span className="font-normal text-zinc-400 normal-case">(texto simples — parágrafo por linha)</span>
+            <span className="font-normal text-zinc-600 dark:text-zinc-400 normal-case">(texto simples — parágrafo por linha)</span>
           </label>
           <textarea
             value={body}
@@ -327,7 +327,7 @@ export default function BroadcastPage() {
         <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
           <label className="block text-xs font-bold text-zinc-600 uppercase tracking-wide mb-1">
             Enviar teste primeiro{" "}
-            <span className="font-normal text-zinc-400 normal-case">(até 5 emails, separados por vírgula)</span>
+            <span className="font-normal text-zinc-600 dark:text-zinc-400 normal-case">(até 5 emails, separados por vírgula)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             <input
@@ -370,7 +370,7 @@ export default function BroadcastPage() {
         <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
           <label className="block text-xs font-bold text-zinc-600 uppercase tracking-wide mb-1">
             Envio direcionado{" "}
-            <span className="font-normal text-zinc-400 normal-case">(emails individuais ou pequenos grupos — um por linha ou separados por vírgula)</span>
+            <span className="font-normal text-zinc-600 dark:text-zinc-400 normal-case">(emails individuais ou pequenos grupos — um por linha ou separados por vírgula)</span>
           </label>
           <textarea
             value={individualEmails}
@@ -410,7 +410,7 @@ export default function BroadcastPage() {
             />
             <span className="text-sm text-zinc-700">
               Confirmo que quero iniciar o envio deste email para toda a lista.
-              <span className="block text-xs text-zinc-500 mt-0.5">
+              <span className="block text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
                 O 1º lote (~50) sai agora; o restante é enviado automaticamente ~50/dia até terminar.
               </span>
             </span>

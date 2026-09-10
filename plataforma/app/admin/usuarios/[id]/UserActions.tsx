@@ -39,7 +39,7 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
                 {sub.plan === "ANNUAL" ? "Anual" : sub.plan === "MONTHLY" ? "Mensal" : sub.plan}
               </span>
               {sub.currentPeriodEnd && (
-                <span className="text-sm text-zinc-500">
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">
                   · vence {new Date(sub.currentPeriodEnd).toLocaleDateString("pt-BR")}
                 </span>
               )}
@@ -61,7 +61,7 @@ export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
             )}
           </div>
         ) : (
-          <p className="text-sm text-zinc-400">Sem assinatura ativa.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">Sem assinatura ativa.</p>
         )}
       </div>
 

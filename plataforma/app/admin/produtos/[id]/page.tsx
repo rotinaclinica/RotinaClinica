@@ -24,7 +24,7 @@ export default async function EditarProdutoPage({ params }: { params: Promise<{ 
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-3 mb-8">
-        <Link href="/admin/produtos" className="text-zinc-400 hover:text-zinc-600 text-sm">
+        <Link href="/admin/produtos" className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-600 text-sm">
           ← Produtos
         </Link>
         <span className="text-zinc-300">/</span>

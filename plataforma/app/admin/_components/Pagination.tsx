@@ -38,7 +38,7 @@ export default function Pagination({
       <Link href={href(prev)} className={`${linkCls} ${page <= 1 ? disabled : enabled}`}>
         ← Anterior
       </Link>
-      <span className="text-xs text-zinc-500">
+      <span className="text-xs text-zinc-600 dark:text-zinc-400">
         Página <span className="font-semibold text-zinc-700">{page}</span> de {totalPages}
       </span>
       <Link href={href(next)} className={`${linkCls} ${page >= totalPages ? disabled : enabled}`}>

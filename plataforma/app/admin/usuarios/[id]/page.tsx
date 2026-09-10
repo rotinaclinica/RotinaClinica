@@ -77,7 +77,7 @@ export default async function AdminUserDetailPage({
 
       <div>
         <h1 className="text-2xl font-extrabold text-zinc-900">{user.name || "Sem nome"}</h1>
-        <p className="text-sm text-zinc-500 mt-0.5">{user.email}</p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-0.5">{user.email}</p>
       </div>
 
       {/* Dados pessoais */}
@@ -85,7 +85,7 @@ export default async function AdminUserDetailPage({
         <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wide mb-4">Dados pessoais</h2>
         <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
           <div>
-            <dt className="text-xs text-zinc-400 font-medium">CPF</dt>
+            <dt className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">CPF</dt>
             <dd className="text-zinc-700 font-mono mt-0.5">
               {user.cpf
                 ? user.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")
@@ -93,25 +93,25 @@ export default async function AdminUserDetailPage({
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-400 font-medium">Celular</dt>
+            <dt className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Celular</dt>
             <dd className="text-zinc-700 mt-0.5">{user.phone || <span className="text-zinc-300">—</span>}</dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-400 font-medium">Cadastro</dt>
+            <dt className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Cadastro</dt>
             <dd className="text-zinc-700 mt-0.5">{fmt(user.createdAt)}</dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-400 font-medium">Último acesso</dt>
+            <dt className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Último acesso</dt>
             <dd className="text-zinc-700 mt-0.5">{fmt(user.lastSeenAt)}</dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-400 font-medium">Gasto total</dt>
+            <dt className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Gasto total</dt>
             <dd className="text-zinc-700 font-semibold mt-0.5">
               {totalPaid > 0 ? fmtBRL(totalPaid) : <span className="text-zinc-300 font-normal">—</span>}
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-zinc-400 font-medium">Perfil</dt>
+            <dt className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Perfil</dt>
             <dd className="text-zinc-700 mt-0.5">{user.role}</dd>
           </div>
         </dl>
@@ -126,7 +126,7 @@ export default async function AdminUserDetailPage({
           Pedidos ({user.orders.length})
         </h2>
         {user.orders.length === 0 ? (
-          <p className="text-sm text-zinc-400">Nenhum pedido.</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">Nenhum pedido.</p>
         ) : (
           <div className="space-y-2">
             {user.orders.map((o) => (
@@ -138,7 +138,7 @@ export default async function AdminUserDetailPage({
                   <p className="text-zinc-700 font-medium">
                     {o.items.map((i) => i.product.title).join(", ") || "—"}
                   </p>
-                  <p className="text-xs text-zinc-400 mt-0.5">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
                     {o.provider} · {fmt(o.paidAt ?? o.createdAt)}
                   </p>
                 </div>
@@ -149,7 +149,7 @@ export default async function AdminUserDetailPage({
                         ? "bg-emerald-100 text-emerald-700"
                         : o.status === "REFUNDED"
                         ? "bg-red-100 text-red-700"
-                        : "bg-zinc-100 text-zinc-500"
+                        : "bg-zinc-100 text-zinc-600 dark:text-zinc-400"
                     }`}
                   >
                     {o.status === "PAID" ? "Pago" : o.status === "REFUNDED" ? "Reembolsado" : o.status}
