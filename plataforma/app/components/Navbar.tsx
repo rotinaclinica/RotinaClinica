@@ -9,7 +9,7 @@ export function Logo({ variant = "dark" }: { variant?: "dark" | "light" }) {
     <img
       src={variant === "light" ? "/images/logo-branco.png" : "/images/logo-azul.png"}
       alt="Rotina Clínica"
-      className="h-6 sm:h-7 w-auto"
+      className="h-7 sm:h-8 w-auto"
     />
   );
 }
@@ -44,11 +44,11 @@ export default function Navbar() {
 
   function NavActions({ mobile = false }: { mobile?: boolean }) {
     const btnBase = mobile
-      ? "inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap"
-      : "inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold rounded-lg transition-all whitespace-nowrap";
+      ? "inline-flex items-center justify-center px-4 py-3 text-base font-semibold rounded-lg transition-all whitespace-nowrap"
+      : "inline-flex items-center gap-1.5 px-4 py-2 text-[15px] font-semibold rounded-lg transition-all whitespace-nowrap";
     const btnOutline = `${btnBase} text-white border border-white/30 hover:border-white hover:bg-white/10`;
     const btnPrimary = `${btnBase} text-[#0f2d4a] bg-[#3db8d4] hover:bg-[#5CC8E8] shadow-md`;
-    const iconBtn = "inline-flex items-center justify-center w-9 h-9 rounded-lg text-white border border-white/30 hover:border-white hover:bg-white/10 transition-all";
+    const iconBtn = "inline-flex items-center justify-center w-10 h-10 rounded-lg text-white border border-white/30 hover:border-white hover:bg-white/10 transition-all";
 
     if (authLoading) return null;
 
@@ -109,22 +109,22 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#0f2d4a] border-b border-white/10 shadow-lg">
-      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
         <Link href="/" className="flex-shrink-0">
           <Logo variant="light" />
         </Link>
 
         {/* Links desktop */}
-        <div className="hidden md:flex items-center gap-0.5 text-sm font-bold">
-          <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Início</Link>
-          <Link href="/tour" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Conhecer a plataforma</Link>
-          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Sobre nós</Link>
-          <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Ebooks e Cursos</Link>
-          <Link href="/contato" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 py-1.5 whitespace-nowrap">Contato</Link>
+        <div className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-[15px] xl:text-base font-bold">
+          <Link href="/" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 xl:px-3 py-2 whitespace-nowrap">Início</Link>
+          <Link href="/tour" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 xl:px-3 py-2 whitespace-nowrap">Conhecer a plataforma</Link>
+          <Link href="/conheca" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 xl:px-3 py-2 whitespace-nowrap">Sobre nós</Link>
+          <Link href="/produtos" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 xl:px-3 py-2 whitespace-nowrap">Ebooks e Cursos</Link>
+          <Link href="/contato" className="text-white hover:text-[#3db8d4] transition-colors px-2.5 xl:px-3 py-2 whitespace-nowrap">Contato</Link>
         </div>
 
         {/* Ações desktop */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden lg:flex items-center gap-2">
           <NavActions />
         </div>
 
@@ -134,7 +134,7 @@ export default function Navbar() {
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Fechar menu" : "Abrir menu"}
           aria-expanded={open}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 text-white rounded-lg hover:bg-white/10 transition-colors"
+          className="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 text-white rounded-lg hover:bg-white/10 transition-colors"
         >
           {open ? (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -146,7 +146,7 @@ export default function Navbar() {
 
       {/* Menu mobile */}
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-[#0f2d4a] px-6 py-4 space-y-1">
+        <div className="lg:hidden border-t border-white/10 bg-[#0f2d4a] px-6 py-4 space-y-1">
           <Link href="/" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Início</Link>
           <Link href="/tour" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Conhecer a plataforma</Link>
           <Link href="/conheca" onClick={() => setOpen(false)} className="block text-white hover:text-[#3db8d4] transition-colors py-3 text-base font-bold">Sobre nós</Link>
