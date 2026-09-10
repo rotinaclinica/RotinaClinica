@@ -1,7 +1,8 @@
 import { get, head } from "@vercel/blob";
 
 export async function getPrivateBlob(fileKey: string) {
-  return get(fileKey, { access: "private" });
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  return get(fileKey, { access: "private", token });
 }
 
 /**

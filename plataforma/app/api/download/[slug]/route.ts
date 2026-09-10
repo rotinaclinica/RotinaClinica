@@ -32,12 +32,24 @@ export async function GET(
   });
 
   if (!product?.fileKey) {
+    console.error(`[download:${slug}] produto sem fileKey (não configurado)`);
     return NextResponse.json({ error: "Arquivo não disponível" }, { status: 404 });
   }
 
-  const result = await getPrivateBlob(product.fileKey);
+  let result;
+  try {
+    result = await getPrivateBlob(product.fileKey);
+  } catch (err) {
+    const hasToken = !!process.env.BLOB_READ_WRITE_TOKEN;
+    console.error(
+      `[download:${slug}] falha ao ler do Blob (tokenPresente=${hasToken}):`,
+      err instanceof Error ? err.message : String(err)
+    );
+    return NextResponse.json({ error: "Erro ao buscar arquivo" }, { status: 500 });
+  }
 
-  if (!result || result.statusCode !== 200) {
+  if (!result || result.statusCode !== 200 || !result.stream) {
+    console.error(`[download:${slug}] Blob get statusCode ${result?.statusCode ?? "null"}`);
     return NextResponse.json({ error: "Erro ao buscar arquivo" }, { status: 500 });
   }
 
