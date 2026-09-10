@@ -34,7 +34,7 @@ function PasswordInput({ value, onChange, placeholder }: { value: string; onChan
         required
         minLength={6}
         placeholder={placeholder}
-        className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+        className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
       />
       <button
         type="button"
@@ -224,7 +224,7 @@ function RegistroForm() {
           )}
 
           <h1 className="text-2xl font-extrabold text-[#0f2d4a] mb-1">Crie sua conta</h1>
-          <p className="text-[#334e68] text-sm mb-8">
+          <p className="text-[#1e3a52] text-sm mb-8">
             {plan ? "Crie sua conta para finalizar a assinatura." : "Leva menos de 1 minuto."}
           </p>
 
@@ -237,7 +237,7 @@ function RegistroForm() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="Seu nome"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -249,7 +249,7 @@ function RegistroForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="voce@email.com"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -261,30 +261,30 @@ function RegistroForm() {
                 onChange={(e) => setPhone(maskPhone(e.target.value))}
                 required
                 placeholder="(99) 99999-9999"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">CPF <span className="text-zinc-500 font-normal">(necessário para emitir nota fiscal)</span></label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">CPF <span className="text-zinc-600 font-normal">(necessário para emitir nota fiscal)</span></label>
               <input
                 type="text"
                 value={cpf}
                 onChange={(e) => setCpf(maskCpf(e.target.value))}
                 required
                 placeholder="000.000.000-00"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">CEP <span className="text-zinc-500 font-normal">(necessário para emitir nota fiscal)</span></label>
+              <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">CEP <span className="text-zinc-600 font-normal">(necessário para emitir nota fiscal)</span></label>
               <input
                 type="text"
                 value={cep}
                 onChange={(e) => setCep(maskCep(e.target.value))}
                 placeholder="00000-000"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
