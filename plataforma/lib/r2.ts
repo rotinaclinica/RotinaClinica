@@ -18,6 +18,14 @@ export async function getDownloadUrl(fileKey: string): Promise<string> {
   return getSignedUrl(r2, command, { expiresIn: 300 });
 }
 
+export async function getObjectBytes(fileKey: string): Promise<Buffer> {
+  const res = await r2.send(
+    new GetObjectCommand({ Bucket: process.env.R2_BUCKET_NAME!, Key: fileKey })
+  );
+  const bytes = await res.Body!.transformToByteArray();
+  return Buffer.from(bytes);
+}
+
 export async function getUploadUrl(fileKey: string, contentType: string): Promise<string> {
   const command = new PutObjectCommand({
     Bucket: process.env.R2_BUCKET_NAME!,

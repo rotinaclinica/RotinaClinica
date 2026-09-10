@@ -1,19 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { canAccessPaidContent } from "@/lib/subscription";
+import { getObjectBytes } from "@/lib/r2";
 import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
 import fs from "fs";
 import path from "path";
 
-const EBOOKS: Record<string, { file: string; name: string; folder?: string }> = {
+export const maxDuration = 60;
+
+// Ebooks grandes (>50MB) são servidos do R2 (fora do bundle da Vercel);
+// os menores continuam no public/ do deploy. `r2Key` indica a via R2.
+const EBOOKS: Record<string, { file: string; name: string; folder?: string; r2Key?: string }> = {
   "guia-prescricoes": {
     file: "Manual de prescrições Rotina Clínica.pdf",
     name: "Manual de Prescrições — Rotina Clínica",
-    folder: "pastas/ebook",
+    r2Key: "ebooks/manual-prescricoes.pdf",
   },
   "guia-intubacao": {
     file: "Guia de intubação orotraqueal, sedação e ventilação mecânica.pdf",
     name: "Guia de Intubação, Sedação e VM — Rotina Clínica",
+    r2Key: "ebooks/guia-intubacao.pdf",
   },
   "constipacao-intestinal": {
     file: "Abordagem da Constipação Intestinal.pdf",
@@ -96,12 +102,21 @@ export async function GET(
     return NextResponse.json({ error: "Ebook não encontrado" }, { status: 404 });
   }
 
-  const filePath = path.join(process.cwd(), "public", ebook.folder ?? "ebook", ebook.file);
-  if (!fs.existsSync(filePath)) {
-    return NextResponse.json({ error: "Arquivo não disponível" }, { status: 500 });
+  let pdfBytes: Buffer;
+  if (ebook.r2Key) {
+    try {
+      pdfBytes = await getObjectBytes(ebook.r2Key);
+    } catch {
+      return NextResponse.json({ error: "Arquivo não disponível" }, { status: 500 });
+    }
+  } else {
+    const filePath = path.join(process.cwd(), "public", ebook.folder ?? "ebook", ebook.file);
+    if (!fs.existsSync(filePath)) {
+      return NextResponse.json({ error: "Arquivo não disponível" }, { status: 500 });
+    }
+    pdfBytes = fs.readFileSync(filePath);
   }
 
-  const pdfBytes = fs.readFileSync(filePath);
   const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
