@@ -56,7 +56,7 @@ export default function Navbar() {
     if (!session) {
       return (
         <>
-          <Link href="/assinatura" onClick={() => setOpen(false)} className={btnPrimary}>
+          <Link href="/assinatura#planos" onClick={() => setOpen(false)} className={btnPrimary}>
             Ver planos
           </Link>
           <Link href="/login" onClick={() => setOpen(false)} className={btnOutline}>
@@ -90,7 +90,7 @@ export default function Navbar() {
     // Logado sem assinatura ativa
     return (
       <>
-        <Link href="/assinatura" onClick={() => setOpen(false)} className={btnPrimary}>
+        <Link href="/assinatura#planos" onClick={() => setOpen(false)} className={btnPrimary}>
           Ver planos
         </Link>
         {!mobile && (
