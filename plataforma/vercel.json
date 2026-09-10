@@ -13,6 +13,10 @@
       "schedule": "0 14 * * *"
     },
     {
+      "path": "/api/cron/health-check",
+      "schedule": "0 9 * * *"
+    },
+    {
       "path": "/api/cron/drip-emails",
       "schedule": "0 10 * * *"
     },

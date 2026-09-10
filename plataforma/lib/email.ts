@@ -293,6 +293,65 @@ export async function sendRefundNotification({
   });
 }
 
+export async function sendDownloadHealthAlert(
+  failures: { name: string; ok: boolean; error?: string }[]
+) {
+  const rows = failures
+    .map(
+      (f) =>
+        `<tr><td style="padding:8px 12px;border-bottom:1px solid #e2e8f0;color:#0f2d4a;font-size:14px">${escapeHtml(f.name)}</td><td style="padding:8px 12px;border-bottom:1px solid #e2e8f0;color:#b91c1c;font-size:14px">${escapeHtml(f.error ?? "Erro desconhecido")}</td></tr>`
+    )
+    .join("");
+
+  await resend.emails.send({
+    from: FROM,
+    to: "rotinaclinica77@gmail.com",
+    subject: `⚠️ Alerta: ${failures.length} ebook(s) com problema de download`,
+    html: `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dde6ef">
+        <tr>
+          <td style="background:#7a1a1a;padding:36px 40px">
+            <p style="margin:0 0 4px;color:#f4a0a0;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Rotina Clínica — Monitor</p>
+            <p style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Downloads com problema</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:36px 40px">
+            <p style="margin:0 0 20px;color:#4a6a80;font-size:15px;line-height:1.7">
+              O check automático detectou <strong>${failures.length}</strong> ebook(s) com falha no download.
+              Verifique o Vercel Blob e os arquivos do deploy.
+            </p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:24px">
+              <tr style="background:#f0f4f8">
+                <th style="padding:10px 12px;text-align:left;color:#0f2d4a;font-size:13px;font-weight:600">Ebook</th>
+                <th style="padding:10px 12px;text-align:left;color:#0f2d4a;font-size:13px;font-weight:600">Erro</th>
+              </tr>
+              ${rows}
+            </table>
+            <p style="margin:0;color:#94a8b8;font-size:13px;text-align:center">
+              Verificação realizada em ${new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#f0f4f8;padding:20px 40px;text-align:center">
+            <p style="margin:0;color:#94a8b8;font-size:12px">© ${new Date().getFullYear()} Rotina Clínica</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+}
+
 /**
  * Envia a nota fiscal (NFS-e) autorizada com o PDF anexado.
  * Chamado pelo cron de emissão, após a nota ser autorizada pelo provedor.

@@ -1,5 +1,11 @@
 "use client";
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
 import { use, useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/app/components/Navbar";
@@ -61,6 +67,12 @@ export default function DownloadPage({ params }: { params: Promise<{ slug: strin
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao enviar");
       setDone(true);
+      if (typeof window !== "undefined" && typeof window.fbq === "function") {
+        window.fbq("track", "Lead", {
+          content_name: meta.title,
+          content_category: "ebook_free",
+        });
+      }
       if (data.downloadUrl) {
         const a = document.createElement("a");
         a.href = data.downloadUrl;
