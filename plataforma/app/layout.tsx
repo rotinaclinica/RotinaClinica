@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import ThemeProvider from "@/app/components/ThemeProvider";
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" className={`${jakarta.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-white dark:bg-[#0c1117] text-zinc-900 antialiased">
         <ThemeProvider>{children}</ThemeProvider>
+        <Analytics />
         <Script id="meta-pixel" strategy="afterInteractive">{`
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
