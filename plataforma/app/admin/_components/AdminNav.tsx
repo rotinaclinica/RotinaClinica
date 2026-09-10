@@ -14,6 +14,7 @@ const LINKS = [
   { href: "/admin/reembolsos", label: "Reembolsos" },
   { href: "/admin/embaixadores", label: "Embaixadores" },
   { href: "/admin/broadcast", label: "Enviar email" },
+  { href: "/admin/marketing", label: "Marketing — Brevo" },
   { href: "/admin/erros", label: "Erros" },
 ];
 
