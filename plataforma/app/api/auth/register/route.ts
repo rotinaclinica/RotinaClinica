@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    const first = parsed.error.errors[0];
+    const first = parsed.error.issues[0];
     const fieldMessages: Record<string, string> = {
       name: "Nome deve ter pelo menos 2 caracteres.",
       email: "E-mail inválido.",

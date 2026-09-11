@@ -315,7 +315,7 @@ export default function CheckoutButton({
                   </span>
                 )}
               </span>
-              <span className="block text-xs text-zinc-500 mt-0.5">{m.sub}</span>
+              <span className="block text-xs text-zinc-600 mt-0.5">{m.sub}</span>
             </span>
             <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
               selected === m.id
@@ -343,7 +343,7 @@ export default function CheckoutButton({
           <span className="flex-shrink-0 text-[#009ee3]">{MP_ICON}</span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-zinc-800">Mercado Pago</span>
-            <span className="block text-xs text-zinc-400 mt-0.5">Redireciona para o app do Mercado Pago</span>
+            <span className="block text-xs text-zinc-600 mt-0.5">Redireciona para o app do Mercado Pago</span>
           </span>
           {mpLoading ? (
             <span className="ml-auto w-4 h-4 border-2 border-zinc-300 border-t-[#009ee3] rounded-full animate-spin" />
