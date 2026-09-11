@@ -123,17 +123,37 @@ export default function MarketingPage() {
   const [confirmed, setConfirmed] = useState(false);
   const [sendError, setSendError] = useState("");
 
+  // Queue Brevo (envio em lotes 200/dia)
+  type QueueCampaign = { id: string; name: string; subject: string; total: number; alreadySent: number; remaining: number };
+  const [queueCampaign, setQueueCampaign] = useState<QueueCampaign | null>(null);
+  const [queueStatus, setQueueStatus] = useState<"idle" | "starting" | "done" | "error">("idle");
+  const [queueResult, setQueueResult] = useState<{ sentThisRun: number; remaining: number; done: boolean } | null>(null);
+  const [queueConfirmed, setQueueConfirmed] = useState(false);
+  const [queueError, setQueueError] = useState("");
+  const [cancelQueueConfirm, setCancelQueueConfirm] = useState(false);
+
+  const loadQueue = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/marketing/queue");
+      const data = await res.json();
+      setQueueCampaign(data.campaign ?? null);
+    } catch { /* ignora */ }
+  }, []);
+
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/marketing");
-      const data = await res.json();
+      const [mktRes] = await Promise.all([
+        fetch("/api/admin/marketing"),
+        loadQueue(),
+      ]);
+      const data = await mktRes.json();
       setLists(data.lists ?? []);
       setCampaigns(data.campaigns ?? []);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [loadQueue]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -188,6 +208,39 @@ export default function MarketingPage() {
     } catch {
       setSendStatus("error");
     }
+  }
+
+  async function handleStartQueue() {
+    if (!queueConfirmed || !subject.trim() || !body.trim() || !selectedLists.length) return;
+    setQueueStatus("starting");
+    setQueueError("");
+    setQueueResult(null);
+    try {
+      const res = await fetch("/api/admin/marketing/queue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "start", subject, bodyText: body, listIds: selectedLists, name: subject }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) { setQueueError(data.error ?? "Erro ao iniciar"); setQueueStatus("error"); return; }
+      setQueueResult({ sentThisRun: data.sentThisRun, remaining: data.remaining, done: data.done });
+      setQueueStatus("done");
+      setQueueConfirmed(false);
+      loadQueue();
+    } catch {
+      setQueueStatus("error");
+    }
+  }
+
+  async function handleCancelQueue() {
+    if (!cancelQueueConfirm) { setCancelQueueConfirm(true); return; }
+    setCancelQueueConfirm(false);
+    await fetch("/api/admin/marketing/queue", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "cancel" }),
+    });
+    loadQueue();
   }
 
   const totalRecipients = lists.filter((l) => selectedLists.includes(l.id)).reduce((s, l) => s + l.totalSubscribers, 0);
@@ -350,6 +403,108 @@ export default function MarketingPage() {
             <p className="font-bold text-red-300">✗ Erro ao enviar campanha</p>
             {sendError && <p className="text-sm text-red-300 mt-1">{sendError}</p>}
             <button onClick={() => setSendStatus("idle")} className="mt-2 text-xs text-red-400 hover:underline">Tentar novamente</button>
+          </div>
+        )}
+      </div>
+
+      {/* Queue Brevo — envio em lotes 200/dia */}
+      <div className="p-5 bg-white/5 rounded-2xl border border-white/10 space-y-4">
+        <div>
+          <p className="text-sm font-bold text-zinc-100">Envio em lotes — 200/dia (recomendado)</p>
+          <p className="text-xs text-zinc-400 mt-0.5">Envia diretamente via API transacional do Brevo, 200 por dia, sem atingir o limite do plano gratuito. O cron roda às 08h todo dia.</p>
+        </div>
+
+        {/* Campanha ativa */}
+        {queueCampaign && (
+          <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm font-bold text-emerald-300">📣 Campanha em andamento</p>
+                <p className="text-sm text-emerald-300 mt-0.5 truncate">&ldquo;{queueCampaign.subject}&rdquo;</p>
+                <p className="text-xs text-emerald-300 mt-1">
+                  <strong>{queueCampaign.alreadySent}</strong> de <strong>{queueCampaign.total}</strong> enviados ·{" "}
+                  <strong>{queueCampaign.remaining}</strong> restantes
+                </p>
+              </div>
+              {!cancelQueueConfirm ? (
+                <button onClick={handleCancelQueue} className="shrink-0 text-xs font-semibold text-red-400 hover:underline">Cancelar</button>
+              ) : (
+                <div className="shrink-0 flex flex-col items-end gap-1">
+                  <p className="text-[11px] text-red-300 font-semibold">Tem certeza?</p>
+                  <div className="flex gap-2">
+                    <button onClick={handleCancelQueue} className="text-xs font-bold text-red-400 hover:underline">Sim</button>
+                    <button onClick={() => setCancelQueueConfirm(false)} className="text-xs text-zinc-400 hover:underline">Não</button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="mt-3 h-2 rounded-full bg-emerald-500/20 overflow-hidden">
+              <div
+                className="h-full bg-emerald-500 transition-all"
+                style={{ width: `${Math.round((queueCampaign.alreadySent / Math.max(1, queueCampaign.total)) * 100)}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Iniciar nova */}
+        {queueStatus === "idle" && (
+          <div className="space-y-3">
+            <label className="flex items-start gap-3 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={queueConfirmed}
+                onChange={(e) => setQueueConfirmed(e.target.checked)}
+                className="w-4 h-4 mt-0.5 accent-violet-600"
+              />
+              <span className="text-sm text-zinc-400">
+                Confirmo que quero iniciar o envio em lotes para{" "}
+                <strong className="text-zinc-200">
+                  {selectedLists.length === 0 ? "nenhuma lista selecionada" :
+                    totalRecipients > 0 ? `~${totalRecipients} destinatários` :
+                    `${selectedLists.length} lista${selectedLists.length > 1 ? "s" : ""} selecionada${selectedLists.length > 1 ? "s" : ""}`}
+                </strong>{" "}(200/dia até terminar).
+              </span>
+            </label>
+            <button
+              onClick={handleStartQueue}
+              disabled={!queueConfirmed || !subject.trim() || !body.trim() || !selectedLists.length}
+              className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold px-6 py-2.5 rounded-xl text-sm transition-colors"
+            >
+              Iniciar envio em lotes →
+            </button>
+          </div>
+        )}
+
+        {queueStatus === "starting" && (
+          <div className="flex items-center gap-3 text-sm text-zinc-400">
+            <svg className="animate-spin w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+            </svg>
+            Buscando contatos e enviando 1º lote…
+          </div>
+        )}
+
+        {queueStatus === "done" && queueResult && (
+          <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4">
+            <p className="font-bold text-green-300">
+              {queueResult.done ? "✓ Campanha concluída — todos receberam!" : `✓ 1º lote enviado (${queueResult.sentThisRun} emails)!`}
+            </p>
+            {!queueResult.done && (
+              <p className="text-xs text-green-400 mt-1">
+                {queueResult.remaining} restantes — serão enviados automaticamente às 08h todo dia.
+              </p>
+            )}
+            <button onClick={() => setQueueStatus("idle")} className="mt-2 text-xs text-green-400 hover:underline">Nova campanha</button>
+          </div>
+        )}
+
+        {queueStatus === "error" && (
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+            <p className="font-bold text-red-300">✗ Erro ao iniciar</p>
+            {queueError && <p className="text-sm text-red-300 mt-1">{queueError}</p>}
+            <button onClick={() => setQueueStatus("idle")} className="mt-2 text-xs text-red-400 hover:underline">Tentar novamente</button>
           </div>
         )}
       </div>

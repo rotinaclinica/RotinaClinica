@@ -286,6 +286,28 @@ model BroadcastCampaign {
   @@index([status])
 }
 
+model BrevoQueueCampaign {
+  id          String   @id
+  name        String
+  subject     String
+  htmlContent String   @db.Text
+  listIds     String   // JSON: number[]
+  status      String   @default("active") // active | completed | cancelled
+  createdAt   DateTime @default(now())
+
+  @@index([status])
+}
+
+model BrevoQueueSent {
+  id         String   @id @default(cuid())
+  campaignId String
+  email      String
+  sentAt     DateTime @default(now())
+
+  @@unique([campaignId, email])
+  @@index([campaignId])
+}
+
 // Nota fiscal (NFS-e) emitida automaticamente após um pagamento aprovado.
 // Uma por Order paga. O ciclo de vida (emitir → consultar → entregar PDF por
 // email) é conduzido pelo cron /api/cron/emitir-notas, para nunca bloquear o

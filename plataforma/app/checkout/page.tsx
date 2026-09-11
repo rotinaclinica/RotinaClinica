@@ -35,8 +35,8 @@ export default async function CheckoutPage({
 
   return (
     <div className="min-h-screen relative flex items-center justify-center px-4">
-      <img src="/images/turma.jpg" alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-[#0f2d4a]/75" />
+      <img src="/images/turma.jpg" alt="" aria-hidden="true" className="fixed inset-0 w-full h-full object-cover -z-10" />
+      <div className="fixed inset-0 bg-[#0f2d4a]/75 -z-10" />
       <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden my-8">
         <div className="bg-[#0f2d4a] px-6 py-6">
           <p className="text-[#9ec4de] text-xs font-semibold uppercase tracking-wider mb-1">{plan.label}</p>

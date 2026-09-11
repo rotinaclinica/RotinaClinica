@@ -56,8 +56,8 @@ const MP_ICON = (
 );
 
 const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?: string; icon: React.ReactNode }[] = [
-  { id: "pix", label: "PIX", sub: "Aprovação imediata · Sem taxas extras", badge: "Recomendado", icon: PIX_ICON },
-  { id: "card", label: "Cartão de crédito", sub: "Parcelamento em até 12x · Débito imediato", icon: CARD_ICON },
+  { id: "card", label: "Cartão de crédito", sub: "Renovação automática · Parcelamento em até 12x", badge: "Recomendado", icon: CARD_ICON },
+  { id: "pix", label: "PIX", sub: "Aprovação imediata · Sem taxas extras", icon: PIX_ICON },
 ];
 
 const ACCENT: Record<"pix" | "card", string> = {
@@ -80,7 +80,7 @@ export default function CheckoutButton({
   userPhone?: string | null;
 }) {
   const router = useRouter();
-  const [selected, setSelected] = useState<"pix" | "card">("pix");
+  const [selected, setSelected] = useState<"pix" | "card">("card");
   const [loading, setLoading] = useState(false);
   const [mpLoading, setMpLoading] = useState(false);
   const [error, setError] = useState("");
@@ -306,7 +306,11 @@ export default function CheckoutButton({
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-800">
                 {m.label}
                 {m.badge && (
-                  <span className="text-[10px] font-semibold bg-[#dcfdf7] text-[#0f7b6c] px-2 py-0.5 rounded-full">
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                    m.id === "card"
+                      ? "bg-[#e8f0f8] text-[#0f2d4a]"
+                      : "bg-[#dcfdf7] text-[#0f7b6c]"
+                  }`}>
                     {m.badge}
                   </span>
                 )}
