@@ -148,10 +148,9 @@ export async function POST(req: NextRequest) {
 
     const installments = parsed.data.installments ?? 1;
 
-    // Assinaturas em 1x: subscription recorrente (renovação automática)
-    // Assinaturas parceladas (2x+): pagamento único com parcelamento — sem renovação automática
-    // Produtos avulsos: sempre pagamento único
-    if (product.type === "SUBSCRIPTION" && installments === 1) {
+    // Assinaturas: sempre subscription recorrente (renovação automática independente de parcelas)
+    // Produtos avulsos: pagamento único com parcelamento
+    if (product.type === "SUBSCRIPTION") {
       const isAnnual = product.slug === "assinatura-anual";
       const sub = await createAsaasSubscription({
         ...cardParams,
@@ -174,7 +173,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Pagamento único: produto avulso ou assinatura parcelada
+    // Produto avulso (curso, ebook): pagamento único com parcelamento
     const payment = await createAsaasCardPayment({
       ...cardParams,
       installments,
