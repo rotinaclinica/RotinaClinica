@@ -87,8 +87,8 @@ export default async function CheckoutPage({
               </div>
             ))}
             <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/20">
-              <span className="text-xs text-white/60">Separado custaria</span>
-              <span className="text-xs font-bold text-white/60 line-through">R$ 541</span>
+              <span className="text-xs text-white/90">Separado custaria</span>
+              <span className="text-xs font-bold text-white/90 line-through">R$ 541</span>
             </div>
           </div>
         </div>
