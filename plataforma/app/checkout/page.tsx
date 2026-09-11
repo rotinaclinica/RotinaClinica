@@ -33,21 +33,35 @@ export default async function CheckoutPage({
   if (!product) redirect("/assinatura");
   if (existing?.status === "ACTIVE") redirect("/dashboard");
 
+  const isMensal = plano === "mensal";
+
+  const faq = [
+    { q: "O acesso é imediato após o pagamento?", a: "Sim. Assim que o pagamento for confirmado, você já pode acessar toda a plataforma." },
+    { q: "Funciona no celular?", a: "Sim. A plataforma funciona em qualquer dispositivo — celular, tablet ou computador." },
+    ...(isMensal ? [{ q: "Posso cancelar quando quiser?", a: "Sim. Você pode cancelar sua assinatura a qualquer momento diretamente pela plataforma, sem burocracia." }] : []),
+    { q: "Os e-books funcionam offline?", a: "Sim. Os e-books e materiais em PDF podem ser baixados e consultados sem conexão com a internet." },
+    { q: "Para quem é a plataforma?", a: "Para médicos e estudantes de medicina que querem prescrições prontas, calculadoras clínicas, aulas e materiais práticos para o dia a dia." },
+    { q: "Novos conteúdos são adicionados?", a: "Sim. A plataforma está em constante evolução — novas prescrições, calculadoras, aulas e materiais são adicionados continuamente." },
+  ];
+
   return (
-    <div className="min-h-screen relative flex items-center justify-center px-4">
+    <div className="min-h-screen relative flex flex-col items-center justify-start px-4 py-8">
       <img src="/images/turma.jpg" alt="" aria-hidden="true" className="fixed inset-0 w-full h-full object-cover -z-10" />
       <div className="fixed inset-0 bg-[#0f2d4a]/75 -z-10" />
-      <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden my-8">
+
+      {/* Card principal de checkout */}
+      <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden">
         <div className="bg-[#0f2d4a] px-6 py-6">
           <p className="text-[#9ec4de] text-xs font-semibold uppercase tracking-wider mb-1">{plan.label}</p>
           <p className="text-white text-3xl font-extrabold">{plan.price}</p>
           <p className="text-[#9ec4de] text-sm mt-1">{plan.detail}</p>
           <ul className="mt-4 space-y-1.5">
             {[
-              "Modelos de evolução e de condutas prontas",
+              "Prescrições e condutas clínicas prontas",
               "Curso Destravando o Plantão",
-              "Discussão de casos clínicos novos toda semana",
               "Calculadoras e escores clínicos",
+              "E-books e materiais em PDF para download",
+              "Casos clínicos novos toda semana",
               "Acesso imediato em qualquer dispositivo",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-white/90">
@@ -65,9 +79,48 @@ export default async function CheckoutPage({
           </p>
           <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
           <div className="text-center">
-            <Link href="/assinatura" className="text-xs text-zinc-800 hover:text-zinc-600 hover:underline transition-colors">
+            <Link href="/assinatura" className="text-xs text-zinc-500 hover:text-zinc-700 hover:underline transition-colors">
               ← Ver outros planos
             </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Bloco de confiança rápida */}
+      <div className="relative w-full max-w-sm mt-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 px-5 py-4">
+        <ul className="space-y-2">
+          {[
+            { icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z", text: "Acesso imediato após confirmação do pagamento" },
+            ...(isMensal ? [{ icon: "M18 6L6 18M6 6l12 12", text: "Cancele quando quiser, direto pela plataforma" }] : []),
+            { icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", text: "Garantia de 7 dias — reembolso total sem perguntas" },
+            { icon: "M4 4h16v16H4z M9 9h6M9 13h6", text: "Plataforma em constante atualização com novos conteúdos" },
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm text-white">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#32bcad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                <path d={item.icon}/>
+              </svg>
+              {item.text}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* FAQ */}
+      <div className="relative w-full max-w-sm mt-4 bg-white rounded-2xl shadow-sm border border-zinc-200 overflow-hidden mb-2">
+        <div className="px-6 py-5">
+          <h2 className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider mb-4">Dúvidas frequentes</h2>
+          <div className="space-y-0 divide-y divide-zinc-100">
+            {faq.map(({ q, a }) => (
+              <details key={q} className="group py-3 cursor-pointer">
+                <summary className="flex items-center justify-between gap-3 text-sm font-semibold text-zinc-800 list-none select-none">
+                  {q}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 text-zinc-400 transition-transform group-open:rotate-180">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </summary>
+                <p className="mt-2 text-xs text-zinc-600 leading-relaxed">{a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </div>
