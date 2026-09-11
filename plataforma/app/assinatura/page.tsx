@@ -167,6 +167,37 @@ export default function AssinaturaPage({
         </div>
       </section>
 
+      {/* Stack de valor */}
+      <section className="bg-[#0f2d4a] px-6 py-12">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-[#32bcad] text-xs font-bold uppercase tracking-widest text-center mb-6">
+            Tudo isso está dentro da sua assinatura
+          </p>
+          <div className="space-y-3 mb-5">
+            {[
+              { title: "Manual Prático de Prescrições: Da UBS à Emergência", price: "R$ 97" },
+              { title: "Sedação, Intubação e Ventilação Mecânica", price: "R$ 47" },
+              { title: "Destravando o Plantão (Curso Online)", price: "R$ 397" },
+            ].map((p) => (
+              <div key={p.title} className="flex items-center justify-between gap-4 text-white/80">
+                <span className="text-sm">{p.title}</span>
+                <span className="text-sm font-semibold">{p.price}</span>
+              </div>
+            ))}
+            <div className="border-t border-white/20 pt-3 flex items-center justify-between gap-4">
+              <span className="text-sm font-semibold text-white/50">Valor total separado</span>
+              <span className="text-sm font-semibold text-white/50 line-through">R$ 541</span>
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl px-5 py-4 text-center">
+            <p className="text-white font-extrabold text-base">
+              + calculadoras clínicas, casos, aulas e novos conteúdos todo mês
+            </p>
+            <p className="text-[#32bcad] font-extrabold text-xl mt-1">a partir de R$ 33,30/mês</p>
+          </div>
+        </div>
+      </section>
+
       {/* Planos */}
       <section id="planos" className="bg-[#0a1e30] py-14 sm:py-20 px-6">
         <div className="max-w-3xl mx-auto">
