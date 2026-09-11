@@ -29,14 +29,22 @@ export async function GET() {
     brevo("GET", "/emailCampaigns?limit=20&sort=desc"),
   ]);
 
-  const lists = (listsData.lists ?? []).map((l: Record<string, unknown>) => ({
-    id: l.id,
-    name: l.name,
-    totalSubscribers: l.totalSubscribers ?? l.uniqueSubscribers ?? l.total_subscribers ?? 0,
-  }));
+  const rawLists: Record<string, unknown>[] = listsData.lists ?? [];
+
+  // Busca a contagem real de contatos por lista (o campo cacheado da API sempre retorna 0)
+  const listsWithCounts = await Promise.all(
+    rawLists.map(async (l) => {
+      try {
+        const data = await brevo("GET", `/contacts?listId=${l.id}&limit=1`);
+        return { id: l.id, name: l.name, totalSubscribers: data.count ?? 0 };
+      } catch {
+        return { id: l.id, name: l.name, totalSubscribers: 0 };
+      }
+    })
+  );
 
   return NextResponse.json({
-    lists,
+    lists: listsWithCounts,
     campaigns: campaignsData.campaigns ?? [],
   });
 }

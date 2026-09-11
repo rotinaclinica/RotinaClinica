@@ -118,6 +118,7 @@ export default function MarketingPage() {
   const [testEmail, setTestEmail] = useState("lucasrdiniz10@gmail.com, rotinaclinica77@gmail.com");
 
   const [testStatus, setTestStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [testError, setTestError] = useState("");
   const [sendStatus, setSendStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [confirmed, setConfirmed] = useState(false);
   const [sendError, setSendError] = useState("");
@@ -150,13 +151,20 @@ export default function MarketingPage() {
     const emails = testEmail.split(/[,;\s]+/).map((s) => s.trim()).filter(Boolean);
     if (!emails.length || !subject.trim() || !body.trim()) return;
     setTestStatus("sending");
+    setTestError("");
     try {
       const res = await fetch("/api/admin/marketing", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "test", subject, htmlContent: toHtml(body), testEmails: emails }),
       });
-      setTestStatus(res.ok ? "done" : "error");
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        setTestStatus("done");
+      } else {
+        setTestError(data.error ?? "Erro desconhecido");
+        setTestStatus("error");
+      }
     } catch {
       setTestStatus("error");
     }
@@ -283,7 +291,7 @@ export default function MarketingPage() {
           </button>
         </div>
         {testStatus === "done" && <p className="mt-2 text-sm text-green-300">✓ Teste enviado. Verifique a caixa de entrada.</p>}
-        {testStatus === "error" && <p className="mt-2 text-sm text-red-300">✗ Falha no envio do teste.</p>}
+        {testStatus === "error" && <p className="mt-2 text-sm text-red-300">✗ {testError || "Falha no envio do teste."}</p>}
       </div>
 
       {/* Envio */}
@@ -298,7 +306,13 @@ export default function MarketingPage() {
             />
             <span className="text-sm text-zinc-400">
               Confirmo que quero enviar esta campanha para{" "}
-              <strong className="text-zinc-200">{selectedLists.length ? `${totalRecipients} destinatários` : "nenhuma lista selecionada"}</strong>.
+              <strong className="text-zinc-200">
+                {selectedLists.length === 0
+                  ? "nenhuma lista selecionada"
+                  : totalRecipients > 0
+                  ? `${totalRecipients} destinatários`
+                  : `${selectedLists.length} lista${selectedLists.length > 1 ? "s" : ""} selecionada${selectedLists.length > 1 ? "s" : ""} (contagem pendente de sync)`}
+              </strong>.
             </span>
           </label>
         )}
