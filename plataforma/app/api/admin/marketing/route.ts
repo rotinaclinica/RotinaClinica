@@ -57,17 +57,21 @@ export async function POST(req: NextRequest) {
 
   if (action === "create_and_send") {
     const { subject, htmlContent, listIds, senderName, senderEmail } = body;
+    try {
+      const campaign = await brevo("POST", "/emailCampaigns", {
+        name: `${subject} — ${new Date().toLocaleDateString("pt-BR")}`,
+        subject,
+        htmlContent,
+        sender: { name: senderName ?? "Rotina Clínica", email: senderEmail ?? "contato@rotinaclinica.com" },
+        recipients: { listIds },
+      });
 
-    const campaign = await brevo("POST", "/emailCampaigns", {
-      name: `${subject} — ${new Date().toLocaleDateString("pt-BR")}`,
-      subject,
-      htmlContent,
-      sender: { name: senderName ?? "Rotina Clínica", email: senderEmail ?? "contato@rotinaclinica.com" },
-      recipients: { listIds },
-    });
-
-    await brevo("POST", `/emailCampaigns/${campaign.id}/sendNow`);
-    return NextResponse.json({ ok: true, campaignId: campaign.id });
+      await brevo("POST", `/emailCampaigns/${campaign.id}/sendNow`);
+      return NextResponse.json({ ok: true, campaignId: campaign.id });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return NextResponse.json({ ok: false, error: msg }, { status: 400 });
+    }
   }
 
   if (action === "test") {
