@@ -125,8 +125,23 @@ function RegistroForm() {
       return;
     }
 
+    if (password.length < 8) {
+      setError("A senha deve ter pelo menos 8 caracteres.");
+      return;
+    }
+
     const cpfDigits = cpf.replace(/\D/g, "");
     const phoneDigits = phone.replace(/\D/g, "");
+
+    if (cpfDigits.length !== 11) {
+      setError("CPF inválido. Digite os 11 dígitos.");
+      return;
+    }
+
+    if (phoneDigits.length < 10) {
+      setError("Telefone inválido. Digite DDD + número.");
+      return;
+    }
 
     setLoading(true);
 

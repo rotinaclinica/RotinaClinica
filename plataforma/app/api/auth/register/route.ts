@@ -30,7 +30,16 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
+    const first = parsed.error.errors[0];
+    const fieldMessages: Record<string, string> = {
+      name: "Nome deve ter pelo menos 2 caracteres.",
+      email: "E-mail inválido.",
+      password: "A senha deve ter pelo menos 8 caracteres.",
+      phone: "Telefone inválido. Digite DDD + número.",
+      cpf: "CPF inválido. Digite os 11 dígitos.",
+    };
+    const msg = fieldMessages[first?.path?.[0] as string] ?? "Dados inválidos.";
+    return NextResponse.json({ error: msg }, { status: 400 });
   }
 
   const { name, password, phone, cpf, cep, momentoProfissional, ambienteTrabalho } = parsed.data;
