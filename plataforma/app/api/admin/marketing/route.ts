@@ -24,25 +24,29 @@ async function brevo(method: string, path: string, body?: unknown) {
 export async function GET() {
   if (!(await isAdminRequest())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const [listsData, sentData, draftData, suspendedData, queuedData] = await Promise.all([
+  const STATUSES = ["sent", "draft", "suspended", "queued", "inProcess", "archive"];
+
+  const [listsData, ...statusResults] = await Promise.all([
     brevo("GET", "/contacts/lists?limit=50"),
-    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=sent").catch(() => ({ campaigns: [] })),
-    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=draft").catch(() => ({ campaigns: [] })),
-    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=suspended").catch(() => ({ campaigns: [] })),
-    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=queued").catch(() => ({ campaigns: [] })),
+    ...STATUSES.map((s) =>
+      brevo("GET", `/emailCampaigns?limit=50&sort=desc&status=${s}`).catch(() => ({ campaigns: [] }))
+    ),
   ]);
 
-  const allCampaigns = [
-    ...(sentData.campaigns ?? []),
-    ...(draftData.campaigns ?? []),
-    ...(suspendedData.campaigns ?? []),
-    ...(queuedData.campaigns ?? []),
-  ].sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
-    const dateA = String(a.sentDate ?? a.createdAt ?? "");
-    const dateB = String(b.sentDate ?? b.createdAt ?? "");
-    return dateB.localeCompare(dateA);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const allCampaigns: any[] = [];
+  const seen = new Set<number>();
+  for (const result of statusResults) {
+    for (const c of result.campaigns ?? []) {
+      if (!seen.has(c.id)) { seen.add(c.id); allCampaigns.push(c); }
+    }
+  }
+  allCampaigns.sort((a, b) => {
+    const dateA = a.sentDate ?? a.modifiedDate ?? a.createdDate ?? "";
+    const dateB = b.sentDate ?? b.modifiedDate ?? b.createdDate ?? "";
+    return String(dateB).localeCompare(String(dateA));
   });
-  const campaignsData = { campaigns: allCampaigns.slice(0, 20) };
+  const campaignsData = { campaigns: allCampaigns.slice(0, 30) };
 
   const rawLists: Record<string, unknown>[] = listsData.lists ?? [];
 
