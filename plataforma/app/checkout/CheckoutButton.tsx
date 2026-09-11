@@ -310,7 +310,7 @@ export default function CheckoutButton({
             key={m.id}
             onClick={() => setSelected(m.id)}
             className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 transition-all text-left ${
-              selected === m.id ? ACCENT[m.id] : "border-zinc-300 bg-white hover:border-[#0f2d4a]/40"
+              selected === m.id ? ACCENT[m.id] : "border-zinc-400 bg-white hover:border-[#0f2d4a]/40"
             }`}
           >
             <span className={`flex-shrink-0 ${
@@ -350,13 +350,13 @@ export default function CheckoutButton({
         {/* Mercado Pago — alternativa */}
         <div className="flex items-center gap-2 py-0.5">
           <div className="flex-1 h-px bg-zinc-300" />
-          <span className="text-xs text-zinc-500 font-medium">ou pague via</span>
+          <span className="text-xs text-zinc-700 font-medium">ou pague via</span>
           <div className="flex-1 h-px bg-zinc-300" />
         </div>
         <button
           onClick={payMp}
           disabled={mpLoading}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-300 bg-white hover:border-[#0f2d4a]/40 transition-all text-left disabled:opacity-60"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-400 bg-white hover:border-[#0f2d4a]/40 transition-all text-left disabled:opacity-60"
         >
           <span className="flex-shrink-0 text-[#009ee3]">{MP_ICON}</span>
           <span className="min-w-0 flex-1">
@@ -378,7 +378,7 @@ export default function CheckoutButton({
               <input
                 type="text" inputMode="numeric" placeholder="0000 0000 0000 0000"
                 value={cardNumber} onChange={(e) => setCardNumber(maskCard(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm font-mono tracking-widest focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm font-mono tracking-widest focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-600"
               />
             </div>
             <div>
@@ -386,7 +386,7 @@ export default function CheckoutButton({
               <input
                 type="text" placeholder="Como aparece no cartão"
                 value={cardName} onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm uppercase focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm uppercase focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-600"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -395,7 +395,7 @@ export default function CheckoutButton({
                 <input
                   type="text" inputMode="numeric" placeholder="MM/AAAA"
                   value={cardExpiry} onChange={(e) => setCardExpiry(maskExpiry(e.target.value))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-600"
                 />
               </div>
               <div>
@@ -403,7 +403,7 @@ export default function CheckoutButton({
                 <input
                   type="text" inputMode="numeric" placeholder="123"
                   value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-600"
                 />
               </div>
             </div>
@@ -412,7 +412,7 @@ export default function CheckoutButton({
               <select
                 value={installments}
                 onChange={(e) => setInstallments(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 bg-white text-zinc-900"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 bg-white text-zinc-900"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
                   <option key={n} value={n}>{n}x sem juros</option>
