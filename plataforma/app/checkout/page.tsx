@@ -78,14 +78,14 @@ export default async function CheckoutPage({
               { title: "Sedação, Intubação e Ventilação Mecânica", price: "R$ 47" },
               { title: "Destravando o Plantão (Curso Online)", price: "R$ 397" },
             ].map((p) => (
-              <div key={p.title} className="flex items-center justify-between gap-2 text-white/60 text-xs">
+              <div key={p.title} className="flex items-center justify-between gap-2 text-white/90 text-xs">
                 <span>{p.title}</span>
                 <span className="font-semibold">{p.price}</span>
               </div>
             ))}
             <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/10">
-              <span className="text-xs text-white/40">Separado custaria</span>
-              <span className="text-xs font-bold text-white/40 line-through">R$ 541</span>
+              <span className="text-xs text-white/70">Separado custaria</span>
+              <span className="text-xs font-bold text-white/70 line-through">R$ 541</span>
             </div>
           </div>
         </div>

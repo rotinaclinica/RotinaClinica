@@ -375,7 +375,7 @@ export default function CheckoutButton({
               <input
                 type="text" inputMode="numeric" placeholder="0000 0000 0000 0000"
                 value={cardNumber} onChange={(e) => setCardNumber(maskCard(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
               />
             </div>
             <div>
@@ -383,7 +383,7 @@ export default function CheckoutButton({
               <input
                 type="text" placeholder="Como aparece no cartão"
                 value={cardName} onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm uppercase focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm uppercase focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -392,7 +392,7 @@ export default function CheckoutButton({
                 <input
                   type="text" inputMode="numeric" placeholder="MM/AAAA"
                   value={cardExpiry} onChange={(e) => setCardExpiry(maskExpiry(e.target.value))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
                 />
               </div>
               <div>
@@ -400,7 +400,7 @@ export default function CheckoutButton({
                 <input
                   type="text" inputMode="numeric" placeholder="123"
                   value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
                 />
               </div>
             </div>
