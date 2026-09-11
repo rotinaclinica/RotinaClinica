@@ -56,13 +56,25 @@ export async function POST(req: NextRequest) {
   const { action } = body;
 
   if (action === "create_and_send") {
-    const { subject, htmlContent, listIds, senderName, senderEmail } = body;
+    const { subject, htmlContent, listIds, senderEmail } = body;
     try {
+      // Brevo exige o ID numérico do sender verificado
+      const targetEmail = senderEmail ?? "contato@rotinaclinica.com";
+      const sendersData = await brevo("GET", "/senders");
+      const senders: { id: number; name: string; email: string; active: boolean }[] = sendersData.senders ?? [];
+      const sender = senders.find((s) => s.email === targetEmail && s.active);
+      if (!sender) {
+        return NextResponse.json(
+          { ok: false, error: `Remetente ${targetEmail} não encontrado ou inativo no Brevo.` },
+          { status: 400 }
+        );
+      }
+
       const campaign = await brevo("POST", "/emailCampaigns", {
         name: `${subject} — ${new Date().toLocaleDateString("pt-BR")}`,
         subject,
         htmlContent,
-        sender: { name: senderName ?? "Rotina Clínica", email: senderEmail ?? "contato@rotinaclinica.com" },
+        sender: { id: sender.id, name: sender.name, email: sender.email },
         recipients: { listIds },
       });
 
