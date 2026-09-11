@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminRequest } from "@/lib/require-admin";
+import { Resend } from "resend";
 
 const BREVO_BASE = "https://api.brevo.com/v3";
+const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 
 async function brevo(method: string, path: string, body?: unknown) {
   const res = await fetch(`${BREVO_BASE}${path}`, {
@@ -62,13 +64,18 @@ export async function POST(req: NextRequest) {
 
   if (action === "test") {
     const { subject, htmlContent, testEmails } = body;
-    await brevo("POST", "/smtp/email", {
-      sender: { name: "Rotina Clínica", email: "contato@rotinaclinica.com" },
-      to: testEmails.map((e: string) => ({ email: e })),
-      subject,
-      htmlContent,
-    });
-    return NextResponse.json({ ok: true });
+    try {
+      await resend.emails.send({
+        from: "Rotina Clínica <contato@rotinaclinica.com>",
+        to: testEmails as string[],
+        subject: `[TESTE] ${subject}`,
+        html: htmlContent,
+      });
+      return NextResponse.json({ ok: true });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return NextResponse.json({ ok: false, error: msg }, { status: 400 });
+    }
   }
 
   if (action === "delete") {
