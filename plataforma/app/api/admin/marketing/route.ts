@@ -34,11 +34,12 @@ export async function GET() {
   // Busca a contagem real de contatos por lista (o campo cacheado da API sempre retorna 0)
   const listsWithCounts = await Promise.all(
     rawLists.map(async (l) => {
+      const id = Number(l.id);
       try {
-        const data = await brevo("GET", `/contacts?listId=${l.id}&limit=1`);
-        return { id: l.id, name: l.name, totalSubscribers: data.count ?? 0 };
+        const data = await brevo("GET", `/contacts?listId=${id}&limit=1`);
+        return { id, name: l.name, totalSubscribers: Number(data.count ?? 0) };
       } catch {
-        return { id: l.id, name: l.name, totalSubscribers: 0 };
+        return { id, name: l.name, totalSubscribers: 0 };
       }
     })
   );
