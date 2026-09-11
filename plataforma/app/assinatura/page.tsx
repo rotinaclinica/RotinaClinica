@@ -191,7 +191,7 @@ export default function AssinaturaPage({
           </div>
           <div className="bg-white/10 rounded-xl px-5 py-4 text-center">
             <p className="text-white font-extrabold text-base">
-              + calculadoras clínicas, casos, aulas e novos conteúdos todo mês
+              + calculadoras e escores, casos clínicos detalhados, aulas online e novos conteúdos adicionados constantemente, sempre baseados nas melhores evidências da literatura médica.
             </p>
             <p className="text-[#32bcad] font-extrabold text-xl mt-1">a partir de R$ 33,30/mês</p>
           </div>
