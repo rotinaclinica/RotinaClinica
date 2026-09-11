@@ -58,8 +58,13 @@ export async function GET(req: NextRequest) {
   const from = new Date(now + 24 * 60 * 60 * 1000);
   const to = new Date(now + 48 * 60 * 60 * 1000);
 
+  // Exclui quem tem renovação automática ativa (Asaas subscription recorrente)
   const subs = await db.subscription.findMany({
-    where: { status: "ACTIVE", currentPeriodEnd: { gte: from, lte: to } },
+    where: {
+      status: "ACTIVE",
+      currentPeriodEnd: { gte: from, lte: to },
+      asaasSubscriptionId: null,
+    },
     select: { currentPeriodEnd: true, user: { select: { email: true, name: true } } },
   });
 
