@@ -76,7 +76,7 @@ export default async function AdminReembolsosPage() {
                   {formatPrice(o.totalCents, o.currency)}
                 </td>
                 <td className="px-5 py-4 text-zinc-400 text-xs">
-                  {o.provider === "MERCADOPAGO" ? "Mercado Pago" : "Stripe"}
+                  {o.provider === "MERCADOPAGO" ? "Mercado Pago" : o.provider === "ASAAS" ? "Asaas" : "Stripe"}
                 </td>
                 <td className="px-5 py-4 text-zinc-400 text-xs">{fmt(o.paidAt)}</td>
                 <td className="px-5 py-4 text-zinc-400 text-xs">{fmt(o.createdAt)}</td>

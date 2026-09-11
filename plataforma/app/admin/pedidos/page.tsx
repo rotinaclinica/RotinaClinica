@@ -133,7 +133,7 @@ export default async function AdminPedidosPage({
                     {formatPrice(order.totalCents, order.currency)}
                   </td>
                   <td className="px-5 py-4 text-zinc-400 text-xs">
-                    {order.provider === "MERCADOPAGO" ? "Mercado Pago" : "Stripe"}
+                    {order.provider === "MERCADOPAGO" ? "Mercado Pago" : order.provider === "ASAAS" ? "Asaas" : "Stripe"}
                   </td>
                   <td className="px-5 py-4">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${st.color}`}>
