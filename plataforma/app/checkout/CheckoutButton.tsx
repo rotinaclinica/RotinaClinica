@@ -57,7 +57,7 @@ const MP_ICON = (
 
 const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?: string; icon: React.ReactNode }[] = [
   { id: "card", label: "Cartão de crédito", sub: "Renovação automática · Parcelamento em até 12x", badge: "Recomendado", icon: CARD_ICON },
-  { id: "pix", label: "PIX", sub: "Aprovação imediata · Sem taxas extras", icon: PIX_ICON },
+  { id: "pix", label: "PIX", sub: "", icon: PIX_ICON },
 ];
 
 const ACCENT: Record<"pix" | "card", string> = {
@@ -315,7 +315,7 @@ export default function CheckoutButton({
                   </span>
                 )}
               </span>
-              <span className="block text-xs text-zinc-600 mt-0.5">{m.sub}</span>
+              {m.sub && <span className="block text-xs text-zinc-700 mt-0.5">{m.sub}</span>}
             </span>
             <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
               selected === m.id
@@ -343,7 +343,7 @@ export default function CheckoutButton({
           <span className="flex-shrink-0 text-[#009ee3]">{MP_ICON}</span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-zinc-800">Mercado Pago</span>
-            <span className="block text-xs text-zinc-600 mt-0.5">Redireciona para o app do Mercado Pago</span>
+            <span className="block text-xs text-zinc-700 mt-0.5">Redireciona para o app do Mercado Pago</span>
           </span>
           {mpLoading ? (
             <span className="ml-auto w-4 h-4 border-2 border-zinc-300 border-t-[#009ee3] rounded-full animate-spin" />
