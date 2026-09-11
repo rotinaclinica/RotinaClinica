@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const TESTIMONIALS = [
-  { name: "Joana", text: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões." },
-  { name: "Leticia", text: "Indispensável para os plantões. Atualizado, claro e objetivo. Realmente facilita e otimiza os atendimentos." },
-  { name: "Mateus", text: "Conteúdo confiável, baseado em evidências e completo. Reúne todos os principais tópicos da prática do generalista." },
+  { name: "Joana", text: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões. Não deixa ninguém passar sufoco." },
+  { name: "Anna", text: "Indico para todos os médicos recém formados que querem manejar seus pacientes com mais rapidez e com prescrições baseadas em evidências. Vai ser o seu melhor amigo de plantão." },
+  { name: "Leticia", text: "Indispensável para os plantões. Atualizado, claro e objetivo. Muito prático e com ótimas referências. Realmente facilita e otimiza os atendimentos." },
+  { name: "Mateus", text: "Produto excelente. O conteúdo é confiável, baseado em evidências, completo e reúne todos os principais tópicos da prática do generalista. Recomendo bastante!" },
+  { name: "Ruth", text: "Pensado exatamente para o que é mais necessário na prática clínica — seja no pronto-socorro, na enfermaria ou nos ambulatórios. As referências são de fontes sérias e atualizadas." },
+  { name: "Felipe", text: "Muito completo! Tem tudo que a gente precisa. O material descomplica esse assunto. Muito bom mesmo!" },
 ];
 
 function maskCpf(v: string) {
@@ -105,7 +108,7 @@ export default function CheckoutButton({
 
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setTestimonialIdx((i) => (i + 1) % TESTIMONIALS.length), 4000);
+    const t = setInterval(() => setTestimonialIdx((i) => (i + 1) % TESTIMONIALS.length), 15000);
     return () => clearInterval(t);
   }, []);
 
@@ -447,7 +450,7 @@ export default function CheckoutButton({
             ))}
           </div>
           <p className="text-xs text-zinc-700 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
-          <p className="text-xs font-semibold text-zinc-600 mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, aluna Rotina Clínica</p>
+          <p className="text-xs font-semibold text-zinc-600 mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
         </div>
 
         {/* Botão principal */}
