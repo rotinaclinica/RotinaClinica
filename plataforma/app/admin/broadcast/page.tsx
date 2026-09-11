@@ -324,7 +324,7 @@ export default function BroadcastPage() {
         </div>
 
         {/* Envio de teste */}
-        <div className="p-4 bg-blue-50/60 rounded-xl border border-blue-100">
+        <div className="p-4 bg-blue-500/10 rounded-xl border border-blue-500/30">
           <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wide mb-1">
             Enviar teste primeiro{" "}
             <span className="font-normal text-zinc-400 normal-case">(até 5 emails, separados por vírgula)</span>
@@ -367,7 +367,7 @@ export default function BroadcastPage() {
         </div>
 
         {/* Envio direcionado */}
-        <div className="p-4 bg-violet-50/60 rounded-xl border border-violet-100">
+        <div className="p-4 bg-violet-500/10 rounded-xl border border-violet-500/30">
           <label className="block text-xs font-bold text-zinc-300 uppercase tracking-wide mb-1">
             Envio direcionado{" "}
             <span className="font-normal text-zinc-400 normal-case">(emails individuais ou pequenos grupos — um por linha ou separados por vírgula)</span>
