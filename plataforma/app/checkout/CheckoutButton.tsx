@@ -332,7 +332,7 @@ export default function CheckoutButton({
         {/* Mercado Pago — alternativa */}
         <div className="flex items-center gap-2 py-0.5">
           <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-700" />
-          <span className="text-xs text-zinc-400">ou pague via</span>
+          <span className="text-xs text-zinc-600">ou pague via</span>
           <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-700" />
         </div>
         <button
