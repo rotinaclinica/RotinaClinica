@@ -1,7 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
+const TESTIMONIALS = [
+  { name: "Joana", text: "Melhor aquisição possível! Está sendo meu amigo fiel em todos os plantões." },
+  { name: "Leticia", text: "Indispensável para os plantões. Atualizado, claro e objetivo. Realmente facilita e otimiza os atendimentos." },
+  { name: "Mateus", text: "Conteúdo confiável, baseado em evidências e completo. Reúne todos os principais tópicos da prática do generalista." },
+];
 
 function maskCpf(v: string) {
   const d = v.replace(/\D/g, "").slice(0, 11);
@@ -96,6 +102,12 @@ export default function CheckoutButton({
   const [cpfSaved, setCpfSaved] = useState(false);
   const [pendingMethod, setPendingMethod] = useState<Method>("pix");
 
+
+  const [testimonialIdx, setTestimonialIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setTestimonialIdx((i) => (i + 1) % TESTIMONIALS.length), 4000);
+    return () => clearInterval(t);
+  }, []);
 
   // Cartão inline
   const [cardNumber, setCardNumber] = useState("");
@@ -427,10 +439,22 @@ export default function CheckoutButton({
           )}
         </div>
 
+        {/* Depoimento rotativo */}
+        <div className="bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3">
+          <div className="flex gap-0.5 mb-1.5">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            ))}
+          </div>
+          <p className="text-xs text-zinc-700 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
+          <p className="text-xs font-semibold text-zinc-600 mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, aluna Rotina Clínica</p>
+        </div>
+
+        {/* Botão principal */}
         <button
           onClick={() => pay(selected)}
           disabled={loading}
-          className={`w-full ${BTN_COLOR[selected]} disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-all text-sm mt-1`}
+          className={`w-full ${BTN_COLOR[selected]} disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-all text-sm`}
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -441,6 +465,33 @@ export default function CheckoutButton({
             `Pagar com ${selected === "pix" ? "PIX" : "cartão de crédito"}`
           )}
         </button>
+
+        {/* Garantia em destaque */}
+        <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <div>
+            <p className="text-xs font-bold text-emerald-800">Garantia de 7 dias</p>
+            <p className="text-xs text-emerald-700">Se não gostar, devolvemos 100% do valor. Sem perguntas.</p>
+          </div>
+        </div>
+
+        {/* Selos de confiança */}
+        <div className="flex items-center justify-center gap-4 pt-1 pb-0.5">
+          <span className="flex items-center gap-1 text-[11px] text-zinc-600">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Pagamento seguro
+          </span>
+          <span className="text-zinc-300">|</span>
+          <span className="flex items-center gap-1 text-[11px] text-zinc-600">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Acesso imediato
+          </span>
+          <span className="text-zinc-300">|</span>
+          <span className="flex items-center gap-1 text-[11px] text-zinc-600">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            +900 alunos
+          </span>
+        </div>
       </div>
     </>
   );
