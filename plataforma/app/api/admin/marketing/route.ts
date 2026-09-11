@@ -24,10 +24,25 @@ async function brevo(method: string, path: string, body?: unknown) {
 export async function GET() {
   if (!(await isAdminRequest())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const [listsData, campaignsData] = await Promise.all([
+  const [listsData, sentData, draftData, suspendedData, queuedData] = await Promise.all([
     brevo("GET", "/contacts/lists?limit=50"),
-    brevo("GET", "/emailCampaigns?limit=20&sort=desc"),
+    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=sent").catch(() => ({ campaigns: [] })),
+    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=draft").catch(() => ({ campaigns: [] })),
+    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=suspended").catch(() => ({ campaigns: [] })),
+    brevo("GET", "/emailCampaigns?limit=20&sort=desc&status=queued").catch(() => ({ campaigns: [] })),
   ]);
+
+  const allCampaigns = [
+    ...(sentData.campaigns ?? []),
+    ...(draftData.campaigns ?? []),
+    ...(suspendedData.campaigns ?? []),
+    ...(queuedData.campaigns ?? []),
+  ].sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
+    const dateA = String(a.sentDate ?? a.createdAt ?? "");
+    const dateB = String(b.sentDate ?? b.createdAt ?? "");
+    return dateB.localeCompare(dateA);
+  });
+  const campaignsData = { campaigns: allCampaigns.slice(0, 20) };
 
   const rawLists: Record<string, unknown>[] = listsData.lists ?? [];
 
