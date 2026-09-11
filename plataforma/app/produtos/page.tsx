@@ -146,6 +146,43 @@ export default function ProdutosPage() {
             </a>
           ))}
         </div>
+
+        {/* Stack de valor → assinatura */}
+        <div className="mt-10 bg-[#0f2d4a] rounded-2xl px-6 py-8 text-white">
+          <p className="text-[#32bcad] text-xs font-bold uppercase tracking-widest mb-5">
+            Ou tenha tudo isso na assinatura
+          </p>
+
+          <div className="space-y-3 mb-5">
+            {PAID_PRODUCTS.map((p) => (
+              <div key={p.title} className="flex items-center justify-between gap-4">
+                <span className="text-sm text-white/80">{p.title}</span>
+                <span className="text-sm font-semibold text-white whitespace-nowrap">{p.price}</span>
+              </div>
+            ))}
+            <div className="border-t border-white/20 pt-3 flex items-center justify-between gap-4">
+              <span className="text-sm font-semibold text-white/60">Valor total separado</span>
+              <span className="text-sm font-semibold text-white/60 line-through">R$ 541</span>
+            </div>
+          </div>
+
+          <div className="bg-white/10 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <p className="text-white font-extrabold text-lg leading-tight">
+                Tudo isso está dentro da plataforma
+              </p>
+              <p className="text-[#9ec4de] text-sm mt-1">
+                + calculadoras clínicas, aulas novas e conteúdo atualizado todo mês
+              </p>
+            </div>
+            <a
+              href="/assinatura"
+              className="flex-shrink-0 bg-[#32bcad] hover:bg-[#28a89a] text-[#0f2d4a] text-sm font-extrabold px-6 py-3 rounded-xl transition-colors text-center whitespace-nowrap"
+            >
+              Ver planos a partir de R$ 33/mês
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
