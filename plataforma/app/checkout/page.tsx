@@ -98,7 +98,7 @@ export default async function CheckoutPage({
           </p>
           <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
           <div className="text-center">
-            <Link href="/assinatura" className="text-xs text-zinc-500 hover:text-zinc-700 hover:underline transition-colors">
+            <Link href="/assinatura" className="text-xs text-zinc-700 hover:text-zinc-900 hover:underline transition-colors">
               ← Ver outros planos
             </Link>
           </div>
