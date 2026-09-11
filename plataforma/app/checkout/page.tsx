@@ -40,7 +40,7 @@ export default async function CheckoutPage({
     { q: "Funciona no celular?", a: "Sim. A plataforma funciona em qualquer dispositivo — celular, tablet ou computador." },
     ...(isMensal ? [{ q: "Posso cancelar quando quiser?", a: "Sim. Você pode cancelar sua assinatura a qualquer momento diretamente pela plataforma, sem burocracia." }] : []),
     { q: "Os e-books funcionam offline?", a: "Sim. Os e-books e materiais em PDF podem ser baixados e consultados sem conexão com a internet." },
-    { q: "Para quem é a plataforma?", a: "Para médicos e estudantes de medicina que querem prescrições prontas, calculadoras clínicas, aulas e materiais práticos para o dia a dia." },
+    { q: "Para quem é a plataforma?", a: "Para médicos e estudantes de medicina que desejam evoluir na sua prática clínica através de conteúdos baseados em evidências e desenvolvidos por especialistas em Clínica Médica." },
     { q: "Novos conteúdos são adicionados?", a: "Sim. A plataforma está em constante evolução — novas prescrições, calculadoras, aulas e materiais são adicionados continuamente." },
   ];
 
@@ -134,7 +134,7 @@ export default async function CheckoutPage({
                     <polyline points="6 9 12 15 18 9"/>
                   </svg>
                 </summary>
-                <p className="mt-2 text-xs text-zinc-600 leading-relaxed">{a}</p>
+                <p className="mt-2 text-xs text-zinc-800 leading-relaxed">{a}</p>
               </details>
             ))}
           </div>
