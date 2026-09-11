@@ -18,8 +18,9 @@ export async function POST(req: NextRequest) {
   const payment = body.payment ?? {};
   const paymentId: string = payment.id ?? "";
   const orderId: string = payment.externalReference ?? "";
+  const asaasSubscriptionId: string = payment.subscription ?? "";
 
-  if (!paymentId || !orderId) return NextResponse.json({ ok: true });
+  if (!paymentId) return NextResponse.json({ ok: true });
 
   // Idempotência
   const eventKey = `asaas_${event}_${paymentId}`;
@@ -29,6 +30,42 @@ export async function POST(req: NextRequest) {
   try {
     if (event === "PAYMENT_RECEIVED" || event === "PAYMENT_CONFIRMED") {
       await db.webhookEvent.create({ data: { provider: "ASAAS", externalId: eventKey } });
+
+      // ── Renovação automática de assinatura recorrente ──────────────────────
+      // Quando o Asaas cobra automaticamente (mês 2+), o payment.subscription
+      // existe mas não há uma Order nova — apenas estendemos o período.
+      if (asaasSubscriptionId) {
+        const existingSub = await db.subscription.findUnique({
+          where: { asaasSubscriptionId },
+          include: { user: true },
+        });
+        if (existingSub) {
+          const now = new Date();
+          const base =
+            existingSub.status === "ACTIVE" && existingSub.currentPeriodEnd > now
+              ? new Date(existingSub.currentPeriodEnd)
+              : new Date(now);
+          const periodEnd = new Date(base);
+          periodEnd.setDate(periodEnd.getDate() + (existingSub.plan === "ANNUAL" ? 365 : 30));
+
+          await db.subscription.update({
+            where: { asaasSubscriptionId },
+            data: {
+              status: "ACTIVE",
+              currentPeriodStart: now,
+              currentPeriodEnd: periodEnd,
+              providerRef: paymentId,
+              cancelledAt: null,
+            },
+          });
+
+          // Não envia email de boas-vindas na renovação, só na primeira compra
+          return NextResponse.json({ ok: true });
+        }
+      }
+
+      // ── Primeiro pagamento (criado via checkout) ────────────────────────────
+      if (!orderId) return NextResponse.json({ ok: true });
 
       const order = await db.order.update({
         where: { id: orderId },
@@ -67,6 +104,7 @@ export async function POST(req: NextRequest) {
               currentPeriodEnd: periodEnd,
               provider: "ASAAS",
               providerRef: paymentId,
+              asaasSubscriptionId: asaasSubscriptionId || null,
             },
             update: {
               plan: isAnnual ? "ANNUAL" : "MONTHLY",
@@ -75,6 +113,7 @@ export async function POST(req: NextRequest) {
               currentPeriodEnd: periodEnd,
               provider: "ASAAS",
               providerRef: paymentId,
+              asaasSubscriptionId: asaasSubscriptionId || undefined,
               cancelledAt: null,
             },
           });

@@ -46,18 +46,19 @@ model EmailDrip {
 }
 
 model Subscription {
-  id                  String             @id @default(cuid())
-  userId              String             @unique
-  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan                SubscriptionPlan
-  status              SubscriptionStatus @default(ACTIVE)
-  currentPeriodStart  DateTime
-  currentPeriodEnd    DateTime
-  provider            PaymentProvider
-  providerRef         String
-  cancelledAt         DateTime?
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
+  id                    String             @id @default(cuid())
+  userId                String             @unique
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                  SubscriptionPlan
+  status                SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart    DateTime
+  currentPeriodEnd      DateTime
+  provider              PaymentProvider
+  providerRef           String
+  asaasSubscriptionId   String?            @unique
+  cancelledAt           DateTime?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
 }
 
 enum SubscriptionPlan {

@@ -131,6 +131,68 @@ export async function getAsaasPixQrCode(
   return { qrCodeBase64: qr.encodedImage as string, pixCode: qr.payload as string };
 }
 
+export async function createAsaasSubscription(params: {
+  customerId: string;
+  orderId: string;
+  valueCents: number;
+  cycle: "MONTHLY" | "YEARLY";
+  card: {
+    holderName: string;
+    number: string;
+    expiryMonth: string;
+    expiryYear: string;
+    ccv: string;
+  };
+  holderInfo: {
+    name: string;
+    email: string;
+    cpfCnpj: string;
+    phone?: string;
+    postalCode?: string;
+    addressNumber?: string;
+  };
+  remoteIp: string;
+}): Promise<{ subscriptionId: string; status: string; failReason?: string }> {
+  const nextDueDate = new Date().toISOString().slice(0, 10);
+  const res = await fetch(`${base()}/subscriptions`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({
+      customer: params.customerId,
+      billingType: "CREDIT_CARD",
+      value: params.valueCents / 100,
+      nextDueDate,
+      cycle: params.cycle,
+      description: "Assinatura Rotina Clínica",
+      externalReference: params.orderId,
+      creditCard: params.card,
+      creditCardHolderInfo: {
+        name: params.holderInfo.name,
+        email: params.holderInfo.email,
+        cpfCnpj: params.holderInfo.cpfCnpj,
+        phone: params.holderInfo.phone ?? "",
+        postalCode: params.holderInfo.postalCode ?? "00000000",
+        addressNumber: params.holderInfo.addressNumber ?? "0",
+      },
+      remoteIp: params.remoteIp,
+    }),
+  });
+  if (!res.ok) throw new Error(await firstError(res, "Erro ao criar assinatura recorrente"));
+  const data = await res.json();
+  return {
+    subscriptionId: data.id as string,
+    status: data.status as string,
+    failReason: data.creditCard?.creditCardNumber ? undefined : data.failReason,
+  };
+}
+
+export async function cancelAsaasSubscription(subscriptionId: string): Promise<void> {
+  await fetch(`${base()}/subscriptions/${subscriptionId}`, {
+    method: "DELETE",
+    headers: headers(),
+  });
+}
+
 export function verifyAsaasWebhook(token: string | null): boolean {
   const expected = process.env.ASAAS_WEBHOOK_TOKEN;
   if (!expected || !token) return false;

@@ -7,6 +7,7 @@ import {
   createAsaasCustomer,
   createAsaasPixPayment,
   createAsaasCardPayment,
+  createAsaasSubscription,
 } from "@/lib/payments/asaas";
 
 const baseSchema = z.object({
@@ -131,11 +132,10 @@ export async function POST(req: NextRequest) {
       req.headers.get("x-real-ip") ??
       "0.0.0.0";
 
-    const payment = await createAsaasCardPayment({
+    const cardParams = {
       customerId,
       orderId: order.id,
       valueCents: product.priceCents,
-      installments: parsed.data.installments ?? 1,
       card: parsed.data.card,
       holderInfo: {
         name: parsed.data.card.holderName,
@@ -144,6 +144,36 @@ export async function POST(req: NextRequest) {
         phone: user.phone ?? undefined,
       },
       remoteIp: ip,
+    };
+
+    // Assinaturas usam recorrência automática no Asaas; outros produtos pagamento único
+    if (product.type === "SUBSCRIPTION") {
+      const isAnnual = product.slug === "assinatura-anual";
+      const sub = await createAsaasSubscription({
+        ...cardParams,
+        cycle: isAnnual ? "YEARLY" : "MONTHLY",
+      });
+
+      await db.order.update({
+        where: { id: order.id },
+        data: { providerRef: sub.subscriptionId },
+      });
+
+      if (sub.status === "ACTIVE") {
+        return NextResponse.json({ orderId: order.id, status: "confirmed" });
+      }
+
+      await db.order.update({ where: { id: order.id }, data: { status: "FAILED" } });
+      return NextResponse.json(
+        { error: sub.failReason ?? "Cartão recusado. Verifique os dados e tente novamente." },
+        { status: 422 }
+      );
+    }
+
+    // Produto avulso (curso, ebook): pagamento único
+    const payment = await createAsaasCardPayment({
+      ...cardParams,
+      installments: parsed.data.installments ?? 1,
     });
 
     await db.order.update({
@@ -151,7 +181,6 @@ export async function POST(req: NextRequest) {
       data: { providerRef: payment.paymentId },
     });
 
-    // CONFIRMED = aprovado imediatamente
     if (payment.status === "CONFIRMED" || payment.status === "RECEIVED") {
       return NextResponse.json({ orderId: order.id, status: "confirmed" });
     }
