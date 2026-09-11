@@ -72,7 +72,8 @@ export default async function CheckoutPage({
               </li>
             ))}
           </ul>
-          <div className="mt-5 border-t border-white/10 pt-4 space-y-1.5">
+          <div className="mt-5 bg-white/10 rounded-xl px-4 py-3 space-y-1.5">
+            <p className="text-[#32bcad] text-[10px] font-bold uppercase tracking-widest mb-2">Tudo isso está incluído</p>
             {[
               { title: "Manual Prático de Prescrições: Da UBS à Emergência", price: "R$ 97" },
               { title: "Sedação, Intubação e Ventilação Mecânica", price: "R$ 47" },
@@ -80,12 +81,12 @@ export default async function CheckoutPage({
             ].map((p) => (
               <div key={p.title} className="flex items-center justify-between gap-2 text-white/90 text-xs">
                 <span>{p.title}</span>
-                <span className="font-semibold">{p.price}</span>
+                <span className="font-semibold whitespace-nowrap">{p.price}</span>
               </div>
             ))}
-            <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/10">
-              <span className="text-xs text-white/70">Separado custaria</span>
-              <span className="text-xs font-bold text-white/70 line-through">R$ 541</span>
+            <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/20">
+              <span className="text-xs text-white/60">Separado custaria</span>
+              <span className="text-xs font-bold text-white/60 line-through">R$ 541</span>
             </div>
           </div>
         </div>
