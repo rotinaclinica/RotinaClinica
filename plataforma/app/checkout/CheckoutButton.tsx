@@ -271,7 +271,7 @@ export default function CheckoutButton({
             </div>
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 mb-1">CPF</label>
+                <label className="block text-xs font-bold text-[#0f2d4a] mb-1">CPF</label>
                 <input
                   type="text" inputMode="numeric" placeholder="000.000.000-00"
                   value={cpf} onChange={(e) => setCpf(maskCpf(e.target.value))}
@@ -280,7 +280,7 @@ export default function CheckoutButton({
               </div>
               {needsPhone && (
                 <div>
-                  <label className="block text-xs font-semibold text-zinc-700 mb-1">Celular</label>
+                  <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Celular</label>
                   <input
                     type="tel" placeholder="(99) 99999-9999"
                     value={phone} onChange={(e) => setPhone(maskPhone(e.target.value))}
@@ -300,7 +300,10 @@ export default function CheckoutButton({
       )}
 
       <div className="space-y-3">
-        <p className="text-xs font-bold text-[#0f2d4a] uppercase tracking-wider">Forma de pagamento</p>
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-5 rounded-full bg-[#32bcad]" />
+          <p className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider">Forma de pagamento</p>
+        </div>
 
         {PRIMARY_METHODS.map((m) => (
           <button
@@ -371,45 +374,45 @@ export default function CheckoutButton({
         {selected === "card" && (
           <div className="space-y-3 pt-1">
             <div>
-              <label className="block text-xs font-semibold text-zinc-700 mb-1">Número do cartão</label>
+              <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Número do cartão</label>
               <input
                 type="text" inputMode="numeric" placeholder="0000 0000 0000 0000"
                 value={cardNumber} onChange={(e) => setCardNumber(maskCard(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm font-mono tracking-widest focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-zinc-700 mb-1">Nome no cartão</label>
+              <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Nome no cartão</label>
               <input
                 type="text" placeholder="Como aparece no cartão"
                 value={cardName} onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm uppercase focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm uppercase focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 mb-1">Validade</label>
+                <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Validade</label>
                 <input
                   type="text" inputMode="numeric" placeholder="MM/AAAA"
                   value={cardExpiry} onChange={(e) => setCardExpiry(maskExpiry(e.target.value))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-zinc-700 mb-1">CVV</label>
+                <label className="block text-xs font-bold text-[#0f2d4a] mb-1">CVV</label>
                 <input
                   type="text" inputMode="numeric" placeholder="123"
                   value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-600"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 placeholder:text-zinc-500"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-zinc-700 mb-1">Parcelas</label>
+              <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Parcelas</label>
               <select
                 value={installments}
                 onChange={(e) => setInstallments(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 bg-white text-zinc-800"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-400 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 bg-white text-zinc-900"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
                   <option key={n} value={n}>{n}x sem juros</option>
@@ -443,21 +446,21 @@ export default function CheckoutButton({
         </div>
 
         {/* Depoimento rotativo */}
-        <div className="bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3">
+        <div className="bg-[#f0fdfb] border border-[#32bcad]/40 rounded-xl px-4 py-3">
           <div className="flex gap-0.5 mb-1.5">
             {[...Array(5)].map((_, i) => (
               <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             ))}
           </div>
-          <p className="text-xs text-zinc-700 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
-          <p className="text-xs font-semibold text-zinc-600 mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
+          <p className="text-xs text-zinc-800 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
+          <p className="text-xs font-bold text-[#0f2d4a] mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
         </div>
 
         {/* Botão principal */}
         <button
           onClick={() => pay(selected)}
           disabled={loading}
-          className={`w-full ${BTN_COLOR[selected]} disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-all text-sm`}
+          className={`w-full ${BTN_COLOR[selected]} disabled:opacity-60 text-white font-extrabold py-5 rounded-xl transition-all text-base shadow-lg tracking-wide`}
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -465,7 +468,10 @@ export default function CheckoutButton({
               {selected === "card" ? "Processando…" : "Aguarde…"}
             </span>
           ) : (
-            `Pagar com ${selected === "pix" ? "PIX" : "cartão de crédito"}`
+            <span className="flex items-center justify-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              {`Pagar com ${selected === "pix" ? "PIX" : "cartão de crédito"}`}
+            </span>
           )}
         </button>
 
