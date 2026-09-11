@@ -182,7 +182,7 @@ export default async function AdminNotasPage() {
                     {formatPrice(inv.amountCents, "BRL")}
                   </td>
                   <td className="px-5 py-4 text-zinc-400 text-xs">
-                    {inv.order?.provider === "MERCADOPAGO" ? "Mercado Pago" : "Stripe"}
+                    {inv.order?.provider === "MERCADOPAGO" ? "Mercado Pago" : inv.order?.provider === "ASAAS" ? "Asaas" : "Stripe"}
                   </td>
                   <td className="px-5 py-4 text-zinc-400 text-xs">{inv.numero ?? "—"}</td>
                   <td className="px-5 py-4">
