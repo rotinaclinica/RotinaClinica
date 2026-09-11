@@ -62,7 +62,7 @@ const MP_ICON = (
 );
 
 const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?: string; icon: React.ReactNode }[] = [
-  { id: "card", label: "Cartão de crédito", sub: "Renovação automática · Parcelamento em até 12x", badge: "Recomendado", icon: CARD_ICON },
+  { id: "card", label: "Cartão de crédito", sub: "Renova automaticamente · Até 12x sem juros", badge: "Recomendado", icon: CARD_ICON },
   { id: "pix", label: "PIX", sub: "", icon: PIX_ICON },
 ];
 
@@ -297,42 +297,42 @@ export default function CheckoutButton({
       )}
 
       <div className="space-y-3">
-        <p className="text-xs font-bold text-zinc-700 uppercase tracking-wider">Forma de pagamento</p>
+        <p className="text-xs font-bold text-[#0f2d4a] uppercase tracking-wider">Forma de pagamento</p>
 
         {PRIMARY_METHODS.map((m) => (
           <button
             key={m.id}
             onClick={() => setSelected(m.id)}
             className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 transition-all text-left ${
-              selected === m.id ? ACCENT[m.id] : "border-zinc-200 bg-white hover:border-zinc-300"
+              selected === m.id ? ACCENT[m.id] : "border-zinc-300 bg-white hover:border-[#0f2d4a]/40"
             }`}
           >
             <span className={`flex-shrink-0 ${
               selected === m.id
                 ? m.id === "pix" ? "text-[#32bcad]" : "text-[#0f2d4a]"
-                : "text-zinc-400"
+                : "text-zinc-500"
             }`}>
               {m.icon}
             </span>
             <span className="min-w-0">
-              <span className="flex items-center gap-2 text-sm font-semibold text-zinc-800">
+              <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
                 {m.label}
                 {m.badge && (
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
                     m.id === "card"
-                      ? "bg-[#e8f0f8] text-[#0f2d4a]"
-                      : "bg-[#dcfdf7] text-[#0f7b6c]"
+                      ? "bg-[#0f2d4a] text-white"
+                      : "bg-[#32bcad] text-white"
                   }`}>
                     {m.badge}
                   </span>
                 )}
               </span>
-              {m.sub && <span className="block text-xs text-zinc-700 mt-0.5">{m.sub}</span>}
+              {m.sub && <span className="block text-xs text-zinc-600 mt-0.5">{m.sub}</span>}
             </span>
             <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
               selected === m.id
                 ? m.id === "pix" ? "border-[#32bcad]" : "border-[#0f2d4a]"
-                : "border-zinc-300"
+                : "border-zinc-400"
             }`}>
               {selected === m.id && (
                 <span className={`w-2 h-2 rounded-full ${m.id === "pix" ? "bg-[#32bcad]" : "bg-[#0f2d4a]"}`} />
@@ -343,24 +343,24 @@ export default function CheckoutButton({
 
         {/* Mercado Pago — alternativa */}
         <div className="flex items-center gap-2 py-0.5">
-          <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-700" />
-          <span className="text-xs text-zinc-600">ou pague via</span>
-          <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-700" />
+          <div className="flex-1 h-px bg-zinc-300" />
+          <span className="text-xs text-zinc-500 font-medium">ou pague via</span>
+          <div className="flex-1 h-px bg-zinc-300" />
         </div>
         <button
           onClick={payMp}
           disabled={mpLoading}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-200 bg-white hover:border-zinc-300 transition-all text-left disabled:opacity-60"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-300 bg-white hover:border-[#0f2d4a]/40 transition-all text-left disabled:opacity-60"
         >
           <span className="flex-shrink-0 text-[#009ee3]">{MP_ICON}</span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-zinc-800">Mercado Pago</span>
-            <span className="block text-xs text-zinc-700 mt-0.5">Redireciona para o app do Mercado Pago</span>
+            <span className="block text-sm font-semibold text-zinc-900">Mercado Pago</span>
+            <span className="block text-xs text-zinc-600 mt-0.5">Redireciona para o app do Mercado Pago</span>
           </span>
           {mpLoading ? (
             <span className="ml-auto w-4 h-4 border-2 border-zinc-300 border-t-[#009ee3] rounded-full animate-spin" />
           ) : (
-            <svg className="ml-auto text-zinc-400 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg className="ml-auto text-zinc-500 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           )}
         </button>
 
@@ -372,7 +372,7 @@ export default function CheckoutButton({
               <input
                 type="text" inputMode="numeric" placeholder="0000 0000 0000 0000"
                 value={cardNumber} onChange={(e) => setCardNumber(maskCard(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
               />
             </div>
             <div>
@@ -380,7 +380,7 @@ export default function CheckoutButton({
               <input
                 type="text" placeholder="Como aparece no cartão"
                 value={cardName} onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm uppercase focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm uppercase focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -389,7 +389,7 @@ export default function CheckoutButton({
                 <input
                   type="text" inputMode="numeric" placeholder="MM/AAAA"
                   value={cardExpiry} onChange={(e) => setCardExpiry(maskExpiry(e.target.value))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
                 />
               </div>
               <div>
@@ -397,7 +397,7 @@ export default function CheckoutButton({
                 <input
                   type="text" inputMode="numeric" placeholder="123"
                   value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 placeholder:text-zinc-500"
                 />
               </div>
             </div>
@@ -406,7 +406,7 @@ export default function CheckoutButton({
               <select
                 value={installments}
                 onChange={(e) => setInstallments(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 bg-white"
+                className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40 bg-white text-zinc-800"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
                   <option key={n} value={n}>{n}x sem juros</option>
@@ -477,18 +477,18 @@ export default function CheckoutButton({
 
         {/* Selos de confiança */}
         <div className="flex items-center justify-center gap-4 pt-1 pb-0.5">
-          <span className="flex items-center gap-1 text-[11px] text-zinc-600">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span className="flex items-center gap-1.5 text-[11px] text-zinc-700 font-medium">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f2d4a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
             Pagamento seguro
           </span>
-          <span className="text-zinc-300">|</span>
-          <span className="flex items-center gap-1 text-[11px] text-zinc-600">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span className="text-zinc-400">|</span>
+          <span className="flex items-center gap-1.5 text-[11px] text-zinc-700 font-medium">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#32bcad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Acesso imediato
           </span>
-          <span className="text-zinc-300">|</span>
-          <span className="flex items-center gap-1 text-[11px] text-zinc-600">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span className="text-zinc-400">|</span>
+          <span className="flex items-center gap-1.5 text-[11px] text-zinc-700 font-medium">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#32bcad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             +900 alunos
           </span>
         </div>
