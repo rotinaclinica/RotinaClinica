@@ -58,11 +58,13 @@ export default async function CheckoutPage({
           <ul className="mt-4 space-y-1.5">
             {[
               "Prescrições e condutas clínicas prontas",
+              "Modelos de evolução clínica",
               "Curso Destravando o Plantão",
               "Calculadoras e escores clínicos",
               "E-books e materiais em PDF para download",
               "Casos clínicos novos toda semana",
               "Acesso imediato em qualquer dispositivo",
+              "E muito mais — plataforma em constante atualização",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-white/90">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#32bcad" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
