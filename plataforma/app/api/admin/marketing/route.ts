@@ -27,8 +27,14 @@ export async function GET() {
     brevo("GET", "/emailCampaigns?limit=20&sort=desc"),
   ]);
 
+  const lists = (listsData.lists ?? []).map((l: Record<string, unknown>) => ({
+    id: l.id,
+    name: l.name,
+    totalSubscribers: l.totalSubscribers ?? l.uniqueSubscribers ?? l.total_subscribers ?? 0,
+  }));
+
   return NextResponse.json({
-    lists: listsData.lists ?? [],
+    lists,
     campaigns: campaignsData.campaigns ?? [],
   });
 }

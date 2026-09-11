@@ -210,16 +210,14 @@ export default function MarketingPage() {
                     : "bg-white/5 border-white/10 text-zinc-300 hover:border-violet-400"
                 }`}
               >
-                {l.name} <span className="opacity-60 text-xs ml-1">({l.totalSubscribers})</span>
+                {l.name}
               </button>
             ))}
           </div>
         )}
-        {selectedLists.length > 0 && (
-          <p className="mt-3 text-xs text-violet-300">
-            {selectedLists.length} lista(s) selecionada(s) · <strong>{totalRecipients}</strong> destinatários
-          </p>
-        )}
+        <p className="mt-3 text-xs text-zinc-500">
+          A contagem de contatos por lista pode levar algumas horas para atualizar no Brevo após importação. Os envios funcionam normalmente.
+        </p>
       </div>
 
       {/* Modelos */}
