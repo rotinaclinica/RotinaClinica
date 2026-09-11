@@ -436,7 +436,7 @@ export default function CheckoutButton({
               placeholder="Ex: ALUNO10"
               value={ambassadorCode}
               onChange={(e) => setAmbassadorCode(e.target.value.toUpperCase())}
-              className="mt-2 w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-800 placeholder:text-zinc-400 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/30"
+              className="mt-2 w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-800 placeholder:text-zinc-600 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/30"
               maxLength={20}
             />
           )}
