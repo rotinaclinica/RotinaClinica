@@ -202,6 +202,7 @@ export const asaasProvider: NfeProvider = {
     }
 
     const authorized = await authRes.json().catch(() => ({}));
+    console.log("[asaas.emitir] authorize response:", JSON.stringify(authorized));
     const status = mapStatus(authorized?.status);
 
     if (status === "error") {
@@ -223,6 +224,7 @@ export const asaasProvider: NfeProvider = {
     }
 
     const data = await res.json().catch(() => ({}));
+    console.log("[asaas.consultar] full response:", JSON.stringify(data));
     const status = mapStatus(data?.status);
 
     if (status === "authorized") {
