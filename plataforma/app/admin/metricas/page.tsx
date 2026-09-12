@@ -50,7 +50,7 @@ export default async function MetricasPage() {
   const notTestSub = { user: notTest };
   const notTestOrder = { user: notTest };
 
-  const userEmails = (await db.user.findMany({ where: notTest, select: { email: true } }))
+  const userEmails = (await db.user.findMany({ select: { email: true } }))
     .map((u) => u.email)
     .filter(Boolean) as string[];
 
@@ -87,11 +87,11 @@ export default async function MetricasPage() {
     paidOrders30d,
     paidOrdersMonth,
   ] = await Promise.all([
-    db.user.count({ where: notTest }),
-    db.user.count({ where: { ...notTest, createdAt: { gte: startOfMonth } } }),
-    db.user.count({ where: { ...notTest, createdAt: { gte: startOfLastMonth, lt: startOfMonth } } }),
-    db.user.count({ where: { ...notTest, createdAt: { gte: thirtyDaysAgo } } }),
-    db.user.count({ where: { ...notTest, createdAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } } }),
+    db.user.count(),
+    db.user.count({ where: { createdAt: { gte: startOfMonth } } }),
+    db.user.count({ where: { createdAt: { gte: startOfLastMonth, lt: startOfMonth } } }),
+    db.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+    db.user.count({ where: { createdAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } } }),
     db.subscription.count({ where: { status: "ACTIVE", ...notTestSub } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
@@ -118,7 +118,7 @@ export default async function MetricasPage() {
       select: { paidAt: true, totalCents: true },
     }),
     db.user.findMany({
-      where: { ...notTest, createdAt: { gte: twelveMonthsAgo } },
+      where: { createdAt: { gte: twelveMonthsAgo } },
       select: { createdAt: true },
     }),
     db.order.findMany({

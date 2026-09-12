@@ -36,8 +36,8 @@ export default async function AdminPage() {
     cancelamentosRecentes,
     renovandoLista,
   ] = await Promise.all([
-    db.user.count({ where: notTest }),
-    db.user.count({ where: { ...notTest, createdAt: { gte: last7 } } }),
+    db.user.count(),
+    db.user.count({ where: { createdAt: { gte: last7 } } }),
     db.subscription.count({ where: { status: "ACTIVE", ...notTestSub } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
@@ -59,9 +59,9 @@ export default async function AdminPage() {
   let active7d = 0;
   try {
     [onlineNow, active24h, active7d] = await Promise.all([
-      db.user.count({ where: { ...notTest, lastSeenAt: { gte: fiveMinAgo } } }),
-      db.user.count({ where: { ...notTest, lastSeenAt: { gte: last24h } } }),
-      db.user.count({ where: { ...notTest, lastSeenAt: { gte: last7 } } }),
+      db.user.count({ where: { lastSeenAt: { gte: fiveMinAgo } } }),
+      db.user.count({ where: { lastSeenAt: { gte: last24h } } }),
+      db.user.count({ where: { lastSeenAt: { gte: last7 } } }),
     ]);
   } catch {}
 
