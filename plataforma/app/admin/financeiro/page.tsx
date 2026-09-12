@@ -39,6 +39,22 @@ export default async function FinanceiroPage() {
   const notTestSub = { user: notTest };
   const notTestOrder = { user: notTest };
 
+  // Deduplicate: keep only the oldest entry per name+month
+  const allCostsRaw = await db.financialCost.findMany({
+    orderBy: { createdAt: "asc" },
+    select: { id: true, name: true, referenceMonth: true },
+  });
+  const seen = new Set<string>();
+  const dupeIds: string[] = [];
+  for (const c of allCostsRaw) {
+    const key = `${c.name}::${new Date(c.referenceMonth).toISOString()}`;
+    if (seen.has(key)) dupeIds.push(c.id);
+    else seen.add(key);
+  }
+  if (dupeIds.length > 0) {
+    await db.financialCost.deleteMany({ where: { id: { in: dupeIds } } });
+  }
+
   // Auto-replicate recurring costs for current month (idempotent per name)
   const existingThisMonth = await db.financialCost.findMany({
     where: { referenceMonth: startOfMonth },
@@ -46,26 +62,24 @@ export default async function FinanceiroPage() {
   });
   const existingNames = new Set(existingThisMonth.map((c) => c.name));
 
-  if (existingNames.size === 0 || !(await db.financialCost.count({ where: { recurring: true, referenceMonth: startOfMonth } }))) {
-    const pastRecurring = await db.financialCost.findMany({
-      where: { recurring: true, referenceMonth: { lt: startOfMonth } },
-      orderBy: { referenceMonth: "desc" },
-      distinct: ["name"],
-    });
-    for (const cost of pastRecurring) {
-      if (!existingNames.has(cost.name)) {
-        await db.financialCost.create({
-          data: {
-            name: cost.name,
-            amountCents: cost.amountCents,
-            recurring: true,
-            category: cost.category,
-            referenceMonth: startOfMonth,
-            note: cost.note,
-          },
-        });
-        existingNames.add(cost.name);
-      }
+  const pastRecurring = await db.financialCost.findMany({
+    where: { recurring: true, referenceMonth: { lt: startOfMonth } },
+    orderBy: { referenceMonth: "desc" },
+    distinct: ["name"],
+  });
+  for (const cost of pastRecurring) {
+    if (!existingNames.has(cost.name)) {
+      await db.financialCost.create({
+        data: {
+          name: cost.name,
+          amountCents: cost.amountCents,
+          recurring: true,
+          category: cost.category,
+          referenceMonth: startOfMonth,
+          note: cost.note,
+        },
+      });
+      existingNames.add(cost.name);
     }
   }
 
