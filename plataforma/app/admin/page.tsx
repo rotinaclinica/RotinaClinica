@@ -116,6 +116,47 @@ export default async function AdminPage() {
     // stale client — values remain 0
   }
 
+  let nfAuthorized = 0;
+  let nfPending = 0;
+  let nfProcessing = 0;
+  let nfFailed = 0;
+  try {
+    [nfAuthorized, nfPending, nfProcessing, nfFailed] = await Promise.all([
+      db.invoice.count({ where: { status: "AUTHORIZED" } }),
+      db.invoice.count({ where: { status: "PENDING" } }),
+      db.invoice.count({ where: { status: "PROCESSING" } }),
+      db.invoice.count({ where: { status: "FAILED" } }),
+    ]);
+  } catch {
+    // Invoice table may not exist yet
+  }
+
+  let healthStatus: "ok" | "error" | "unknown" = "unknown";
+  let healthDetails = "";
+  try {
+    const secret = process.env.CRON_SECRET;
+    if (secret) {
+      const baseUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000";
+      const res = await fetch(`${baseUrl}/api/cron/health-check`, {
+        headers: { Authorization: `Bearer ${secret}` },
+        cache: "no-store",
+        signal: AbortSignal.timeout(10000),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        healthStatus = data.failures > 0 ? "error" : "ok";
+        healthDetails = data.failures > 0
+          ? `${data.failures} falha${data.failures !== 1 ? "s" : ""} de ${data.total}`
+          : `${data.ok} arquivo${data.ok !== 1 ? "s" : ""} verificado${data.ok !== 1 ? "s" : ""}`;
+      }
+    }
+  } catch {
+    healthStatus = "unknown";
+    healthDetails = "Não foi possível verificar";
+  }
+
   return (
     <div className="space-y-8">
       <div>
@@ -263,6 +304,32 @@ export default async function AdminPage() {
           </div>
         </section>
       )}
+
+      {/* ── Notas Fiscais & Monitoramento ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Notas Fiscais & Monitoramento</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+          <Tile label="NF-e autorizadas" value={nfAuthorized} color="green" />
+          <Tile label="NF-e pendentes" value={nfPending} color={nfPending > 0 ? "yellow" : undefined} />
+          <Tile label="NF-e processando" value={nfProcessing} color={nfProcessing > 0 ? "yellow" : undefined} />
+          <Tile label="NF-e com erro" value={nfFailed} color={nfFailed > 0 ? "red" : undefined} />
+          <div className={`bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 ${
+            healthStatus === "ok" ? "border-l-emerald-400" :
+            healthStatus === "error" ? "border-l-red-400" :
+            "border-l-zinc-600"
+          }`}>
+            <p className="text-xs text-zinc-400 mb-1">Health Check</p>
+            <p className={`text-lg font-bold ${
+              healthStatus === "ok" ? "text-emerald-300" :
+              healthStatus === "error" ? "text-red-400" :
+              "text-zinc-400"
+            }`}>
+              {healthStatus === "ok" ? "Tudo OK" : healthStatus === "error" ? "Falhas" : "—"}
+            </p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">{healthDetails || "ebooks e downloads"}</p>
+          </div>
+        </div>
+      </section>
 
       {/* ── Cancelamentos Recentes ── */}
       <section>

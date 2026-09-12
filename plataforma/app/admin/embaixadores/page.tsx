@@ -1,8 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
 import { AmbassadorForm } from "./AmbassadorForm";
 import { RemoveButton, MarkPaidButton } from "./AmbassadorActions";
 
@@ -13,12 +11,6 @@ function brl(cents: number | null | undefined) {
 }
 
 export default async function EmbaixadoresPage() {
-  const session = await auth();
-  if (!session?.user?.id) redirect("/login");
-
-  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
-  if (user?.role !== "ADMIN") redirect("/dashboard");
-
   const ambassadors = await db.user.findMany({
     where: { isAmbassador: true },
     select: {

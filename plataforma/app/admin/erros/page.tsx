@@ -1,8 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
 import { ErrorCard } from "./ErrorCard";
 import { deleteError } from "./actions";
 
@@ -13,12 +11,6 @@ export default async function ErrosPage({
 }: {
   searchParams: Promise<{ page?: string; route?: string }>;
 }) {
-  const session = await auth();
-  if (!session?.user?.id) redirect("/login");
-
-  const user = await db.user.findUnique({ where: { id: session.user.id }, select: { role: true } });
-  if (user?.role !== "ADMIN") redirect("/dashboard");
-
   const params = await searchParams;
   const page = Math.max(1, parseInt(params.page ?? "1"));
   const PAGE_SIZE = 30;

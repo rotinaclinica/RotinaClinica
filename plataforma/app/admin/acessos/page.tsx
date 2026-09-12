@@ -3,8 +3,12 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { GrantAccessForm } from "./grant-access-form";
 import { RevokeButton } from "./revoke-button";
+import SearchBox from "../_components/SearchBox";
+import Pagination from "../_components/Pagination";
 
 export const metadata = { title: "Acessos · Admin" };
+
+const PAGE_SIZE = 30;
 
 const planLabel = (plan: string) =>
   plan === "ANNUAL" ? "Anual" : "Mensal";
@@ -19,16 +23,36 @@ const statusStyle = (status: string) => {
 export default async function AdminAcessosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ email?: string }>;
+  searchParams: Promise<{ email?: string; q?: string; page?: string }>;
 }) {
-  const { email } = await searchParams;
-  const subscriptions = await db.subscription.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { user: { select: { email: true, name: true } } },
-  });
+  const { email, q, page: pageParam } = await searchParams;
+  const query = q?.trim() ?? "";
+  const page = Math.max(1, Number(pageParam) || 1);
+
+  const searchWhere = query
+    ? {
+        OR: [
+          { user: { name: { contains: query, mode: "insensitive" as const } } },
+          { user: { email: { contains: query, mode: "insensitive" as const } } },
+        ],
+      }
+    : undefined;
+
+  const [total, subscriptions] = await Promise.all([
+    db.subscription.count({ where: searchWhere }),
+    db.subscription.findMany({
+      where: searchWhere,
+      orderBy: { createdAt: "desc" },
+      take: PAGE_SIZE,
+      skip: (page - 1) * PAGE_SIZE,
+      include: { user: { select: { email: true, name: true } } },
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <div className="max-w-3xl space-y-8">
+    <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-zinc-100">Acessos</h1>
         <p className="text-sm text-zinc-400 mt-1">Gerencie assinaturas manualmente</p>
@@ -40,11 +64,14 @@ export default async function AdminAcessosPage({
         <GrantAccessForm defaultEmail={email ?? ""} />
       </div>
 
+      {/* Busca */}
+      <SearchBox placeholder="Buscar por nome ou e-mail…" />
+
       {/* Tabela de assinaturas */}
       <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden">
         <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
           <p className="text-sm font-semibold text-zinc-400">Assinaturas</p>
-          <span className="text-xs text-zinc-400">{subscriptions.length} total</span>
+          <span className="text-xs text-zinc-400">{total} total</span>
         </div>
         <table className="w-full text-sm">
           <thead className="bg-white/5 border-b border-white/10">
@@ -82,13 +109,15 @@ export default async function AdminAcessosPage({
             {subscriptions.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-5 py-10 text-center text-zinc-400">
-                  Nenhuma assinatura ainda.
+                  {query ? `Nenhuma assinatura para "${query}"` : "Nenhuma assinatura ainda."}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      <Pagination page={page} totalPages={totalPages} basePath="/admin/acessos" params={{ q: query || undefined }} />
     </div>
   );
 }
