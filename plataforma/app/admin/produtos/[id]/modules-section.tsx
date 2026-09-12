@@ -102,7 +102,7 @@ function AddModuleForm({ productId }: { productId: string }) {
         name="title"
         required
         placeholder="Nome do módulo"
-        className="flex-1 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
       <button
         type="submit"
@@ -126,7 +126,7 @@ function AddLessonForm({ moduleId, productId }: { moduleId: string; productId: s
         name="title"
         required
         placeholder="Nome da aula"
-        className="flex-1 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
       />
       <label className="flex items-center gap-1 text-xs text-zinc-300 whitespace-nowrap">
         <input type="checkbox" name="freePreview" className="accent-violet-600" />

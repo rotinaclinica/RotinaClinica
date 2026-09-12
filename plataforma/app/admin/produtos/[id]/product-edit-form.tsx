@@ -31,7 +31,7 @@ export function ProductEditForm({ product }: { product: Product }) {
             name="title"
             required
             defaultValue={product.title}
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
 
@@ -41,7 +41,7 @@ export function ProductEditForm({ product }: { product: Product }) {
             name="slug"
             required
             defaultValue={product.slug}
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
 
@@ -52,7 +52,7 @@ export function ProductEditForm({ product }: { product: Product }) {
             required
             rows={4}
             defaultValue={product.description}
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
           />
         </div>
 
@@ -74,7 +74,7 @@ export function ProductEditForm({ product }: { product: Product }) {
               step="0.01"
               required
               defaultValue={(product.priceCents / 100).toFixed(2)}
-              className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
           </div>
         </div>
@@ -85,7 +85,7 @@ export function ProductEditForm({ product }: { product: Product }) {
             <input
               name="fileKey"
               defaultValue={product.fileKey ?? ""}
-              className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
               placeholder="arquivos/meu-ebook.pdf"
             />
           </div>

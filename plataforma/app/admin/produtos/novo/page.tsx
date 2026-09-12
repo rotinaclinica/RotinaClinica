@@ -44,7 +44,7 @@ export default function NovoProdutoPage() {
             name="title"
             required
             onBlur={handleTitleBlur}
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="Ex: Curso de Pilates"
           />
         </div>
@@ -54,7 +54,7 @@ export default function NovoProdutoPage() {
           <input
             id="slug"
             name="slug"
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="curso-de-pilates"
           />
           <p className="text-xs text-zinc-400 mt-1">Deixe em branco para gerar automaticamente do título.</p>
@@ -66,7 +66,7 @@ export default function NovoProdutoPage() {
             name="description"
             required
             rows={4}
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
             placeholder="Descreva o produto..."
           />
         </div>
@@ -77,7 +77,7 @@ export default function NovoProdutoPage() {
             <select
               name="type"
               required
-              className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
             >
               <option value="COURSE">Curso online</option>
               <option value="DOWNLOAD">Download digital</option>
@@ -91,7 +91,7 @@ export default function NovoProdutoPage() {
               min="0"
               step="0.01"
               required
-              className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
               placeholder="97.00"
             />
           </div>
@@ -103,7 +103,7 @@ export default function NovoProdutoPage() {
           </label>
           <input
             name="fileKey"
-            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 font-mono focus:outline-none focus:ring-2 focus:ring-violet-500"
             placeholder="arquivos/meu-ebook.pdf"
           />
           <p className="text-xs text-zinc-400 mt-1">Caminho do arquivo no Cloudflare R2.</p>
