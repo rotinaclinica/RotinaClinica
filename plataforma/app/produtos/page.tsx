@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
+import { prescricoesMeta } from "@/lib/prescricoes-meta";
 
 export const metadata = {
   title: "Ebooks e Cursos",
@@ -11,7 +12,7 @@ export const metadata = {
 const PAID_PRODUCTS = [
   {
     title: "Manual de Prescrições",
-    description: "Nunca mais trave na hora de prescrever! Consulte mais de 200 modelos de prescrições prontas em segundos - da UBS à emergência.",
+    description: `Nunca mais trave na hora de prescrever! Consulte mais de ${prescricoesMeta.length} modelos de prescrições prontas em segundos - da UBS à emergência.`,
     image: "/images/ebook-manual.png",
     tag: "E-book",
     price: "R$ 97",

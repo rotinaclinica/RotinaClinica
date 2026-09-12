@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { prescricoesMeta } from "@/lib/prescricoes-meta";
 
 export const runtime = "edge";
 export const alt = "Condutas Clínicas — Rotina Clínica";
@@ -33,7 +34,7 @@ export default function Image() {
         </span>
 
         <span style={{ color: "#ffffff", fontSize: 64, fontWeight: 800, lineHeight: 1.15, marginBottom: 28 }}>
-          Mais de 236 prescrições{"\n"}prontas para o plantão.
+          Mais de {prescricoesMeta.length} prescrições{"\n"}prontas para o plantão.
         </span>
 
         <span style={{ color: "#a8c4d8", fontSize: 26, fontWeight: 400, lineHeight: 1.5, maxWidth: 780 }}>

@@ -47,7 +47,7 @@ Queria entender se ficou alguma dúvida ou se posso ajudar em alguma coisa.
 Enquanto isso, deixa eu te lembrar o que está te esperando lá dentro:
 
 ✦ Prescrições prontas para PS, UPA, UBS e emergência — busca por queixa ou diagnóstico, em segundos
-✦ Mais de 224 temas clínicos organizados e atualizados com as diretrizes mais recentes
+✦ Mais de 240 temas clínicos organizados e atualizados com as diretrizes mais recentes
 ✦ Calculadoras e escores validados para sua prática clínica diária
 ✦ Modelos de evolução prontos para agilizar o atendimento
 ✦ Casos clínicos com raciocínio diagnóstico e conduta detalhada
@@ -77,7 +77,7 @@ Criamos a plataforma Rotina Clínica justamente para ir além do ebook: prescri�
 
 O que está disponível para você agora:
 
-✦ Mais de 224 temas de prescrição organizados por queixa e diagnóstico
+✦ Mais de 240 temas de prescrição organizados por queixa e diagnóstico
 ✦ Calculadoras e escores clínicos validados
 ✦ Modelos de evolução prontos para UPA, PS e internação
 ✦ Curso Destravando o Plantão com aulas práticas
