@@ -41,6 +41,32 @@ async function extractError(res: Response, fallback: string): Promise<string> {
 }
 
 /**
+ * Consulta a API ViaCEP para obter endereço completo a partir do CEP.
+ */
+async function lookupCep(cep: string): Promise<{
+  address: string;
+  province: string;
+  cityName: string;
+  state: string;
+} | null> {
+  if (!cep || cep.length !== 8) return null;
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.erro) return null;
+    return {
+      address: data.logradouro || "Não informado",
+      province: data.bairro || "Não informado",
+      cityName: data.localidade || "",
+      state: data.uf || "",
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Busca um cliente existente no Asaas pelo CPF/CNPJ.
  * Retorna o id se encontrado, null caso contrário.
  */
@@ -69,14 +95,44 @@ export const asaasProvider: NfeProvider = {
       customerId = await findCustomerByDoc(doc);
     }
 
+    // Se cliente já existe, atualiza endereço (pode estar incompleto)
+    if (customerId) {
+      const cep = input.tomador.cep?.replace(/\D/g, "") ?? "";
+      const addr = cep ? await lookupCep(cep) : null;
+      if (addr) {
+        await fetch(`${base}/customers/${customerId}`, {
+          method: "PUT",
+          headers: headers(),
+          body: JSON.stringify({
+            postalCode: cep,
+            address: addr.address,
+            addressNumber: "S/N",
+            province: addr.province,
+            cityName: addr.cityName,
+            state: addr.state,
+          }),
+        }).catch(() => {});
+      }
+    }
+
     if (!customerId) {
+      const cep = input.tomador.cep?.replace(/\D/g, "") ?? "";
+      const addr = cep ? await lookupCep(cep) : null;
+
       const custBody: Record<string, unknown> = {
         name: input.tomador.nome,
         email: input.tomador.email,
         externalReference: input.ref,
       };
       if (doc) custBody.cpfCnpj = doc;
-      if (input.tomador.cep) custBody.postalCode = input.tomador.cep;
+      if (cep) custBody.postalCode = cep;
+      if (addr) {
+        custBody.address = addr.address;
+        custBody.addressNumber = "S/N";
+        custBody.province = addr.province;
+        custBody.cityName = addr.cityName;
+        custBody.state = addr.state;
+      }
 
       const custRes = await fetch(`${base}/customers`, {
         method: "POST",
