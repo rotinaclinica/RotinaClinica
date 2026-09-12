@@ -147,10 +147,15 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
       // 1. Se ainda não foi enviada ao provedor, emite.
       if (inv.status === "PENDING") {
         const emit = await provider.emitir(buildEmitInput(inv));
+        externalRef = emit.externalId ?? null;
+        // Salva externalId ANTES de checar erro — assim não perdemos o ID do Asaas
         if (emit.status === "error") {
+          await db.invoice.update({
+            where: { id: inv.id },
+            data: { externalId: externalRef, attempts: { increment: 1 } },
+          });
           throw new Error(emit.error ?? "Erro ao emitir");
         }
-        externalRef = emit.externalId ?? null;
         await db.invoice.update({
           where: { id: inv.id },
           data: { status: "PROCESSING", externalId: externalRef, attempts: { increment: 1 } },
@@ -194,7 +199,10 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
       } else {
         await db.invoice.update({
           where: { id: inv.id },
-          data: { attempts: { increment: 1 } },
+          data: {
+            attempts: { increment: 1 },
+            errorMessage: consulta.error ? consulta.error.slice(0, 500) : null,
+          },
         });
         result.stillProcessing++;
       }

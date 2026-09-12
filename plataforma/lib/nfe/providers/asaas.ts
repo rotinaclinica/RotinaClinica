@@ -17,8 +17,6 @@ function headers(): Record<string, string> {
   return { access_token: nfeConfig.asaas.apiKey, "Content-Type": "application/json" };
 }
 
-// Status possíveis do Asaas: SCHEDULED, SYNCHRONIZED, AUTHORIZED, PROCESSING_CANCELLATION,
-// CANCELED, CANCELLATION_DENIED, ERROR.
 function mapStatus(s: string | undefined): NfeStatus {
   switch (s) {
     case "AUTHORIZED":
@@ -32,9 +30,29 @@ function mapStatus(s: string | undefined): NfeStatus {
   }
 }
 
-async function firstError(res: Response, fallback: string): Promise<string> {
-  const body = await res.json().catch(() => ({}));
-  return body?.errors?.[0]?.description ?? body?.message ?? `${fallback} (HTTP ${res.status})`;
+async function extractError(res: Response, fallback: string): Promise<string> {
+  try {
+    const body = await res.json();
+    const detail = body?.errors?.[0]?.description ?? body?.message ?? "";
+    return detail ? `${fallback}: ${detail}` : `${fallback} (HTTP ${res.status})`;
+  } catch {
+    return `${fallback} (HTTP ${res.status})`;
+  }
+}
+
+/**
+ * Busca um cliente existente no Asaas pelo CPF/CNPJ.
+ * Retorna o id se encontrado, null caso contrário.
+ */
+async function findCustomerByDoc(doc: string): Promise<string | null> {
+  if (!doc) return null;
+  const base = nfeConfig.asaas.baseUrl;
+  const res = await fetch(`${base}/customers?cpfCnpj=${encodeURIComponent(doc)}`, {
+    headers: headers(),
+  });
+  if (!res.ok) return null;
+  const data = await res.json().catch(() => ({}));
+  return data?.data?.[0]?.id ?? null;
 }
 
 export const asaasProvider: NfeProvider = {
@@ -44,35 +62,52 @@ export const asaasProvider: NfeProvider = {
     const base = nfeConfig.asaas.baseUrl;
     const doc = input.tomador.documento?.replace(/\D/g, "") ?? "";
 
-    // 1. Cria o cliente (tomador) no Asaas.
-    const custRes = await fetch(`${base}/customers`, {
-      method: "POST",
-      headers: headers(),
-      body: JSON.stringify({
+    // 1. Reutiliza cliente existente ou cria um novo.
+    let customerId: string | null = null;
+
+    if (doc) {
+      customerId = await findCustomerByDoc(doc);
+    }
+
+    if (!customerId) {
+      const custBody: Record<string, unknown> = {
         name: input.tomador.nome,
         email: input.tomador.email,
-        cpfCnpj: doc,
         externalReference: input.ref,
-        ...(input.tomador.cep ? { postalCode: input.tomador.cep } : {}),
-      }),
-    });
-    if (!custRes.ok) {
-      return { status: "error", error: await firstError(custRes, "Erro ao criar cliente no Asaas") };
+      };
+      if (doc) custBody.cpfCnpj = doc;
+      if (input.tomador.cep) custBody.postalCode = input.tomador.cep;
+
+      const custRes = await fetch(`${base}/customers`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify(custBody),
+      });
+
+      if (!custRes.ok) {
+        const err = await extractError(custRes, "Erro ao criar cliente no Asaas");
+        // Se for conflito (cliente já existe), tenta buscar novamente
+        if (custRes.status === 409 && doc) {
+          customerId = await findCustomerByDoc(doc);
+        }
+        if (!customerId) {
+          return { status: "error", error: err };
+        }
+      } else {
+        const customer = await custRes.json();
+        customerId = customer.id;
+      }
     }
-    const customer = await custRes.json();
 
     // 2. Cria a nota fiscal (invoice) vinculada ao cliente (avulsa, sem cobrança).
-    const invBody = {
-      customer: customer.id,
+    const invBody: Record<string, unknown> = {
+      customer: customerId,
       serviceDescription: input.discriminacao,
       observations: input.discriminacao,
       value: input.valorCents / 100,
       deductions: 0,
       effectiveDate: new Date().toISOString().slice(0, 10),
       externalReference: input.ref,
-      ...(nfeConfig.asaas.municipalServiceId ? { municipalServiceId: nfeConfig.asaas.municipalServiceId } : {}),
-      ...(nfeConfig.asaas.municipalServiceCode ? { municipalServiceCode: nfeConfig.asaas.municipalServiceCode } : {}),
-      ...(nfeConfig.asaas.municipalServiceName ? { municipalServiceName: nfeConfig.asaas.municipalServiceName } : {}),
       taxes: {
         retainIss: nfeConfig.servico.issRetido,
         iss: nfeConfig.servico.aliquotaIss,
@@ -83,26 +118,39 @@ export const asaasProvider: NfeProvider = {
         pis: 0,
       },
     };
+    if (nfeConfig.asaas.municipalServiceId) invBody.municipalServiceId = nfeConfig.asaas.municipalServiceId;
+    if (nfeConfig.asaas.municipalServiceCode) invBody.municipalServiceCode = nfeConfig.asaas.municipalServiceCode;
+    if (nfeConfig.asaas.municipalServiceName) invBody.municipalServiceName = nfeConfig.asaas.municipalServiceName;
+
     const invRes = await fetch(`${base}/invoices`, {
       method: "POST",
       headers: headers(),
       body: JSON.stringify(invBody),
     });
     if (!invRes.ok) {
-      return { status: "error", error: await firstError(invRes, "Erro ao criar nota no Asaas") };
+      return { status: "error", error: await extractError(invRes, "Erro ao criar nota no Asaas") };
     }
     const invoice = await invRes.json();
 
-    // 3. Autoriza (emite) a nota. Se a autorização falhar aqui, ainda guardamos
-    //    o id — o cron reconsulta e o painel admin permite reprocessar.
+    // 3. Autoriza (emite) a nota.
     const authRes = await fetch(`${base}/invoices/${invoice.id}/authorize`, {
       method: "POST",
       headers: headers(),
     });
-    let status: NfeStatus = "processing";
-    if (authRes.ok) {
-      const authorized = await authRes.json().catch(() => ({}));
-      status = mapStatus(authorized?.status);
+
+    if (!authRes.ok) {
+      const authErr = await extractError(authRes, "Erro ao autorizar nota no Asaas");
+      // Nota foi criada mas não autorizada — retornamos o externalId para
+      // podermos consultar/reprocessar depois, junto com o erro.
+      return { status: "error", externalId: invoice.id, error: authErr };
+    }
+
+    const authorized = await authRes.json().catch(() => ({}));
+    const status = mapStatus(authorized?.status);
+
+    if (status === "error") {
+      const msg = authorized?.errorMessage ?? authorized?.rejectMessage ?? "Nota rejeitada pelo Asaas";
+      return { status: "error", externalId: invoice.id, error: msg };
     }
 
     return { status, externalId: invoice.id };
@@ -112,8 +160,10 @@ export const asaasProvider: NfeProvider = {
     const res = await fetch(`${nfeConfig.asaas.baseUrl}/invoices/${encodeURIComponent(ref)}`, {
       headers: headers(),
     });
+
     if (!res.ok) {
-      return { status: "processing" };
+      const err = await extractError(res, "Erro ao consultar nota no Asaas");
+      return { status: "error", error: err };
     }
 
     const data = await res.json().catch(() => ({}));
@@ -130,9 +180,13 @@ export const asaasProvider: NfeProvider = {
     }
 
     if (status === "error") {
-      return { status, error: data?.errorMessage ?? data?.rejectMessage ?? "Erro na emissão da nota" };
+      return {
+        status,
+        error: data?.errorMessage ?? data?.rejectMessage ?? `Nota rejeitada (status Asaas: ${data?.status ?? "desconhecido"})`,
+      };
     }
 
-    return { status: "processing" };
+    // Ainda processando — inclui o status real do Asaas para diagnóstico
+    return { status: "processing", error: `Aguardando prefeitura (status Asaas: ${data?.status ?? "desconhecido"})` };
   },
 };
