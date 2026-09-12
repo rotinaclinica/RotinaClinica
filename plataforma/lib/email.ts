@@ -377,6 +377,7 @@ export async function sendNotaFiscal({
   await resend.emails.send({
     from: FROM,
     to,
+    bcc: "rotinaclinica77@gmail.com",
     subject: `Sua nota fiscal — Rotina Clínica (nº ${numero})`,
     attachments: [{ filename: `nota-fiscal-${numero}.pdf`, path: pdfUrl }],
     html: `
