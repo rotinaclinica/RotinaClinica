@@ -231,23 +231,75 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
   const inv = await db.invoice.findUnique({ where: { id: invoiceId } });
   if (!inv) return;
 
-  // Se já está autorizada, não faz nada
   if (inv.status === "AUTHORIZED" && inv.numero) return;
-
-  // Reseta para PENDING e limpa erros
-  await db.invoice.update({
-    where: { id: invoiceId },
-    data: { status: "PENDING", attempts: 0, errorMessage: null, externalId: null },
-  });
-
-  // Recarrega a nota atualizada e processa diretamente (não via batch)
-  const fresh = await db.invoice.findUnique({ where: { id: invoiceId } });
-  if (!fresh) return;
 
   const provider = getProvider();
 
   try {
-    const emit = await provider.emitir(buildEmitInput(fresh));
+    // Se já tem externalId (nota criada no Asaas mas falhou na autorização),
+    // tenta consultar/re-autorizar em vez de criar nova nota (evita conflito de RPS).
+    if (inv.externalId) {
+      const consulta = await provider.consultar(inv.externalId);
+
+      if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
+        await db.invoice.update({
+          where: { id: invoiceId },
+          data: {
+            status: "AUTHORIZED",
+            numero: consulta.numero,
+            pdfUrl: consulta.pdfUrl,
+            xmlUrl: consulta.xmlUrl ?? null,
+            errorMessage: null,
+          },
+        });
+        if (!inv.emailSentAt) {
+          await sendNotaFiscal({
+            to: inv.customerEmail,
+            customerName: inv.customerName,
+            numero: consulta.numero,
+            pdfUrl: consulta.pdfUrl,
+            amountCents: inv.amountCents,
+          });
+          await db.invoice.update({
+            where: { id: invoiceId },
+            data: { emailSentAt: new Date() },
+          });
+        }
+        return;
+      }
+
+      if (consulta.status === "processing") {
+        await db.invoice.update({
+          where: { id: invoiceId },
+          data: {
+            status: "PROCESSING",
+            attempts: { increment: 1 },
+            errorMessage: consulta.error?.slice(0, 500) ?? null,
+          },
+        });
+        return;
+      }
+
+      // Status é error — a nota no Asaas falhou irrecuperavelmente.
+      // Vai criar uma nova abaixo com ref única.
+    }
+
+    // Gera ref única para evitar conflito de RPS em reemissões
+    const uniqueRef = `${inv.providerRef}_r${Date.now()}`;
+
+    // Reseta para reemissão
+    await db.invoice.update({
+      where: { id: invoiceId },
+      data: { status: "PENDING", attempts: 0, errorMessage: null, externalId: null },
+    });
+
+    const fresh = await db.invoice.findUnique({ where: { id: invoiceId } });
+    if (!fresh) return;
+
+    const emitInput = buildEmitInput(fresh);
+    emitInput.ref = uniqueRef;
+
+    const emit = await provider.emitir(emitInput);
     const externalRef = emit.externalId ?? null;
 
     if (emit.status === "error") {
@@ -267,8 +319,7 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
       data: { status: "PROCESSING", externalId: externalRef, attempts: 1 },
     });
 
-    // Consulta imediata
-    const consulta = await provider.consultar(externalRef ?? fresh.providerRef);
+    const consulta = await provider.consultar(externalRef ?? uniqueRef);
 
     if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
       await db.invoice.update({
@@ -282,7 +333,6 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
           errorMessage: null,
         },
       });
-
       if (!fresh.emailSentAt) {
         await sendNotaFiscal({
           to: fresh.customerEmail,
@@ -311,7 +361,7 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
     const message = err instanceof Error ? err.message : String(err);
     await db.invoice.update({
       where: { id: invoiceId },
-      data: { attempts: 1, errorMessage: message.slice(0, 500) },
+      data: { attempts: { increment: 1 }, errorMessage: message.slice(0, 500) },
     });
   }
 }
