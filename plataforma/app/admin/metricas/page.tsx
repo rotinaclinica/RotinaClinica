@@ -26,6 +26,10 @@ export default async function MetricasPage() {
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
 
+  const userEmails = (await db.user.findMany({ select: { email: true } }))
+    .map((u) => u.email)
+    .filter(Boolean) as string[];
+
   const [
     totalUsers,
     usersThisMonth,
@@ -82,7 +86,7 @@ export default async function MetricasPage() {
     db.order.count({ where: { status: "REFUNDED" } }),
     db.order.aggregate({ where: { status: "REFUNDED" }, _sum: { totalCents: true } }),
     db.lead.count(),
-    db.lead.count({ where: { convertedAt: { not: null } } }),
+    db.lead.count({ where: { email: { in: userEmails } } }),
     db.lead.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
     db.order.findMany({
       where: { status: "PAID", paidAt: { gte: twelveMonthsAgo } },
