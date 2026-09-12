@@ -13,8 +13,7 @@ const LINKS = [
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/reembolsos", label: "Reembolsos" },
   { href: "/admin/embaixadores", label: "Embaixadores" },
-  { href: "/admin/broadcast", label: "Enviar email" },
-  { href: "/admin/marketing", label: "Marketing — Brevo" },
+  { href: "/admin/broadcast", label: "Email" },
   { href: "/admin/erros", label: "Erros" },
 ];
 
