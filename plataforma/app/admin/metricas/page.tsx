@@ -17,11 +17,27 @@ function pct(part: number, total: number) {
   return `${((part / total) * 100).toFixed(1)}%`;
 }
 
+function estimateGatewayFee(provider: string, paymentMethod: string | null, totalCents: number): number {
+  const method = (paymentMethod ?? "").toLowerCase();
+
+  if (provider === "ASAAS") {
+    if (method.includes("pix")) return Math.max(50, Math.round(totalCents * 0.0099));
+    if (method.includes("boleto")) return 399;
+    return Math.round(totalCents * 0.0299);
+  }
+  if (provider === "STRIPE") {
+    return Math.round(totalCents * 0.0399) + 39;
+  }
+  if (provider === "MERCADOPAGO") {
+    return Math.round(totalCents * 0.0499);
+  }
+  return Math.round(totalCents * 0.03);
+}
+
 export default async function MetricasPage() {
   const now = new Date();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
-  const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
@@ -36,7 +52,6 @@ export default async function MetricasPage() {
     usersLastMonth,
     users30d,
     users60to30d,
-    totalSubs,
     subsActive,
     subsMonthly,
     subsAnnual,
@@ -60,13 +75,15 @@ export default async function MetricasPage() {
     leads30d,
     monthlyOrders,
     monthlyUsers,
+    allPaidOrders,
+    paidOrders30d,
+    paidOrdersMonth,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: startOfMonth } } }),
     db.user.count({ where: { createdAt: { gte: startOfLastMonth, lt: startOfMonth } } }),
     db.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
     db.user.count({ where: { createdAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } } }),
-    db.subscription.count(),
     db.subscription.count({ where: { status: "ACTIVE" } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY" } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL" } }),
@@ -96,44 +113,71 @@ export default async function MetricasPage() {
       where: { createdAt: { gte: twelveMonthsAgo } },
       select: { createdAt: true },
     }),
+    db.order.findMany({
+      where: { status: "PAID" },
+      select: { provider: true, paymentMethod: true, totalCents: true },
+    }),
+    db.order.findMany({
+      where: { status: "PAID", paidAt: { gte: thirtyDaysAgo } },
+      select: { provider: true, paymentMethod: true, totalCents: true },
+    }),
+    db.order.findMany({
+      where: { status: "PAID", paidAt: { gte: startOfMonth } },
+      select: { provider: true, paymentMethod: true, totalCents: true },
+    }),
   ]);
 
+  // Lucro líquido estimado
+  const totalFeesAll = allPaidOrders.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
+  const totalFees30d = paidOrders30d.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
+  const totalFeesMonth = paidOrdersMonth.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
+
+  const grossAll = revenueTotal._sum.totalCents ?? 0;
+  const refundAll = refundTotal._sum.totalCents ?? 0;
+  const netAll = grossAll - totalFeesAll - refundAll;
+
+  const gross30d = revenue30d._sum.totalCents ?? 0;
+  const net30d = gross30d - totalFees30d;
+
+  const grossMonth = revenueThisMonth._sum.totalCents ?? 0;
+  const netMonth = grossMonth - totalFeesMonth;
+
+  const marginAll = grossAll ? ((netAll / grossAll) * 100).toFixed(1) : "0.0";
+
   // Variação mês a mês
-  const revThisM = revenueThisMonth._sum.totalCents ?? 0;
+  const revThisM = grossMonth;
   const revLastM = revenueLastMonth._sum.totalCents ?? 0;
   const revChange = revLastM ? ((revThisM - revLastM) / revLastM * 100).toFixed(1) : null;
 
   const usersChange = usersLastMonth ? ((usersThisMonth - usersLastMonth) / usersLastMonth * 100).toFixed(1) : null;
 
-  // Revenue growth 30d vs prior 30d
-  const rev30 = revenue30d._sum.totalCents ?? 0;
+  const rev30 = gross30d;
   const rev60to30 = revenue60to30d._sum.totalCents ?? 0;
   const revGrowth30 = rev60to30 ? ((rev30 - rev60to30) / rev60to30 * 100).toFixed(1) : null;
 
-  // User growth 30d vs prior 30d
   const userGrowth30 = users60to30d ? ((users30d - users60to30d) / users60to30d * 100).toFixed(1) : null;
 
-  // Churn rate (cancelamentos 30d / ativos no início do período)
   const activePlusChurned = subsActive + subsCancelled30d;
   const churnRate = activePlusChurned ? ((subsCancelled30d / activePlusChurned) * 100).toFixed(1) : "0.0";
 
-  // Conversion rate (cadastro → assinatura)
   const conversionRate = totalUsers ? ((subsActive + subsCancelledTotal) / totalUsers * 100).toFixed(1) : "0.0";
 
-  // Checkout conversion
   const checkoutConversion = ordersTotal ? ((ordersPaid / ordersTotal) * 100).toFixed(1) : "0.0";
 
-  // Lead conversion
   const leadConversion = leadsTotal ? ((leadsConverted / leadsTotal) * 100).toFixed(1) : "0.0";
 
-  // Ticket médio
-  const ticketMedio = ordersPaid ? Math.round((revenueTotal._sum.totalCents ?? 0) / ordersPaid) : 0;
+  const ticketMedio = ordersPaid ? Math.round(grossAll / ordersPaid) : 0;
 
-  // LTV estimado (ticket médio × taxa de renovação estimada)
   const ltvEstimado = ticketMedio * (subsActive > 0 ? Math.max(1, Math.round(subsActive / Math.max(subsCancelled30d * 12, 1))) : 1);
 
-  // MRR (Monthly Recurring Revenue)
   const mrr = subsMonthly * 3990 + Math.round(subsAnnual * 40000 / 12);
+
+  // Fee breakdown by gateway
+  const feesByGateway = {
+    asaas: allPaidOrders.filter(o => o.provider === "ASAAS").reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0),
+    stripe: allPaidOrders.filter(o => o.provider === "STRIPE").reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0),
+    mp: allPaidOrders.filter(o => o.provider === "MERCADOPAGO").reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0),
+  };
 
   // Gráficos mensais
   const MONTH_LABELS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
@@ -161,7 +205,7 @@ export default async function MetricasPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-zinc-100">Métricas</h1>
-        <p className="text-sm text-zinc-400 mt-1">Dados para otimizar crescimento e marketing</p>
+        <p className="text-sm text-zinc-400 mt-1">Análise estratégica de crescimento e rentabilidade</p>
       </div>
 
       {/* ── KPIs Principais ── */}
@@ -172,6 +216,39 @@ export default async function MetricasPage() {
           <Tile label="Assinantes ativos" value={subsActive} color="green" sub={`${subsMonthly} mensal · ${subsAnnual} anual`} />
           <Tile label="Churn (30 dias)" value={`${churnRate}%`} color={Number(churnRate) > 5 ? "red" : undefined} sub={`${subsCancelled30d} cancelamento${subsCancelled30d !== 1 ? "s" : ""}`} />
           <Tile label="Ticket médio" value={brl(ticketMedio)} sub="por pedido pago" />
+        </div>
+      </section>
+
+      {/* ── Lucro Líquido Estimado ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Lucro líquido estimado</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <Tile label="Receita bruta total" value={brl(grossAll)} sub={`${ordersPaid} vendas`} />
+          <Tile label="Taxas gateway" value={brl(totalFeesAll)} color="red" sub="estimativa baseada no método" />
+          <Tile label="Reembolsos" value={brl(refundAll)} color={refundAll > 0 ? "red" : undefined} sub={`${refundCount} pedido${refundCount !== 1 ? "s" : ""}`} />
+          <Tile label="Receita líquida" value={brl(netAll)} color="green" sub={`margem ${marginAll}%`} />
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+          <Tile label="Líquido este mês" value={brl(netMonth)} color="green" sub={`bruto ${brl(grossMonth)} − taxas ${brl(totalFeesMonth)}`} />
+          <Tile label="Líquido últimos 30d" value={brl(net30d)} sub={`bruto ${brl(gross30d)} − taxas ${brl(totalFees30d)}`} />
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4">
+            <p className="text-xs text-zinc-400 mb-2">Taxas por gateway (total)</p>
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-300">Asaas</span>
+                <span className="text-zinc-100 font-medium">{brl(feesByGateway.asaas)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-300">Stripe</span>
+                <span className="text-zinc-100 font-medium">{brl(feesByGateway.stripe)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-300">Mercado Pago</span>
+                <span className="text-zinc-100 font-medium">{brl(feesByGateway.mp)}</span>
+              </div>
+            </div>
+            <p className="text-[10px] text-zinc-500 mt-2">Pix ~0.99% · Cartão ~2.99% · Boleto ~R$3.99</p>
+          </div>
         </div>
       </section>
 
@@ -258,8 +335,8 @@ export default async function MetricasPage() {
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Saúde do negócio</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Tile label="Receita total" value={brl(revenueTotal._sum.totalCents)} color="green" sub={`${ordersPaid} vendas`} />
-          <Tile label="Reembolsos" value={brl(refundTotal._sum.totalCents)} color={refundCount > 0 ? "red" : undefined} sub={`${refundCount} pedido${refundCount !== 1 ? "s" : ""}`} />
+          <Tile label="Receita total" value={brl(grossAll)} color="green" sub={`${ordersPaid} vendas`} />
+          <Tile label="Reembolsos" value={brl(refundAll)} color={refundCount > 0 ? "red" : undefined} sub={`${refundCount} pedido${refundCount !== 1 ? "s" : ""}`} />
           <Tile
             label="Taxa de reembolso"
             value={pct(refundCount, ordersPaid)}

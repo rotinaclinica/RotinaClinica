@@ -1,8 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
-import { PieChart } from "./PieChart";
-import { BarChart } from "./BarChart";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -12,19 +10,14 @@ function brl(cents: number | null) {
   );
 }
 
-function pct(part: number, total: number) {
-  if (!total) return "0%";
-  return `${Math.round((part / total) * 100)}%`;
-}
-
 export default async function AdminPage() {
   const now = new Date();
-  const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
-  const startOfMonth  = new Date(now.getFullYear(), now.getMonth(), 1);
-  const startOfYear   = new Date(now.getFullYear(), 0, 1);
-  const last7         = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const next30        = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-  const fiveMinAgo    = new Date(now.getTime() - 5 * 60 * 1000);
+  const last7 = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const next30 = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  const fiveMinAgo = new Date(now.getTime() - 5 * 60 * 1000);
+  const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const last30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
   const [
     totalUsers,
@@ -32,89 +25,38 @@ export default async function AdminPage() {
     subActive,
     subMonthly,
     subAnnual,
-    subCancelled,
-    subExpired,
-    subPastDue,
-    renewingSoon,
-    revenueTotal,
     revenueMonth,
-    revenueYear,
-    revenueStripe,
-    revenueMp,
-    revenueAsaas,
-    revenueWeek,
-    ordersTotal,
-    reembolsosAggregate,
     cancelamentosRecentes,
-    ordersNaoConcluidos,
     renovandoLista,
-    recentOrdersRaw,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
     db.subscription.count({ where: { status: "ACTIVE" } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY" } }),
     db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL" } }),
-    db.subscription.count({ where: { status: "CANCELLED" } }),
-    db.subscription.count({ where: { status: "EXPIRED" } }),
-    db.subscription.count({ where: { status: "PAST_DUE" } }),
-    db.subscription.count({
-      where: { status: "ACTIVE", currentPeriodEnd: { lte: next30 } },
-    }),
-    db.order.aggregate({ where: { status: "PAID" }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth } }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfYear } }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", provider: "STRIPE" }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", provider: "MERCADOPAGO" }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", provider: "ASAAS" }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: last7 } }, _sum: { totalCents: true } }),
-    db.order.count({ where: { status: "PAID" } }),
-    db.order.aggregate({ where: { status: "REFUNDED" }, _sum: { totalCents: true }, _count: true }),
     db.subscription.findMany({
-      where: { status: "CANCELLED", cancelledAt: { gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) } },
+      where: { status: "CANCELLED", cancelledAt: { gte: last30d } },
       orderBy: { cancelledAt: "desc" },
       select: { plan: true, cancelledAt: true, user: { select: { name: true, email: true } } },
     }),
-    db.order.count({ where: { status: { in: ["EXPIRED", "FAILED"] } } }),
     db.subscription.findMany({
       where: { status: "ACTIVE", currentPeriodEnd: { lte: next30 } },
       orderBy: { currentPeriodEnd: "asc" },
       select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true } } },
     }),
-    db.order.findMany({
-      where: { status: "PAID", paidAt: { gte: twelveMonthsAgo } },
-      select: { paidAt: true, totalCents: true },
-    }),
   ]);
-
-  const MONTH_LABELS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-  const monthlyBars = Array.from({ length: 12 }, (_, i) => {
-    const d = new Date(now.getFullYear(), now.getMonth() - 11 + i, 1);
-    const yr = d.getFullYear();
-    const mo = d.getMonth();
-    const value = recentOrdersRaw
-      .filter((o) => o.paidAt && new Date(o.paidAt).getFullYear() === yr && new Date(o.paidAt).getMonth() === mo)
-      .reduce((s, o) => s + o.totalCents, 0);
-    return { label: MONTH_LABELS[mo], value, current: yr === now.getFullYear() && mo === now.getMonth() };
-  });
-
-  // Queries that depend on the new schema (lastSeenAt / ActivityLog).
-  // Wrapped in try/catch: the running dev server may have a stale Prisma client
-  // cached in globalThis — these work correctly after a server restart.
-  const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
   let onlineNow = 0;
   let active24h = 0;
-  let active7d  = 0;
+  let active7d = 0;
   try {
     [onlineNow, active24h, active7d] = await Promise.all([
       db.user.count({ where: { lastSeenAt: { gte: fiveMinAgo } } }),
       db.user.count({ where: { lastSeenAt: { gte: last24h } } }),
-      db.user.count({ where: { lastSeenAt: { gte: last7   } } }),
+      db.user.count({ where: { lastSeenAt: { gte: last7 } } }),
     ]);
-  } catch {
-    // stale client — values remain 0
-  }
+  } catch {}
 
   let nfAuthorized = 0;
   let nfPending = 0;
@@ -127,9 +69,7 @@ export default async function AdminPage() {
       db.invoice.count({ where: { status: "PROCESSING" } }),
       db.invoice.count({ where: { status: "FAILED" } }),
     ]);
-  } catch {
-    // Invoice table may not exist yet
-  }
+  } catch {}
 
   let healthStatus: "ok" | "error" | "unknown" = "unknown";
   let healthDetails = "";
@@ -157,114 +97,61 @@ export default async function AdminPage() {
     healthDetails = "Não foi possível verificar";
   }
 
+  const mrr = subMonthly * 3990 + Math.round(subAnnual * 40000 / 12);
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-zinc-100">Painel Admin</h1>
-        <p className="text-sm text-zinc-400 mt-1">Visão geral da plataforma</p>
+        <p className="text-sm text-zinc-400 mt-1">Visão operacional da plataforma</p>
       </div>
 
-      {/* ── Usuários & Assinantes ── */}
+      {/* ── Resumo Rápido ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Usuários & Assinantes</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Tile label="Usuários cadastrados" value={totalUsers} sub={`+${newUsersWeek} nos últimos 7 dias`} />
-          <Tile label="Assinantes ativos" value={subActive} color="green" />
-          <Tile label="Plano Mensal" value={subMonthly} sub={pct(subMonthly, subActive) + " dos ativos"} />
-          <Tile label="Plano Anual" value={subAnnual}  sub={pct(subAnnual, subActive) + " dos ativos"} />
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
-          <Tile label="Cancelados" value={subCancelled} color="red" />
-          <Tile label="Expirados"  value={subExpired}   color="red" />
-          <Tile label="Em atraso"  value={subPastDue}   color="yellow" />
-          <Tile label="Renovando em 30 dias" value={renewingSoon} color="yellow" sub="assinaturas ativas" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 items-start">
-          <PieChart
-            title="Status das assinaturas"
-            slices={[
-              { label: "Ativos",     value: subActive,    color: "#10b981" },
-              { label: "Cancelados", value: subCancelled, color: "#f87171" },
-              { label: "Expirados",  value: subExpired,   color: "#94a3b8" },
-              { label: "Em atraso",  value: subPastDue,   color: "#fbbf24" },
-            ]}
-          />
-          <PieChart
-            title="Plano (assinantes ativos)"
-            slices={[
-              { label: "Anual",   value: subAnnual,   color: "#6366f1" },
-              { label: "Mensal",  value: subMonthly,  color: "#f59e0b" },
-            ]}
-          />
+          <Tile label="Usuários" value={totalUsers} sub={`+${newUsersWeek} esta semana`} />
+          <Tile label="Assinantes ativos" value={subActive} color="green" sub={`${subMonthly} mensal · ${subAnnual} anual`} />
+          <Tile label="MRR" value={brl(mrr)} color="green" sub="receita recorrente mensal" />
+          <Tile label="Receita este mês" value={brl(revenueMonth._sum.totalCents)} sub="pedidos pagos" />
         </div>
       </section>
 
       {/* ── Atividade em Tempo Real ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Atividade em Tempo Real</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-          {/* Online agora */}
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Atividade em tempo real</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
           <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 border-l-emerald-400">
             <p className="text-xs text-zinc-400 mb-1">Online agora</p>
             <p className="text-4xl font-bold text-zinc-100">{onlineNow}</p>
-            <p className="text-[11px] text-zinc-400 mt-0.5">usuários · janela de 5 min</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">janela de 5 min</p>
           </div>
-          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4">
-            <p className="text-xs text-zinc-400 mb-1">Ativos — últimas 24h</p>
-            <p className="text-4xl font-bold text-zinc-100">{active24h}</p>
-            <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
-          </div>
-          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4">
-            <p className="text-xs text-zinc-400 mb-1">Ativos — últimos 7 dias</p>
-            <p className="text-4xl font-bold text-zinc-100">{active7d}</p>
-            <p className="text-[11px] text-zinc-400 mt-0.5">usuários únicos logados</p>
-          </div>
-
+          <Tile label="Ativos — 24h" value={active24h} sub="usuários únicos" />
+          <Tile label="Ativos — 7 dias" value={active7d} sub="usuários únicos" />
         </div>
       </section>
 
-      {/* ── Receita ── */}
+      {/* ── Notas Fiscais & Monitoramento ── */}
       <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Receita</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Tile label="Total (all time)"   value={brl(revenueTotal._sum.totalCents)} color="green" sub={`${ordersTotal} vendas confirmadas`} />
-          <Tile label="Últimos 7 dias"    value={brl(revenueWeek._sum.totalCents)} />
-          <Tile label="Este mês"          value={brl(revenueMonth._sum.totalCents)} />
-          <Tile label="Este ano"          value={brl(revenueYear._sum.totalCents)} />
-        </div>
-        <div className="grid grid-cols-2 gap-3 mt-3">
-          <Tile label="Receita via Stripe"       value={brl(revenueStripe._sum.totalCents)} sub="gateway internacional" />
-          <Tile label="Receita via Mercado Pago" value={brl(revenueMp._sum.totalCents)}    sub="gateway nacional" />
-          <Tile label="Receita via Asaas"        value={brl(revenueAsaas._sum.totalCents)} sub="gateway nacional" />
-        </div>
-        <div className="grid grid-cols-2 gap-3 mt-3">
-          <Tile label="Total reembolsado" value={brl(reembolsosAggregate._sum.totalCents)} color="red" sub={`${reembolsosAggregate._count} reembolso${reembolsosAggregate._count !== 1 ? "s" : ""}`} />
-          <Tile label="Ticket médio" value={ordersTotal ? brl(Math.round((revenueTotal._sum.totalCents ?? 0) / ordersTotal)) : "—"} sub="por pedido pago" />
-        </div>
-        <div className="grid grid-cols-2 gap-3 mt-3">
-          <Tile
-            label="Conversão de checkout"
-            value={pct(ordersTotal, ordersTotal + ordersNaoConcluidos)}
-            sub={`${ordersNaoConcluidos} checkout${ordersNaoConcluidos !== 1 ? "s" : ""} abandonado${ordersNaoConcluidos !== 1 ? "s" : ""}`}
-          />
-          <Tile
-            label="Taxa de reembolso"
-            value={pct(reembolsosAggregate._count, ordersTotal)}
-            color={reembolsosAggregate._count > 0 ? "red" : undefined}
-            sub={`${reembolsosAggregate._count} de ${ordersTotal} pedidos pagos`}
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 items-start">
-          <PieChart
-            title="Receita por gateway"
-            slices={[
-              { label: "Stripe",        value: Math.round((revenueStripe._sum.totalCents ?? 0) / 100), color: "#3b82f6" },
-              { label: "Mercado Pago",  value: Math.round((revenueMp._sum.totalCents ?? 0) / 100),    color: "#f97316" },
-              { label: "Asaas",         value: Math.round((revenueAsaas._sum.totalCents ?? 0) / 100), color: "#10b981" },
-            ]}
-          />
-          <div className="md:col-span-2">
-            <BarChart title="Receita mensal — últimos 12 meses (R$)" bars={monthlyBars} />
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Notas fiscais & monitoramento</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+          <Tile label="NF-e autorizadas" value={nfAuthorized} color="green" />
+          <Tile label="NF-e pendentes" value={nfPending} color={nfPending > 0 ? "yellow" : undefined} />
+          <Tile label="NF-e processando" value={nfProcessing} color={nfProcessing > 0 ? "yellow" : undefined} />
+          <Tile label="NF-e com erro" value={nfFailed} color={nfFailed > 0 ? "red" : undefined} />
+          <div className={`bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 ${
+            healthStatus === "ok" ? "border-l-emerald-400" :
+            healthStatus === "error" ? "border-l-red-400" :
+            "border-l-zinc-600"
+          }`}>
+            <p className="text-xs text-zinc-400 mb-1">Health Check</p>
+            <p className={`text-lg font-bold ${
+              healthStatus === "ok" ? "text-emerald-300" :
+              healthStatus === "error" ? "text-red-400" :
+              "text-zinc-400"
+            }`}>
+              {healthStatus === "ok" ? "Tudo OK" : healthStatus === "error" ? "Falhas" : "—"}
+            </p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">{healthDetails || "ebooks e downloads"}</p>
           </div>
         </div>
       </section>
@@ -273,7 +160,7 @@ export default async function AdminPage() {
       {renovandoLista.length > 0 && (
         <section>
           <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">
-            Renovações próximas — próximos 30 dias
+            Renovações próximas — 30 dias
           </h2>
           <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
             <table className="w-full text-sm">
@@ -305,40 +192,14 @@ export default async function AdminPage() {
         </section>
       )}
 
-      {/* ── Notas Fiscais & Monitoramento ── */}
-      <section>
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Notas Fiscais & Monitoramento</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-          <Tile label="NF-e autorizadas" value={nfAuthorized} color="green" />
-          <Tile label="NF-e pendentes" value={nfPending} color={nfPending > 0 ? "yellow" : undefined} />
-          <Tile label="NF-e processando" value={nfProcessing} color={nfProcessing > 0 ? "yellow" : undefined} />
-          <Tile label="NF-e com erro" value={nfFailed} color={nfFailed > 0 ? "red" : undefined} />
-          <div className={`bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 ${
-            healthStatus === "ok" ? "border-l-emerald-400" :
-            healthStatus === "error" ? "border-l-red-400" :
-            "border-l-zinc-600"
-          }`}>
-            <p className="text-xs text-zinc-400 mb-1">Health Check</p>
-            <p className={`text-lg font-bold ${
-              healthStatus === "ok" ? "text-emerald-300" :
-              healthStatus === "error" ? "text-red-400" :
-              "text-zinc-400"
-            }`}>
-              {healthStatus === "ok" ? "Tudo OK" : healthStatus === "error" ? "Falhas" : "—"}
-            </p>
-            <p className="text-[11px] text-zinc-400 mt-0.5">{healthDetails || "ebooks e downloads"}</p>
-          </div>
-        </div>
-      </section>
-
       {/* ── Cancelamentos Recentes ── */}
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">
-          Cancelamentos recentes — últimos 30 dias
+          Cancelamentos recentes — 30 dias
         </h2>
         {cancelamentosRecentes.length === 0 ? (
           <div className="bg-[#161b22] rounded-xl border border-white/10 p-5 text-sm text-zinc-400">
-            Nenhum cancelamento registrado nos últimos 30 dias.
+            Nenhum cancelamento nos últimos 30 dias.
           </div>
         ) : (
           <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
@@ -370,11 +231,9 @@ export default async function AdminPage() {
           </div>
         )}
       </section>
-
     </div>
   );
 }
-
 
 function Tile({
   label,
