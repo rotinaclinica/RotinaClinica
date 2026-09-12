@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { ExportPdfButton } from "./_components/ExportPdfButton";
 import type { PdfReportData } from "./_components/pdf-generator";
-import { EXCLUDED_EMAILS } from "./_lib/excluded-emails";
+import { getExcludedEmails } from "./_lib/excluded-emails";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -22,6 +22,7 @@ export default async function AdminPage() {
   const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   const last30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
+  const EXCLUDED_EMAILS = await getExcludedEmails();
   const notTest = { email: { notIn: EXCLUDED_EMAILS } };
   const notTestSub = { user: notTest };
 

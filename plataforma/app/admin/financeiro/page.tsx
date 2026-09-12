@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { BarChart } from "../BarChart";
 import { ExportPdfButton } from "../_components/ExportPdfButton";
 import type { PdfReportData } from "../_components/pdf-generator";
-import { EXCLUDED_EMAILS } from "../_lib/excluded-emails";
+import { getExcludedEmails } from "../_lib/excluded-emails";
 import { CostForm } from "./cost-form";
 import { DeleteCostButton } from "./delete-button";
 
@@ -34,6 +34,7 @@ export default async function FinanceiroPage() {
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
 
+  const EXCLUDED_EMAILS = await getExcludedEmails();
   const notTest = { email: { notIn: EXCLUDED_EMAILS } };
   const notTestSub = { user: notTest };
   const notTestOrder = { user: notTest };
@@ -250,7 +251,7 @@ export default async function FinanceiroPage() {
           <Tile label="Receita bruta" value={brl(grossMonth)} sub={`${ordersThisMonth.length} venda${ordersThisMonth.length !== 1 ? "s" : ""}`} />
           <Tile label="Taxas gateway" value={brl(feesMonth)} color="red" sub="estimativa" />
           <Tile label="Receita líquida" value={brl(netRevenueMonth)} sub="após taxas e reembolsos" />
-          <Tile label="Custos operacionais" value={brl(totalCostsMonth)} color="red" sub={`${costsThisMonth.length} item${costsThisMonth.length !== 1 ? "ns" : ""}`} />
+          <Tile label="Custos operacionais" value={brl(totalCostsMonth)} color="red" sub={`${costsThisMonth.length} ${costsThisMonth.length !== 1 ? "itens" : "item"}`} />
           <Tile
             label="Lucro líquido"
             value={brl(profitMonth)}
