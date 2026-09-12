@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
 import { BarChart } from "../BarChart";
+import { ExportPdfButton } from "../_components/ExportPdfButton";
 import { CostForm } from "./cost-form";
 import { DeleteCostButton } from "./delete-button";
 
@@ -132,9 +133,12 @@ export default async function FinanceiroPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Financeiro</h1>
-        <p className="text-sm text-zinc-400 mt-1">Receitas, custos e lucro líquido</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-zinc-100">Financeiro</h1>
+          <p className="text-sm text-zinc-400 mt-1">Receitas, custos e lucro líquido</p>
+        </div>
+        <ExportPdfButton label="Relatório PDF" />
       </div>
 
       {/* ── Resumo do Mês ── */}
@@ -245,7 +249,7 @@ export default async function FinanceiroPage() {
       </section>
 
       {/* ── Adicionar Custo ── */}
-      <section>
+      <section className="print:hidden">
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Gerenciar custos</h2>
         <CostForm />
       </section>

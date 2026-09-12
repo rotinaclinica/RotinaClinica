@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { BarChart } from "../BarChart";
 import { PieChart } from "../PieChart";
+import { ExportPdfButton } from "../_components/ExportPdfButton";
 
 export const metadata = { title: "Métricas · Admin" };
 
@@ -203,9 +204,12 @@ export default async function MetricasPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Métricas</h1>
-        <p className="text-sm text-zinc-400 mt-1">Análise estratégica de crescimento e rentabilidade</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-zinc-100">Métricas</h1>
+          <p className="text-sm text-zinc-400 mt-1">Análise estratégica de crescimento e rentabilidade</p>
+        </div>
+        <ExportPdfButton label="Relatório PDF" />
       </div>
 
       {/* ── KPIs Principais ── */}

@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
+import { ExportPdfButton } from "./_components/ExportPdfButton";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -101,9 +102,12 @@ export default async function AdminPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Painel Admin</h1>
-        <p className="text-sm text-zinc-400 mt-1">Visão operacional da plataforma</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-zinc-100">Painel Admin</h1>
+          <p className="text-sm text-zinc-400 mt-1">Visão operacional da plataforma</p>
+        </div>
+        <ExportPdfButton label="Relatório PDF" />
       </div>
 
       {/* ── Resumo Rápido ── */}
