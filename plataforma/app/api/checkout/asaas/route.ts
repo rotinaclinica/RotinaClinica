@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     db.product.findUnique({ where: { id: base.data.productId, active: true } }),
     db.user.findUnique({
       where: { id: session.user.id },
-      select: { cpf: true, name: true, email: true, phone: true },
+      select: { cpf: true, name: true, email: true, phone: true, cep: true },
     }),
   ]);
 
@@ -132,6 +132,7 @@ export async function POST(req: NextRequest) {
       req.headers.get("x-real-ip") ??
       "0.0.0.0";
 
+    const cleanCep = user.cep?.replace(/\D/g, "") || undefined;
     const cardParams = {
       customerId,
       orderId: order.id,
@@ -142,6 +143,7 @@ export async function POST(req: NextRequest) {
         email: session.user.email!,
         cpfCnpj: user.cpf.replace(/\D/g, ""),
         phone: user.phone ?? undefined,
+        postalCode: cleanCep && cleanCep.length === 8 ? cleanCep : undefined,
       },
       remoteIp: ip,
     };
