@@ -226,16 +226,92 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
 
 /** Reprocessa uma nota específica (usado pelo botão do admin). */
 export async function retryInvoice(invoiceId: string): Promise<void> {
+  if (!nfeEnabled()) return;
+
   const inv = await db.invoice.findUnique({ where: { id: invoiceId } });
   if (!inv) return;
-  // Volta para a fila e zera as tentativas.
+
+  // Se já está autorizada, não faz nada
+  if (inv.status === "AUTHORIZED" && inv.numero) return;
+
+  // Reseta para PENDING e limpa erros
   await db.invoice.update({
     where: { id: invoiceId },
-    data: {
-      status: inv.numero ? "AUTHORIZED" : "PENDING",
-      attempts: 0,
-      errorMessage: null,
-    },
+    data: { status: "PENDING", attempts: 0, errorMessage: null, externalId: null },
   });
-  await processInvoiceBatch(1);
+
+  // Recarrega a nota atualizada e processa diretamente (não via batch)
+  const fresh = await db.invoice.findUnique({ where: { id: invoiceId } });
+  if (!fresh) return;
+
+  const provider = getProvider();
+
+  try {
+    const emit = await provider.emitir(buildEmitInput(fresh));
+    const externalRef = emit.externalId ?? null;
+
+    if (emit.status === "error") {
+      await db.invoice.update({
+        where: { id: invoiceId },
+        data: {
+          externalId: externalRef,
+          attempts: 1,
+          errorMessage: (emit.error ?? "Erro ao emitir").slice(0, 500),
+        },
+      });
+      return;
+    }
+
+    await db.invoice.update({
+      where: { id: invoiceId },
+      data: { status: "PROCESSING", externalId: externalRef, attempts: 1 },
+    });
+
+    // Consulta imediata
+    const consulta = await provider.consultar(externalRef ?? fresh.providerRef);
+
+    if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
+      await db.invoice.update({
+        where: { id: invoiceId },
+        data: {
+          status: "AUTHORIZED",
+          numero: consulta.numero,
+          externalId: consulta.externalId ?? externalRef,
+          pdfUrl: consulta.pdfUrl,
+          xmlUrl: consulta.xmlUrl ?? null,
+          errorMessage: null,
+        },
+      });
+
+      if (!fresh.emailSentAt) {
+        await sendNotaFiscal({
+          to: fresh.customerEmail,
+          customerName: fresh.customerName,
+          numero: consulta.numero,
+          pdfUrl: consulta.pdfUrl,
+          amountCents: fresh.amountCents,
+        });
+        await db.invoice.update({
+          where: { id: invoiceId },
+          data: { emailSentAt: new Date() },
+        });
+      }
+    } else if (consulta.status === "error") {
+      await db.invoice.update({
+        where: { id: invoiceId },
+        data: { errorMessage: (consulta.error ?? "Erro na autorização").slice(0, 500) },
+      });
+    } else {
+      await db.invoice.update({
+        where: { id: invoiceId },
+        data: { errorMessage: consulta.error?.slice(0, 500) ?? null },
+      });
+    }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    await db.invoice.update({
+      where: { id: invoiceId },
+      data: { attempts: 1, errorMessage: message.slice(0, 500) },
+    });
+  }
 }
