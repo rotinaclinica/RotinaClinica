@@ -6,9 +6,10 @@ import Navbar from "@/app/components/Navbar";
 const ASSUNTOS = ["Dúvida", "Sugestão", "Reclamação", "Outro"];
 
 export default function ContatoPage() {
-  const [form, setForm] = useState({ nome: "", email: "", assunto: "Dúvida", mensagem: "" });
+  const [form, setForm] = useState({ nome: "", email: "", assunto: "Dúvida", mensagem: "", website: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [erro, setErro] = useState("");
+  const [loadedAt] = useState(() => Date.now());
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
@@ -18,7 +19,7 @@ export default function ContatoPage() {
       const res = await fetch("/api/contato", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _hp: form.website, _t: Date.now() - loadedAt }),
       });
       const data = await res.json();
       if (!res.ok) { setErro(data.error ?? "Erro ao enviar."); setStatus("error"); return; }
@@ -62,7 +63,7 @@ export default function ContatoPage() {
               </div>
               <h2 className="text-xl font-bold text-[#0f2d4a] mb-2">Mensagem enviada!</h2>
               <p className="text-zinc-500 text-sm mb-6">Responderemos em breve no e-mail <strong>{form.email}</strong>.</p>
-              <button onClick={() => { setStatus("idle"); setForm({ nome: "", email: "", assunto: "Dúvida", mensagem: "" }); }}
+              <button onClick={() => { setStatus("idle"); setForm({ nome: "", email: "", assunto: "Dúvida", mensagem: "", website: "" }); }}
                 className="text-sm font-semibold text-[#1a6aad] hover:text-[#0f2d4a] transition-colors">
                 Enviar outra mensagem
               </button>
@@ -87,6 +88,13 @@ export default function ContatoPage() {
                 <select value={form.assunto} onChange={e => setForm(f => ({ ...f, assunto: e.target.value }))} className={inputCls}>
                   {ASSUNTOS.map(a => <option key={a}>{a}</option>)}
                 </select>
+              </div>
+
+              {/* Honeypot anti-bot — invisível para humanos */}
+              <div className="absolute -left-[9999px]" aria-hidden="true" tabIndex={-1}>
+                <label htmlFor="website">Website</label>
+                <input id="website" name="website" type="text" autoComplete="off" tabIndex={-1}
+                  value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} />
               </div>
 
               <div>

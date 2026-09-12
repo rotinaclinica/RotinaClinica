@@ -13,6 +13,17 @@ export async function POST(req: NextRequest) {
   }
 
   const raw = await req.json();
+
+  // Honeypot: se preenchido, é bot — retorna 200 falso para não dar pista
+  if (raw._hp || raw.website) {
+    return NextResponse.json({ ok: true });
+  }
+
+  // Tempo mínimo: formulário preenchido em menos de 3s é bot
+  if (typeof raw._t === "number" && raw._t < 3000) {
+    return NextResponse.json({ ok: true });
+  }
+
   const nome = String(raw.nome ?? "");
   const email = String(raw.email ?? "");
   const assunto = String(raw.assunto ?? "");
