@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/format";
 import { nfeConfig } from "@/lib/nfe/config";
-import { ProcessAllButton, RetryButton } from "./process-button";
+import { ProcessAllButton, RetryButton, ResendEmailButton } from "./process-button";
 
 export const metadata = { title: "Notas fiscais · Admin" };
 
@@ -205,6 +205,7 @@ export default async function AdminNotasPage() {
                   <td className="px-5 py-4 text-zinc-400 text-xs">{fmt(inv.createdAt)}</td>
                   <td className="px-5 py-4">
                     {inv.status !== "AUTHORIZED" && <RetryButton invoiceId={inv.id} />}
+                    {inv.status === "AUTHORIZED" && <ResendEmailButton invoiceId={inv.id} />}
                   </td>
                 </tr>
               );

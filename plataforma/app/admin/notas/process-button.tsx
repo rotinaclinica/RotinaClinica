@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { processarNotasAgora, reprocessarNota } from "./actions";
+import { processarNotasAgora, reprocessarNota, reenviarEmailNota } from "./actions";
 
 export function ProcessAllButton() {
   const [pending, start] = useTransition();
@@ -25,6 +25,19 @@ export function RetryButton({ invoiceId }: { invoiceId: string }) {
       className="px-2.5 py-1 rounded-md text-xs font-semibold border border-white/10 text-zinc-400 hover:border-violet-400 hover:text-violet-400 disabled:opacity-50 transition-colors"
     >
       {pending ? "…" : "Reprocessar"}
+    </button>
+  );
+}
+
+export function ResendEmailButton({ invoiceId }: { invoiceId: string }) {
+  const [pending, start] = useTransition();
+  return (
+    <button
+      onClick={() => start(() => reenviarEmailNota(invoiceId))}
+      disabled={pending}
+      className="px-2.5 py-1 rounded-md text-xs font-semibold border border-white/10 text-zinc-400 hover:border-emerald-400 hover:text-emerald-400 disabled:opacity-50 transition-colors"
+    >
+      {pending ? "…" : "Reenviar email"}
     </button>
   );
 }
