@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { ExportPdfButton } from "./_components/ExportPdfButton";
 import type { PdfReportData } from "./_components/pdf-generator";
+import { EXCLUDED_EMAILS } from "./_lib/excluded-emails";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -21,6 +22,9 @@ export default async function AdminPage() {
   const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   const last30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
+  const notTest = { email: { notIn: EXCLUDED_EMAILS } };
+  const notTestSub = { user: notTest };
+
   const [
     totalUsers,
     newUsersWeek,
@@ -31,19 +35,19 @@ export default async function AdminPage() {
     cancelamentosRecentes,
     renovandoLista,
   ] = await Promise.all([
-    db.user.count(),
-    db.user.count({ where: { createdAt: { gte: last7 } } }),
-    db.subscription.count({ where: { status: "ACTIVE" } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY" } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL" } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth } }, _sum: { totalCents: true } }),
+    db.user.count({ where: notTest }),
+    db.user.count({ where: { ...notTest, createdAt: { gte: last7 } } }),
+    db.subscription.count({ where: { status: "ACTIVE", ...notTestSub } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestSub }, _sum: { totalCents: true } }),
     db.subscription.findMany({
-      where: { status: "CANCELLED", cancelledAt: { gte: last30d } },
+      where: { status: "CANCELLED", cancelledAt: { gte: last30d }, ...notTestSub },
       orderBy: { cancelledAt: "desc" },
       select: { plan: true, cancelledAt: true, user: { select: { name: true, email: true } } },
     }),
     db.subscription.findMany({
-      where: { status: "ACTIVE", currentPeriodEnd: { lte: next30 } },
+      where: { status: "ACTIVE", currentPeriodEnd: { lte: next30 }, ...notTestSub },
       orderBy: { currentPeriodEnd: "asc" },
       select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true } } },
     }),
@@ -54,9 +58,9 @@ export default async function AdminPage() {
   let active7d = 0;
   try {
     [onlineNow, active24h, active7d] = await Promise.all([
-      db.user.count({ where: { lastSeenAt: { gte: fiveMinAgo } } }),
-      db.user.count({ where: { lastSeenAt: { gte: last24h } } }),
-      db.user.count({ where: { lastSeenAt: { gte: last7 } } }),
+      db.user.count({ where: { ...notTest, lastSeenAt: { gte: fiveMinAgo } } }),
+      db.user.count({ where: { ...notTest, lastSeenAt: { gte: last24h } } }),
+      db.user.count({ where: { ...notTest, lastSeenAt: { gte: last7 } } }),
     ]);
   } catch {}
 

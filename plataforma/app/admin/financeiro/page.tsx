@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { BarChart } from "../BarChart";
 import { ExportPdfButton } from "../_components/ExportPdfButton";
 import type { PdfReportData } from "../_components/pdf-generator";
+import { EXCLUDED_EMAILS } from "../_lib/excluded-emails";
 import { CostForm } from "./cost-form";
 import { DeleteCostButton } from "./delete-button";
 
@@ -33,6 +34,39 @@ export default async function FinanceiroPage() {
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
 
+  const notTest = { email: { notIn: EXCLUDED_EMAILS } };
+  const notTestSub = { user: notTest };
+  const notTestOrder = { user: notTest };
+
+  // Auto-replicate recurring costs for current month
+  const existingRecurring = await db.financialCost.count({
+    where: { recurring: true, referenceMonth: startOfMonth },
+  });
+  if (existingRecurring === 0) {
+    const pastRecurring = await db.financialCost.findMany({
+      where: { recurring: true },
+      orderBy: { referenceMonth: "desc" },
+      distinct: ["name"],
+    });
+    for (const cost of pastRecurring) {
+      const exists = await db.financialCost.findFirst({
+        where: { name: cost.name, referenceMonth: startOfMonth },
+      });
+      if (!exists) {
+        await db.financialCost.create({
+          data: {
+            name: cost.name,
+            amountCents: cost.amountCents,
+            recurring: true,
+            category: cost.category,
+            referenceMonth: startOfMonth,
+            note: cost.note,
+          },
+        });
+      }
+    }
+  }
+
   const [
     ordersAllTime,
     ordersThisMonth,
@@ -47,25 +81,25 @@ export default async function FinanceiroPage() {
     subsAnnual,
   ] = await Promise.all([
     db.order.findMany({
-      where: { status: "PAID" },
+      where: { status: "PAID", ...notTestOrder },
       select: { provider: true, paymentMethod: true, totalCents: true, paidAt: true },
     }),
     db.order.findMany({
-      where: { status: "PAID", paidAt: { gte: startOfMonth } },
+      where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestOrder },
       select: { provider: true, paymentMethod: true, totalCents: true },
     }),
     db.order.findMany({
-      where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: startOfMonth } },
+      where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: startOfMonth }, ...notTestOrder },
       select: { provider: true, paymentMethod: true, totalCents: true },
     }),
-    db.order.aggregate({ where: { status: "REFUNDED" }, _sum: { totalCents: true }, _count: true }),
-    db.order.aggregate({ where: { status: "REFUNDED", createdAt: { gte: startOfMonth } }, _sum: { totalCents: true }, _count: true }),
+    db.order.aggregate({ where: { status: "REFUNDED", ...notTestOrder }, _sum: { totalCents: true }, _count: true }),
+    db.order.aggregate({ where: { status: "REFUNDED", createdAt: { gte: startOfMonth }, ...notTestOrder }, _sum: { totalCents: true }, _count: true }),
     db.financialCost.findMany({ where: { referenceMonth: startOfMonth } }),
     db.financialCost.findMany({ where: { referenceMonth: startOfLastMonth } }),
     db.financialCost.findMany({ where: { referenceMonth: { gte: sixMonthsAgo } }, orderBy: { referenceMonth: "asc" } }),
     db.financialCost.findMany({ orderBy: { referenceMonth: "desc" }, take: 30 }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY" } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL" } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
   ]);
 
   // Revenue calculations

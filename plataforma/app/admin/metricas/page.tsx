@@ -5,6 +5,7 @@ import { BarChart } from "../BarChart";
 import { PieChart } from "../PieChart";
 import { ExportPdfButton } from "../_components/ExportPdfButton";
 import type { PdfReportData } from "../_components/pdf-generator";
+import { EXCLUDED_EMAILS } from "../_lib/excluded-emails";
 
 export const metadata = { title: "Métricas · Admin" };
 
@@ -44,7 +45,11 @@ export default async function MetricasPage() {
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
 
-  const userEmails = (await db.user.findMany({ select: { email: true } }))
+  const notTest = { email: { notIn: EXCLUDED_EMAILS } };
+  const notTestSub = { user: notTest };
+  const notTestOrder = { user: notTest };
+
+  const userEmails = (await db.user.findMany({ where: notTest, select: { email: true } }))
     .map((u) => u.email)
     .filter(Boolean) as string[];
 
@@ -81,50 +86,50 @@ export default async function MetricasPage() {
     paidOrders30d,
     paidOrdersMonth,
   ] = await Promise.all([
-    db.user.count(),
-    db.user.count({ where: { createdAt: { gte: startOfMonth } } }),
-    db.user.count({ where: { createdAt: { gte: startOfLastMonth, lt: startOfMonth } } }),
-    db.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
-    db.user.count({ where: { createdAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } } }),
-    db.subscription.count({ where: { status: "ACTIVE" } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY" } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL" } }),
-    db.subscription.count({ where: { status: "CANCELLED", cancelledAt: { gte: thirtyDaysAgo } } }),
-    db.subscription.count({ where: { status: "CANCELLED" } }),
-    db.order.count(),
-    db.order.count({ where: { status: "PAID" } }),
-    db.order.count({ where: { status: { in: ["EXPIRED", "FAILED", "PENDING"] } } }),
-    db.order.aggregate({ where: { status: "PAID" }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth } }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: startOfMonth } }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: thirtyDaysAgo } }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", provider: "STRIPE" }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", provider: "MERCADOPAGO" }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", provider: "ASAAS" }, _sum: { totalCents: true } }),
-    db.order.count({ where: { status: "REFUNDED" } }),
-    db.order.aggregate({ where: { status: "REFUNDED" }, _sum: { totalCents: true } }),
+    db.user.count({ where: notTest }),
+    db.user.count({ where: { ...notTest, createdAt: { gte: startOfMonth } } }),
+    db.user.count({ where: { ...notTest, createdAt: { gte: startOfLastMonth, lt: startOfMonth } } }),
+    db.user.count({ where: { ...notTest, createdAt: { gte: thirtyDaysAgo } } }),
+    db.user.count({ where: { ...notTest, createdAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } } }),
+    db.subscription.count({ where: { status: "ACTIVE", ...notTestSub } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
+    db.subscription.count({ where: { status: "CANCELLED", cancelledAt: { gte: thirtyDaysAgo }, ...notTestSub } }),
+    db.subscription.count({ where: { status: "CANCELLED", ...notTestSub } }),
+    db.order.count({ where: notTestOrder }),
+    db.order.count({ where: { status: "PAID", ...notTestOrder } }),
+    db.order.count({ where: { status: { in: ["EXPIRED", "FAILED", "PENDING"] }, ...notTestOrder } }),
+    db.order.aggregate({ where: { status: "PAID", ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: startOfMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: thirtyDaysAgo }, ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo }, ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", provider: "STRIPE", ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", provider: "MERCADOPAGO", ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", provider: "ASAAS", ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.count({ where: { status: "REFUNDED", ...notTestOrder } }),
+    db.order.aggregate({ where: { status: "REFUNDED", ...notTestOrder }, _sum: { totalCents: true } }),
     db.lead.count(),
     db.lead.count({ where: { email: { in: userEmails } } }),
     db.lead.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
     db.order.findMany({
-      where: { status: "PAID", paidAt: { gte: twelveMonthsAgo } },
+      where: { status: "PAID", paidAt: { gte: twelveMonthsAgo }, ...notTestOrder },
       select: { paidAt: true, totalCents: true },
     }),
     db.user.findMany({
-      where: { createdAt: { gte: twelveMonthsAgo } },
+      where: { ...notTest, createdAt: { gte: twelveMonthsAgo } },
       select: { createdAt: true },
     }),
     db.order.findMany({
-      where: { status: "PAID" },
+      where: { status: "PAID", ...notTestOrder },
       select: { provider: true, paymentMethod: true, totalCents: true },
     }),
     db.order.findMany({
-      where: { status: "PAID", paidAt: { gte: thirtyDaysAgo } },
+      where: { status: "PAID", paidAt: { gte: thirtyDaysAgo }, ...notTestOrder },
       select: { provider: true, paymentMethod: true, totalCents: true },
     }),
     db.order.findMany({
-      where: { status: "PAID", paidAt: { gte: startOfMonth } },
+      where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestOrder },
       select: { provider: true, paymentMethod: true, totalCents: true },
     }),
   ]);
