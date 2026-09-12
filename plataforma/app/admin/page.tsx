@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
 import { ExportPdfButton } from "./_components/ExportPdfButton";
+import type { PdfReportData } from "./_components/pdf-generator";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -100,6 +101,70 @@ export default async function AdminPage() {
 
   const mrr = subMonthly * 3990 + Math.round(subAnnual * 40000 / 12);
 
+  const MONTH_LABELS = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  const reportData: PdfReportData = {
+    title: "Dashboard",
+    subtitle: "Visão operacional da plataforma",
+    date: now.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" }),
+    sections: [
+      {
+        type: "cards",
+        title: "Resumo",
+        cards: [
+          { label: "Usuários", value: String(totalUsers), sub: `+${newUsersWeek} esta semana` },
+          { label: "Assinantes ativos", value: String(subActive), sub: `${subMonthly} mensal · ${subAnnual} anual` },
+          { label: "MRR", value: brl(mrr), sub: "receita recorrente mensal" },
+          { label: "Receita este mês", value: brl(revenueMonth._sum.totalCents), sub: "pedidos pagos" },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Atividade em tempo real",
+        cards: [
+          { label: "Online agora", value: String(onlineNow), sub: "janela de 5 min" },
+          { label: "Ativos — 24h", value: String(active24h), sub: "usuários únicos" },
+          { label: "Ativos — 7 dias", value: String(active7d), sub: "usuários únicos" },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Notas fiscais",
+        cards: [
+          { label: "NF-e autorizadas", value: String(nfAuthorized) },
+          { label: "NF-e pendentes", value: String(nfPending) },
+          { label: "NF-e processando", value: String(nfProcessing) },
+          { label: "NF-e com erro", value: String(nfFailed) },
+        ],
+      },
+      ...(renovandoLista.length > 0 ? [{
+        type: "table" as const,
+        title: "Renovações próximas — 30 dias",
+        table: {
+          headers: ["Usuário", "Email", "Plano", "Vence em"],
+          rows: renovandoLista.map((s) => [
+            s.user.name ?? "—",
+            s.user.email,
+            s.plan === "ANNUAL" ? "Anual" : "Mensal",
+            s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR") : "—",
+          ]),
+        },
+      }] : []),
+      ...(cancelamentosRecentes.length > 0 ? [{
+        type: "table" as const,
+        title: "Cancelamentos recentes — 30 dias",
+        table: {
+          headers: ["Usuário", "Email", "Plano", "Cancelado em"],
+          rows: cancelamentosRecentes.map((s) => [
+            s.user.name ?? "—",
+            s.user.email,
+            s.plan === "ANNUAL" ? "Anual" : "Mensal",
+            s.cancelledAt ? new Date(s.cancelledAt).toLocaleDateString("pt-BR") : "—",
+          ]),
+        },
+      }] : []),
+    ],
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -107,7 +172,7 @@ export default async function AdminPage() {
           <h1 className="text-2xl font-bold text-zinc-100">Painel Admin</h1>
           <p className="text-sm text-zinc-400 mt-1">Visão operacional da plataforma</p>
         </div>
-        <ExportPdfButton label="Relatório PDF" />
+        <ExportPdfButton label="Relatório PDF" reportData={reportData} />
       </div>
 
       {/* ── Resumo Rápido ── */}

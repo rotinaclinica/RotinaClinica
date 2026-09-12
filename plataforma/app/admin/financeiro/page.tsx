@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { db } from "@/lib/db";
 import { BarChart } from "../BarChart";
 import { ExportPdfButton } from "../_components/ExportPdfButton";
+import type { PdfReportData } from "../_components/pdf-generator";
 import { CostForm } from "./cost-form";
 import { DeleteCostButton } from "./delete-button";
 
@@ -42,6 +43,8 @@ export default async function FinanceiroPage() {
     costsLastMonth,
     costsAll,
     recentCosts,
+    subsMonthly,
+    subsAnnual,
   ] = await Promise.all([
     db.order.findMany({
       where: { status: "PAID" },
@@ -61,6 +64,8 @@ export default async function FinanceiroPage() {
     db.financialCost.findMany({ where: { referenceMonth: startOfLastMonth } }),
     db.financialCost.findMany({ where: { referenceMonth: { gte: sixMonthsAgo } }, orderBy: { referenceMonth: "asc" } }),
     db.financialCost.findMany({ orderBy: { referenceMonth: "desc" }, take: 30 }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY" } }),
+    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL" } }),
   ]);
 
   // Revenue calculations
@@ -74,6 +79,12 @@ export default async function FinanceiroPage() {
 
   const grossLastMonth = ordersLastMonth.reduce((s, o) => s + o.totalCents, 0);
   const feesLastMonth = ordersLastMonth.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
+
+  // Subscription revenue
+  const mrrMonthly = subsMonthly * 3990;
+  const mrrAnnual = Math.round(subsAnnual * 40000 / 12);
+  const mrr = mrrMonthly + mrrAnnual;
+  const subsTotal = subsMonthly + subsAnnual;
 
   // Costs
   const totalCostsMonth = costsThisMonth.reduce((s, c) => s + c.amountCents, 0);
@@ -131,6 +142,61 @@ export default async function FinanceiroPage() {
     };
   });
 
+  // Build PDF report data
+  const monthLabel = `${MONTH_LABELS[now.getMonth()]} ${now.getFullYear()}`;
+  const reportData: PdfReportData = {
+    title: "Financeiro",
+    subtitle: "Receitas, custos e lucro líquido",
+    date: now.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" }),
+    sections: [
+      {
+        type: "cards",
+        title: `Resumo — ${monthLabel}`,
+        cards: [
+          { label: "Receita bruta", value: brl(grossMonth), sub: `${ordersThisMonth.length} vendas` },
+          { label: "Taxas gateway", value: brl(feesMonth), sub: "estimativa" },
+          { label: "Receita líquida", value: brl(netRevenueMonth), sub: "após taxas e reembolsos" },
+          { label: "Custos operacionais", value: brl(totalCostsMonth), sub: `${costsThisMonth.length} itens` },
+          { label: "Lucro líquido", value: brl(profitMonth), sub: profitChange ? `${Number(profitChange) >= 0 ? "+" : ""}${profitChange}% vs mês anterior` : "primeiro mês" },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Receita recorrente (MRR)",
+        cards: [
+          { label: "MRR total", value: brl(mrr), sub: `${subsTotal} assinantes ativos` },
+          { label: `Plano Mensal (${subsMonthly})`, value: brl(mrrMonthly), sub: `${subsMonthly} × R$ 39,90/mês` },
+          { label: `Plano Anual (${subsAnnual})`, value: brl(mrrAnnual), sub: `${subsAnnual} × R$ 400/ano (R$ 33,33/mês)` },
+        ],
+      },
+      {
+        type: "kv",
+        title: "DRE simplificado — acumulado",
+        rows: [
+          { label: "Receita bruta", value: brl(grossAllTime), bold: true },
+          { label: "(−) Taxas de gateway", value: brl(-feesAllTime), color: "red" },
+          { label: "(−) Reembolsos", value: brl(-refundsAllTime), color: "red" },
+          { label: "Receita líquida", value: brl(grossAllTime - feesAllTime - refundsAllTime), bold: true },
+          { label: "(−) Custos operacionais", value: brl(-(costsAll.reduce((s, c) => s + c.amountCents, 0))), color: "red" },
+          { label: "Lucro líquido", value: brl(grossAllTime - feesAllTime - refundsAllTime - costsAll.reduce((s, c) => s + c.amountCents, 0)), bold: true, color: (grossAllTime - feesAllTime - refundsAllTime - costsAll.reduce((s, c) => s + c.amountCents, 0)) >= 0 ? "green" : "red" },
+        ],
+      },
+      ...(costsThisMonth.length > 0 ? [{
+        type: "table" as const,
+        title: `Custos — ${monthLabel}`,
+        table: {
+          headers: ["Nome", "Categoria", "Tipo", "Valor"],
+          rows: costsThisMonth.sort((a, b) => b.amountCents - a.amountCents).map((c) => [
+            c.name,
+            CATEGORY_LABELS[c.category] ?? c.category,
+            c.recurring ? "Recorrente" : "Pontual",
+            brl(c.amountCents),
+          ]),
+        },
+      }] : []),
+    ],
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -138,13 +204,13 @@ export default async function FinanceiroPage() {
           <h1 className="text-2xl font-bold text-zinc-100">Financeiro</h1>
           <p className="text-sm text-zinc-400 mt-1">Receitas, custos e lucro líquido</p>
         </div>
-        <ExportPdfButton label="Relatório PDF" />
+        <ExportPdfButton label="Relatório PDF" reportData={reportData} />
       </div>
 
       {/* ── Resumo do Mês ── */}
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">
-          {MONTH_LABELS[now.getMonth()]} {now.getFullYear()}
+          {monthLabel}
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
           <Tile label="Receita bruta" value={brl(grossMonth)} sub={`${ordersThisMonth.length} venda${ordersThisMonth.length !== 1 ? "s" : ""}`} />
@@ -160,11 +226,28 @@ export default async function FinanceiroPage() {
         </div>
       </section>
 
+      {/* ── Receita Recorrente por Plano ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Receita recorrente (MRR)</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+          <Tile label="MRR total" value={brl(mrr)} color="green" sub={`${subsTotal} assinantes ativos`} />
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 border-l-amber-400">
+            <p className="text-xs text-zinc-400 mb-1">Plano Mensal</p>
+            <p className="text-2xl font-bold text-zinc-100">{brl(mrrMonthly)}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">{subsMonthly} assinante{subsMonthly !== 1 ? "s" : ""} × R$ 39,90/mês</p>
+          </div>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 border-l-indigo-400">
+            <p className="text-xs text-zinc-400 mb-1">Plano Anual</p>
+            <p className="text-2xl font-bold text-zinc-100">{brl(mrrAnnual)}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">{subsAnnual} assinante{subsAnnual !== 1 ? "s" : ""} × R$ 400/ano (R$ 33,33/mês)</p>
+          </div>
+        </div>
+      </section>
+
       {/* ── Detalhamento de Custos ── */}
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Custos do mês</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {/* Custos por categoria */}
           <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
             <p className="text-xs text-zinc-400 mb-3">Por categoria</p>
             {categoryMap.size === 0 ? (
@@ -185,7 +268,6 @@ export default async function FinanceiroPage() {
             )}
           </div>
 
-          {/* Lista de custos */}
           <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
             <p className="text-xs text-zinc-400 mb-3">Itens</p>
             {costsThisMonth.length === 0 ? (

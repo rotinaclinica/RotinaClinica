@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { BarChart } from "../BarChart";
 import { PieChart } from "../PieChart";
 import { ExportPdfButton } from "../_components/ExportPdfButton";
+import type { PdfReportData } from "../_components/pdf-generator";
 
 export const metadata = { title: "Métricas · Admin" };
 
@@ -202,6 +203,76 @@ export default async function MetricasPage() {
     return { label: MONTH_LABELS[mo], value, current: yr === now.getFullYear() && mo === now.getMonth() };
   });
 
+  const reportData: PdfReportData = {
+    title: "Métricas",
+    subtitle: "Análise estratégica de crescimento e rentabilidade",
+    date: now.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" }),
+    sections: [
+      {
+        type: "cards",
+        title: "Indicadores-chave",
+        cards: [
+          { label: "MRR", value: brl(mrr), sub: "receita recorrente mensal" },
+          { label: "Assinantes ativos", value: String(subsActive), sub: `${subsMonthly} mensal · ${subsAnnual} anual` },
+          { label: "Churn (30 dias)", value: `${churnRate}%`, sub: `${subsCancelled30d} cancelamentos` },
+          { label: "Ticket médio", value: brl(ticketMedio), sub: "por pedido pago" },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Lucro líquido estimado",
+        cards: [
+          { label: "Receita bruta total", value: brl(grossAll), sub: `${ordersPaid} vendas` },
+          { label: "Taxas gateway", value: brl(totalFeesAll), sub: "estimativa" },
+          { label: "Reembolsos", value: brl(refundAll), sub: `${refundCount} pedidos` },
+          { label: "Receita líquida", value: brl(netAll), sub: `margem ${marginAll}%` },
+          { label: "Líquido este mês", value: brl(netMonth) },
+          { label: "Líquido últimos 30d", value: brl(net30d) },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Funil de conversão",
+        cards: [
+          { label: "Leads capturados", value: String(leadsTotal), sub: `+${leads30d} últimos 30 dias` },
+          { label: "Lead → Cadastro", value: `${leadConversion}%`, sub: `${leadsConverted} converteram` },
+          { label: "Cadastro → Assinante", value: `${conversionRate}%`, sub: `${totalUsers} cadastros` },
+          { label: "Checkout → Pagamento", value: `${checkoutConversion}%`, sub: `${ordersAbandoned} abandonos` },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Crescimento",
+        cards: [
+          { label: "Novos cadastros (30d)", value: String(users30d), sub: userGrowth30 ? `${Number(userGrowth30) >= 0 ? "+" : ""}${userGrowth30}%` : undefined },
+          { label: "Cadastros este mês", value: String(usersThisMonth), sub: usersChange ? `${Number(usersChange) >= 0 ? "+" : ""}${usersChange}%` : undefined },
+          { label: "Receita (30d)", value: brl(rev30), sub: revGrowth30 ? `${Number(revGrowth30) >= 0 ? "+" : ""}${revGrowth30}%` : undefined },
+          { label: "Receita este mês", value: brl(revThisM), sub: revChange ? `${Number(revChange) >= 0 ? "+" : ""}${revChange}%` : undefined },
+        ],
+      },
+      {
+        type: "kv",
+        title: "Receita por gateway",
+        rows: [
+          { label: "Asaas", value: brl(revenueAsaas._sum.totalCents), bold: false },
+          { label: "Stripe", value: brl(revenueStripe._sum.totalCents), bold: false },
+          { label: "Mercado Pago", value: brl(revenueMp._sum.totalCents), bold: false },
+          { label: "Total", value: brl(grossAll), bold: true },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Saúde do negócio",
+        cards: [
+          { label: "Receita total", value: brl(grossAll), sub: `${ordersPaid} vendas` },
+          { label: "Reembolsos", value: brl(refundAll), sub: `${refundCount} pedidos` },
+          { label: "Taxa de reembolso", value: pct(refundCount, ordersPaid), sub: `${refundCount} de ${ordersPaid}` },
+          { label: "LTV estimado", value: brl(ltvEstimado), sub: "lifetime value" },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -209,7 +280,7 @@ export default async function MetricasPage() {
           <h1 className="text-2xl font-bold text-zinc-100">Métricas</h1>
           <p className="text-sm text-zinc-400 mt-1">Análise estratégica de crescimento e rentabilidade</p>
         </div>
-        <ExportPdfButton label="Relatório PDF" />
+        <ExportPdfButton label="Relatório PDF" reportData={reportData} />
       </div>
 
       {/* ── KPIs Principais ── */}
