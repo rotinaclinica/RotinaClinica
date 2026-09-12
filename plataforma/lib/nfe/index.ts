@@ -236,8 +236,9 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
   const provider = getProvider();
 
   try {
-    // Se já tem externalId (nota criada no Asaas mas falhou na autorização),
-    // tenta consultar/re-autorizar em vez de criar nova nota (evita conflito de RPS).
+    // Se já tem externalId, consulta o status no Asaas — se já foi autorizada,
+    // aproveita direto sem criar nova. Para qualquer outro status (processing,
+    // error, canceled), ignora a nota antiga e cria nova com ref única.
     if (inv.externalId) {
       const consulta = await provider.consultar(inv.externalId);
 
@@ -268,20 +269,8 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
         return;
       }
 
-      if (consulta.status === "processing") {
-        await db.invoice.update({
-          where: { id: invoiceId },
-          data: {
-            status: "PROCESSING",
-            attempts: { increment: 1 },
-            errorMessage: consulta.error?.slice(0, 500) ?? null,
-          },
-        });
-        return;
-      }
-
-      // Status é error — a nota no Asaas falhou irrecuperavelmente.
-      // Vai criar uma nova abaixo com ref única.
+      // Qualquer outro status (processing/SYNCHRONIZED, error, canceled):
+      // abandona a nota antiga e cria nova abaixo com ref única.
     }
 
     // Gera ref única para evitar conflito de RPS em reemissões
