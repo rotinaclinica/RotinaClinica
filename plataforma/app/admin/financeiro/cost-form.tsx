@@ -54,10 +54,11 @@ export function CostForm() {
           <label className="block text-xs text-zinc-400 mb-1">Categoria</label>
           <select
             name="category"
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            style={{ backgroundColor: "#161b22", color: "#f4f4f5" }}
+            className="w-full border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
           >
             {CATEGORIES.map((c) => (
-              <option key={c.value} value={c.value}>{c.label}</option>
+              <option key={c.value} value={c.value} style={{ backgroundColor: "#161b22", color: "#f4f4f5" }}>{c.label}</option>
             ))}
           </select>
         </div>

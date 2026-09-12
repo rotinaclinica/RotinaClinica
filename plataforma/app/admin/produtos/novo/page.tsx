@@ -79,8 +79,8 @@ export default function NovoProdutoPage() {
               required
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
             >
-              <option value="COURSE">Curso online</option>
-              <option value="DOWNLOAD">Download digital</option>
+              <option value="COURSE" style={{ backgroundColor: "#161b22", color: "#f4f4f5" }}>Curso online</option>
+              <option value="DOWNLOAD" style={{ backgroundColor: "#161b22", color: "#f4f4f5" }}>Download digital</option>
             </select>
           </div>
           <div>
