@@ -33,6 +33,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-white dark:bg-[#0c1117] text-zinc-900 antialiased">
         <ThemeProvider>{children}</ThemeProvider>
         <Analytics />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-47N3599NCW" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">{`
+          window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+          gtag('js',new Date());gtag('config','G-47N3599NCW');
+        `}</Script>
         <Script id="meta-pixel" strategy="afterInteractive">{`
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
