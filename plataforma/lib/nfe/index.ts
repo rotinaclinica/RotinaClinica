@@ -162,8 +162,13 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
         });
       }
 
-      // 2. Consulta o status atual.
-      const consulta = await provider.consultar(externalRef ?? inv.providerRef);
+      // 2. Consulta o status atual — se ainda processando, espera e tenta de novo.
+      let consulta = await provider.consultar(externalRef ?? inv.providerRef);
+
+      if (consulta.status === "processing") {
+        await new Promise((r) => setTimeout(r, 25_000));
+        consulta = await provider.consultar(externalRef ?? inv.providerRef);
+      }
 
       if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
         await db.invoice.update({
@@ -226,30 +231,12 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
 
 /** Reprocessa uma nota específica (usado pelo botão do admin). */
 export async function retryInvoice(invoiceId: string): Promise<void> {
-  console.log("[retryInvoice] START", { invoiceId, nfeEnabled: nfeEnabled() });
-
-  if (!nfeEnabled()) {
-    console.log("[retryInvoice] ABORTED: NFE not enabled");
-    return;
-  }
+  if (!nfeEnabled()) return;
 
   const inv = await db.invoice.findUnique({ where: { id: invoiceId } });
-  if (!inv) {
-    console.log("[retryInvoice] ABORTED: invoice not found");
-    return;
-  }
+  if (!inv) return;
 
-  console.log("[retryInvoice] invoice found", {
-    status: inv.status,
-    externalId: inv.externalId,
-    providerRef: inv.providerRef,
-    attempts: inv.attempts,
-  });
-
-  if (inv.status === "AUTHORIZED" && inv.numero) {
-    console.log("[retryInvoice] ABORTED: already authorized", inv.numero);
-    return;
-  }
+  if (inv.status === "AUTHORIZED" && inv.numero) return;
 
   const provider = getProvider();
 
@@ -258,9 +245,7 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
     // aproveita direto sem criar nova. Para qualquer outro status (processing,
     // error, canceled), ignora a nota antiga e cria nova com ref única.
     if (inv.externalId) {
-      console.log("[retryInvoice] consulting existing externalId:", inv.externalId);
       const consulta = await provider.consultar(inv.externalId);
-      console.log("[retryInvoice] consulta result:", JSON.stringify(consulta));
 
       if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
         await db.invoice.update({
@@ -293,8 +278,6 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
       // abandona a nota antiga e cria nova abaixo com ref única.
     }
 
-    console.log("[retryInvoice] falling through to create new note");
-
     // Gera ref única para evitar conflito de RPS em reemissões
     const uniqueRef = `${inv.providerRef}_r${Date.now()}`;
 
@@ -310,10 +293,8 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
     const emitInput = buildEmitInput(fresh);
     emitInput.ref = uniqueRef;
 
-    console.log("[retryInvoice] emitting with ref:", uniqueRef);
     const emit = await provider.emitir(emitInput);
     const externalRef = emit.externalId ?? null;
-    console.log("[retryInvoice] emit result:", JSON.stringify(emit));
 
     if (emit.status === "error") {
       await db.invoice.update({
@@ -332,7 +313,12 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
       data: { status: "PROCESSING", externalId: externalRef, attempts: 1 },
     });
 
-    const consulta = await provider.consultar(externalRef ?? uniqueRef);
+    let consulta = await provider.consultar(externalRef ?? uniqueRef);
+
+    if (consulta.status === "processing") {
+      await new Promise((r) => setTimeout(r, 25_000));
+      consulta = await provider.consultar(externalRef ?? uniqueRef);
+    }
 
     if (consulta.status === "authorized" && consulta.pdfUrl && consulta.numero) {
       await db.invoice.update({
@@ -372,7 +358,6 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error("[retryInvoice] CATCH error:", message);
     await db.invoice.update({
       where: { id: invoiceId },
       data: { attempts: { increment: 1 }, errorMessage: message.slice(0, 500) },
