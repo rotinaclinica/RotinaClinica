@@ -386,6 +386,20 @@ model PasswordResetToken {
   @@index([email])
 }
 
+model FinancialCost {
+  id             String   @id @default(cuid())
+  name           String
+  amountCents    Int
+  recurring      Boolean  @default(false)
+  category       String   @default("outros")
+  referenceMonth DateTime
+  note           String?
+  createdAt      DateTime @default(now())
+
+  @@index([referenceMonth])
+  @@index([category])
+}
+
 model ErrorLog {
   id        String   @id @default(cuid())
   route     String

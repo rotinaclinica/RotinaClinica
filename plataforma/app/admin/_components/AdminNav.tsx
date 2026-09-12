@@ -15,6 +15,7 @@ const LINKS = [
   { href: "/admin/embaixadores", label: "Embaixadores" },
   { href: "/admin/produtos", label: "Produtos" },
   { href: "/admin/broadcast", label: "Email" },
+  { href: "/admin/financeiro", label: "Financeiro" },
   { href: "/admin/metricas", label: "Métricas" },
   { href: "/admin/erros", label: "Erros" },
 ];
