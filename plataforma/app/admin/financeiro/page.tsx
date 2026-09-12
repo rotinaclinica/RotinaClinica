@@ -39,21 +39,21 @@ export default async function FinanceiroPage() {
   const notTestSub = { user: notTest };
   const notTestOrder = { user: notTest };
 
-  // Auto-replicate recurring costs for current month
-  const existingRecurring = await db.financialCost.count({
-    where: { recurring: true, referenceMonth: startOfMonth },
+  // Auto-replicate recurring costs for current month (idempotent per name)
+  const existingThisMonth = await db.financialCost.findMany({
+    where: { referenceMonth: startOfMonth },
+    select: { name: true },
   });
-  if (existingRecurring === 0) {
+  const existingNames = new Set(existingThisMonth.map((c) => c.name));
+
+  if (existingNames.size === 0 || !(await db.financialCost.count({ where: { recurring: true, referenceMonth: startOfMonth } }))) {
     const pastRecurring = await db.financialCost.findMany({
-      where: { recurring: true },
+      where: { recurring: true, referenceMonth: { lt: startOfMonth } },
       orderBy: { referenceMonth: "desc" },
       distinct: ["name"],
     });
     for (const cost of pastRecurring) {
-      const exists = await db.financialCost.findFirst({
-        where: { name: cost.name, referenceMonth: startOfMonth },
-      });
-      if (!exists) {
+      if (!existingNames.has(cost.name)) {
         await db.financialCost.create({
           data: {
             name: cost.name,
@@ -64,6 +64,7 @@ export default async function FinanceiroPage() {
             note: cost.note,
           },
         });
+        existingNames.add(cost.name);
       }
     }
   }
@@ -78,8 +79,7 @@ export default async function FinanceiroPage() {
     costsLastMonth,
     costsAll,
     recentCosts,
-    subsMonthly,
-    subsAnnual,
+    activeSubsRaw,
   ] = await Promise.all([
     db.order.findMany({
       where: { status: "PAID", ...notTestOrder },
@@ -99,8 +99,22 @@ export default async function FinanceiroPage() {
     db.financialCost.findMany({ where: { referenceMonth: startOfLastMonth } }),
     db.financialCost.findMany({ where: { referenceMonth: { gte: sixMonthsAgo } }, orderBy: { referenceMonth: "asc" } }),
     db.financialCost.findMany({ orderBy: { referenceMonth: "desc" }, take: 30 }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
+    db.subscription.findMany({
+      where: { status: "ACTIVE", ...notTestSub },
+      select: {
+        plan: true,
+        user: {
+          select: {
+            orders: {
+              where: { status: "PAID" },
+              orderBy: { paidAt: "desc" },
+              take: 1,
+              select: { paymentMethod: true },
+            },
+          },
+        },
+      },
+    }),
   ]);
 
   // Revenue calculations
@@ -115,11 +129,32 @@ export default async function FinanceiroPage() {
   const grossLastMonth = ordersLastMonth.reduce((s, o) => s + o.totalCents, 0);
   const feesLastMonth = ordersLastMonth.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
 
-  // Subscription revenue
+  // Subscription breakdown by plan + payment method
+  const activeSubs = activeSubsRaw.map((s) => {
+    const lastOrder = s.user.orders[0];
+    const method = (lastOrder?.paymentMethod ?? "").toLowerCase();
+    const isPix = method.includes("pix");
+    return { plan: s.plan, isPix };
+  });
+
+  const subsMonthly = activeSubs.filter((s) => s.plan === "MONTHLY").length;
+  const subsAnnual = activeSubs.filter((s) => s.plan === "ANNUAL").length;
+  const subsTotal = subsMonthly + subsAnnual;
+
+  const subsCartao = activeSubs.filter((s) => !s.isPix).length;
+  const subsPix = activeSubs.filter((s) => s.isPix).length;
+  const subsCartaoMonthly = activeSubs.filter((s) => s.plan === "MONTHLY" && !s.isPix).length;
+  const subsPixMonthly = activeSubs.filter((s) => s.plan === "MONTHLY" && s.isPix).length;
+  const subsCartaoAnnual = activeSubs.filter((s) => s.plan === "ANNUAL" && !s.isPix).length;
+  const subsPixAnnual = activeSubs.filter((s) => s.plan === "ANNUAL" && s.isPix).length;
+
+  // MRR calculations
   const mrrMonthly = subsMonthly * 3990;
   const mrrAnnual = Math.round(subsAnnual * 40000 / 12);
   const mrr = mrrMonthly + mrrAnnual;
-  const subsTotal = subsMonthly + subsAnnual;
+
+  const mrrCartao = subsCartaoMonthly * 3990 + Math.round(subsCartaoAnnual * 40000 / 12);
+  const mrrPix = subsPixMonthly * 3990 + Math.round(subsPixAnnual * 40000 / 12);
 
   // Costs
   const totalCostsMonth = costsThisMonth.reduce((s, c) => s + c.amountCents, 0);
@@ -202,6 +237,8 @@ export default async function FinanceiroPage() {
           { label: "MRR total", value: brl(mrr), sub: `${subsTotal} assinantes ativos` },
           { label: `Plano Mensal (${subsMonthly})`, value: brl(mrrMonthly), sub: `${subsMonthly} × R$ 39,90/mês` },
           { label: `Plano Anual (${subsAnnual})`, value: brl(mrrAnnual), sub: `${subsAnnual} × R$ 400/ano (R$ 33,33/mês)` },
+          { label: `Cartão — recorrente (${subsCartao})`, value: brl(mrrCartao), sub: `${subsCartaoMonthly} mensal · ${subsCartaoAnnual} anual` },
+          { label: `Pix — manual (${subsPix})`, value: brl(mrrPix), sub: `${subsPixMonthly} mensal · ${subsPixAnnual} anual` },
         ],
       },
       {
@@ -275,6 +312,27 @@ export default async function FinanceiroPage() {
             <p className="text-xs text-zinc-400 mb-1">Plano Anual</p>
             <p className="text-2xl font-bold text-zinc-100">{brl(mrrAnnual)}</p>
             <p className="text-[11px] text-zinc-400 mt-0.5">{subsAnnual} assinante{subsAnnual !== 1 ? "s" : ""} × R$ 400/ano (R$ 33,33/mês)</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 border-l-emerald-400">
+            <p className="text-xs text-zinc-400 mb-1">Cartão de crédito <span className="text-emerald-400">(recorrente automático)</span></p>
+            <p className="text-2xl font-bold text-zinc-100">{brl(mrrCartao)}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">
+              {subsCartao} assinante{subsCartao !== 1 ? "s" : ""}
+              {subsCartaoMonthly > 0 && ` · ${subsCartaoMonthly} mensal`}
+              {subsCartaoAnnual > 0 && ` · ${subsCartaoAnnual} anual`}
+            </p>
+          </div>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 p-4 border-l-4 border-l-yellow-400">
+            <p className="text-xs text-zinc-400 mb-1">Pix <span className="text-yellow-400">(renovação manual)</span></p>
+            <p className="text-2xl font-bold text-zinc-100">{brl(mrrPix)}</p>
+            <p className="text-[11px] text-zinc-400 mt-0.5">
+              {subsPix} assinante{subsPix !== 1 ? "s" : ""}
+              {subsPixMonthly > 0 && ` · ${subsPixMonthly} mensal`}
+              {subsPixAnnual > 0 && ` · ${subsPixAnnual} anual`}
+            </p>
           </div>
         </div>
       </section>
