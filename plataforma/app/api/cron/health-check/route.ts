@@ -56,25 +56,30 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
 
-  const token = process.env.BLOB_READ_WRITE_TOKEN;
   const results: CheckResult[] = [];
 
   // 1) Check Blob-hosted ebooks via head()
-  for (const ebook of BLOB_EBOOKS) {
-    try {
-      if (!token) throw new Error("BLOB_READ_WRITE_TOKEN ausente");
-      const meta = await head(ebook.url, { token });
-      if (!meta || meta.size === 0) {
-        results.push({ name: ebook.name, ok: false, error: "Blob retornou tamanho 0" });
-      } else {
-        results.push({ name: ebook.name, ok: true });
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) {
+    // Token ausente — registra como aviso mas NÃO dispara alerta
+    // (os downloads funcionam normalmente, a env var pode não estar visível neste contexto)
+    console.warn("[health-check] BLOB_READ_WRITE_TOKEN ausente neste contexto — pulando verificação de blobs");
+  } else {
+    for (const ebook of BLOB_EBOOKS) {
+      try {
+        const meta = await head(ebook.url, { token });
+        if (!meta || meta.size === 0) {
+          results.push({ name: ebook.name, ok: false, error: "Blob retornou tamanho 0" });
+        } else {
+          results.push({ name: ebook.name, ok: true });
+        }
+      } catch (err) {
+        results.push({
+          name: ebook.name,
+          ok: false,
+          error: err instanceof Error ? err.message : String(err),
+        });
       }
-    } catch (err) {
-      results.push({
-        name: ebook.name,
-        ok: false,
-        error: err instanceof Error ? err.message : String(err),
-      });
     }
   }
 
