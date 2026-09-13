@@ -1,9 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import { auth } from "@/lib/auth";
+import { canAccessPaidContent } from "@/lib/subscription";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Cursos · Rotina Clínica" };
 
-const CURSOS = [
+const ALL_CURSOS = [
   {
     slug: "destravando",
     titulo: "Destravando o Plantão",
@@ -14,6 +17,7 @@ const CURSOS = [
     imagemBg: "",
     thumbW: 120,
     thumbH: 120,
+    subscriberOnly: false,
   },
   {
     slug: "docstage",
@@ -25,6 +29,7 @@ const CURSOS = [
     imagemBg: "bg-white",
     thumbW: 120,
     thumbH: 120,
+    subscriberOnly: true,
   },
   {
     slug: "airtraq",
@@ -36,10 +41,16 @@ const CURSOS = [
     imagemBg: "bg-[#0f2d4a]",
     thumbW: 107,
     thumbH: 120,
+    subscriberOnly: true,
   },
 ];
 
-export default function CursosPage() {
+export default async function CursosPage() {
+  const session = await auth();
+  const isSubscriber = session?.user?.id ? await canAccessPaidContent(session.user.id) : false;
+
+  const cursos = isSubscriber ? ALL_CURSOS : ALL_CURSOS.filter((c) => !c.subscriberOnly);
+
   return (
     <div className="flex-1 flex flex-col">
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
@@ -62,7 +73,7 @@ export default function CursosPage() {
 
       <main className="flex-1 p-6 sm:p-8">
         <div className="max-w-4xl flex flex-col gap-4">
-          {CURSOS.map((curso) => (
+          {cursos.map((curso) => (
             <Link
               key={curso.slug}
               href={`/dashboard/cursos/${curso.slug}`}
@@ -74,7 +85,7 @@ export default function CursosPage() {
                 style={{ width: curso.thumbW, height: curso.thumbH }}
               >
                 {curso.imagem && (
-                  <Image src={curso.imagem} alt={curso.titulo} fill sizes="240px" className={`${curso.imagemFit === "contain" ? "object-contain" : "object-cover"}`} style={(curso as { imagemObjPos?: string }).imagemObjPos ? { objectPosition: (curso as { imagemObjPos?: string }).imagemObjPos } : undefined} />
+                  <Image src={curso.imagem} alt={curso.titulo} fill sizes="240px" className={`${curso.imagemFit === "contain" ? "object-contain" : "object-cover"}`} />
                 )}
               </div>
 
