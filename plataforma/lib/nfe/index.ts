@@ -19,6 +19,11 @@ import type { NfeEmitInput, NfeProvider } from "./types";
 
 const MAX_ATTEMPTS = 8;
 
+// Trava em memória para evitar execuções concorrentes do batch (cron + admin).
+// Em ambiente serverless cada instância tem seu próprio lock, mas o Vercel
+// roteia requests concorrentes para a mesma instância quando possível.
+let batchRunning = false;
+
 function getProvider(): NfeProvider {
   switch (nfeConfig.provider) {
     case "focusnfe":
@@ -121,6 +126,9 @@ export interface InvoiceBatchResult {
  */
 export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResult> {
   if (!nfeEnabled()) return { skipped: true, processed: 0, authorized: 0, emailed: 0, failed: 0, stillProcessing: 0 };
+  if (batchRunning) return { skipped: true, processed: 0, authorized: 0, emailed: 0, failed: 0, stillProcessing: 0 };
+  batchRunning = true;
+  try {
 
   const provider = getProvider();
   const pendentes = await db.invoice.findMany({
@@ -240,6 +248,9 @@ export async function processInvoiceBatch(limit = 20): Promise<InvoiceBatchResul
   }
 
   return result;
+  } finally {
+    batchRunning = false;
+  }
 }
 
 /** Reprocessa uma nota específica (usado pelo botão do admin). */
@@ -248,15 +259,13 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
 
   const inv = await db.invoice.findUnique({ where: { id: invoiceId } });
   if (!inv) return;
-
   if (inv.status === "AUTHORIZED" && inv.numero) return;
 
   const provider = getProvider();
 
   try {
-    // Se já tem externalId, consulta o status no Asaas — se já foi autorizada,
-    // aproveita direto sem criar nova. Para qualquer outro status (processing,
-    // error, canceled), ignora a nota antiga e cria nova com ref única.
+    // Se já tem externalId, consulta primeiro — pode já estar autorizada
+    // ou ainda processando. Só cria nova nota se a existente falhou/cancelou.
     if (inv.externalId) {
       const consulta = await provider.consultar(inv.externalId);
 
@@ -287,22 +296,27 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
         return;
       }
 
-      // Qualquer outro status (processing/SYNCHRONIZED, error, canceled):
-      // abandona a nota antiga e cria nova abaixo com ref única.
+      if (consulta.status === "processing") {
+        await db.invoice.update({
+          where: { id: invoiceId },
+          data: { status: "PROCESSING", errorMessage: "Aguardando prefeitura" },
+        });
+        return;
+      }
+
+      // Status "error" no Asaas: nota rejeitada/cancelada — pode criar nova.
     }
 
-    // Gera ref única para evitar conflito de RPS em reemissões
-    const uniqueRef = `${inv.providerRef}_r${Date.now()}`;
-
-    // Reseta para reemissão
+    // Trava a nota como PROCESSING para o cron não pegá-la ao mesmo tempo.
     await db.invoice.update({
       where: { id: invoiceId },
-      data: { status: "PENDING", attempts: 0, errorMessage: null, externalId: null },
+      data: { status: "PROCESSING", errorMessage: null, externalId: null },
     });
 
     const fresh = await db.invoice.findUnique({ where: { id: invoiceId } });
     if (!fresh) return;
 
+    const uniqueRef = `${inv.providerRef}_r${Date.now()}`;
     const emitInput = buildEmitInput(fresh);
     emitInput.ref = uniqueRef;
 
@@ -313,8 +327,9 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
       await db.invoice.update({
         where: { id: invoiceId },
         data: {
+          status: "FAILED",
           externalId: externalRef,
-          attempts: 1,
+          attempts: { increment: 1 },
           errorMessage: (emit.error ?? "Erro ao emitir").slice(0, 500),
         },
       });
@@ -323,7 +338,7 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
 
     await db.invoice.update({
       where: { id: invoiceId },
-      data: { status: "PROCESSING", externalId: externalRef, attempts: 1 },
+      data: { status: "PROCESSING", externalId: externalRef, attempts: { increment: 1 } },
     });
 
     let consulta = await provider.consultar(externalRef ?? uniqueRef);
@@ -361,7 +376,10 @@ export async function retryInvoice(invoiceId: string): Promise<void> {
     } else if (consulta.status === "error") {
       await db.invoice.update({
         where: { id: invoiceId },
-        data: { errorMessage: (consulta.error ?? "Erro na autorização").slice(0, 500) },
+        data: {
+          status: "FAILED",
+          errorMessage: (consulta.error ?? "Erro na autorização").slice(0, 500),
+        },
       });
     } else {
       await db.invoice.update({

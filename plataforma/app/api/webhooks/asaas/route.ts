@@ -22,8 +22,10 @@ export async function POST(req: NextRequest) {
 
   if (!paymentId) return NextResponse.json({ ok: true });
 
-  // Idempotência
-  const eventKey = `asaas_${event}_${paymentId}`;
+  // Idempotência: usa paymentId (sem evento) para que PAYMENT_RECEIVED e
+  // PAYMENT_CONFIRMED não processem o mesmo pagamento duas vezes.
+  const isPayment = event === "PAYMENT_RECEIVED" || event === "PAYMENT_CONFIRMED";
+  const eventKey = isPayment ? `asaas_paid_${paymentId}` : `asaas_${event}_${paymentId}`;
   const existing = await db.webhookEvent.findUnique({ where: { externalId: eventKey } });
   if (existing) return NextResponse.json({ ok: true });
 
