@@ -62,7 +62,7 @@ const sections = [
   {
     href: "/dashboard/quiz",
     label: "Desafio Clínico Diário",
-    description: "5 perguntas novas todo dia. Teste seu conhecimento e mantenha sua sequência!",
+    description: "3 perguntas novas todo dia. Teste seu conhecimento e mantenha sua sequência!",
     badge: "Novo",
     color: "from-[#d97706] to-[#f59e0b]",
     icon: "M13 10V3L4 14h7v7l9-11h-7z",

@@ -119,7 +119,7 @@ export default async function QuizPage() {
               Desafio Clínico Diário
             </h1>
             <p className="text-sm text-[#0f2d4a]/60 dark:text-[#6a8fa5] mt-0.5">
-              5 perguntas novas todo dia. Teste seu conhecimento!
+              3 perguntas novas todo dia. Teste seu conhecimento!
             </p>
           </div>
         </div>

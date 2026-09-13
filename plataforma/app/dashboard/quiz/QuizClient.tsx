@@ -27,21 +27,19 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
       <div className="max-w-2xl mx-auto">
         <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6 sm:p-8 text-center mb-6">
           <div className="text-5xl mb-3">
-            {finalScore === 5 ? "🏆" : finalScore >= 3 ? "💪" : "📚"}
+            {finalScore === 3 ? "🏆" : finalScore >= 2 ? "💪" : "📚"}
           </div>
           <h2 className="text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-2">
-            {finalScore === 5
+            {finalScore === 3
               ? "Perfeito!"
-              : finalScore >= 4
-                ? "Excelente!"
-                : finalScore >= 3
-                  ? "Muito bem!"
-                  : finalScore >= 2
-                    ? "Bom começo!"
-                    : "Continue estudando!"}
+              : finalScore >= 2
+                ? "Muito bem!"
+                : finalScore >= 1
+                  ? "Bom começo!"
+                  : "Continue estudando!"}
           </h2>
           <p className="text-lg text-[#0f2d4a] dark:text-[#6a8fa5]">
-            Você acertou <span className="font-bold text-[#1a6aad] dark:text-[#3db8d4]">{finalScore}</span> de 5 perguntas
+            Você acertou <span className="font-bold text-[#1a6aad] dark:text-[#3db8d4]">{finalScore}</span> de 3 perguntas
           </p>
           <p className="text-sm text-[#0f2d4a]/50 dark:text-[#6a8fa5] mt-2">
             Volte amanhã para manter sua sequência!
