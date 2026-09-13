@@ -43,6 +43,11 @@ const navItems = [
     icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
   },
   {
+    href: "/dashboard/quiz",
+    label: "Desafio Clínico",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+  },
+  {
     href: "/dashboard/cid",
     label: "CID-10",
     icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
@@ -76,7 +81,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
   }
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#080e1a] flex-shrink-0">
+    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#080e1a] flex-shrink-0 relative z-10 shadow-[2px_0_8px_rgba(0,0,0,0.3)]">
       {/* Logo + toggle */}
       <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between gap-2">
         <Link href="/" className="flex-shrink-0 min-w-0"><Logo variant="light" /></Link>
