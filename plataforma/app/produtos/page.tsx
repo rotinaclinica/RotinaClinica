@@ -16,6 +16,7 @@ const PAID_PRODUCTS = [
     image: "/images/ebook-manual.png",
     tag: "E-book",
     price: "R$ 97",
+    href: "/checkout/ebook/manual-prescricoes",
     hotmart: "https://pay.hotmart.com/X103386000T?off=93hk0q5o&checkoutMode=10",
   },
   {
@@ -24,6 +25,7 @@ const PAID_PRODUCTS = [
     image: "/images/ebook-iot.png",
     tag: "E-book",
     price: "R$ 47",
+    href: "/checkout/ebook/sedacao-iot-vm",
     hotmart: "https://pay.hotmart.com/F93057611I?off=fpgutvut&checkoutMode=10",
   },
   {
@@ -32,6 +34,7 @@ const PAID_PRODUCTS = [
     image: "/images/curso-plantao.png",
     tag: "Curso Online",
     price: "R$ 397",
+    href: null,
     hotmart: "https://pay.hotmart.com/T106092708E?checkoutMode=10",
   },
 ];
@@ -115,11 +118,8 @@ export default function ProdutosPage() {
         <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-8">O que produzimos</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {PAID_PRODUCTS.map((p) => (
-            <a
+            <div
               key={p.title}
-              href={p.hotmart}
-              target="_blank"
-              rel="noopener noreferrer"
               className="group bg-white rounded-2xl overflow-hidden border border-zinc-200 hover:shadow-xl hover:border-[#3db8d4] transition-all flex flex-col"
             >
               <div className="relative bg-white flex items-center justify-center h-60 overflow-hidden border-b border-zinc-100">
@@ -137,14 +137,40 @@ export default function ProdutosPage() {
                   {p.title}
                 </h3>
                 <p className="text-[#334e68] text-sm flex-1 mb-4">{p.description}</p>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-3">
                   <span className="text-2xl font-extrabold text-[#0f2d4a]">{p.price}</span>
-                  <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
-                    Comprar →
-                  </span>
+                </div>
+                <div className="flex flex-col gap-2">
+                  {p.href ? (
+                    <>
+                      <Link
+                        href={p.href}
+                        className="w-full text-center bg-[#0f2d4a] hover:bg-[#1a4a6e] text-white font-semibold text-sm py-2.5 rounded-xl transition-colors"
+                      >
+                        Comprar →
+                      </Link>
+                      <a
+                        href={p.hotmart}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full text-center text-xs text-[#6a8fa5] hover:text-[#0f2d4a] transition-colors underline underline-offset-2"
+                      >
+                        Ou comprar via Hotmart
+                      </a>
+                    </>
+                  ) : (
+                    <a
+                      href={p.hotmart}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full text-center bg-[#0f2d4a] hover:bg-[#1a4a6e] text-white font-semibold text-sm py-2.5 rounded-xl transition-colors"
+                    >
+                      Comprar →
+                    </a>
+                  )}
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
 

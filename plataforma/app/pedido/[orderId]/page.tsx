@@ -119,9 +119,27 @@ export default async function OrderPage({
             </div>
 
             <div className="flex flex-col gap-3">
+              {isPaid && order.items.some((item) => item.product.type === "DOWNLOAD") && (
+                <div className="flex flex-col gap-2">
+                  {order.items.filter((item) => item.product.type === "DOWNLOAD").map((item) => (
+                    <a
+                      key={item.id}
+                      href={`/api/downloads/${item.product.id}`}
+                      className="flex items-center justify-center gap-2 bg-[#0f2d4a] text-white py-3 rounded-xl font-semibold hover:bg-[#1a4a6e] transition-colors"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                      </svg>
+                      Baixar {item.product.title}
+                    </a>
+                  ))}
+                </div>
+              )}
               {isPaid && (
                 <Link href="/dashboard"
-                  className="bg-[#3db8d4] text-white py-3 rounded-xl font-semibold hover:bg-[#2da8c4] transition-colors">
+                  className="bg-[#3db8d4] text-white py-3 rounded-xl font-semibold hover:bg-[#2da8c4] transition-colors text-center">
                   Acessar a plataforma →
                 </Link>
               )}
@@ -129,6 +147,11 @@ export default async function OrderPage({
                 <Link href={`/pedido/${orderId}`}
                   className="border border-[#dde6ef] dark:border-white/10 text-[#6a8fa5] dark:text-[#8fa8bd] py-3 rounded-xl text-sm hover:bg-[#f0f4f8] dark:hover:bg-white/5 transition-colors block">
                   Recarregar página
+                </Link>
+              )}
+              {isPaid && order.items.some((item) => item.product.type === "DOWNLOAD") && (
+                <Link href="/dashboard/meus-ebooks" className="text-sm text-[#3db8d4] hover:underline">
+                  Ver em Meus Ebooks →
                 </Link>
               )}
               <Link href="/" className="text-sm text-[#6a8fa5] dark:text-[#8fa8bd] hover:underline">Voltar para o início</Link>
