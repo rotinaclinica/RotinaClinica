@@ -57,3 +57,22 @@ export async function revokeUserSubscription(userId: string) {
   revalidatePath(`/admin/usuarios/${userId}`);
   revalidatePath("/admin/usuarios");
 }
+
+export async function toggleCourtesy(_prev: unknown, formData: FormData) {
+  await requireAdmin();
+  const userId = formData.get("userId") as string;
+  const value = formData.get("value") === "true";
+
+  const user = await db.user.findUnique({ where: { id: userId } });
+  if (!user) return { error: "Usuário não encontrado." };
+
+  await db.user.update({
+    where: { id: userId },
+    data: { isCourtesy: value },
+  });
+
+  revalidatePath(`/admin/usuarios/${userId}`);
+  revalidatePath("/admin/usuarios");
+  revalidatePath("/admin/financeiro");
+  return { success: true };
+}

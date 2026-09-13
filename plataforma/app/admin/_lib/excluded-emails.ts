@@ -9,10 +9,10 @@ const ADMIN_TEST_EMAILS = [
 ];
 
 export async function getExcludedEmails(): Promise<string[]> {
-  const ambassadors = await db.user.findMany({
-    where: { isAmbassador: true },
+  const excluded = await db.user.findMany({
+    where: { OR: [{ isAmbassador: true }, { isCourtesy: true }] },
     select: { email: true },
   });
-  const ambassadorEmails = ambassadors.map((a) => a.email).filter(Boolean) as string[];
-  return [...new Set([...ADMIN_TEST_EMAILS, ...ambassadorEmails])];
+  const excludedEmails = excluded.map((a) => a.email).filter(Boolean) as string[];
+  return [...new Set([...ADMIN_TEST_EMAILS, ...excludedEmails])];
 }

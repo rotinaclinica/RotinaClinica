@@ -22,6 +22,7 @@ model User {
   cep                  String?
   phone                String?
   isAmbassador         Boolean        @default(false)
+  isCourtesy           Boolean        @default(false)
   ambassadorCode       String?        @unique
   orders               Order[]
   enrollments          Enrollment[]
@@ -32,6 +33,7 @@ model User {
   referralsGiven       Referral[]     @relation("AmbassadorReferrals")
   referralReceived     Referral?      @relation("ReferredUser")
   notes                Note[]
+  quizAttempts         QuizAttempt[]
 }
 
 model EmailDrip {
@@ -372,6 +374,19 @@ model Note {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([userId])
+}
+
+model QuizAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizDate    DateTime // date-only (start of day UTC)
+  score       Int      // correct answers out of 5
+  answers     String   @db.Text // JSON: [{questionId, chosen, correct}]
+  completedAt DateTime @default(now())
+
+  @@unique([userId, quizDate])
   @@index([userId])
 }
 

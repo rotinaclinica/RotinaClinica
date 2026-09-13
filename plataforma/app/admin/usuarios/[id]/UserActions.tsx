@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { grantAccessToUser, revokeUserSubscription } from "./actions";
+import { grantAccessToUser, revokeUserSubscription, toggleCourtesy } from "./actions";
 
 const STATUS_COLORS: Record<string, string> = {
   ACTIVE:    "bg-emerald-500/20 text-emerald-300",
@@ -21,11 +21,51 @@ type Sub = {
   currentPeriodEnd: Date | null;
 } | null;
 
-export function UserActions({ userId, sub }: { userId: string; sub: Sub }) {
+export function UserActions({ userId, sub, isCourtesy }: { userId: string; sub: Sub; isCourtesy: boolean }) {
   const [grantState, grantAction, grantPending] = useActionState(grantAccessToUser, null);
+  const [courtesyState, courtesyAction, courtesyPending] = useActionState(toggleCourtesy, null);
 
   return (
     <div className="space-y-6">
+      {/* Cortesia */}
+      <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wide">Cortesia</h2>
+            <p className="text-xs text-zinc-400 mt-1">
+              Usuários cortesia não entram na contabilidade financeira (MRR, DRE, relatórios).
+            </p>
+          </div>
+          <form action={courtesyAction}>
+            <input type="hidden" name="userId" value={userId} />
+            <input type="hidden" name="value" value={isCourtesy ? "false" : "true"} />
+            <button
+              type="submit"
+              disabled={courtesyPending}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                isCourtesy ? "bg-amber-500" : "bg-white/10"
+              } ${courtesyPending ? "opacity-60" : ""}`}
+            >
+              <span
+                className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${
+                  isCourtesy ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </form>
+        </div>
+        {isCourtesy && (
+          <div className="mt-3 bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2 text-xs text-amber-300 font-medium">
+            Este usuário está marcado como cortesia — não conta no financeiro.
+          </div>
+        )}
+        {courtesyState?.error && (
+          <div className="mt-3 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg px-3 py-2 text-xs">
+            {courtesyState.error}
+          </div>
+        )}
+      </div>
+
       {/* Status atual */}
       <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">
         <h2 className="text-sm font-bold text-zinc-400 uppercase tracking-wide mb-3">Assinatura atual</h2>

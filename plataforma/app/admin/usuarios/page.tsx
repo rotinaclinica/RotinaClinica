@@ -49,7 +49,7 @@ export default async function AdminUsuariosPage({
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
       select: {
-        id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true,
+        id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true, isCourtesy: true,
         subscription: { select: { plan: true, status: true, currentPeriodStart: true, currentPeriodEnd: true } },
         orders: {
           where: { status: "PAID" },
@@ -142,13 +142,20 @@ export default async function AdminUsuariosPage({
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    {status ? (
-                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase ${status.cls}`}>
-                        {status.label}
-                      </span>
-                    ) : (
-                      <span className="text-zinc-300 text-xs">Sem assinatura</span>
-                    )}
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {status ? (
+                        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase ${status.cls}`}>
+                          {status.label}
+                        </span>
+                      ) : (
+                        <span className="text-zinc-300 text-xs">Sem assinatura</span>
+                      )}
+                      {u.isCourtesy && (
+                        <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300">
+                          Cortesia
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-zinc-400 text-xs">
                     {firstOrder ? (
