@@ -13,6 +13,7 @@ export async function grantSubscriptionAccess(_prev: unknown, formData: FormData
   await requireAdmin();
   const email  = (formData.get("email") as string).trim().toLowerCase();
   const plan   = formData.get("plan") as "MONTHLY" | "ANNUAL";
+  const courtesy = formData.get("courtesy") === "true";
 
   if (!["MONTHLY", "ANNUAL"].includes(plan))
     return { error: "Plano inválido." };
@@ -44,8 +45,17 @@ export async function grantSubscriptionAccess(_prev: unknown, formData: FormData
     },
   });
 
+  if (courtesy) {
+    await db.user.update({
+      where: { id: user.id },
+      data: { isCourtesy: true },
+    });
+  }
+
   revalidatePath("/admin/acessos");
-  return { success: `Assinatura ${plan === "ANNUAL" ? "anual" : "mensal"} liberada para ${user.email}.` };
+  const label = plan === "ANNUAL" ? "anual" : "mensal";
+  const extra = courtesy ? " (cortesia)" : "";
+  return { success: `Assinatura ${label}${extra} liberada para ${user.email}.` };
 }
 
 export async function revokeSubscription(subscriptionId: string) {
