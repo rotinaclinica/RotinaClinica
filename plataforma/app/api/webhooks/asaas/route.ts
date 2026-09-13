@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { grantAccess } from "@/lib/entitlements";
-import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendRefundNotification } from "@/lib/email";
+import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendEbookSaleNotification, sendRefundNotification } from "@/lib/email";
 import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
@@ -141,6 +141,14 @@ export async function POST(req: NextRequest) {
               customerEmail: user.email,
               paymentMethod: method,
               subscriptionPeriod: isAnnual ? "Anual (1 ano)" : "Mensal",
+            }).catch(() => {});
+          } else {
+            await sendEbookSaleNotification({
+              customerName: user.name ?? "Cliente",
+              customerEmail: user.email,
+              productTitle: product.title,
+              valueCents: order.totalCents,
+              paymentMethod: order.paymentMethod ?? "asaas",
             }).catch(() => {});
           }
         }
