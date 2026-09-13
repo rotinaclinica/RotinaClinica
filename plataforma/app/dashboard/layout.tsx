@@ -55,7 +55,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       />
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0">
+      <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0 lg:border-l lg:border-white/5">
         {expiringAt && <SubscriptionExpiryBanner expiresAt={expiringAt} />}
         {children}
       </div>

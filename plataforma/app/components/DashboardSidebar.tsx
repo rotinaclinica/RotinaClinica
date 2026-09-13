@@ -81,10 +81,10 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
   }
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#080e1a] flex-shrink-0 relative z-10 shadow-[2px_0_8px_rgba(0,0,0,0.3)]">
+    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#080e1a] flex-shrink-0 relative z-10 shadow-[2px_0_8px_rgba(0,0,0,0.3)] border-r border-white/10">
       {/* Logo + toggle */}
       <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between gap-2">
-        <Link href="/" className="flex-shrink-0 min-w-0"><Logo variant="light" /></Link>
+        <Link href="/" className="min-w-0 overflow-hidden"><Logo variant="light" /></Link>
         <ThemeToggle className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-[#9ec4de] hover:text-white hover:bg-white/10 transition-colors" />
       </div>
 
