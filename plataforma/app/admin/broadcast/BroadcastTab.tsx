@@ -40,7 +40,7 @@ O plano mensal começa em R$ 39,90/mês. Se preferir o anual, sai por R$ 33,30/m
 
 E se por algum motivo não gostar, devolvemos 100% em até 7 dias — sem burocracia.
 
-Para ativar o seu acesso: https://rotinaclinica.com.br/assinatura
+Para ativar o seu acesso: https://www.rotinaclinica.com/assinatura
 
 Qualquer dúvida, é só responder este email.
 

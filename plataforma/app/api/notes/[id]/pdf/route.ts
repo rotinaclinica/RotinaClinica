@@ -174,7 +174,7 @@ export async function GET(
   const userName = user?.name ?? "";
   const userEmail = user?.email ?? "";
   const footerLeft = userName ? `${userName} · ${userEmail}` : userEmail;
-  const footerRight = "rotinaclinica.com.br";
+  const footerRight = "www.rotinaclinica.com";
   const totalPages = ctx.pages.length;
 
   for (let i = 0; i < totalPages; i++) {
