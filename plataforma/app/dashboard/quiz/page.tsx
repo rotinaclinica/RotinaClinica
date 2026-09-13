@@ -110,7 +110,7 @@ export default async function QuizPage() {
       <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="text-sm text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
-            ← Dashboard
+            ← Voltar
           </Link>
         </div>
         <div className="flex items-center justify-between mt-3 flex-wrap gap-3">
@@ -143,6 +143,10 @@ export default async function QuizPage() {
             <span className="text-sm font-bold text-violet-700 dark:text-violet-400">{freezes} escudo{freezes !== 1 ? "s" : ""}</span>
           </div>
         </div>
+
+        <p className="text-xs text-[#0f2d4a]/50 dark:text-[#6a8fa5] mt-3">
+          🛡️ <strong>Escudos</strong> protegem sua sequência se pular 1 dia. Ganhe 1 a cada 5 dias consecutivos (máx 3).
+        </p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
