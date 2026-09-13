@@ -24,7 +24,7 @@ const { PrismaPg } = await import("@prisma/adapter-pg");
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const db = new PrismaClient({ adapter });
 
-const ebooks = [
+const products = [
   {
     slug: "manual-prescricoes",
     title: "Manual Prático de Prescrições: Da UBS à Emergência",
@@ -43,15 +43,23 @@ const ebooks = [
     coverImage: "/images/ebook-iot.png",
     fileKey: "ebooks/guia-intubacao.pdf",
   },
+  {
+    slug: "destravando-o-plantao",
+    title: "Destravando o Plantão",
+    description: "Domine as 10 principais queixas do paciente adulto no PS. A faculdade te ensinou a teoria, mas a realidade do plantão exige decisões rápidas, raciocínio clínico e condutas efetivas.",
+    type: "COURSE",
+    priceCents: 39700,
+    coverImage: "/images/curso-plantao.png",
+  },
 ];
 
-for (const ebook of ebooks) {
-  const existing = await db.product.findUnique({ where: { slug: ebook.slug } });
+for (const product of products) {
+  const existing = await db.product.findUnique({ where: { slug: product.slug } });
   if (existing) {
-    console.log(`✓ "${ebook.slug}" já existe (id: ${existing.id})`);
+    console.log(`✓ "${product.slug}" já existe (id: ${existing.id})`);
   } else {
-    const created = await db.product.create({ data: ebook });
-    console.log(`+ Criado "${ebook.slug}" (id: ${created.id})`);
+    const created = await db.product.create({ data: product });
+    console.log(`+ Criado "${product.slug}" (id: ${created.id})`);
   }
 }
 

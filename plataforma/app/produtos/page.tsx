@@ -34,7 +34,7 @@ const PAID_PRODUCTS = [
     image: "/images/curso-plantao.png",
     tag: "Curso Online",
     price: "R$ 397",
-    href: null,
+    href: "/checkout/curso/destravando-o-plantao",
     hotmart: "https://pay.hotmart.com/T106092708E?checkoutMode=10",
   },
 ];

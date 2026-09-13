@@ -8,7 +8,7 @@ import ActivityPing from "@/app/components/ActivityPing";
 import SubscriptionExpiryBanner from "@/app/components/SubscriptionExpiryBanner";
 
 // Rotas acessíveis a qualquer usuário logado, independente de assinatura
-const FREE_ROUTES = ["/dashboard/perfil", "/dashboard/pedidos", "/dashboard/meus-ebooks"];
+const FREE_ROUTES = ["/dashboard/perfil", "/dashboard/pedidos", "/dashboard/meus-ebooks", "/dashboard/cursos"];
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();

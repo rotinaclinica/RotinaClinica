@@ -137,6 +137,16 @@ export default async function OrderPage({
                   ))}
                 </div>
               )}
+              {isPaid && order.items.some((item) => item.product.type === "COURSE") && (
+                <Link href="/dashboard/cursos/destravando"
+                  className="flex items-center justify-center gap-2 bg-[#0f2d4a] text-white py-3 rounded-xl font-semibold hover:bg-[#1a4a6e] transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <circle cx="12" cy="12" r="10"/>
+                  </svg>
+                  Acessar o curso
+                </Link>
+              )}
               {isPaid && (
                 <Link href="/dashboard"
                   className="bg-[#3db8d4] text-white py-3 rounded-xl font-semibold hover:bg-[#2da8c4] transition-colors text-center">
