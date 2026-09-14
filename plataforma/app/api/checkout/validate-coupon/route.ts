@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
 
   const coupon = await db.coupon.findUnique({
     where: { code: code.trim().toUpperCase() },
+    include: { products: { select: { id: true } } },
   });
 
   if (!coupon || !coupon.active) {
@@ -27,6 +28,13 @@ export async function POST(req: NextRequest) {
 
   if (coupon.maxUses && coupon.usedCount >= coupon.maxUses) {
     return NextResponse.json({ error: "Este cupom já atingiu o limite de usos." }, { status: 410 });
+  }
+
+  if (productId && coupon.products.length > 0) {
+    const validForProduct = coupon.products.some((p) => p.id === productId);
+    if (!validForProduct) {
+      return NextResponse.json({ error: "Este cupom não é válido para este produto." }, { status: 400 });
+    }
   }
 
   const product = productId

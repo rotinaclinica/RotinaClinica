@@ -88,7 +88,10 @@ export async function POST(req: NextRequest) {
   let discountCents = 0;
 
   if (couponCode) {
-    const coupon = await db.coupon.findUnique({ where: { code: couponCode } });
+    const coupon = await db.coupon.findUnique({
+      where: { code: couponCode },
+      include: { products: { select: { id: true } } },
+    });
     if (!coupon || !coupon.active) {
       return NextResponse.json({ error: "Cupom inválido ou inativo.", code: "INVALID_COUPON" }, { status: 400 });
     }
@@ -97,6 +100,9 @@ export async function POST(req: NextRequest) {
     }
     if (coupon.maxUses && coupon.usedCount >= coupon.maxUses) {
       return NextResponse.json({ error: "Este cupom já atingiu o limite de usos.", code: "INVALID_COUPON" }, { status: 400 });
+    }
+    if (coupon.products.length > 0 && !coupon.products.some((p) => p.id === product.id)) {
+      return NextResponse.json({ error: "Este cupom não é válido para este produto.", code: "INVALID_COUPON" }, { status: 400 });
     }
     if (coupon.minValueCents && product.priceCents < coupon.minValueCents) {
       return NextResponse.json({ error: "Valor mínimo não atingido para este cupom.", code: "INVALID_COUPON" }, { status: 400 });

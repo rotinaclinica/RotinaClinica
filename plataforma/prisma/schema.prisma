@@ -130,6 +130,7 @@ model Product {
   orderItems  OrderItem[]
   enrollments Enrollment[]
   leads       Lead[]
+  coupons     Coupon[]     @relation("CouponProducts")
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
@@ -210,6 +211,7 @@ model Coupon {
   minValueCents  Int?
   expiresAt      DateTime?
   active         Boolean   @default(true)
+  products       Product[] @relation("CouponProducts")
   orders         Order[]
   createdAt      DateTime  @default(now())
 
