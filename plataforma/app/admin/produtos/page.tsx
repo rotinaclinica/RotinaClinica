@@ -29,7 +29,8 @@ export default async function AdminProdutosPage() {
       </div>
 
       <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[650px]">
           <thead className="bg-white/5 border-b border-white/10">
             <tr>
               <th className="text-left px-5 py-3 font-medium text-zinc-400">Produto</th>
@@ -70,6 +71,7 @@ export default async function AdminProdutosPage() {
             ))}
           </tbody>
         </table>
+        </div>
         {products.length === 0 && (
           <p className="text-center text-zinc-400 py-10">Nenhum produto cadastrado.</p>
         )}

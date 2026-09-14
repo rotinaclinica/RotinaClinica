@@ -105,7 +105,8 @@ export default async function AdminPedidosPage({
         <span className="ml-auto text-xs text-zinc-400 self-center">{total} resultado{total !== 1 ? "s" : ""}</span>
       </div>
 
-      <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden overflow-x-auto">
+      <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm min-w-[700px]">
           <thead className="bg-white/5 border-b border-white/10">
             <tr>
@@ -148,6 +149,7 @@ export default async function AdminPedidosPage({
             })}
           </tbody>
         </table>
+        </div>
         {orders.length === 0 && (
           <p className="text-center text-zinc-400 py-10">Nenhum pedido encontrado.</p>
         )}

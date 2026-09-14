@@ -237,7 +237,8 @@ export default async function AdminPage() {
             Renovações próximas — 30 dias
           </h2>
           <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[450px]">
               <thead className="bg-white/5 border-b border-white/10">
                 <tr>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
@@ -262,6 +263,7 @@ export default async function AdminPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </section>
       )}
@@ -277,7 +279,8 @@ export default async function AdminPage() {
           </div>
         ) : (
           <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[450px]">
               <thead className="bg-white/5 border-b border-white/10">
                 <tr>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
@@ -302,6 +305,7 @@ export default async function AdminPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </section>

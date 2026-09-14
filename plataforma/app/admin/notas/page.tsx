@@ -152,7 +152,8 @@ export default async function AdminNotasPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden overflow-x-auto">
+      <div className="bg-[#161b22] rounded-2xl border border-white/10 overflow-hidden">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm min-w-[820px]">
           <thead className="bg-white/5 border-b border-white/10">
             <tr>
@@ -219,6 +220,7 @@ export default async function AdminNotasPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

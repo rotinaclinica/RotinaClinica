@@ -52,6 +52,7 @@ export default async function EmbaixadoresPage() {
         </div>
       ) : (
         <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
+          <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[700px]">
             <thead>
               <tr className="border-b border-white/10 bg-white/5">
@@ -122,6 +123,7 @@ export default async function EmbaixadoresPage() {
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

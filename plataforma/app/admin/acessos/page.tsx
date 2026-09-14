@@ -73,7 +73,8 @@ export default async function AdminAcessosPage({
           <p className="text-sm font-semibold text-zinc-400">Assinaturas</p>
           <span className="text-xs text-zinc-400">{total} total</span>
         </div>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[650px]">
           <thead className="bg-white/5 border-b border-white/10">
             <tr>
               <th className="text-left px-5 py-3 font-medium text-zinc-400">Usuário</th>
@@ -115,6 +116,7 @@ export default async function AdminAcessosPage({
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       <Pagination page={page} totalPages={totalPages} basePath="/admin/acessos" params={{ q: query || undefined }} />

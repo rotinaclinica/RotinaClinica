@@ -447,7 +447,8 @@ export default async function FinanceiroPage() {
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Histórico de custos</h2>
         <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[550px]">
             <thead className="bg-white/5 border-b border-white/10">
               <tr>
                 <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Mês</th>
@@ -483,6 +484,7 @@ export default async function FinanceiroPage() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
       </section>
     </div>

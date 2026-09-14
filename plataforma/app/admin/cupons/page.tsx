@@ -44,7 +44,8 @@ export default async function CuponsPage() {
           <p className="text-zinc-400 font-medium">Nenhum cupom criado ainda.</p>
         </div>
       ) : (
-        <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-x-auto">
+        <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
+          <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[800px]">
             <thead>
               <tr className="border-b border-white/10 bg-white/5">
@@ -123,6 +124,7 @@ export default async function CuponsPage() {
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

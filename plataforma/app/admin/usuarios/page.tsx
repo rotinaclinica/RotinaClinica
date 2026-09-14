@@ -82,8 +82,9 @@ export default async function AdminUsuariosPage({
         <ExportButton type="usuarios" />
       </div>
 
-      <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-x-auto">
-        <table className="w-full text-sm min-w-[700px]">
+      <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[900px]">
           <thead>
             <tr className="border-b border-white/10 bg-white/5">
               <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Usuário</th>
@@ -188,6 +189,7 @@ export default async function AdminUsuariosPage({
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       <Pagination page={page} totalPages={totalPages} basePath="/admin/usuarios" params={{ q: query || undefined }} />
