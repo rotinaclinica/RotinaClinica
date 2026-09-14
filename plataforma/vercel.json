@@ -14,7 +14,7 @@
     },
     {
       "path": "/api/cron/emitir-notas",
-      "schedule": "0 14 * * *"
+      "schedule": "0 21 * * *"
     },
     {
       "path": "/api/cron/health-check",
