@@ -200,6 +200,27 @@ model Lesson {
   updatedAt     DateTime @updatedAt
 }
 
+model Coupon {
+  id             String    @id @default(cuid())
+  code           String    @unique
+  discountType   DiscountType
+  discountValue  Int
+  maxUses        Int?
+  usedCount      Int       @default(0)
+  minValueCents  Int?
+  expiresAt      DateTime?
+  active         Boolean   @default(true)
+  orders         Order[]
+  createdAt      DateTime  @default(now())
+
+  @@index([code])
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
 model Order {
   id             String          @id @default(cuid())
   userId         String
@@ -211,6 +232,10 @@ model Order {
   currency       String          @default("BRL")
   paymentMethod  String?
   ambassadorCode String?
+  couponId       String?
+  coupon         Coupon?         @relation(fields: [couponId], references: [id])
+  couponCode     String?
+  discountCents  Int?
   items          OrderItem[]
   invoice        Invoice?
   referral       Referral?

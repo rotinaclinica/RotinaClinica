@@ -9,11 +9,13 @@ import {
   createAsaasCardPayment,
   createAsaasSubscription,
 } from "@/lib/payments/asaas";
+import { grantAccess } from "@/lib/entitlements";
 
 const baseSchema = z.object({
   productId: z.string(),
   method: z.enum(["pix", "card"]),
   ambassadorCode: z.string().optional(),
+  couponCode: z.string().optional(),
   installments: z.number().int().min(1).max(12).optional(),
 });
 
@@ -81,18 +83,65 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  const couponCode = base.data.couponCode?.trim().toUpperCase() || undefined;
+  let couponId: string | undefined;
+  let discountCents = 0;
+
+  if (couponCode) {
+    const coupon = await db.coupon.findUnique({ where: { code: couponCode } });
+    if (!coupon || !coupon.active) {
+      return NextResponse.json({ error: "Cupom inválido ou inativo.", code: "INVALID_COUPON" }, { status: 400 });
+    }
+    if (coupon.expiresAt && coupon.expiresAt < new Date()) {
+      return NextResponse.json({ error: "Este cupom expirou.", code: "INVALID_COUPON" }, { status: 400 });
+    }
+    if (coupon.maxUses && coupon.usedCount >= coupon.maxUses) {
+      return NextResponse.json({ error: "Este cupom já atingiu o limite de usos.", code: "INVALID_COUPON" }, { status: 400 });
+    }
+    if (coupon.minValueCents && product.priceCents < coupon.minValueCents) {
+      return NextResponse.json({ error: "Valor mínimo não atingido para este cupom.", code: "INVALID_COUPON" }, { status: 400 });
+    }
+    discountCents =
+      coupon.discountType === "PERCENT"
+        ? Math.round((product.priceCents * coupon.discountValue) / 100)
+        : coupon.discountValue;
+    discountCents = Math.min(discountCents, product.priceCents);
+    couponId = coupon.id;
+  }
+
+  const finalPriceCents = product.priceCents - discountCents;
+
   try {
-    const order = await db.order.create({
-      data: {
-        userId: session.user.id,
-        provider: "ASAAS",
-        providerRef: "pending",
-        totalCents: product.priceCents,
-        currency: product.currency,
-        ambassadorCode: code,
-        items: { create: [{ productId: product.id, priceCents: product.priceCents }] },
-      },
-    });
+    const [order] = await db.$transaction([
+      db.order.create({
+        data: {
+          userId: session.user.id,
+          provider: "ASAAS",
+          providerRef: "pending",
+          totalCents: finalPriceCents,
+          currency: product.currency,
+          ambassadorCode: code,
+          couponId,
+          couponCode,
+          discountCents: discountCents > 0 ? discountCents : undefined,
+          items: { create: [{ productId: product.id, priceCents: product.priceCents }] },
+        },
+      }),
+      ...(couponId
+        ? [db.coupon.update({ where: { id: couponId }, data: { usedCount: { increment: 1 } } })]
+        : []),
+    ]);
+
+    if (finalPriceCents === 0) {
+      await db.order.update({
+        where: { id: order.id },
+        data: { status: "PAID", providerRef: `coupon-free-${order.id}`, paidAt: new Date(), paymentMethod: "coupon" },
+      });
+      if (product.type !== "SUBSCRIPTION") {
+        await grantAccess(session.user.id, product.id, order.id);
+      }
+      return NextResponse.json({ orderId: order.id, status: "confirmed" });
+    }
 
     const customerId = await createAsaasCustomer({
       name: user.name ?? session.user.name ?? "Cliente",
@@ -105,7 +154,7 @@ export async function POST(req: NextRequest) {
       const pix = await createAsaasPixPayment({
         customerId,
         orderId: order.id,
-        valueCents: product.priceCents,
+        valueCents: finalPriceCents,
       });
 
       await db.order.update({
@@ -136,7 +185,7 @@ export async function POST(req: NextRequest) {
     const cardParams = {
       customerId,
       orderId: order.id,
-      valueCents: product.priceCents,
+      valueCents: finalPriceCents,
       card: parsed.data.card,
       holderInfo: {
         name: parsed.data.card.holderName,

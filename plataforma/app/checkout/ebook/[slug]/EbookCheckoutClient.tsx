@@ -76,11 +76,62 @@ export default function EbookCheckoutClient({
   const [ambassadorCode, setAmbassadorCode] = useState("");
   const [showAmbassador, setShowAmbassador] = useState(false);
 
+  // Coupon
+  const [couponCode, setCouponCode] = useState("");
+  const [showCoupon, setShowCoupon] = useState(false);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState("");
+  const [couponApplied, setCouponApplied] = useState<{
+    code: string;
+    discountType: "PERCENT" | "FIXED";
+    discountValue: number;
+    discountCents: number;
+  } | null>(null);
+
   function closeCpfModal() {
     setShowCpfModal(false);
     setCpf("");
     setFieldError("");
   }
+
+  async function validateCoupon() {
+    const code = couponCode.trim().toUpperCase();
+    if (!code) return;
+    setCouponLoading(true);
+    setCouponError("");
+    try {
+      const res = await fetch("/api/checkout/validate-coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, productId }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setCouponError(data.error ?? "Cupom inválido.");
+        setCouponApplied(null);
+        return;
+      }
+      setCouponApplied({
+        code,
+        discountType: data.discountType,
+        discountValue: data.discountValue,
+        discountCents: data.discountCents,
+      });
+      setCouponError("");
+    } catch {
+      setCouponError("Erro ao validar cupom.");
+    } finally {
+      setCouponLoading(false);
+    }
+  }
+
+  function removeCoupon() {
+    setCouponApplied(null);
+    setCouponCode("");
+    setCouponError("");
+  }
+
+  const effectivePrice = couponApplied ? priceCents - couponApplied.discountCents : priceCents;
 
   async function saveCpfAndContinue() {
     const cpfDigits = cpf.replace(/\D/g, "");
@@ -112,12 +163,13 @@ export default function EbookCheckoutClient({
 
     try {
       const code = ambassadorCode.trim().toUpperCase() || undefined;
+      const appliedCoupon = couponApplied?.code || undefined;
 
       if (method === "pix") {
         const res = await fetch("/api/checkout/asaas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId, method: "pix", ambassadorCode: code }),
+          body: JSON.stringify({ productId, method: "pix", ambassadorCode: code, couponCode: appliedCoupon }),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -136,6 +188,7 @@ export default function EbookCheckoutClient({
           productId,
           method: "card",
           ambassadorCode: code,
+          couponCode: appliedCoupon,
           installments,
           card: {
             holderName: cardName.trim(),
@@ -290,7 +343,7 @@ export default function EbookCheckoutClient({
                 >
                   {installmentOptions.map((n) => (
                     <option key={n} value={n}>
-                      {n}x de {formatCents(Math.ceil(priceCents / n), currency)} sem juros
+                      {n}x de {formatCents(Math.ceil(effectivePrice / n), currency)} sem juros
                     </option>
                   ))}
                 </select>
@@ -300,6 +353,56 @@ export default function EbookCheckoutClient({
         )}
 
         {error && <p className="text-red-500 text-xs text-center">{error}</p>}
+
+        {/* Coupon code */}
+        <div>
+          {couponApplied ? (
+            <div className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700/40 rounded-xl px-4 py-2.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-400 flex-1">
+                Cupom <span className="font-mono tracking-wider">{couponApplied.code}</span> aplicado
+                {couponApplied.discountType === "PERCENT"
+                  ? ` (−${couponApplied.discountValue}%)`
+                  : ` (−${formatCents(couponApplied.discountCents, currency)})`}
+              </span>
+              <button onClick={removeCoupon} className="text-emerald-600 hover:text-red-500 transition-colors" title="Remover cupom">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => setShowCoupon((v) => !v)}
+                className="text-xs text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors underline underline-offset-2"
+              >
+                {showCoupon ? "▲ Ocultar cupom" : "Tenho um cupom de desconto"}
+              </button>
+              {showCoupon && (
+                <div className="mt-2 flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Ex: DESC20"
+                    value={couponCode}
+                    onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponError(""); }}
+                    className="flex-1 px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-[#0d1525] text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-500 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/30"
+                    maxLength={30}
+                    onKeyDown={(e) => { if (e.key === "Enter") validateCoupon(); }}
+                  />
+                  <button
+                    type="button"
+                    onClick={validateCoupon}
+                    disabled={couponLoading || !couponCode.trim()}
+                    className="px-4 py-2 rounded-lg bg-[#0f2d4a] dark:bg-[#3db8d4] text-white dark:text-[#0f2d4a] text-xs font-bold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                  >
+                    {couponLoading ? "…" : "Aplicar"}
+                  </button>
+                </div>
+              )}
+              {couponError && <p className="text-red-500 text-xs mt-1">{couponError}</p>}
+            </>
+          )}
+        </div>
 
         {/* Ambassador code */}
         <div>
@@ -340,7 +443,12 @@ export default function EbookCheckoutClient({
           ) : (
             <span className="flex items-center justify-center gap-2">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              {`Pagar ${formatCents(priceCents, currency)} com ${selected === "pix" ? "PIX" : "cartão"}`}
+              {effectivePrice === 0
+                ? "Resgatar gratuitamente"
+                : `Pagar ${formatCents(effectivePrice, currency)} com ${selected === "pix" ? "PIX" : "cartão"}`}
+              {couponApplied && effectivePrice > 0 && (
+                <span className="line-through opacity-60 text-sm">{formatCents(priceCents, currency)}</span>
+              )}
             </span>
           )}
         </button>
