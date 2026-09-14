@@ -24,6 +24,10 @@ model User {
   isAmbassador         Boolean        @default(false)
   isCourtesy           Boolean        @default(false)
   ambassadorCode       String?        @unique
+  utmSource            String?
+  utmMedium            String?
+  utmCampaign          String?
+  referrerUrl          String?
   orders               Order[]
   enrollments          Enrollment[]
   accounts             Account[]

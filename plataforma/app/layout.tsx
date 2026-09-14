@@ -47,6 +47,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fbq('init','1052043933951264');
           fbq('track','PageView');
         `}</Script>
+        <Script id="utm-capture" strategy="afterInteractive">{`
+          (function(){
+            try {
+              if(document.cookie.indexOf('rc_utm=')!==-1) return;
+              var p=new URLSearchParams(location.search);
+              var s=p.get('utm_source')||'';
+              var m=p.get('utm_medium')||'';
+              var c=p.get('utm_campaign')||'';
+              var r=document.referrer||'';
+              if(!s&&r){
+                try{var h=new URL(r).hostname.replace('www.','');
+                  if(h.includes('google'))s='google';
+                  else if(h.includes('instagram')||h.includes('l.instagram'))s='instagram';
+                  else if(h.includes('youtube'))s='youtube';
+                  else if(h.includes('facebook')||h.includes('l.facebook'))s='facebook';
+                  else if(h.includes('tiktok'))s='tiktok';
+                  else if(h.includes('twitter')||h.includes('t.co'))s='twitter';
+                  else if(!h.includes('rotinaclinica'))s=h;
+                }catch(e){}
+                if(s&&!m)m='organic';
+              }
+              if(!s)s='direto';
+              if(!m)m='none';
+              var v=encodeURIComponent(s)+'|'+encodeURIComponent(m)+'|'+encodeURIComponent(c)+'|'+encodeURIComponent(r);
+              document.cookie='rc_utm='+v+';path=/;max-age=7776000;SameSite=Lax';
+            }catch(e){}
+          })();
+        `}</Script>
         <noscript>
           <img height="1" width="1" style={{display:"none"}}
             src="https://www.facebook.com/tr?id=1052043933951264&ev=PageView&noscript=1" alt=""

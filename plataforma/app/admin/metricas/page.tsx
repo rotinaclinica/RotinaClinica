@@ -6,6 +6,7 @@ import { PieChart } from "../PieChart";
 import { ExportPdfButton } from "../_components/ExportPdfButton";
 import type { PdfReportData } from "../_components/pdf-generator";
 import { getExcludedEmails } from "../_lib/excluded-emails";
+import MetricasTabs from "./_components/MetricasTabs";
 
 export const metadata = { title: "Métricas · Admin" };
 
@@ -288,6 +289,7 @@ export default async function MetricasPage() {
         </div>
         <ExportPdfButton label="Relatório PDF" reportData={reportData} />
       </div>
+      <MetricasTabs />
 
       {/* ── KPIs Principais ── */}
       <section>

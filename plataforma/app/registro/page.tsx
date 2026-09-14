@@ -145,10 +145,25 @@ function RegistroForm() {
 
     setLoading(true);
 
+    let utmSource: string | undefined;
+    let utmMedium: string | undefined;
+    let utmCampaign: string | undefined;
+    let referrerUrl: string | undefined;
+    try {
+      const match = document.cookie.match(/rc_utm=([^;]+)/);
+      if (match) {
+        const parts = decodeURIComponent(match[1]).split("|").map(decodeURIComponent);
+        utmSource = parts[0] || undefined;
+        utmMedium = parts[1] || undefined;
+        utmCampaign = parts[2] || undefined;
+        referrerUrl = parts[3] || undefined;
+      }
+    } catch {}
+
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined }),
+      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined, utmSource, utmMedium, utmCampaign, referrerUrl }),
     });
 
     setLoading(false);
