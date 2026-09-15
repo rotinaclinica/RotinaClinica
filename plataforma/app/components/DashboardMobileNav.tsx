@@ -71,6 +71,13 @@ export default function DashboardMobileNav({ hasAccess = true, isAdmin = false }
                   <MenuIcon d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   Meus pedidos
                 </Link>
+                <Link
+                  href="/dashboard/cursos"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/5"
+                >
+                  <MenuIcon d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  Cursos
+                </Link>
               </>
             )}
 

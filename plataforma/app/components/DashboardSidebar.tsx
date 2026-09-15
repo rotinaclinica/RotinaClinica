@@ -107,7 +107,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
       <nav className="px-3 py-4 space-y-0.5">
         {navItems.filter((item) => {
           if (isAdmin && item.href === "/dashboard/pedidos") return false;
-          if (!hasAccess) return item.href === "/dashboard/meus-ebooks" || item.href === "/dashboard/pedidos";
+          if (!hasAccess) return item.href === "/dashboard/meus-ebooks" || item.href === "/dashboard/pedidos" || item.href === "/dashboard/cursos";
           return true;
         }).map((item) => (
           <Link
