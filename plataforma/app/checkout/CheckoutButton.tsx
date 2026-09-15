@@ -70,13 +70,13 @@ const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?:
 ];
 
 const ACCENT: Record<"pix" | "card", string> = {
-  pix:  "border-[#32bcad] bg-[#f0fdfb]",
-  card: "border-[#0f2d4a] bg-[#f0f5f9]",
+  pix:  "border-zinc-400 bg-zinc-50",
+  card: "border-[#0d9488] bg-[#f0fdfa]",
 };
 
 const BTN_COLOR: Record<"pix" | "card", string> = {
-  pix:  "bg-[#32bcad] hover:bg-[#28a89a]",
-  card: "bg-[#0f2d4a] hover:bg-[#1a4a6e]",
+  pix:  "bg-zinc-600 hover:bg-zinc-700",
+  card: "bg-[#0d9488] hover:bg-[#0f766e]",
 };
 
 export default function CheckoutButton({
@@ -301,7 +301,7 @@ export default function CheckoutButton({
 
       <div className="space-y-3">
         <div className="flex items-center gap-3">
-          <div className="w-1 h-5 rounded-full bg-[#32bcad]" />
+          <div className="w-1 h-5 rounded-full bg-[#0d9488]" />
           <p className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider">Forma de pagamento</p>
         </div>
 
@@ -315,7 +315,7 @@ export default function CheckoutButton({
           >
             <span className={`flex-shrink-0 ${
               selected === m.id
-                ? m.id === "pix" ? "text-[#32bcad]" : "text-[#0f2d4a]"
+                ? m.id === "card" ? "text-[#0d9488]" : "text-zinc-600"
                 : "text-zinc-500"
             }`}>
               {m.icon}
@@ -326,8 +326,8 @@ export default function CheckoutButton({
                 {m.badge && (
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
                     m.id === "card"
-                      ? "bg-[#0f2d4a] text-white"
-                      : "bg-[#32bcad] text-white"
+                      ? "bg-[#0d9488] text-white"
+                      : "bg-zinc-500 text-white"
                   }`}>
                     {m.badge}
                   </span>
@@ -337,11 +337,11 @@ export default function CheckoutButton({
             </span>
             <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
               selected === m.id
-                ? m.id === "pix" ? "border-[#32bcad]" : "border-[#0f2d4a]"
+                ? m.id === "card" ? "border-[#0d9488]" : "border-zinc-500"
                 : "border-zinc-400"
             }`}>
               {selected === m.id && (
-                <span className={`w-2 h-2 rounded-full ${m.id === "pix" ? "bg-[#32bcad]" : "bg-[#0f2d4a]"}`} />
+                <span className={`w-2 h-2 rounded-full ${m.id === "card" ? "bg-[#0d9488]" : "bg-zinc-500"}`} />
               )}
             </span>
           </button>
