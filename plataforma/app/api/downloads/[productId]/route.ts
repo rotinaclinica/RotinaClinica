@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { hasAccess } from "@/lib/entitlements";
-import { getObjectBytes } from "@/lib/r2";
+import { getBlobBytes } from "@/lib/blob";
 import { logError } from "@/lib/error-logger";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
@@ -30,7 +30,7 @@ export async function GET(
       return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
     }
 
-    const pdfBytes = await getObjectBytes(product.fileKey);
+    const pdfBytes = await getBlobBytes(product.fileKey);
     const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 

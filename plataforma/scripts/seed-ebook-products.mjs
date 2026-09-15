@@ -32,7 +32,7 @@ const products = [
     type: "DOWNLOAD",
     priceCents: 9700,
     coverImage: "/images/ebook-manual.png",
-    fileKey: "ebooks/manual-prescricoes.pdf",
+    fileKey: "https://ou9gedwcm8mxxcyr.private.blob.vercel-storage.com/ebooks/manual-prescricoes.pdf",
   },
   {
     slug: "sedacao-iot-vm",
@@ -41,7 +41,7 @@ const products = [
     type: "DOWNLOAD",
     priceCents: 4700,
     coverImage: "/images/ebook-iot.png",
-    fileKey: "ebooks/guia-intubacao.pdf",
+    fileKey: "https://ou9gedwcm8mxxcyr.private.blob.vercel-storage.com/ebooks/guia-intubacao.pdf",
   },
   {
     slug: "destravando-o-plantao",
