@@ -69,7 +69,7 @@ export default async function OrderPage({
             <div className="bg-[#f0f7ff] dark:bg-[#0f2d4a]/40 border border-[#c8dff5] dark:border-[#3db8d4]/20 rounded-xl p-4 mb-5 text-left">
               <p className="text-sm font-semibold text-[#0f2d4a] dark:text-white mb-1">Tente pagar via PIX</p>
               <p className="text-xs text-[#4a6a80] dark:text-[#8fa8bd] leading-relaxed">
-                O PIX é aprovado instantaneamente e sem restrições. Volte à página do produto e selecione Mercado Pago.
+                O PIX é aprovado instantaneamente e sem restrições. Volte à página do produto e selecione PIX.
               </p>
             </div>
             <div className="border border-[#e8eef4] dark:border-white/8 rounded-xl p-4 mb-5 text-left">
@@ -148,9 +148,9 @@ export default async function OrderPage({
                 </Link>
               )}
               {isPaid && (
-                <Link href="/dashboard"
+                <Link href={order.items.some((item) => item.product.type === "DOWNLOAD") && !order.items.some((item) => item.product.type === "COURSE" || item.product.type === "SUBSCRIPTION") ? "/dashboard/meus-ebooks" : "/dashboard"}
                   className="bg-[#3db8d4] text-white py-3 rounded-xl font-semibold hover:bg-[#2da8c4] transition-colors text-center">
-                  Acessar a plataforma →
+                  {order.items.some((item) => item.product.type === "DOWNLOAD") && !order.items.some((item) => item.product.type === "COURSE" || item.product.type === "SUBSCRIPTION") ? "Acessar meus ebooks →" : "Acessar a plataforma →"}
                 </Link>
               )}
               {!isPaid && (

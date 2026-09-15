@@ -26,7 +26,6 @@ export default function DashboardMobileNav({ hasAccess = true, isAdmin = false }
 
   const profileActive = pathname.startsWith("/dashboard/perfil");
 
-  // Sem acesso pago: nenhum item de conteúdo (só o botão de perfil abaixo)
   const items = hasAccess ? mobileItems : [];
 
   return (
@@ -54,6 +53,25 @@ export default function DashboardMobileNav({ hasAccess = true, isAdmin = false }
                 <MenuIcon d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 Painel admin
               </Link>
+            )}
+
+            {!hasAccess && (
+              <>
+                <Link
+                  href="/dashboard/meus-ebooks"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/5"
+                >
+                  <MenuIcon d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  Meus Ebooks
+                </Link>
+                <Link
+                  href="/dashboard/pedidos"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-white/5"
+                >
+                  <MenuIcon d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  Meus pedidos
+                </Link>
+              </>
             )}
 
             <Link

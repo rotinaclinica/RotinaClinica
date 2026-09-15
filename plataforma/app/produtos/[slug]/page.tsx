@@ -113,7 +113,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               )}
 
               <p className="text-xs text-zinc-400 text-center mt-3">
-                Compra segura com Stripe ou Mercado Pago
+                Compra segura
               </p>
             </div>
           </div>

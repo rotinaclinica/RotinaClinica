@@ -37,7 +37,7 @@ function maskExpiry(v: string) {
   return `${d.slice(0, 2)}/${d.slice(2)}`;
 }
 
-type Method = "pix" | "card" | "mp";
+type Method = "pix" | "card";
 
 function trackFb(event: string, data?: Record<string, unknown>) {
   if (typeof window !== "undefined") {
@@ -55,12 +55,6 @@ const PIX_ICON = (
 const CARD_ICON = (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-  </svg>
-);
-
-const MP_ICON = (
-  <svg width="20" height="20" viewBox="0 0 48 48" fill="currentColor">
-    <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm-2-22h-3v12h3V18zm7 0h-3v12h3V18z"/>
   </svg>
 );
 
@@ -91,7 +85,7 @@ export default function CheckoutButton({
   const router = useRouter();
   const [selected, setSelected] = useState<"pix" | "card">("card");
   const [loading, setLoading] = useState(false);
-  const [mpLoading, setMpLoading] = useState(false);
+
   const [error, setError] = useState("");
   const [ambassadorCode, setAmbassadorCode] = useState("");
   const [showAmbassador, setShowAmbassador] = useState(false);
@@ -119,7 +113,7 @@ export default function CheckoutButton({
   const [cardCvv, setCardCvv] = useState("");
   const [installments, setInstallments] = useState(1);
 
-  const needsPhone = !userPhone && pendingMethod === "mp";
+  const needsPhone = false;
 
   function closeCpfModal() {
     setShowCpfModal(false);
@@ -144,11 +138,7 @@ export default function CheckoutButton({
     if (!res.ok) { setFieldError("Erro ao salvar dados. Tente novamente."); return; }
     setCpfSaved(true);
     closeCpfModal();
-    if (pendingMethod === "mp") {
-      await payMp();
-    } else {
-      await pay(pendingMethod as "pix" | "card", true);
-    }
+    await pay(pendingMethod, true);
   }
 
   async function pay(method: "pix" | "card", hasCpf = false) {
@@ -222,35 +212,6 @@ export default function CheckoutButton({
     }
   }
 
-  async function payMp() {
-    const hasCpfNow = !!userCpf || cpfSaved;
-    if (!hasCpfNow) {
-      setPendingMethod("mp");
-      setShowCpfModal(true);
-      return;
-    }
-    trackFb("InitiateCheckout", { content_type: "product", content_ids: [productId] });
-    setMpLoading(true);
-    setError("");
-    try {
-      const code = ambassadorCode.trim().toUpperCase() || undefined;
-      const res = await fetch("/api/checkout/mercadopago", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId, ambassadorCode: code }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        if (data?.code === "CPF_REQUIRED") { setPendingMethod("mp"); setShowCpfModal(true); return; }
-        throw new Error(data.error ?? "Erro ao iniciar pagamento");
-      }
-      window.location.href = data.url;
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Erro inesperado");
-    } finally {
-      setMpLoading(false);
-    }
-  }
 
   return (
     <>
@@ -264,9 +225,7 @@ export default function CheckoutButton({
             <div>
               <h2 className="text-base font-bold text-zinc-900 mb-1">Dados para pagamento</h2>
               <p className="text-xs text-zinc-500">
-                {pendingMethod === "mp"
-                  ? `O Mercado Pago exige CPF${needsPhone ? " e celular" : ""} para processar pagamentos.`
-                  : "Precisamos do seu CPF para emitir a nota fiscal do pagamento."}
+                Precisamos do seu CPF para emitir a nota fiscal do pagamento.
               </p>
             </div>
             <div className="space-y-3">
@@ -346,29 +305,6 @@ export default function CheckoutButton({
             </span>
           </button>
         ))}
-
-        {/* Mercado Pago — alternativa */}
-        <div className="flex items-center gap-2 py-0.5">
-          <div className="flex-1 h-px bg-zinc-300" />
-          <span className="text-xs text-zinc-700 font-medium">ou pague via</span>
-          <div className="flex-1 h-px bg-zinc-300" />
-        </div>
-        <button
-          onClick={payMp}
-          disabled={mpLoading}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-400 bg-white hover:border-[#0f2d4a]/40 transition-all text-left disabled:opacity-60"
-        >
-          <span className="flex-shrink-0 text-[#009ee3]">{MP_ICON}</span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-zinc-900">Mercado Pago</span>
-            <span className="block text-xs text-zinc-600 mt-0.5">Redireciona para o app do Mercado Pago</span>
-          </span>
-          {mpLoading ? (
-            <span className="ml-auto w-4 h-4 border-2 border-zinc-300 border-t-[#009ee3] rounded-full animate-spin" />
-          ) : (
-            <svg className="ml-auto text-zinc-500 flex-shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          )}
-        </button>
 
         {/* Formulário de cartão (inline, aparece quando selecionado) */}
         {selected === "card" && (

@@ -104,9 +104,12 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
         </div>
       </div>
 
-      {/* Nav — oculto para quem não tem acesso pago (só perfil/voltar/sair) */}
       <nav className="px-3 py-4 space-y-0.5">
-        {hasAccess && navItems.filter((item) => !(isAdmin && item.href === "/dashboard/pedidos")).map((item) => (
+        {navItems.filter((item) => {
+          if (isAdmin && item.href === "/dashboard/pedidos") return false;
+          if (!hasAccess) return item.href === "/dashboard/meus-ebooks" || item.href === "/dashboard/pedidos";
+          return true;
+        }).map((item) => (
           <Link
             key={item.href}
             href={item.href}
