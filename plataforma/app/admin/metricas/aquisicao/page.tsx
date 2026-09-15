@@ -15,7 +15,6 @@ const CHANNEL_CONFIG: Record<string, { label: string; color: string }> = {
   twitter: { label: "Twitter/X", color: "bg-sky-500" },
   direto: { label: "Acesso direto", color: "bg-emerald-500" },
   embaixador: { label: "Embaixador", color: "bg-violet-500" },
-  "pre-tracking": { label: "Pré-tracking", color: "bg-zinc-500" },
 };
 
 function getChannelInfo(source: string | null) {
@@ -30,6 +29,7 @@ export default async function AquisicaoPage() {
     where: {
       email: { notIn: EXCLUDED_EMAILS },
       subscription: { isNot: null },
+      utmSource: { notIn: ["pre-tracking"] },
     },
     select: {
       id: true,
@@ -185,8 +185,9 @@ export default async function AquisicaoPage() {
                 })}
                 {subscribers.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="px-4 py-8 text-center text-zinc-500">
-                      Nenhum assinante encontrado
+                    <td colSpan={7} className="px-4 py-12 text-center">
+                      <p className="text-zinc-400 font-medium">Nenhum dado de aquisição ainda</p>
+                      <p className="text-zinc-500 text-xs mt-1">Os próximos assinantes terão o canal de origem registrado automaticamente</p>
                     </td>
                   </tr>
                 )}
