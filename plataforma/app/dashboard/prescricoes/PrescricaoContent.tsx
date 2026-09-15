@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 // ── Classifiers ──────────────────────────────────────────────────────────────
 
 const RX_DOSE = /\d[\d.,]*\s?(mg|mcg|µg|ml|ml\b|g\b|kg|ui|mmol|meq|%)/i;
@@ -264,6 +266,54 @@ function parse(content: string): Block[] {
   return merged;
 }
 
+// ── Image with fullscreen ────────────────────────────────────────────────────
+
+function ImageBlock({ src, caption }: { src: string; caption?: string }) {
+  const [open, setOpen] = useState(false);
+  const isSvg = src.endsWith(".svg");
+
+  return (
+    <>
+      <figure className="my-8 flex flex-col items-center gap-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={caption ?? ""}
+          className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm cursor-zoom-in"
+          style={{ maxHeight: isSvg ? undefined : 420, objectFit: "contain" }}
+          onClick={() => setOpen(true)}
+        />
+        {caption && (
+          <figcaption className="text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">
+            {caption} · <button type="button" onClick={() => setOpen(true)} className="underline hover:text-zinc-300">Ampliar</button>
+          </figcaption>
+        )}
+      </figure>
+      {open && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="absolute top-4 right-4 text-white/80 hover:text-white text-3xl font-light z-10"
+          >
+            ✕
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={caption ?? ""}
+            className="max-w-full max-h-full object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── Renderer ─────────────────────────────────────────────────────────────────
 
 function renderInline(text: string) {
@@ -393,18 +443,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
 
           case "image":
             return (
-              <figure key={i} className="my-8 flex flex-col items-center gap-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={b.src}
-                  alt={b.caption ?? ""}
-                  className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm"
-                  style={{ maxHeight: b.src.endsWith(".svg") ? undefined : 420, objectFit: "contain" }}
-                />
-                {b.caption && (
-                  <figcaption className="text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">{b.caption}</figcaption>
-                )}
-              </figure>
+              <ImageBlock key={i} src={b.src} caption={b.caption} />
             );
 
           case "renal": {
