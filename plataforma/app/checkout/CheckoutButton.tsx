@@ -65,8 +65,8 @@ const MP_ICON = (
 );
 
 const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?: string; icon: React.ReactNode }[] = [
-  { id: "card", label: "Cartão de crédito", sub: "Até 12x sem juros · Acesso sempre garantido", badge: "Recomendado", icon: CARD_ICON },
-  { id: "pix", label: "PIX", sub: "", icon: PIX_ICON },
+  { id: "card", label: "Cartão de crédito", sub: "Renova sozinho · Sem risco de perder acesso", badge: "Recomendado", icon: CARD_ICON },
+  { id: "pix", label: "PIX", sub: "Renovação manual todo mês", icon: PIX_ICON },
 ];
 
 const ACCENT: Record<"pix" | "card", string> = {
