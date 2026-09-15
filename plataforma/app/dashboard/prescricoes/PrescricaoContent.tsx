@@ -270,17 +270,16 @@ function parse(content: string): Block[] {
 
 function ImageBlock({ src, caption }: { src: string; caption?: string }) {
   const [open, setOpen] = useState(false);
-  const isSvg = src.endsWith(".svg");
 
   return (
     <>
-      <figure className="my-8 flex flex-col items-center gap-2">
+      <figure className="my-4 flex flex-col items-center gap-2">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
           alt={caption ?? ""}
           className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm cursor-zoom-in"
-          style={{ maxHeight: isSvg ? undefined : 420, objectFit: "contain" }}
+          style={{ objectFit: "contain" }}
           onClick={() => setOpen(true)}
         />
         {caption && (
