@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 // ── Classifiers ──────────────────────────────────────────────────────────────
 
@@ -268,8 +268,33 @@ function parse(content: string): Block[] {
 
 // ── Image with fullscreen ────────────────────────────────────────────────────
 
+const ZOOM_LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5];
+
 function ImageBlock({ src, caption }: { src: string; caption?: string }) {
   const [open, setOpen] = useState(false);
+  const [zoomIdx, setZoomIdx] = useState(2);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const zoom = ZOOM_LEVELS[zoomIdx];
+  const canZoomIn = zoomIdx < ZOOM_LEVELS.length - 1;
+  const canZoomOut = zoomIdx > 0;
+
+  const zoomIn = useCallback(() => setZoomIdx((i) => Math.min(i + 1, ZOOM_LEVELS.length - 1)), []);
+  const zoomOut = useCallback(() => setZoomIdx((i) => Math.max(i - 1, 0)), []);
+  const resetZoom = useCallback(() => setZoomIdx(2), []);
+
+  useEffect(() => {
+    if (!open) { setZoomIdx(2); return; }
+    const handler = (e: WheelEvent) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      if (e.deltaY < 0) zoomIn();
+      else zoomOut();
+    };
+    const el = containerRef.current;
+    el?.addEventListener("wheel", handler, { passive: false });
+    return () => el?.removeEventListener("wheel", handler);
+  }, [open, zoomIn, zoomOut]);
 
   return (
     <>
@@ -290,9 +315,22 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
       </figure>
       {open && (
         <div
-          className="fixed inset-0 z-[9999] bg-black/95 overflow-auto"
+          ref={containerRef}
+          className="fixed inset-0 z-[9999] bg-black/95 overflow-hidden"
           onClick={() => setOpen(false)}
         >
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+          <div className="fixed top-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 bg-black/70 backdrop-blur-sm rounded-full px-2 py-1.5 select-none"
+            onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => zoomOut()} disabled={!canZoomOut}
+              className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white disabled:text-white/30 text-lg font-bold rounded-full hover:bg-white/10 transition-colors">−</button>
+            <button type="button" onClick={() => resetZoom()}
+              className="min-w-[52px] text-center text-xs text-white/80 hover:text-white font-medium px-1 hover:bg-white/10 rounded-full transition-colors">
+              {Math.round(zoom * 100)}%
+            </button>
+            <button type="button" onClick={() => zoomIn()} disabled={!canZoomIn}
+              className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white disabled:text-white/30 text-lg font-bold rounded-full hover:bg-white/10 transition-colors">+</button>
+          </div>
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -300,12 +338,14 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
           >
             ✕
           </button>
-          <div className="min-w-max p-6">
+          <div className="w-full h-full flex items-start justify-center overflow-auto p-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={src}
               alt={caption ?? ""}
-              style={{ minWidth: 1800 }}
+              style={{ transform: `scale(${zoom})`, transformOrigin: "top center", maxWidth: "none", width: 1800 }}
+              className="transition-transform duration-200 ease-out"
+              draggable={false}
               onClick={(e) => e.stopPropagation()}
             />
           </div>
