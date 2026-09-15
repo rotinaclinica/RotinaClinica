@@ -97,7 +97,7 @@ export default async function FinanceiroPage() {
   ] = await Promise.all([
     db.order.findMany({
       where: { status: "PAID", ...notTestOrder },
-      select: { provider: true, paymentMethod: true, totalCents: true, paidAt: true },
+      select: { provider: true, paymentMethod: true, totalCents: true, paidAt: true, user: { select: { name: true } } },
     }),
     db.order.findMany({
       where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestOrder },
@@ -280,6 +280,32 @@ export default async function FinanceiroPage() {
           ]),
         },
       }] : []),
+      {
+        type: "table" as const,
+        title: "Extrato de vendas",
+        table: {
+          headers: ["Data", "Cliente", "Gateway", "Método", "Bruto", "Taxa", "Líquido"],
+          rows: [
+            ...ordersAllTime
+              .sort((a, b) => (b.paidAt?.getTime() ?? 0) - (a.paidAt?.getTime() ?? 0))
+              .map((o) => {
+                const fee = estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents);
+                const method = (o.paymentMethod ?? "").toLowerCase();
+                const methodLabel = method.includes("pix") ? "PIX" : method.includes("credit") ? "Cartão" : method.includes("boleto") ? "Boleto" : method || "—";
+                return [
+                  o.paidAt ? new Date(o.paidAt).toLocaleDateString("pt-BR") : "—",
+                  o.user?.name || "—",
+                  o.provider === "MERCADOPAGO" ? "MP" : o.provider,
+                  methodLabel,
+                  brl(o.totalCents),
+                  `−${brl(fee)}`,
+                  brl(o.totalCents - fee),
+                ];
+              }),
+            ["Total", "", "", "", brl(grossAllTime), `−${brl(feesAllTime)}`, brl(grossAllTime - feesAllTime)],
+          ],
+        },
+      },
     ],
   };
 
@@ -435,6 +461,70 @@ export default async function FinanceiroPage() {
             Taxas estimadas: Pix ~0.99% · Cartão ~2.99% · Boleto ~R$3.99 · Stripe ~3.99%+R$0.39 · MP ~4.99%
           </p>
         </div>
+      </section>
+
+      {/* ── Extrato de Vendas ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Extrato de vendas</h2>
+        <div className="overflow-hidden rounded-xl border border-white/10">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[750px]">
+              <thead>
+                <tr className="bg-[#161b22] text-zinc-400 text-xs uppercase tracking-wider">
+                  <th className="text-left px-4 py-3">Data</th>
+                  <th className="text-left px-4 py-3">Cliente</th>
+                  <th className="text-left px-4 py-3">Gateway</th>
+                  <th className="text-left px-4 py-3">Método</th>
+                  <th className="text-right px-4 py-3">Bruto</th>
+                  <th className="text-right px-4 py-3">Taxa</th>
+                  <th className="text-right px-4 py-3">Líquido</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {ordersAllTime
+                  .sort((a, b) => (b.paidAt?.getTime() ?? 0) - (a.paidAt?.getTime() ?? 0))
+                  .map((o, i) => {
+                    const fee = estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents);
+                    const net = o.totalCents - fee;
+                    const method = (o.paymentMethod ?? "").toLowerCase();
+                    const methodLabel = method.includes("pix") ? "PIX" : method.includes("credit") ? "Cartão" : method.includes("boleto") ? "Boleto" : method || "—";
+                    return (
+                      <tr key={i} className="hover:bg-white/5 transition-colors">
+                        <td className="px-4 py-3 text-zinc-400 text-xs whitespace-nowrap">
+                          {o.paidAt ? new Date(o.paidAt).toLocaleDateString("pt-BR") : "—"}
+                        </td>
+                        <td className="px-4 py-3 text-zinc-200">{o.user?.name || "—"}</td>
+                        <td className="px-4 py-3">
+                          <span className={`text-xs px-2 py-0.5 rounded-full ${
+                            o.provider === "ASAAS" ? "bg-emerald-500/20 text-emerald-300" :
+                            o.provider === "MERCADOPAGO" ? "bg-orange-500/20 text-orange-300" :
+                            "bg-blue-500/20 text-blue-300"
+                          }`}>
+                            {o.provider === "MERCADOPAGO" ? "MP" : o.provider}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-zinc-300 text-xs">{methodLabel}</td>
+                        <td className="px-4 py-3 text-right text-zinc-100 font-medium">{brl(o.totalCents)}</td>
+                        <td className="px-4 py-3 text-right text-red-400 text-xs">−{brl(fee)}</td>
+                        <td className="px-4 py-3 text-right text-emerald-300 font-medium">{brl(net)}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+              <tfoot>
+                <tr className="bg-white/5 border-t border-white/10">
+                  <td colSpan={4} className="px-4 py-3 text-xs font-semibold text-zinc-200">Total</td>
+                  <td className="px-4 py-3 text-right font-bold text-zinc-100">{brl(grossAllTime)}</td>
+                  <td className="px-4 py-3 text-right font-bold text-red-400">−{brl(feesAllTime)}</td>
+                  <td className="px-4 py-3 text-right font-bold text-emerald-300">{brl(grossAllTime - feesAllTime)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <p className="text-[10px] text-zinc-500 mt-2">
+          Taxas estimadas com base nas alíquotas padrão de cada gateway. Valores exatos podem variar.
+        </p>
       </section>
 
       {/* ── Adicionar Custo ── */}
