@@ -270,6 +270,7 @@ function parse(content: string): Block[] {
 
 function ImageBlock({ src, caption }: { src: string; caption?: string }) {
   const [open, setOpen] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
 
   return (
     <>
@@ -280,33 +281,43 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
           alt={caption ?? ""}
           className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm cursor-zoom-in"
           style={{ objectFit: "contain" }}
-          onClick={() => setOpen(true)}
+          onClick={() => { setOpen(true); setZoomed(false); }}
         />
         {caption && (
           <figcaption className="text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">
-            {caption} · <button type="button" onClick={() => setOpen(true)} className="underline hover:text-zinc-300">Ampliar</button>
+            {caption} · <button type="button" onClick={() => { setOpen(true); setZoomed(false); }} className="underline hover:text-zinc-300">Ampliar</button>
           </figcaption>
         )}
       </figure>
       {open && (
         <div
-          className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[9999] bg-black/90 overflow-auto"
           onClick={() => setOpen(false)}
         >
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="absolute top-4 right-4 text-white/80 hover:text-white text-3xl font-light z-10"
+            className="fixed top-4 right-4 text-white/80 hover:text-white text-3xl font-light z-10 bg-black/50 rounded-full w-10 h-10 flex items-center justify-center"
           >
             ✕
           </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={src}
-            alt={caption ?? ""}
-            className="max-w-full max-h-full object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setZoomed(!zoomed); }}
+            className="fixed top-4 left-4 text-white/80 hover:text-white text-sm font-medium z-10 bg-black/50 rounded-full px-3 py-2 flex items-center gap-1.5"
+          >
+            {zoomed ? "⊖ Reduzir" : "⊕ Ampliar"}
+          </button>
+          <div className={zoomed ? "min-w-max min-h-max p-8" : "flex items-center justify-center min-h-full p-4"}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt={caption ?? ""}
+              className={zoomed ? "cursor-zoom-out" : "max-w-full max-h-[90vh] object-contain cursor-zoom-in"}
+              style={zoomed ? { width: "150%", minWidth: 1400 } : undefined}
+              onClick={(e) => { e.stopPropagation(); setZoomed(!zoomed); }}
+            />
+          </div>
         </div>
       )}
     </>
