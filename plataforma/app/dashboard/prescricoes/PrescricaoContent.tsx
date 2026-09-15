@@ -399,7 +399,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                   src={b.src}
                   alt={b.caption ?? ""}
                   className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm"
-                  style={{ maxHeight: 420, objectFit: "contain" }}
+                  style={{ maxHeight: b.src.endsWith(".svg") ? undefined : 420, objectFit: "contain" }}
                 />
                 {b.caption && (
                   <figcaption className="text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">{b.caption}</figcaption>
