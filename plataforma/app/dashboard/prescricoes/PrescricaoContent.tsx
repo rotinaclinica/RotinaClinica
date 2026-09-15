@@ -338,13 +338,13 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
           >
             ✕
           </button>
-          <div className="w-full h-full flex items-start justify-center overflow-auto px-6 pb-6" style={{ paddingTop: 52 }}>
+          <div className="absolute inset-0 overflow-auto" style={{ paddingTop: 52, paddingBottom: 24, paddingLeft: 16, paddingRight: 16 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={src}
               alt={caption ?? ""}
-              style={{ transform: `scale(${zoom})`, transformOrigin: "top center", maxWidth: "none", width: 1800 }}
-              className="transition-transform duration-200 ease-out"
+              style={{ width: `${zoom * 100}%`, maxWidth: "none" }}
+              className="transition-[width] duration-200 ease-out"
               draggable={false}
               onClick={(e) => e.stopPropagation()}
             />
