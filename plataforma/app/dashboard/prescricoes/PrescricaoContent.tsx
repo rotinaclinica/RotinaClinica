@@ -338,7 +338,7 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
           >
             ✕
           </button>
-          <div className="w-full h-full flex items-start justify-center overflow-auto p-6">
+          <div className="w-full h-full flex items-start justify-center overflow-auto px-6 pb-6" style={{ paddingTop: 52 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={src}
