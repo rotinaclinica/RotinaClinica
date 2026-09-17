@@ -37,7 +37,7 @@ function PrescricaoModal({ item, onClose, onNavigate }: { item: PrescricaoMeta; 
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-white dark:bg-[#131c2e] w-full h-full sm:h-auto sm:max-w-4xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
+      <div className="relative bg-white dark:bg-[#131c2e] w-full h-full sm:h-auto sm:max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
         {/* Header */}
         <div className="flex items-start gap-3 p-5 border-b border-zinc-200 dark:border-white/8 flex-shrink-0">
           <div className="flex-1 min-w-0">
