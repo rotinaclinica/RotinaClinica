@@ -11,7 +11,7 @@ async function requireAdmin() {
   if (user?.role !== "ADMIN") throw new Error("Sem permissão");
 }
 
-async function grantSubscriptionMonth(userId: string, reason: string) {
+async function grantSubscriptionMonth(userId: string, reason: string, months = 1) {
   const now = new Date();
   const sub = await db.subscription.findUnique({
     where: { userId },
@@ -22,7 +22,7 @@ async function grantSubscriptionMonth(userId: string, reason: string) {
       ? new Date(sub.currentPeriodEnd)
       : new Date(now);
   const newEnd = new Date(base);
-  newEnd.setDate(newEnd.getDate() + 30);
+  newEnd.setDate(newEnd.getDate() + 30 * months);
 
   await db.subscription.upsert({
     where: { userId },
@@ -59,9 +59,9 @@ export async function makeAmbassador(formData: FormData) {
     data: { isAmbassador: true, ambassadorCode: code },
   });
 
-  // Conceder 1 mês bônus ao tornar-se embaixador (apenas na primeira vez)
+  // Conceder 3 meses bônus ao tornar-se embaixador (apenas na primeira vez)
   if (!target.isAmbassador) {
-    await grantSubscriptionMonth(target.id, `ambassador_welcome_${code}`);
+    await grantSubscriptionMonth(target.id, `ambassador_welcome_${code}`, 3);
   }
 
   revalidatePath("/admin/embaixadores");

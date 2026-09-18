@@ -82,7 +82,7 @@ export default function ProdutosPage() {
         <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
           <div className="flex flex-col md:flex-row">
             {/* Imagem */}
-            <div className="md:w-2/5 bg-[#f0f7fa] flex items-center justify-center p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-100">
+            <div className="md:w-2/5 bg-white flex items-center justify-center p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-100">
               <img
                 src="/images/ebooks-gratuitos-bundle.png"
                 alt="3 ebooks gratuitos do Rotina Clínica"
@@ -96,7 +96,7 @@ export default function ProdutosPage() {
               <h3 className="text-xl md:text-2xl font-extrabold text-[#0f2d4a] mb-3 leading-tight">
                 Faça o download gratuito de materiais que irão impactar grandemente na sua prática clínica
               </h3>
-              <p className="text-sm text-zinc-500 mb-5">
+              <p className="text-sm text-zinc-600 mb-5">
                 Preencha um único cadastro e baixe os 3 ebooks de uma vez.
               </p>
 
@@ -109,7 +109,7 @@ export default function ProdutosPage() {
                     </span>
                     <div>
                       <span className="text-sm font-semibold text-[#0f2d4a]">{e.title}</span>
-                      <span className="text-xs text-zinc-500 ml-1">— {e.description}</span>
+                      <span className="text-xs text-zinc-600 ml-1">— {e.description}</span>
                     </div>
                   </li>
                 ))}
