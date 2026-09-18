@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
-import { leadDripHtml2, leadDripHtml7 } from "@/lib/emails/lead-drip";
+import { dripHtml2, dripHtml7 } from "@/lib/emails/drip";
 
 export const maxDuration = 60;
 
@@ -13,15 +13,15 @@ const STEPS: { step: number; minHours: number; maxHours: number; subject: string
     step: 2,
     minHours: 48,
     maxHours: 72,
-    subject: "Você já conhece a qualidade — veja o que mais te espera",
-    html: leadDripHtml2,
+    subject: "Você ainda não explorou o que preparamos para você",
+    html: dripHtml2,
   },
   {
     step: 7,
     minHours: 168,
     maxHours: 192,
-    subject: "A plataforma vai muito além do que você baixou",
-    html: leadDripHtml7,
+    subject: "Última mensagem — queremos que você faça parte",
+    html: dripHtml7,
   },
 ];
 
