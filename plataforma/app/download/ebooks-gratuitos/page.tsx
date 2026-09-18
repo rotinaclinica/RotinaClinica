@@ -1,0 +1,353 @@
+"use client";
+
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
+import { useState } from "react";
+import Link from "next/link";
+import { Logo } from "@/app/components/Navbar";
+
+const ESTADOS = [
+  "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS",
+  "MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC",
+  "SP","SE","TO",
+];
+
+const BUNDLE_PRODUCT_IDS = [
+  "ebook-free-racional",
+  "ebook-free-manual",
+  "ebook-free-has-dm2",
+];
+
+const EBOOK_INFO: Record<string, { title: string; image: string; subtitle: string }> = {
+  "racional-prescricao": {
+    title: "O Racional da Prescrição Médica",
+    subtitle: "Entenda a lógica por trás de cada prescrição.",
+    image: "/images/ebook-gratis-racional.png",
+  },
+  "manual-prescricoes-gratis": {
+    title: "Manual de Prescrições (Amostra)",
+    subtitle: "Mais de 224 prescrições prontas, da UBS à emergência.",
+    image: "/images/ebook-gratis-manual.jpg",
+  },
+  "has-dm2-ubs": {
+    title: "Abordagem da HAS e DM2 na Atenção Primária",
+    subtitle: "Condutas para as doenças mais prevalentes na UBS.",
+    image: "/images/ebook-gratis-has-dm2.png",
+  },
+};
+
+type Download = { title: string; slug: string; url: string | null };
+
+export default function EbooksGratuitosPage() {
+  const [form, setForm] = useState({
+    name: "", email: "", phone: "", age: "", profile: "",
+    doePlantoes: "", state: "", university: "", contentWish: "",
+    contentFormat: "", contentFormatOther: "", previousPurchase: "",
+    whatsappOptIn: false,
+  });
+  const [loading, setLoading] = useState(false);
+  const [downloads, setDownloads] = useState<Download[] | null>(null);
+  const [error, setError] = useState("");
+
+  function set(field: string, value: string | boolean) {
+    setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+
+    const required = ["name","email","phone","age","profile","doePlantoes","state","university","contentWish","contentFormat","previousPurchase"];
+    const missing = required.filter((k) => !(form as Record<string,unknown>)[k]);
+    if (missing.length) { setError("Por favor, preencha todos os campos obrigatórios."); return; }
+
+    if (form.contentFormat === "outro" && !form.contentFormatOther) {
+      setError("Especifique o formato de conteúdo preferido."); return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, productIds: BUNDLE_PRODUCT_IDS }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Erro ao enviar");
+
+      setDownloads(data.downloads ?? []);
+
+      if (typeof window !== "undefined" && typeof window.fbq === "function") {
+        window.fbq("track", "Lead", {
+          content_name: "Ebooks Gratuitos Bundle",
+          content_category: "ebook_free",
+        });
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erro ao enviar. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (downloads !== null) {
+    return (
+      <div className="min-h-screen bg-[#f7fafc]">
+        <header className="bg-[#0f2d4a] px-6 py-4">
+          <div className="max-w-3xl mx-auto">
+            <Link href="/"><Logo variant="light" /></Link>
+          </div>
+        </header>
+        <main className="max-w-3xl mx-auto px-6 py-12">
+          <div className="text-center mb-10">
+            <div className="text-4xl mb-4">🎉</div>
+            <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-2">
+              Seus ebooks estão prontos!
+            </h2>
+            <p className="text-zinc-500">
+              Clique no botão de download abaixo de cada ebook para salvar no seu dispositivo.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {downloads.map((d) => {
+              const info = EBOOK_INFO[d.slug];
+              return (
+                <div
+                  key={d.slug}
+                  className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden flex flex-col"
+                >
+                  <div className="h-52 bg-zinc-50 flex items-center justify-center border-b border-zinc-100 overflow-hidden">
+                    {info?.image && (
+                      <img
+                        src={info.image}
+                        alt={d.title}
+                        className="h-full w-full object-contain p-3"
+                      />
+                    )}
+                  </div>
+                  <div className="p-4 flex flex-col flex-1">
+                    <p className="font-bold text-[#0f2d4a] text-sm mb-1 leading-snug">
+                      {info?.title ?? d.title}
+                    </p>
+                    <p className="text-xs text-zinc-500 mb-4 flex-1">{info?.subtitle}</p>
+                    {d.url ? (
+                      <a
+                        href={d.url}
+                        download
+                        className="block text-center bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold py-2.5 rounded-xl text-sm transition-colors"
+                      >
+                        Baixar PDF →
+                      </a>
+                    ) : (
+                      <span className="block text-center bg-zinc-100 text-zinc-400 font-semibold py-2.5 rounded-xl text-sm cursor-not-allowed">
+                        Em breve
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link href="/produtos" className="text-sm text-[#1a6aad] hover:underline">
+              ← Ver todos os materiais
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f7fafc]">
+      <header className="bg-[#0f2d4a] px-6 py-4">
+        <div className="max-w-2xl mx-auto">
+          <Link href="/"><Logo variant="light" /></Link>
+        </div>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-6 py-10">
+        <div className="mb-8">
+          <span className="text-xs font-bold text-[#3db8d4] uppercase tracking-widest">3 materiais gratuitos</span>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#0f2d4a] mt-1 mb-2">
+            Download gratuito de ebooks
+          </h1>
+          <p className="text-zinc-500">
+            Preencha o formulário abaixo para liberar o download dos 3 ebooks de uma vez.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6 md:p-8 space-y-6">
+
+          <div>
+            <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Nome completo *</label>
+            <input type="text" required value={form.name} onChange={(e) => set("name", e.target.value)}
+              className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+              placeholder="Seu nome" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">E-mail *</label>
+            <input type="email" required value={form.email} onChange={(e) => set("email", e.target.value)}
+              className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+              placeholder="seu@email.com" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Celular com DDD *</label>
+            <input type="tel" required value={form.phone} onChange={(e) => set("phone", e.target.value)}
+              className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+              placeholder="(11) 99999-9999" />
+          </div>
+
+          <fieldset>
+            <legend className="text-sm font-semibold text-[#0f2d4a] mb-2">Qual sua idade? *</legend>
+            <div className="space-y-2">
+              {["18 a 25 anos","26 a 35 anos","36 a 45 anos","46 ou mais"].map((opt) => (
+                <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="age" value={opt} required checked={form.age === opt} onChange={() => set("age", opt)}
+                    className="accent-[#3db8d4] w-4 h-4" />
+                  <span className="text-sm text-zinc-700">{opt}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-semibold text-[#0f2d4a] mb-2">Você é: *</legend>
+            <div className="space-y-2">
+              {[
+                "Médico ou médica recém formado",
+                "Estudante de medicina no internato",
+                "Estudante de medicina no ciclo básico ou ciclo clínico",
+                "Médico(a) formado há mais de 2 anos",
+              ].map((opt) => (
+                <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="profile" value={opt} required checked={form.profile === opt} onChange={() => set("profile", opt)}
+                    className="accent-[#3db8d4] w-4 h-4" />
+                  <span className="text-sm text-zinc-700">{opt}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-semibold text-[#0f2d4a] mb-2">Você já faz plantões? *</legend>
+            <div className="space-y-2">
+              {[
+                "Ainda não",
+                "Sim, ocasionalmente (menos de 2 plantões por semana)",
+                "Sim, frequentemente (mais de 2 plantões por semana)",
+              ].map((opt) => (
+                <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="doePlantoes" value={opt} required checked={form.doePlantoes === opt} onChange={() => set("doePlantoes", opt)}
+                    className="accent-[#3db8d4] w-4 h-4" />
+                  <span className="text-sm text-zinc-700">{opt}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div>
+            <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Em qual universidade você estuda ou se formou? *</label>
+            <input type="text" required value={form.university} onChange={(e) => set("university", e.target.value)}
+              className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+              placeholder="Nome da universidade" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Em qual estado você mora? *</label>
+            <select required value={form.state} onChange={(e) => set("state", e.target.value)}
+              className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent bg-white">
+              <option value="">Selecione o estado</option>
+              {ESTADOS.map((s) => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">
+              Qual assunto da clínica médica você gostaria que o Rotina Clínica ensinasse mais? *
+            </label>
+            <textarea required rows={3} value={form.contentWish} onChange={(e) => set("contentWish", e.target.value)}
+              className="w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent resize-none"
+              placeholder="Ex: emergências clínicas, prescrição, condutas em UPA..." />
+          </div>
+
+          <fieldset>
+            <legend className="text-sm font-semibold text-[#0f2d4a] mb-2">Qual formato de conteúdo você prefere? *</legend>
+            <div className="space-y-2">
+              {["Carrossel","Caso clínico","Vídeo curto","Aula completa com vídeo longo","Outro"].map((opt) => (
+                <label key={opt} className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="contentFormat" value={opt.toLowerCase().replace(/ /g,"-")} required
+                    checked={form.contentFormat === opt.toLowerCase().replace(/ /g,"-")}
+                    onChange={() => set("contentFormat", opt.toLowerCase().replace(/ /g,"-"))}
+                    className="accent-[#3db8d4] w-4 h-4" />
+                  <span className="text-sm text-zinc-700">{opt}</span>
+                </label>
+              ))}
+            </div>
+            {form.contentFormat === "outro" && (
+              <input type="text" value={form.contentFormatOther} onChange={(e) => set("contentFormatOther", e.target.value)}
+                className="mt-2 w-full border border-zinc-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3db8d4]"
+                placeholder="Qual formato?" />
+            )}
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-semibold text-[#0f2d4a] mb-2">Você já adquiriu algum ebook ou curso do Rotina Clínica? *</legend>
+            <div className="space-y-2">
+              {[
+                ["ebook", "Sim, ebook"],
+                ["curso-presencial", "Sim, curso presencial"],
+                ["curso-online", "Sim, curso online"],
+                ["ebook-e-curso", "Sim, ebook e curso online ou presencial"],
+                ["nenhum", "Ainda não adquiri"],
+              ].map(([val, label]) => (
+                <label key={val} className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="previousPurchase" value={val} required
+                    checked={form.previousPurchase === val} onChange={() => set("previousPurchase", val)}
+                    className="accent-[#3db8d4] w-4 h-4" />
+                  <span className="text-sm text-zinc-700">{label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-semibold text-[#0f2d4a] mb-2">
+              Você gostaria de receber materiais gratuitos e ofertas exclusivas pelo WhatsApp? *
+            </legend>
+            <div className="space-y-2">
+              {[["true","Sim"],["false","Não"]].map(([val, label]) => (
+                <label key={val} className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="whatsappOptIn" value={val} required
+                    checked={form.whatsappOptIn === (val === "true")}
+                    onChange={() => set("whatsappOptIn", val === "true")}
+                    className="accent-[#3db8d4] w-4 h-4" />
+                  <span className="text-sm text-zinc-700">{label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          {error && (
+            <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">{error}</p>
+          )}
+
+          <button
+            type="submit" disabled={loading}
+            className="w-full bg-[#3db8d4] hover:bg-[#2fa8c4] disabled:opacity-60 text-[#0f2d4a] font-bold py-4 rounded-xl transition-all shadow-md text-base"
+          >
+            {loading ? "Enviando..." : "Quero meus ebooks gratuitos →"}
+          </button>
+        </form>
+      </main>
+    </div>
+  );
+}

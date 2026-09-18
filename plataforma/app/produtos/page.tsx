@@ -39,18 +39,18 @@ const PAID_PRODUCTS = [
   },
 ];
 
-const FREE_EBOOKS = [
+const FREE_EBOOKS_LIST = [
   {
-    slug: "racional-prescricao",
     title: "O Racional da Prescrição Médica",
-    description: "Entenda a lógica por trás de cada prescrição. Gratuito para você.",
-    image: "/images/ebook-gratis-racional.png",
+    description: "Entenda a lógica por trás de cada prescrição médica.",
   },
   {
-    slug: "manual-prescricoes-gratis",
     title: "Manual de Prescrições (Amostra)",
-    description: "Amostra gratuita do nosso e-book mais acessado. Baixe agora.",
-    image: "/images/ebook-gratis-manual.jpg",
+    description: "Mais de 224 prescrições prontas, da UBS à emergência.",
+  },
+  {
+    title: "Abordagem da HAS e DM2 na Atenção Primária",
+    description: "Condutas para as doenças mais prevalentes na UBS.",
   },
 ];
 
@@ -77,34 +77,52 @@ export default function ProdutosPage() {
           <h2 className="text-2xl font-extrabold text-[#0f2d4a]">Comece por aqui — grátis</h2>
           <span className="bg-[#3db8d4]/15 text-[#1a6aad] text-xs font-bold px-3 py-1 rounded-full border border-[#3db8d4]/30">Sem custo</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {FREE_EBOOKS.map((e) => (
-            <Link
-              key={e.slug}
-              href={`/download/${e.slug}`}
-              className="group bg-white rounded-2xl overflow-hidden border border-zinc-200 hover:shadow-xl hover:border-[#3db8d4] transition-all flex flex-col"
-            >
-              <div className="relative bg-white flex items-center justify-center h-60 overflow-hidden border-b border-zinc-100">
-                <img
-                  src={e.image}
-                  alt={e.title}
-                  className="h-full w-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-                />
-                <span className="absolute top-3 left-3 bg-[#3db8d4] text-[#0f2d4a] text-xs font-bold px-3 py-1 rounded-full">
-                  Gratuito
-                </span>
-              </div>
-              <div className="p-5 flex flex-col flex-1">
-                <h3 className="font-bold text-[#0f2d4a] text-lg mb-1 group-hover:text-[#1a6aad] transition-colors">
-                  {e.title}
-                </h3>
-                <p className="text-[#334e68] text-sm flex-1 mb-4">{e.description}</p>
-                <span className="text-sm font-semibold text-[#3db8d4] group-hover:text-[#0f2d4a] transition-colors">
-                  Baixar grátis →
-                </span>
-              </div>
-            </Link>
-          ))}
+
+        {/* Banner unificado dos 3 ebooks */}
+        <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
+          <div className="flex flex-col md:flex-row">
+            {/* Imagem */}
+            <div className="md:w-2/5 bg-[#f0f7fa] flex items-center justify-center p-6 md:p-8 border-b md:border-b-0 md:border-r border-zinc-100">
+              <img
+                src="/images/ebooks-gratuitos-bundle.png"
+                alt="3 ebooks gratuitos do Rotina Clínica"
+                className="w-full max-w-xs md:max-w-none object-contain"
+              />
+            </div>
+
+            {/* Conteúdo */}
+            <div className="md:w-3/5 p-7 md:p-10 flex flex-col justify-center">
+              <span className="text-xs font-bold text-[#3db8d4] uppercase tracking-widest mb-2">Download gratuito</span>
+              <h3 className="text-xl md:text-2xl font-extrabold text-[#0f2d4a] mb-3 leading-tight">
+                Faça o download gratuito de materiais que irão impactar grandemente na sua prática clínica
+              </h3>
+              <p className="text-sm text-zinc-500 mb-5">
+                Preencha um único cadastro e baixe os 3 ebooks de uma vez.
+              </p>
+
+              {/* Lista dos 3 ebooks */}
+              <ul className="space-y-3 mb-7">
+                {FREE_EBOOKS_LIST.map((e, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-[#3db8d4]/20 text-[#1a6aad] text-xs font-bold flex items-center justify-center">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <span className="text-sm font-semibold text-[#0f2d4a]">{e.title}</span>
+                      <span className="text-xs text-zinc-500 ml-1">— {e.description}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/download/ebooks-gratuitos"
+                className="inline-block bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-8 py-4 rounded-xl text-base transition-colors shadow-md text-center"
+              >
+                Baixar os 3 ebooks gratuitamente →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
