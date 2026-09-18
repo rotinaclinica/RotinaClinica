@@ -481,24 +481,28 @@ export async function sendEbookDownloadLinks({
 
             <!-- Promo box -->
             <table width="100%" cellpadding="0" cellspacing="0">
-              <tr><td style="background:#f0f7ff;border:1px solid #dde6ef;border-radius:12px;padding:20px 24px">
-                <p style="margin:0 0 8px;color:#0f2d4a;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px">
-                  Plataforma completa
+              <tr><td style="background:#0f2d4a;border-radius:14px;padding:28px 28px 24px">
+                <p style="margin:0 0 4px;color:#3db8d4;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px">
+                  Rotina Clínica — Plataforma
                 </p>
-                <p style="margin:0 0 10px;color:#2d5a7a;font-size:14px;line-height:1.6">
-                  Tudo que você precisa no plantão em um só lugar:
+                <p style="margin:0 0 6px;color:#ffffff;font-size:18px;font-weight:700;line-height:1.3">
+                  Pare de travar no plantão.
                 </p>
-                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px">
-                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">📋 <strong>Condutas Clínicas</strong> — prescrições prontas para PS, UPA, UBS e emergência</td></tr>
-                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">🧮 <strong>Calculadoras Clínicas</strong> — escores validados para uso rápido no plantão</td></tr>
-                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">📝 <strong>Modelos de Evolução</strong> — registros prontos para agilizar atendimentos</td></tr>
-                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">🔍 <strong>CID-10 Completo</strong> — tabela DATASUS para atestados, laudos e AIH</td></tr>
-                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">🎓 <strong>Cursos e Aulas Online</strong> — Destravando o Plantão e muito mais</td></tr>
+                <p style="margin:0 0 18px;color:#9ec4de;font-size:13px;line-height:1.6">
+                  Tudo que você precisa para agir com segurança e agilidade, em qualquer cenário clínico:
+                </p>
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">📋 &nbsp;<strong style="color:#ffffff">Condutas Clínicas</strong> — +200 prescrições para PS, UPA, UBS e internação</td></tr>
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">🧮 &nbsp;<strong style="color:#ffffff">Calculadoras Clínicas</strong> — escores validados para uso imediato no plantão</td></tr>
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">📝 &nbsp;<strong style="color:#ffffff">Modelos de Evolução</strong> — registros prontos para agilizar cada atendimento</td></tr>
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">🎓 &nbsp;<strong style="color:#ffffff">Cursos e Aulas Online</strong> — Destravando o Plantão e muito mais</td></tr>
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">🔍 &nbsp;<strong style="color:#ffffff">CID-10 Completo</strong> — busca rápida para atestados, laudos e AIH</td></tr>
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">🗒️ &nbsp;<strong style="color:#ffffff">Anotações Clínicas</strong> — bloco de notas salvo na sua conta, exportável em PDF</td></tr>
                 </table>
                 <a href="https://www.rotinaclinica.com/assinatura#planos"
-                   style="display:inline-block;background:#0f2d4a;color:#ffffff;text-decoration:none;
-                          padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">
-                  Ver planos de assinatura →
+                   style="display:inline-block;background:#3db8d4;color:#0f2d4a;text-decoration:none;
+                          padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700">
+                  Quero assinar o Rotina Clínica →
                 </a>
               </td></tr>
             </table>
