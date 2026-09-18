@@ -30,12 +30,12 @@ const EBOOK_INFO: Record<string, { title: string; image: string; subtitle: strin
   },
   "manual-prescricoes-gratis": {
     title: "Manual de Prescrições (Amostra)",
-    subtitle: "Mais de 224 prescrições prontas, da UBS à emergência.",
+    subtitle: "Modelos de prescrições prontos para otimizar seus atendimentos!",
     image: "/images/ebook-gratis-manual.jpg",
   },
   "has-dm2-ubs": {
     title: "Abordagem da HAS e DM2 na Atenção Primária",
-    subtitle: "Condutas para as doenças mais prevalentes na UBS.",
+    subtitle: "Abordagem sistematizada e completa da HAS e DM2!",
     image: "/images/ebook-gratis-has-dm2.png",
   },
 };
@@ -142,7 +142,7 @@ export default function EbooksGratuitosPage() {
                     <p className="font-bold text-[#0f2d4a] text-sm mb-1 leading-snug">
                       {info?.title ?? d.title}
                     </p>
-                    <p className="text-xs text-zinc-500 mb-4 flex-1">{info?.subtitle}</p>
+                    <p className="text-xs text-zinc-600 mb-4 flex-1">{info?.subtitle}</p>
                     {d.url ? (
                       <a href={d.url} download
                         className="block text-center bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold py-2.5 rounded-xl text-sm transition-colors">
@@ -163,21 +163,32 @@ export default function EbooksGratuitosPage() {
           <div className="bg-[#0f2d4a] rounded-2xl overflow-hidden mb-8">
             <div className="p-7 md:p-8">
               <p className="text-xs font-bold text-[#3db8d4] uppercase tracking-widest mb-2">Plataforma completa</p>
-              <h3 className="text-xl font-extrabold text-white mb-3 leading-tight">
-                Quer ter acesso a +200 prescrições, calculadoras clínicas e modelos de evolução?
+              <h3 className="text-xl font-extrabold text-white mb-2 leading-tight">
+                Tudo que você precisa no plantão em um só lugar
               </h3>
-              <ul className="space-y-1.5 mb-6">
+              <p className="text-[#9ec4de] text-sm mb-5">
+                Uma plataforma completa e projetada para te acompanhar em todos os cenários.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                 {[
-                  "📋 Mais de 200 prescrições prontas organizadas por especialidade",
-                  "📝 Modelos de evolução estruturados para o dia a dia",
-                  "🧮 Calculadoras clínicas de uso rápido no plantão",
-                  "🎓 Cursos e videoaulas para médicos plantonistas",
+                  { icon: "📋", title: "Condutas Clínicas", desc: "Prescrições prontas para PS, UPA, UBS, emergência e internação" },
+                  { icon: "🧮", title: "Calculadoras Clínicas", desc: "Escores e calculadoras validados para sua prática" },
+                  { icon: "📝", title: "Modelos de Evolução", desc: "Registros prontos para agilizar seus atendimentos" },
+                  { icon: "🎓", title: "Cursos e Aulas Online", desc: "Destravando o Plantão e muito mais" },
+                  { icon: "📚", title: "Ebooks e Materiais", desc: "Conteúdo em PDF para baixar e consultar offline" },
+                  { icon: "🔍", title: "CID-10 Completo", desc: "Busca rápida para atestados, laudos e AIH" },
                 ].map((item) => (
-                  <li key={item} className="text-[#9ec4de] text-sm">{item}</li>
+                  <div key={item.title} className="flex items-start gap-2.5">
+                    <span className="text-base mt-0.5">{item.icon}</span>
+                    <div>
+                      <p className="text-white text-sm font-semibold leading-tight">{item.title}</p>
+                      <p className="text-[#9ec4de] text-xs mt-0.5">{item.desc}</p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
               <Link
-                href="/produtos#planos"
+                href="https://www.rotinaclinica.com/assinatura#planos"
                 className="inline-block bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-7 py-3.5 rounded-xl text-sm transition-colors"
               >
                 Ver planos de assinatura →

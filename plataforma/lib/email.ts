@@ -483,13 +483,19 @@ export async function sendEbookDownloadLinks({
             <table width="100%" cellpadding="0" cellspacing="0">
               <tr><td style="background:#f0f7ff;border:1px solid #dde6ef;border-radius:12px;padding:20px 24px">
                 <p style="margin:0 0 8px;color:#0f2d4a;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px">
-                  Quer ir além?
+                  Plataforma completa
                 </p>
-                <p style="margin:0 0 16px;color:#2d5a7a;font-size:14px;line-height:1.6">
-                  A plataforma Rotina Clínica reúne +200 prescrições prontas, modelos de evolução,
-                  calculadoras clínicas e videoaulas. Tudo para agilizar o seu plantão.
+                <p style="margin:0 0 10px;color:#2d5a7a;font-size:14px;line-height:1.6">
+                  Tudo que você precisa no plantão em um só lugar:
                 </p>
-                <a href="${appUrl}/produtos#planos"
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px">
+                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">📋 <strong>Condutas Clínicas</strong> — prescrições prontas para PS, UPA, UBS e emergência</td></tr>
+                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">🧮 <strong>Calculadoras Clínicas</strong> — escores validados para uso rápido no plantão</td></tr>
+                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">📝 <strong>Modelos de Evolução</strong> — registros prontos para agilizar atendimentos</td></tr>
+                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">🔍 <strong>CID-10 Completo</strong> — tabela DATASUS para atestados, laudos e AIH</td></tr>
+                  <tr><td style="padding:3px 0;color:#2d5a7a;font-size:13px">🎓 <strong>Cursos e Aulas Online</strong> — Destravando o Plantão e muito mais</td></tr>
+                </table>
+                <a href="https://www.rotinaclinica.com/assinatura#planos"
                    style="display:inline-block;background:#0f2d4a;color:#ffffff;text-decoration:none;
                           padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">
                   Ver planos de assinatura →

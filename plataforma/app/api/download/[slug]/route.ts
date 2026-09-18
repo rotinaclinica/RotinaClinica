@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getPrivateBlob } from "@/lib/blob";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const rateMap = new Map<string, { count: number; resetAt: number }>();
 
@@ -36,12 +38,20 @@ export async function GET(
     return NextResponse.json({ error: "Arquivo não disponível" }, { status: 404 });
   }
 
-  // Static public file: redirect directly (fileKey is a public path like /downloads/...)
+  // Static public file: serve directly from filesystem to force download
   if (product.fileKey.startsWith("/")) {
-    return NextResponse.redirect(
-      new URL(product.fileKey, process.env.NEXT_PUBLIC_APP_URL || "https://rotinaclinica.com.br"),
-      { headers: { "Content-Disposition": `attachment; filename="${slug}.pdf"` } }
-    );
+    try {
+      const filePath = join(process.cwd(), "public", product.fileKey);
+      const fileBuffer = readFileSync(filePath);
+      return new NextResponse(fileBuffer, {
+        headers: {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="${slug}.pdf"`,
+        },
+      });
+    } catch {
+      return NextResponse.json({ error: "Arquivo não disponível" }, { status: 404 });
+    }
   }
 
   let result;
