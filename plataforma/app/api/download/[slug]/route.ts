@@ -43,10 +43,11 @@ export async function GET(
     try {
       const filePath = join(process.cwd(), "public", product.fileKey);
       const fileBuffer = readFileSync(filePath);
+      const filename = `${product.title.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-")}.pdf`;
       return new NextResponse(fileBuffer, {
         headers: {
           "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="${slug}.pdf"`,
+          "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`,
         },
       });
     } catch {

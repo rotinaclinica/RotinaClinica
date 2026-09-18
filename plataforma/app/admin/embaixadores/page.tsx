@@ -18,6 +18,7 @@ export default async function EmbaixadoresPage() {
       name: true,
       email: true,
       ambassadorCode: true,
+      subscription: { select: { currentPeriodEnd: true, status: true } },
       referralsGiven: {
         select: {
           id: true,
@@ -59,7 +60,8 @@ export default async function EmbaixadoresPage() {
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Embaixador</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Código</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Indicações</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Meses bônus</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Bônus por indicações</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Assinatura até</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Comissão pendente</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-zinc-400">Já pago</th>
                 <th className="px-4 py-3" />
@@ -86,6 +88,15 @@ export default async function EmbaixadoresPage() {
                       </td>
                       <td className="px-4 py-3 text-zinc-400 font-semibold">{total}</td>
                       <td className="px-4 py-3 text-zinc-400">{bonusMonths > 0 ? `+${bonusMonths} mês${bonusMonths !== 1 ? "es" : ""}` : "—"}</td>
+                      <td className="px-4 py-3">
+                        {amb.subscription ? (
+                          <span className={`text-xs font-semibold ${new Date(amb.subscription.currentPeriodEnd) > new Date() ? "text-emerald-400" : "text-red-400"}`}>
+                            {new Date(amb.subscription.currentPeriodEnd).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                          </span>
+                        ) : (
+                          <span className="text-zinc-500 text-xs">sem assinatura</span>
+                        )}
+                      </td>
                       <td className="px-4 py-3">
                         {pendingCents > 0
                           ? <span className="font-semibold text-amber-400">{brl(pendingCents)}</span>
