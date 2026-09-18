@@ -102,18 +102,30 @@ export default function EbooksGratuitosPage() {
             <Link href="/"><Logo variant="light" /></Link>
           </div>
         </header>
-        <main className="max-w-3xl mx-auto px-6 py-12">
-          <div className="text-center mb-10">
-            <div className="text-4xl mb-4">🎉</div>
+        <main className="max-w-3xl mx-auto px-6 py-10">
+
+          {/* Email notice */}
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-5 py-4 flex items-start gap-3 mb-8">
+            <span className="text-emerald-500 text-xl mt-0.5">✉️</span>
+            <div>
+              <p className="font-semibold text-emerald-800 text-sm">Links enviados para o seu email!</p>
+              <p className="text-emerald-700 text-sm mt-0.5">
+                Você também recebeu os links de download no email cadastrado. Guarde-o para acessar os arquivos quando quiser, mesmo após fechar esta página.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mb-8">
             <h2 className="text-2xl font-extrabold text-[#0f2d4a] mb-2">
               Seus ebooks estão prontos!
             </h2>
-            <p className="text-zinc-500">
-              Clique no botão de download abaixo de cada ebook para salvar no seu dispositivo.
+            <p className="text-zinc-500 text-sm">
+              Clique no botão abaixo de cada ebook para baixar o PDF.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {/* Download cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
             {downloads.map((d) => {
               const info = EBOOK_INFO[d.slug];
               return (
@@ -123,11 +135,7 @@ export default function EbooksGratuitosPage() {
                 >
                   <div className="h-52 bg-zinc-50 flex items-center justify-center border-b border-zinc-100 overflow-hidden">
                     {info?.image && (
-                      <img
-                        src={info.image}
-                        alt={d.title}
-                        className="h-full w-full object-contain p-3"
-                      />
+                      <img src={info.image} alt={d.title} className="h-full w-full object-contain p-3" />
                     )}
                   </div>
                   <div className="p-4 flex flex-col flex-1">
@@ -136,11 +144,8 @@ export default function EbooksGratuitosPage() {
                     </p>
                     <p className="text-xs text-zinc-500 mb-4 flex-1">{info?.subtitle}</p>
                     {d.url ? (
-                      <a
-                        href={d.url}
-                        download
-                        className="block text-center bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold py-2.5 rounded-xl text-sm transition-colors"
-                      >
+                      <a href={d.url} download
+                        className="block text-center bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold py-2.5 rounded-xl text-sm transition-colors">
                         Baixar PDF →
                       </a>
                     ) : (
@@ -154,9 +159,36 @@ export default function EbooksGratuitosPage() {
             })}
           </div>
 
-          <div className="text-center mt-10">
-            <Link href="/produtos" className="text-sm text-[#1a6aad] hover:underline">
-              ← Ver todos os materiais
+          {/* Subscription promo banner */}
+          <div className="bg-[#0f2d4a] rounded-2xl overflow-hidden mb-8">
+            <div className="p-7 md:p-8">
+              <p className="text-xs font-bold text-[#3db8d4] uppercase tracking-widest mb-2">Plataforma completa</p>
+              <h3 className="text-xl font-extrabold text-white mb-3 leading-tight">
+                Quer ter acesso a +200 prescrições, calculadoras clínicas e modelos de evolução?
+              </h3>
+              <ul className="space-y-1.5 mb-6">
+                {[
+                  "📋 Mais de 200 prescrições prontas organizadas por especialidade",
+                  "📝 Modelos de evolução estruturados para o dia a dia",
+                  "🧮 Calculadoras clínicas de uso rápido no plantão",
+                  "🎓 Cursos e videoaulas para médicos plantonistas",
+                ].map((item) => (
+                  <li key={item} className="text-[#9ec4de] text-sm">{item}</li>
+                ))}
+              </ul>
+              <Link
+                href="/produtos#planos"
+                className="inline-block bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-7 py-3.5 rounded-xl text-sm transition-colors"
+              >
+                Ver planos de assinatura →
+              </Link>
+            </div>
+          </div>
+
+          {/* Back button */}
+          <div className="text-center">
+            <Link href="/" className="text-sm text-[#1a6aad] hover:underline">
+              ← Voltar ao site
             </Link>
           </div>
         </main>

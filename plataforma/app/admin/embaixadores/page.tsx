@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { db } from "@/lib/db";
 import { AmbassadorForm } from "./AmbassadorForm";
-import { RemoveButton, MarkPaidButton } from "./AmbassadorActions";
+import { RemoveButton, MarkPaidButton, GrantBonusMonthButton } from "./AmbassadorActions";
 
 export const metadata = { title: "Embaixadores · Admin Rotina Clínica" };
 
@@ -94,6 +94,7 @@ export default async function EmbaixadoresPage() {
                       <td className="px-4 py-3 text-zinc-400">{paidCents > 0 ? brl(paidCents) : "—"}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2 justify-end">
+                          <GrantBonusMonthButton ambassadorId={amb.id} />
                           <MarkPaidButton ambassadorId={amb.id} pending={pendingCents} />
                           <RemoveButton userId={amb.id} />
                         </div>

@@ -417,6 +417,108 @@ export async function sendDownloadHealthAlert(
   });
 }
 
+export async function sendEbookDownloadLinks({
+  to,
+  name,
+  downloads,
+  appUrl,
+}: {
+  to: string;
+  name: string;
+  downloads: { title: string; slug: string; url: string | null }[];
+  appUrl: string;
+}) {
+  const buttons = downloads
+    .map((d) =>
+      d.url
+        ? `<tr><td style="padding:8px 0">
+            <a href="${appUrl}${d.url}"
+               style="display:block;background:#3db8d4;color:#0f2d4a;text-decoration:none;
+                      padding:13px 24px;border-radius:10px;font-weight:700;font-size:14px;text-align:center">
+              Baixar: ${escapeHtml(d.title)} →
+            </a>
+           </td></tr>`
+        : `<tr><td style="padding:8px 0">
+            <div style="display:block;background:#e2e8f0;color:#94a3b8;
+                        padding:13px 24px;border-radius:10px;font-size:14px;text-align:center">
+              ${escapeHtml(d.title)} — em breve
+            </div>
+           </td></tr>`
+    )
+    .join("");
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: "Seus 3 ebooks gratuitos do Rotina Clínica",
+    html: `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dde6ef">
+
+        <tr>
+          <td style="background:#0f2d4a;padding:36px 40px">
+            <p style="margin:0 0 4px;color:#3db8d4;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Rotina Clínica</p>
+            <p style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Seus ebooks estão aqui! 📥</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:36px 40px">
+            <p style="margin:0 0 16px;color:#0f2d4a;font-size:16px">Olá, <strong>${escapeHtml(name)}</strong>!</p>
+            <p style="margin:0 0 28px;color:#4a6a80;font-size:15px;line-height:1.7">
+              Obrigado por se cadastrar! Clique nos botões abaixo para baixar seus ebooks gratuitos.
+              Guarde este email — você pode usar esses links sempre que precisar.
+            </p>
+
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px">
+              ${buttons}
+            </table>
+
+            <!-- Promo box -->
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td style="background:#f0f7ff;border:1px solid #dde6ef;border-radius:12px;padding:20px 24px">
+                <p style="margin:0 0 8px;color:#0f2d4a;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px">
+                  Quer ir além?
+                </p>
+                <p style="margin:0 0 16px;color:#2d5a7a;font-size:14px;line-height:1.6">
+                  A plataforma Rotina Clínica reúne +200 prescrições prontas, modelos de evolução,
+                  calculadoras clínicas e videoaulas. Tudo para agilizar o seu plantão.
+                </p>
+                <a href="${appUrl}/produtos#planos"
+                   style="display:inline-block;background:#0f2d4a;color:#ffffff;text-decoration:none;
+                          padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600">
+                  Ver planos de assinatura →
+                </a>
+              </td></tr>
+            </table>
+
+            <p style="margin:28px 0 0;color:#94a8b8;font-size:13px;text-align:center;line-height:1.6">
+              Em caso de dúvidas: <a href="mailto:contato@rotinaclinica.com" style="color:#3db8d4;text-decoration:none">contato@rotinaclinica.com</a>
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="background:#f0f4f8;padding:20px 40px;text-align:center">
+            <p style="margin:0;color:#94a8b8;font-size:12px">
+              © ${new Date().getFullYear()} Rotina Clínica · <a href="https://www.rotinaclinica.com/privacidade" style="color:#94a8b8">Política de Privacidade</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+}
+
 /**
  * Envia a nota fiscal (NFS-e) autorizada com o PDF anexado.
  * Chamado pelo cron de emissão, após a nota ser autorizada pelo provedor.

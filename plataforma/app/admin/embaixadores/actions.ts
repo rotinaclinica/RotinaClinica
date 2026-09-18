@@ -11,6 +11,36 @@ async function requireAdmin() {
   if (user?.role !== "ADMIN") throw new Error("Sem permissão");
 }
 
+async function grantSubscriptionMonth(userId: string, reason: string) {
+  const now = new Date();
+  const sub = await db.subscription.findUnique({
+    where: { userId },
+    select: { status: true, currentPeriodEnd: true },
+  });
+  const base =
+    sub && sub.status === "ACTIVE" && sub.currentPeriodEnd > now
+      ? new Date(sub.currentPeriodEnd)
+      : new Date(now);
+  const newEnd = new Date(base);
+  newEnd.setDate(newEnd.getDate() + 30);
+
+  await db.subscription.upsert({
+    where: { userId },
+    update: { currentPeriodEnd: newEnd, updatedAt: now },
+    create: {
+      userId,
+      plan: "MONTHLY",
+      status: "ACTIVE",
+      currentPeriodStart: now,
+      currentPeriodEnd: newEnd,
+      provider: "STRIPE",
+      providerRef: reason,
+      createdAt: now,
+      updatedAt: now,
+    },
+  });
+}
+
 export async function makeAmbassador(formData: FormData) {
   await requireAdmin();
   const email = (formData.get("email") as string)?.trim().toLowerCase();
@@ -18,7 +48,7 @@ export async function makeAmbassador(formData: FormData) {
   if (!email || !code) return { error: "Email e código são obrigatórios." };
   if (!/^[A-Z0-9]{3,20}$/.test(code)) return { error: "Código inválido. Use apenas letras e números (3–20 caracteres)." };
 
-  const target = await db.user.findUnique({ where: { email }, select: { id: true } });
+  const target = await db.user.findUnique({ where: { email }, select: { id: true, isAmbassador: true } });
   if (!target) return { error: "Usuário não encontrado." };
 
   const codeInUse = await db.user.findUnique({ where: { ambassadorCode: code }, select: { id: true } });
@@ -28,6 +58,11 @@ export async function makeAmbassador(formData: FormData) {
     where: { id: target.id },
     data: { isAmbassador: true, ambassadorCode: code },
   });
+
+  // Conceder 1 mês bônus ao tornar-se embaixador (apenas na primeira vez)
+  if (!target.isAmbassador) {
+    await grantSubscriptionMonth(target.id, `ambassador_welcome_${code}`);
+  }
 
   revalidatePath("/admin/embaixadores");
   return { success: true };
@@ -48,5 +83,11 @@ export async function markCommissionPaid(ambassadorId: string) {
     where: { ambassadorId, paidOut: false },
     data: { paidOut: true, paidOutAt: new Date() },
   });
+  revalidatePath("/admin/embaixadores");
+}
+
+export async function grantBonusMonth(ambassadorId: string) {
+  await requireAdmin();
+  await grantSubscriptionMonth(ambassadorId, `ambassador_manual_bonus_${Date.now()}`);
   revalidatePath("/admin/embaixadores");
 }

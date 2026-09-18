@@ -36,6 +36,14 @@ export async function GET(
     return NextResponse.json({ error: "Arquivo não disponível" }, { status: 404 });
   }
 
+  // Static public file: redirect directly (fileKey is a public path like /downloads/...)
+  if (product.fileKey.startsWith("/")) {
+    return NextResponse.redirect(
+      new URL(product.fileKey, process.env.NEXT_PUBLIC_APP_URL || "https://rotinaclinica.com.br"),
+      { headers: { "Content-Disposition": `attachment; filename="${slug}.pdf"` } }
+    );
+  }
+
   let result;
   try {
     result = await getPrivateBlob(product.fileKey);

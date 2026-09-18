@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { randomUUID } from "crypto";
+import { sendEbookDownloadLinks } from "@/lib/email";
 
 // Rate limiting: máx 5 submissões por IP em 10 minutos
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -76,14 +77,19 @@ export async function POST(req: NextRequest) {
         products.map((p) => db.lead.create({ data: { id: randomUUID(), ...leadBase, productId: p.id } }))
       );
 
-      return NextResponse.json({
-        success: true,
-        downloads: products.map((p) => ({
-          title: p.title,
-          slug: p.slug,
-          url: p.fileKey ? `/api/download/${p.slug}` : null,
-        })),
-      });
+      const downloadsPayload = products.map((p) => ({
+        title: p.title,
+        slug: p.slug,
+        url: p.fileKey ? `/api/download/${p.slug}` : null,
+      }));
+
+      // Send email with download links (non-blocking)
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.rotinaclinica.com.br";
+      sendEbookDownloadLinks({ to: email, name, downloads: downloadsPayload, appUrl }).catch(
+        (err) => console.error("[leads/bundle] email error:", err)
+      );
+
+      return NextResponse.json({ success: true, downloads: downloadsPayload });
     }
 
     // Single product mode (existing behavior)
