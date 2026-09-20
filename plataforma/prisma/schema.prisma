@@ -321,6 +321,20 @@ model AnonymizationLog {
   @@index([createdAt])
 }
 
+// Log de exports CSV do admin — LGPD Art. 37. Rastreia quem baixou dados
+// pessoais de usuários/leads/pedidos, quando, e quantos registros.
+model AdminExportLog {
+  id        String   @id @default(cuid())
+  adminId   String
+  type      String   // "usuarios" | "leads" | "pedidos" | "notas"
+  rowCount  Int
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([createdAt])
+}
+
 model BroadcastSent {
   id         String   @id @default(cuid())
   campaignId String

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { isAdminRequest } from "@/lib/require-admin";
 import { decryptCpf, formatCpf } from "@/lib/crypto/cpf";
+import { auth } from "@/lib/auth";
+import { logError } from "@/lib/error-logger";
 
 function csvCell(v: unknown): string {
   let s = v == null ? "" : String(v);
@@ -24,7 +26,7 @@ const brl = (cents: number | null | undefined) =>
   ((cents ?? 0) / 100).toFixed(2).replace(".", ",");
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ type: string }> }
 ) {
   if (!(await isAdminRequest())) {
@@ -34,6 +36,7 @@ export async function GET(
   const { type } = await params;
   let csv: string;
   let filename: string;
+  let rowCount = 0;
 
   if (type === "usuarios") {
     const users = await db.user.findMany({
@@ -54,6 +57,7 @@ export async function GET(
       ])
     );
     filename = "usuarios";
+    rowCount = users.length;
   } else if (type === "leads") {
     const leads = await db.lead.findMany({
       orderBy: { createdAt: "desc" },
@@ -67,6 +71,7 @@ export async function GET(
       ])
     );
     filename = "leads";
+    rowCount = leads.length;
   } else if (type === "pedidos") {
     const orders = await db.order.findMany({
       orderBy: { createdAt: "desc" },
@@ -83,8 +88,26 @@ export async function GET(
       ])
     );
     filename = "pedidos";
+    rowCount = orders.length;
   } else {
     return NextResponse.json({ error: "Tipo inválido" }, { status: 404 });
+  }
+
+  // LGPD Art. 37 — registro imutável da operação de export.
+  // Falha silenciosa: um erro no log não deve impedir o export legítimo.
+  try {
+    const session = await auth();
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+    await db.adminExportLog.create({
+      data: {
+        adminId: session?.user?.id ?? "unknown",
+        type,
+        rowCount,
+        ip,
+      },
+    });
+  } catch (err) {
+    await logError({ route: "/api/admin/export", method: "GET", error: err }).catch(() => {});
   }
 
   const date = new Date().toISOString().slice(0, 10);

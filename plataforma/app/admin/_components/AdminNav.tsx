@@ -19,6 +19,7 @@ const LINKS = [
   { href: "/admin/financeiro", label: "Financeiro" },
   { href: "/admin/metricas", label: "Métricas" },
   { href: "/admin/erros", label: "Erros" },
+  { href: "/admin/auditoria", label: "Auditoria" },
 ];
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
