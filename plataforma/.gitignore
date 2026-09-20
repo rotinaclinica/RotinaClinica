@@ -51,3 +51,6 @@ public/ebook/*.pdf
 
 .vercel
 .env*
+
+# LGPD: backups de CPF em texto plano NUNCA vao para o git
+backup-cpf-*.json

@@ -5,6 +5,7 @@ import Link from "next/link";
 import SearchBox from "../_components/SearchBox";
 import Pagination from "../_components/Pagination";
 import ExportButton from "../_components/ExportButton";
+import { decryptCpf, hashCpf, formatCpf } from "@/lib/crypto/cpf";
 
 export const metadata = { title: "Usuários · Admin · Rotina Clínica" };
 
@@ -31,12 +32,13 @@ export default async function AdminUsuariosPage({
   const query = q?.trim() ?? "";
   const page = Math.max(1, Number(pageParam) || 1);
 
+  const queryDigits = query.replace(/\D/g, "");
   const where = query
     ? {
         OR: [
           { name: { contains: query, mode: "insensitive" as const } },
           { email: { contains: query, mode: "insensitive" as const } },
-          { cpf: { contains: query.replace(/\D/g, "") } },
+          ...(queryDigits.length === 11 ? [{ cpfHash: hashCpf(queryDigits) }] : []),
         ],
       }
     : undefined;
@@ -114,11 +116,14 @@ export default async function AdminUsuariosPage({
                     <p className="text-xs text-zinc-400">{u.email}</p>
                   </td>
                   <td className="px-4 py-3 text-xs">
-                    {u.cpf ? (
-                      <span className="text-zinc-400 font-mono">{u.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")}</span>
-                    ) : (
-                      <span className="text-red-400 font-medium">sem CPF</span>
-                    )}
+                    {(() => {
+                      const plain = decryptCpf(u.cpf);
+                      return plain ? (
+                        <span className="text-zinc-400 font-mono">{formatCpf(plain)}</span>
+                      ) : (
+                        <span className="text-red-400 font-medium">sem CPF</span>
+                      );
+                    })()}
                   </td>
                   <td className="px-4 py-3 text-xs">
                     {u.phone ? (

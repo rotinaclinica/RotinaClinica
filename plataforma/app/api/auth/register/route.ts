@@ -6,6 +6,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 import { logError } from "@/lib/error-logger";
 import { Resend } from "resend";
 import { dripHtml0 } from "@/lib/emails/drip";
+import { encryptCpf, hashCpf } from "@/lib/crypto/cpf";
 
 const resend = new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 const FROM = "Rotina Clínica <contato@rotinaclinica.com>";
@@ -56,7 +57,8 @@ export async function POST(req: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf, cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, referrerUrl } });
+    const cpfDigits = cpf.replace(/\D/g, "");
+    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf: encryptCpf(cpfDigits), cpfHash: hashCpf(cpfDigits), cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, referrerUrl } });
 
     // Drip email 0 — boas-vindas (fire and forget)
     resend.emails.send({

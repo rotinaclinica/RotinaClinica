@@ -4,6 +4,7 @@ import { nfeConfig, nfeEnabled } from "./config";
 import { focusNfeProvider } from "./providers/focusnfe";
 import { asaasProvider } from "./providers/asaas";
 import type { NfeEmitInput, NfeProvider } from "./types";
+import { decryptCpf } from "@/lib/crypto/cpf";
 
 /**
  * PONTO CENTRAL DO SISTEMA DE NOTA FISCAL.
@@ -60,7 +61,7 @@ export async function createPendingInvoiceForOrder(orderId: string): Promise<voi
   const existing = await db.invoice.findUnique({ where: { orderId } });
   if (existing) return;
 
-  const doc = order.user.cpf?.replace(/\D/g, "") || null;
+  const doc = decryptCpf(order.user.cpf) || null;
   const cep = order.user.cep?.replace(/\D/g, "") || null;
   const titulos = order.items.map((i) => i.product.title).filter(Boolean);
   const discriminacao = titulos.length

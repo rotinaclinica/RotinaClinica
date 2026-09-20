@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { createMpPreference } from "@/lib/payments/mercadopago";
 import { z } from "zod";
 import { logError } from "@/lib/error-logger";
+import { decryptCpf } from "@/lib/crypto/cpf";
 
 const schema = z.object({ productId: z.string(), ambassadorCode: z.string().optional() });
 
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
       productTitle: product.title,
       priceCents: product.priceCents,
       customerEmail: session.user.email!,
-      customerCpf: user.cpf ?? undefined,
+      customerCpf: decryptCpf(user.cpf) ?? undefined,
       customerName: user.name ?? undefined,
       customerPhone: user.phone ?? undefined,
       customerCreatedAt: user.createdAt,

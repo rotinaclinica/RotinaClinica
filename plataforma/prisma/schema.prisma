@@ -19,6 +19,7 @@ model User {
   momentoProfissional  String?
   ambienteTrabalho     String?
   cpf                  String?
+  cpfHash              String?
   cep                  String?
   phone                String?
   isAmbassador         Boolean        @default(false)
@@ -38,6 +39,8 @@ model User {
   referralReceived     Referral?      @relation("ReferredUser")
   notes                Note[]
   quizAttempts         QuizAttempt[]
+
+  @@index([cpfHash])
 }
 
 model EmailDrip {

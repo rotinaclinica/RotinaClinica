@@ -10,6 +10,7 @@ import {
   createAsaasSubscription,
 } from "@/lib/payments/asaas";
 import { grantAccess } from "@/lib/entitlements";
+import { decryptCpf } from "@/lib/crypto/cpf";
 
 const baseSchema = z.object({
   productId: z.string(),
@@ -149,10 +150,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ orderId: order.id, status: "confirmed" });
     }
 
+    const userCpfPlain = decryptCpf(user.cpf) ?? "";
+    if (!userCpfPlain) {
+      return NextResponse.json({ error: "CPF não pôde ser lido", code: "CPF_REQUIRED" }, { status: 422 });
+    }
     const customerId = await createAsaasCustomer({
       name: user.name ?? session.user.name ?? "Cliente",
       email: session.user.email!,
-      cpfCnpj: user.cpf.replace(/\D/g, ""),
+      cpfCnpj: userCpfPlain,
       externalReference: session.user.id,
     });
 
@@ -196,7 +201,7 @@ export async function POST(req: NextRequest) {
       holderInfo: {
         name: parsed.data.card.holderName,
         email: session.user.email!,
-        cpfCnpj: user.cpf.replace(/\D/g, ""),
+        cpfCnpj: userCpfPlain,
         phone: user.phone ?? undefined,
         postalCode: cleanCep && cleanCep.length === 8 ? cleanCep : undefined,
       },

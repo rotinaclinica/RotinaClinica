@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { isAdminRequest } from "@/lib/require-admin";
+import { decryptCpf, formatCpf } from "@/lib/crypto/cpf";
 
 function csvCell(v: unknown): string {
   let s = v == null ? "" : String(v);
@@ -46,7 +47,7 @@ export async function GET(
     csv = toCsv(
       ["Nome", "E-mail", "CPF", "Telefone", "Cadastro", "Último acesso", "Plano", "Status", "Gasto total (R$)", "Vence em"],
       users.map((u) => [
-        u.name, u.email, u.cpf, u.phone, fmtDate(u.createdAt), fmtDate(u.lastSeenAt),
+        u.name, u.email, formatCpf(decryptCpf(u.cpf)), u.phone, fmtDate(u.createdAt), fmtDate(u.lastSeenAt),
         u.subscription?.plan ?? "", u.subscription?.status ?? "",
         brl(u.orders.reduce((s, o) => s + o.totalCents, 0)),
         fmtDate(u.subscription?.currentPeriodEnd),

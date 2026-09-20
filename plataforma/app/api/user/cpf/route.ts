@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { encryptCpf, hashCpf } from "@/lib/crypto/cpf";
 
 const schema = z.object({
   cpf: z.string().regex(/^\d{11}$/, "CPF deve conter 11 dígitos"),
@@ -22,7 +23,11 @@ export async function POST(req: NextRequest) {
 
   await db.user.update({
     where: { id: session.user.id },
-    data: { cpf: parsed.data.cpf, ...(parsed.data.phone ? { phone: parsed.data.phone } : {}) },
+    data: {
+      cpf: encryptCpf(parsed.data.cpf),
+      cpfHash: hashCpf(parsed.data.cpf),
+      ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
+    },
   });
 
   return NextResponse.json({ ok: true });

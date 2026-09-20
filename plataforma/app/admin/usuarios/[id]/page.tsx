@@ -5,6 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { isAdminRequest } from "@/lib/require-admin";
 import { UserActions } from "./UserActions";
+import { decryptCpf, formatCpf } from "@/lib/crypto/cpf";
 
 export const metadata = { title: "Usuário · Admin · Rotina Clínica" };
 
@@ -88,9 +89,12 @@ export default async function AdminUserDetailPage({
           <div>
             <dt className="text-xs text-zinc-400 font-medium">CPF</dt>
             <dd className="text-zinc-400 font-mono mt-0.5">
-              {user.cpf
-                ? user.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4")
-                : <span className="text-red-400">sem CPF</span>}
+              {(() => {
+                const plain = decryptCpf(user.cpf);
+                return plain
+                  ? formatCpf(plain)
+                  : <span className="text-red-400">sem CPF</span>;
+              })()}
             </dd>
           </div>
           <div>
