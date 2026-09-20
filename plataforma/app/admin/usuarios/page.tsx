@@ -51,7 +51,7 @@ export default async function AdminUsuariosPage({
       take: PAGE_SIZE,
       skip: (page - 1) * PAGE_SIZE,
       select: {
-        id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true, isCourtesy: true,
+        id: true, name: true, email: true, createdAt: true, cpf: true, phone: true, lastSeenAt: true, isCourtesy: true, isAmbassador: true,
         subscription: { select: { plan: true, status: true, currentPeriodStart: true, currentPeriodEnd: true } },
         orders: {
           where: { status: "PAID" },
@@ -156,11 +156,15 @@ export default async function AdminUsuariosPage({
                       ) : (
                         <span className="text-zinc-300 text-xs">Sem assinatura</span>
                       )}
-                      {u.isCourtesy && (
+                      {u.isAmbassador ? (
+                        <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-violet-500/20 text-violet-300">
+                          Embaixador(a)
+                        </span>
+                      ) : u.isCourtesy ? (
                         <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300">
                           Cortesia
                         </span>
-                      )}
+                      ) : null}
                     </div>
                   </td>
                   <td className="px-4 py-3 text-zinc-400 text-xs">

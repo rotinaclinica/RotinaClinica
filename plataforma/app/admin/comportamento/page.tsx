@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isAdminRequest } from "@/lib/require-admin";
+import { getExcludedEmails } from "../_lib/excluded-emails";
 
 export const metadata = { title: "Comportamento · Admin · Rotina Clínica" };
 
@@ -59,6 +60,7 @@ export default async function ComportamentoPage({
 
   const since30 = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
   const since7 = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const excludedEmails = await getExcludedEmails();
 
   // 1. Perfil do usuário buscado
   let userProfile: {
@@ -89,10 +91,12 @@ export default async function ComportamentoPage({
     }
   }
 
-  // Lista de assinantes ativos p/ o seletor
+  // Lista de assinantes ativos p/ o seletor (exclui admin/tester/cortesia/embaixador)
   const activeSubscribers = await db.user.findMany({
     where: {
       anonymizedAt: null,
+      role: "CUSTOMER",
+      email: { notIn: excludedEmails },
       subscription: { status: "ACTIVE", currentPeriodEnd: { gt: new Date() } },
     },
     select: { id: true, name: true, email: true, lastSeenAt: true },
@@ -100,24 +104,48 @@ export default async function ComportamentoPage({
   });
 
   // 2. Páginas mais quentes (assinantes ACTIVE nos últimos 7 dias)
-  const topPaths = await db.$queryRaw<{ path: string; hits: bigint; users: bigint }[]>`
-    SELECT pv.path AS path,
-           COUNT(*)::bigint AS hits,
-           COUNT(DISTINCT pv."userId")::bigint AS users
-    FROM "PageView" pv
-    JOIN "User" u ON u.id = pv."userId"
-    JOIN "Subscription" s ON s."userId" = u.id
-    WHERE pv."createdAt" >= ${since7}
-      AND s.status = 'ACTIVE'
-    GROUP BY pv.path
-    ORDER BY hits DESC
-    LIMIT 20
-  `;
+  // exclui admin/tester/cortesia/embaixador/anonimizado
+  const topPaths = excludedEmails.length
+    ? await db.$queryRaw<{ path: string; hits: bigint; users: bigint }[]>`
+        SELECT pv.path AS path,
+               COUNT(*)::bigint AS hits,
+               COUNT(DISTINCT pv."userId")::bigint AS users
+        FROM "PageView" pv
+        JOIN "User" u ON u.id = pv."userId"
+        JOIN "Subscription" s ON s."userId" = u.id
+        WHERE pv."createdAt" >= ${since7}
+          AND s.status = 'ACTIVE'
+          AND u.role = 'CUSTOMER'
+          AND u."anonymizedAt" IS NULL
+          AND u.email <> ALL(${excludedEmails}::text[])
+        GROUP BY pv.path
+        ORDER BY hits DESC
+        LIMIT 20
+      `
+    : await db.$queryRaw<{ path: string; hits: bigint; users: bigint }[]>`
+        SELECT pv.path AS path,
+               COUNT(*)::bigint AS hits,
+               COUNT(DISTINCT pv."userId")::bigint AS users
+        FROM "PageView" pv
+        JOIN "User" u ON u.id = pv."userId"
+        JOIN "Subscription" s ON s."userId" = u.id
+        WHERE pv."createdAt" >= ${since7}
+          AND s.status = 'ACTIVE'
+          AND u.role = 'CUSTOMER'
+          AND u."anonymizedAt" IS NULL
+        GROUP BY pv.path
+        ORDER BY hits DESC
+        LIMIT 20
+      `;
 
   // 3. Assinantes ativos em risco (não acessa há 10+ dias, período vigente > 7 dias)
+  // exclui admin/tester/cortesia/embaixador
   const now = new Date();
   const churnRisk = await db.user.findMany({
     where: {
+      role: "CUSTOMER",
+      email: { notIn: excludedEmails },
+      anonymizedAt: null,
       subscription: { status: "ACTIVE", currentPeriodEnd: { gt: now } },
       OR: [
         { lastSeenAt: null },
