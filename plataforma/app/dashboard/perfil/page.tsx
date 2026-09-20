@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import ChangePasswordForm from "./ChangePasswordForm";
+import DeleteAccountSection from "./DeleteAccountSection";
 import ThemeToggle from "@/app/components/ThemeToggle";
 
 export const metadata = { title: "Meu Perfil · Rotina Clínica" };
@@ -183,6 +184,9 @@ export default async function PerfilPage() {
           <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Alterar senha</h2>
           <ChangePasswordForm />
         </section>
+
+        {/* Apagar conta (LGPD) — visível para qualquer usuário exceto admins */}
+        {!isAdmin && <DeleteAccountSection email={user.email} />}
 
         {/* Sair — visível apenas no mobile onde a sidebar fica oculta */}
         <section className="lg:hidden bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">

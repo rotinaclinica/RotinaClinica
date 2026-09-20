@@ -5,6 +5,7 @@ import { focusNfeProvider } from "./providers/focusnfe";
 import { asaasProvider } from "./providers/asaas";
 import type { NfeEmitInput, NfeProvider } from "./types";
 import { decryptCpf } from "@/lib/crypto/cpf";
+import { decryptBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 
 /**
  * PONTO CENTRAL DO SISTEMA DE NOTA FISCAL.
@@ -49,20 +50,27 @@ export async function createPendingInvoiceForOrder(orderId: string): Promise<voi
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: {
-      user: { select: { name: true, email: true, cpf: true, cep: true } },
+      user: { select: { name: true, email: true, cpf: true, cep: true, anonymizedAt: true } },
       items: { include: { product: { select: { title: true } } } },
     },
   });
 
   if (!order || order.status !== "PAID" || order.totalCents <= 0) return;
-  if (!order.user?.email) return;
+
+  // Fonte fiscal: snapshot preservado no Order (imune à anonimização).
+  // Fallback: dados atuais do User — só usado em pedidos antigos sem snapshot.
+  const snap = decryptBuyerSnapshot(order.buyerSnapshot);
+  const name = snap?.name ?? order.user?.name ?? "Cliente";
+  const email = snap?.email ?? order.user?.email;
+  const doc = snap?.cpf ?? decryptCpf(order.user?.cpf) ?? null;
+  const cep = (snap?.cep ?? order.user?.cep ?? "").replace(/\D/g, "") || null;
+
+  if (!email) return;
 
   // Idempotência: uma nota por pedido.
   const existing = await db.invoice.findUnique({ where: { orderId } });
   if (existing) return;
 
-  const doc = decryptCpf(order.user.cpf) || null;
-  const cep = order.user.cep?.replace(/\D/g, "") || null;
   const titulos = order.items.map((i) => i.product.title).filter(Boolean);
   const discriminacao = titulos.length
     ? `${nfeConfig.servico.discriminacaoPadrao} — ${titulos.join(", ")}`
@@ -76,8 +84,8 @@ export async function createPendingInvoiceForOrder(orderId: string): Promise<voi
       status: "PENDING",
       amountCents: order.totalCents,
       discriminacao,
-      customerName: order.user.name ?? "Cliente",
-      customerEmail: order.user.email,
+      customerName: name,
+      customerEmail: email,
       customerDoc: doc,
       customerCep: cep,
     },

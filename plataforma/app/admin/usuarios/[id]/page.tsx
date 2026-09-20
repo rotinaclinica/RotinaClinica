@@ -36,6 +36,7 @@ export default async function AdminUserDetailPage({
       lastSeenAt: true,
       role: true,
       isCourtesy: true,
+      anonymizedAt: true,
       subscription: {
         select: {
           id: true,
@@ -123,7 +124,7 @@ export default async function AdminUserDetailPage({
       </div>
 
       {/* Ações de assinatura */}
-      <UserActions userId={user.id} sub={user.subscription} isCourtesy={user.isCourtesy} />
+      <UserActions userId={user.id} sub={user.subscription} isCourtesy={user.isCourtesy} anonymized={!!user.anonymizedAt} />
 
       {/* Pedidos */}
       <div className="bg-[#161b22] rounded-xl border border-white/10 p-5">

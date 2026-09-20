@@ -11,6 +11,7 @@ import {
 } from "@/lib/payments/asaas";
 import { grantAccess } from "@/lib/entitlements";
 import { decryptCpf } from "@/lib/crypto/cpf";
+import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 
 const baseSchema = z.object({
   productId: z.string(),
@@ -119,6 +120,7 @@ export async function POST(req: NextRequest) {
   const finalPriceCents = product.priceCents - discountCents;
 
   try {
+    const buyerSnapshot = await captureBuyerSnapshot(session.user.id);
     const [order] = await db.$transaction([
       db.order.create({
         data: {
@@ -131,6 +133,7 @@ export async function POST(req: NextRequest) {
           couponId,
           couponCode,
           discountCents: discountCents > 0 ? discountCents : undefined,
+          buyerSnapshot,
           items: { create: [{ productId: product.id, priceCents: product.priceCents }] },
         },
       }),

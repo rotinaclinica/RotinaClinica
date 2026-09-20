@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { grantAccessToUser, revokeUserSubscription, toggleCourtesy } from "./actions";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -21,9 +21,45 @@ type Sub = {
   currentPeriodEnd: Date | null;
 } | null;
 
-export function UserActions({ userId, sub, isCourtesy }: { userId: string; sub: Sub; isCourtesy: boolean }) {
+export function UserActions({
+  userId,
+  sub,
+  isCourtesy,
+  anonymized,
+}: {
+  userId: string;
+  sub: Sub;
+  isCourtesy: boolean;
+  anonymized: boolean;
+}) {
   const [grantState, grantAction, grantPending] = useActionState(grantAccessToUser, null);
   const [courtesyState, courtesyAction, courtesyPending] = useActionState(toggleCourtesy, null);
+  const [anonReason, setAnonReason] = useState("");
+  const [anonLoading, setAnonLoading] = useState(false);
+  const [anonError, setAnonError] = useState("");
+
+  async function handleAnonymize() {
+    if (!window.confirm("Anonimizar este usuário? Esta ação é IRREVERSÍVEL.")) return;
+    setAnonError("");
+    setAnonLoading(true);
+    try {
+      const res = await fetch(`/api/admin/usuarios/${userId}/anonymize`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reason: anonReason.trim() || undefined }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setAnonError(data.error ?? "Erro ao anonimizar.");
+        return;
+      }
+      window.location.reload();
+    } catch {
+      setAnonError("Erro de conexão.");
+    } finally {
+      setAnonLoading(false);
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -102,6 +138,48 @@ export function UserActions({ userId, sub, isCourtesy }: { userId: string; sub: 
           </div>
         ) : (
           <p className="text-sm text-zinc-400">Sem assinatura ativa.</p>
+        )}
+      </div>
+
+      {/* LGPD — Anonimização */}
+      <div className={`rounded-xl border p-5 ${anonymized ? "bg-white/5 border-white/10" : "bg-red-500/5 border-red-500/30"}`}>
+        <h2 className="text-sm font-bold uppercase tracking-wide mb-2 text-red-300">
+          {anonymized ? "Conta anonimizada" : "Anonimização (LGPD)"}
+        </h2>
+        {anonymized ? (
+          <p className="text-xs text-zinc-400">
+            Esta conta já foi anonimizada. Dados pessoais foram removidos; registros
+            fiscais e o snapshot no Order permanecem por 5 anos.
+          </p>
+        ) : (
+          <>
+            <p className="text-xs text-zinc-400 mb-3">
+              Apaga dados pessoais (nome, CPF, telefone, CEP), cancela assinatura ativa
+              e desloga o usuário. Registros de pagamento ficam anonimizados por 5 anos.
+              <strong className="block mt-1 text-red-300">Irreversível.</strong>
+            </p>
+            <input
+              type="text"
+              value={anonReason}
+              onChange={(e) => setAnonReason(e.target.value)}
+              maxLength={500}
+              placeholder="Motivo (opcional — auditoria)"
+              className="w-full mb-3 border border-white/10 bg-white/5 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+            {anonError && (
+              <div className="mb-3 bg-red-500/10 border border-red-500/30 text-red-300 rounded-lg px-3 py-2 text-xs">
+                {anonError}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={handleAnonymize}
+              disabled={anonLoading}
+              className="bg-red-600 hover:bg-red-700 disabled:opacity-40 text-white px-4 py-2 rounded-lg font-semibold text-sm"
+            >
+              {anonLoading ? "Anonimizando..." : "Anonimizar conta"}
+            </button>
+          </>
         )}
       </div>
 

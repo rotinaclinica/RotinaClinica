@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { createStripeCheckoutSession } from "@/lib/payments/stripe";
 import { z } from "zod";
 import { logError } from "@/lib/error-logger";
+import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 
 const schema = z.object({ productId: z.string(), ambassadorCode: z.string().optional() });
 
@@ -62,6 +63,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const buyerSnapshot = await captureBuyerSnapshot(session.user.id);
     const order = await db.order.create({
       data: {
         userId: session.user.id,
@@ -70,6 +72,7 @@ export async function POST(req: NextRequest) {
         totalCents: product.priceCents,
         currency: product.currency,
         ambassadorCode: code,
+        buyerSnapshot,
         items: {
           create: [{ productId: product.id, priceCents: product.priceCents }],
         },

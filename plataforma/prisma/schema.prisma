@@ -21,6 +21,7 @@ model User {
   cpf                  String?
   cpfHash              String?
   cep                  String?
+  anonymizedAt         DateTime?
   phone                String?
   isAmbassador         Boolean        @default(false)
   isCourtesy           Boolean        @default(false)
@@ -250,6 +251,9 @@ model Order {
   referral       Referral?
   createdAt      DateTime        @default(now())
   paidAt         DateTime?
+  // Snapshot fiscal do comprador, criptografado (enc:v1:...). Preservado
+  // mesmo após anonimização do User — obrigação legal (CTN Art. 195).
+  buyerSnapshot  String?         @db.Text
 }
 
 enum OrderStatus {
@@ -298,6 +302,22 @@ model ActivityLog {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
+  @@index([createdAt])
+}
+
+// Registro imutável de anonimizações — LGPD Art. 37 (registro de operações).
+// Guarda userId da conta afetada (que continua existindo, mas anonimizada) e
+// quem disparou ("self" ou userId de um admin).
+model AnonymizationLog {
+  id              String   @id @default(cuid())
+  userId          String
+  triggeredBy     String
+  reason          String?  @db.Text
+  hadSubscription Boolean  @default(false)
+  gatewayResult   String?  @db.Text
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
   @@index([createdAt])
 }
 
