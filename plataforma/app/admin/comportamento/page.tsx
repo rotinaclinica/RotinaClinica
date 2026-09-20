@@ -91,15 +91,15 @@ export default async function ComportamentoPage({
 
   // 2. Páginas mais quentes (assinantes ACTIVE nos últimos 7 dias)
   const topPaths = await db.$queryRaw<{ path: string; hits: bigint; users: bigint }[]>`
-    SELECT path,
+    SELECT pv.path AS path,
            COUNT(*)::bigint AS hits,
-           COUNT(DISTINCT "userId")::bigint AS users
+           COUNT(DISTINCT pv."userId")::bigint AS users
     FROM "PageView" pv
     JOIN "User" u ON u.id = pv."userId"
     JOIN "Subscription" s ON s."userId" = u.id
     WHERE pv."createdAt" >= ${since7}
       AND s.status = 'ACTIVE'
-    GROUP BY path
+    GROUP BY pv.path
     ORDER BY hits DESC
     LIMIT 20
   `;
