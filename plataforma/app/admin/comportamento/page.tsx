@@ -89,6 +89,16 @@ export default async function ComportamentoPage({
     }
   }
 
+  // Lista de assinantes ativos p/ o seletor
+  const activeSubscribers = await db.user.findMany({
+    where: {
+      anonymizedAt: null,
+      subscription: { status: "ACTIVE", currentPeriodEnd: { gt: new Date() } },
+    },
+    select: { id: true, name: true, email: true, lastSeenAt: true },
+    orderBy: [{ name: "asc" }, { email: "asc" }],
+  });
+
   // 2. Páginas mais quentes (assinantes ACTIVE nos últimos 7 dias)
   const topPaths = await db.$queryRaw<{ path: string; hits: bigint; users: bigint }[]>`
     SELECT pv.path AS path,
@@ -139,15 +149,37 @@ export default async function ComportamentoPage({
         <h2 className="text-sm font-bold text-zinc-300 uppercase tracking-wide mb-3">
           Perfil de navegação (últimos 30 dias)
         </h2>
-        <form action="" method="get" className="mb-3">
-          <input
-            type="email"
+        <form action="" method="get" className="mb-3 flex flex-wrap items-center gap-2">
+          <select
             name="q"
             defaultValue={query}
-            placeholder="Digite o e-mail do usuário..."
-            className="w-full sm:w-96 bg-[#161b22] border border-white/10 rounded-lg px-4 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500"
-          />
+            className="w-full sm:w-96 bg-[#161b22] border border-white/10 rounded-lg px-4 py-2 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
+            <option value="">— Selecione um assinante ativo ({activeSubscribers.length}) —</option>
+            {activeSubscribers.map((u) => (
+              <option key={u.id} value={u.email}>
+                {(u.name?.trim() || "(sem nome)")} — {u.email}
+              </option>
+            ))}
+          </select>
+          <button
+            type="submit"
+            className="bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          >
+            Ver
+          </button>
+          {query && (
+            <a
+              href="/admin/comportamento"
+              className="text-xs text-zinc-400 hover:text-zinc-200 underline underline-offset-2"
+            >
+              limpar
+            </a>
+          )}
         </form>
+        <p className="text-xs text-zinc-500 mb-3">
+          Só assinantes ativos aparecem no seletor. Para outros usuários, use a URL <span className="font-mono">?q=email@...</span>
+        </p>
 
         {query && !userProfile && (
           <div className="bg-[#161b22] rounded-xl border border-white/10 p-6 text-center text-zinc-400 text-sm">

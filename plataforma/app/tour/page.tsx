@@ -628,35 +628,35 @@ export default function TourPage() {
         </div>
       </section>
 
-      {/* Seção 8 — Quiz Diário */}
+      {/* Seção 8 — Desafio Clínico Diário */}
       <section className="py-20 px-6 bg-[#f0f7ff]">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-start">
           <div>
             <span className="inline-flex items-center gap-1.5 text-[#1a6aad] text-xs font-bold tracking-widest uppercase">
-              Quiz Diário
+              Desafio Clínico Diário
               <span className="bg-[#3db8d4] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full tracking-normal normal-case">NOVO</span>
             </span>
             <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
-              Uma questão médica por dia, sem quebrar a sequência
+              3 questões médicas por dia, sem quebrar a sequência
             </h2>
             <p className="text-[#334e68] leading-relaxed mb-6">
-              Reforce seu raciocínio clínico com uma questão inédita todo dia. Mantenha
-              o streak, use freezes quando o plantão apertar e crie o hábito de estudar
-              em ciclos curtos.
+              Reforce seu raciocínio clínico com um trio de questões inéditas todo dia.
+              Mantenha a sua sequência, use escudos quando o plantão apertar e crie o
+              hábito de estudar em ciclos curtos.
             </p>
             <ul className="space-y-3">
               {[
-                "Uma questão médica inédita a cada 24 horas",
-                "Streak diário que motiva a continuidade",
-                "Sistema de freeze: até 3 salvamentos por streak",
-                "Comentário completo com o racional após responder",
+                "3 questões médicas inéditas a cada 24 horas",
+                "Sequência diária que motiva a continuidade",
+                "Escudos protegem a sequência: ganhe 1 a cada 5 dias (máx 3)",
+                "Explicação com o racional após cada resposta",
               ].map((item) => <CheckItem key={item} text={item} />)}
             </ul>
           </div>
 
           {/* Mockup */}
           <div className="bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
-            <WindowBar label="Quiz Diário · Questão do dia" />
+            <WindowBar label="Desafio Clínico Diário · Questão do dia" />
             <div className="p-5 space-y-4">
               {/* Header com streak */}
               <div className="flex items-center justify-between">
@@ -668,8 +668,8 @@ export default function TourPage() {
                 </div>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${i <= 2 ? "bg-cyan-100 border-cyan-400" : "border-zinc-200"}`}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={i <= 2 ? "#0891b2" : "#d4d4d8"} strokeWidth="2.5"><path d="M12 2l-2 4h4l-2-4zM12 22l2-4h-4l2 4zM4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    <div key={i} className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${i <= 2 ? "bg-violet-100 border-violet-400" : "border-zinc-200"}`}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill={i <= 2 ? "#7c3aed" : "none"} stroke={i <= 2 ? "#7c3aed" : "#d4d4d8"} strokeWidth="2"><path d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4z"/></svg>
                     </div>
                   ))}
                 </div>
@@ -677,19 +677,19 @@ export default function TourPage() {
 
               {/* Pergunta */}
               <div>
-                <span className="inline-block text-[9px] font-bold text-[#1a6aad] bg-[#e8f4fc] px-2 py-0.5 rounded-md mb-2 tracking-wide">CARDIOLOGIA · QUESTÃO 1 DE 1</span>
+                <span className="inline-block text-[9px] font-bold text-[#1a6aad] bg-[#e8f4fc] px-2 py-0.5 rounded-md mb-2 tracking-wide">EMERGÊNCIA · QUESTÃO 1 DE 3</span>
                 <p className="text-xs text-[#0f2d4a] leading-relaxed font-medium">
-                  Qual dos sinais abaixo é considerado um dos critérios de <strong>maior peso</strong> para o diagnóstico de febre reumática segundo os critérios de Jones modificados?
+                  Na cetoacidose diabética, a partir de qual valor de pH está indicada a administração de bicarbonato de sódio EV?
                 </p>
               </div>
 
               {/* Alternativas */}
               <div className="space-y-1.5">
                 {[
-                  { letter: "A", text: "Artralgia" },
-                  { letter: "B", text: "Cardite" },
-                  { letter: "C", text: "PCR elevado" },
-                  { letter: "D", text: "Febre" },
+                  { letter: "A", text: "pH < 7,2" },
+                  { letter: "B", text: "pH < 7,3" },
+                  { letter: "C", text: "pH < 6,9" },
+                  { letter: "D", text: "pH < 7,0" },
                 ].map((alt) => (
                   <div key={alt.letter} className="flex items-center gap-2.5 bg-[#f8fafc] border border-zinc-200 hover:border-[#3db8d4] rounded-xl px-3 py-2 cursor-pointer transition-colors">
                     <span className="w-5 h-5 rounded-full bg-white border-2 border-zinc-300 text-[10px] font-bold text-[#0f2d4a] flex items-center justify-center flex-shrink-0">{alt.letter}</span>
@@ -700,7 +700,7 @@ export default function TourPage() {
 
               {/* Botão responder */}
               <div className="flex items-center justify-between pt-1">
-                <span className="text-[9px] text-zinc-400">Nova questão em 23h 12min</span>
+                <span className="text-[9px] text-zinc-400">Novo desafio em 23h 12min</span>
                 <div className="bg-[#1a6aad] text-white text-[10px] font-bold px-4 py-1.5 rounded-lg">
                   Responder
                 </div>
