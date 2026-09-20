@@ -9,18 +9,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!(await isAdminRequest())) redirect("/dashboard");
 
   // Step-up: exige PIN antes de acessar /admin/*.
-  // A própria página /admin/verificar não deve exigir o PIN (senão loop).
-  const hdrs = await headers();
-  const pathname = hdrs.get("x-pathname") ?? "";
-  const isVerifyPage = pathname === "/admin/verificar";
-
-  if (!isVerifyPage) {
-    const session = await auth();
-    const pinCookie = await readAdminPinCookie();
-    if (!pinCookie || pinCookie.userId !== session?.user?.id) {
-      const next = pathname && pathname.startsWith("/admin") ? pathname : "/admin";
-      redirect(`/admin/verificar?next=${encodeURIComponent(next)}`);
-    }
+  // Página de verificação (/verificar-admin) fica FORA do layout admin.
+  const session = await auth();
+  const pinCookie = await readAdminPinCookie();
+  if (!pinCookie || pinCookie.userId !== session?.user?.id) {
+    const hdrs = await headers();
+    const pathname = hdrs.get("x-pathname") ?? "";
+    const next = pathname && pathname.startsWith("/admin") ? pathname : "/admin";
+    redirect(`/verificar-admin?next=${encodeURIComponent(next)}`);
   }
 
   return (

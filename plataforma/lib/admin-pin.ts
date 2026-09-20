@@ -43,7 +43,7 @@ export async function writeAdminPinCookie(userId: string): Promise<void> {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    path: "/admin",
+    path: "/",
     maxAge: Math.floor(TTL_MS / 1000),
   });
 }
