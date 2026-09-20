@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { head } from "@vercel/blob";
 import { sendDownloadHealthAlert } from "@/lib/email";
+import { db } from "@/lib/db";
 import fs from "fs";
 import path from "path";
 
@@ -109,11 +110,23 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // 3) Retenção LGPD: apaga PageView com mais de 90 dias (princípio da
+  // minimização — Art. 6º III). Falha silenciosa.
+  let pageViewsPurged = 0;
+  try {
+    const cutoff = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+    const purge = await db.pageView.deleteMany({ where: { createdAt: { lt: cutoff } } });
+    pageViewsPurged = purge.count;
+  } catch (err) {
+    console.error("[health-check] Falha ao apagar PageView antigos:", err);
+  }
+
   return NextResponse.json({
     checkedAt: new Date().toISOString(),
     total: results.length,
     ok: results.filter((r) => r.ok).length,
     failures: failures.length,
+    pageViewsPurged,
     details: results,
   });
 }

@@ -6,6 +6,7 @@ import DashboardSidebar from "@/app/components/DashboardSidebar";
 import DashboardMobileNav from "@/app/components/DashboardMobileNav";
 import ActivityPing from "@/app/components/ActivityPing";
 import SubscriptionExpiryBanner from "@/app/components/SubscriptionExpiryBanner";
+import PageTracker from "./_components/PageTracker";
 
 // Rotas acessíveis a qualquer usuário logado, independente de assinatura
 const FREE_ROUTES = ["/dashboard/perfil", "/dashboard/pedidos", "/dashboard/meus-ebooks", "/dashboard/cursos"];
@@ -64,6 +65,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <DashboardMobileNav hasAccess={hasAccess} isAdmin={role === "ADMIN"} />
 
       <ActivityPing />
+      <PageTracker />
     </div>
   );
 }

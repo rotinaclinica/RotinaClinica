@@ -322,6 +322,20 @@ model AnonymizationLog {
   @@index([createdAt])
 }
 
+// Registro de navegação de usuários no dashboard — usado para análise de
+// comportamento e prevenção de churn. LGPD: retenção de 90 dias via cron
+// mensal (princípio da minimização, Art. 6º III).
+model PageView {
+  id        String   @id @default(cuid())
+  userId    String
+  path      String
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+  @@index([path])
+}
+
 // Log de exports CSV do admin — LGPD Art. 37. Rastreia quem baixou dados
 // pessoais de usuários/leads/pedidos, quando, e quantos registros.
 model AdminExportLog {
