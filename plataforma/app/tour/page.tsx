@@ -628,6 +628,88 @@ export default function TourPage() {
         </div>
       </section>
 
+      {/* Seção 8 — Quiz Diário */}
+      <section className="py-20 px-6 bg-[#f0f7ff]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-start">
+          <div>
+            <span className="inline-flex items-center gap-1.5 text-[#1a6aad] text-xs font-bold tracking-widest uppercase">
+              Quiz Diário
+              <span className="bg-[#3db8d4] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full tracking-normal normal-case">NOVO</span>
+            </span>
+            <h2 className="text-3xl font-extrabold text-[#0f2d4a] mt-2 mb-4 leading-tight">
+              Uma questão médica por dia, sem quebrar a sequência
+            </h2>
+            <p className="text-[#334e68] leading-relaxed mb-6">
+              Reforce seu raciocínio clínico com uma questão inédita todo dia. Mantenha
+              o streak, use freezes quando o plantão apertar e crie o hábito de estudar
+              em ciclos curtos.
+            </p>
+            <ul className="space-y-3">
+              {[
+                "Uma questão médica inédita a cada 24 horas",
+                "Streak diário que motiva a continuidade",
+                "Sistema de freeze: até 3 salvamentos por streak",
+                "Comentário completo com o racional após responder",
+              ].map((item) => <CheckItem key={item} text={item} />)}
+            </ul>
+          </div>
+
+          {/* Mockup */}
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
+            <WindowBar label="Quiz Diário · Questão do dia" />
+            <div className="p-5 space-y-4">
+              {/* Header com streak */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 bg-gradient-to-br from-orange-100 to-amber-100 border border-amber-200 rounded-xl px-3 py-1.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#ea580c">
+                    <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                  </svg>
+                  <span className="text-xs font-bold text-orange-700">12 dias</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${i <= 2 ? "bg-cyan-100 border-cyan-400" : "border-zinc-200"}`}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={i <= 2 ? "#0891b2" : "#d4d4d8"} strokeWidth="2.5"><path d="M12 2l-2 4h4l-2-4zM12 22l2-4h-4l2 4zM4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pergunta */}
+              <div>
+                <span className="inline-block text-[9px] font-bold text-[#1a6aad] bg-[#e8f4fc] px-2 py-0.5 rounded-md mb-2 tracking-wide">CARDIOLOGIA · QUESTÃO 1 DE 1</span>
+                <p className="text-xs text-[#0f2d4a] leading-relaxed font-medium">
+                  Qual dos sinais abaixo é considerado um dos critérios de <strong>maior peso</strong> para o diagnóstico de febre reumática segundo os critérios de Jones modificados?
+                </p>
+              </div>
+
+              {/* Alternativas */}
+              <div className="space-y-1.5">
+                {[
+                  { letter: "A", text: "Artralgia" },
+                  { letter: "B", text: "Cardite" },
+                  { letter: "C", text: "PCR elevado" },
+                  { letter: "D", text: "Febre" },
+                ].map((alt) => (
+                  <div key={alt.letter} className="flex items-center gap-2.5 bg-[#f8fafc] border border-zinc-200 hover:border-[#3db8d4] rounded-xl px-3 py-2 cursor-pointer transition-colors">
+                    <span className="w-5 h-5 rounded-full bg-white border-2 border-zinc-300 text-[10px] font-bold text-[#0f2d4a] flex items-center justify-center flex-shrink-0">{alt.letter}</span>
+                    <span className="text-[11px] text-[#334e68]">{alt.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Botão responder */}
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-[9px] text-zinc-400">Nova questão em 23h 12min</span>
+                <div className="bg-[#1a6aad] text-white text-[10px] font-bold px-4 py-1.5 rounded-lg">
+                  Responder
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA final */}
       <section className="py-20 px-6 bg-gradient-to-br from-[#0a1e30] via-[#0f2d4a] to-[#1a4a6e] text-center">
         <div className="max-w-2xl mx-auto">
