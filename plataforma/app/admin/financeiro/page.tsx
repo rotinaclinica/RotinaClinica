@@ -287,6 +287,7 @@ export default async function FinanceiroPage() {
         cards: [
           { label: "Receita bruta", value: brl(grossMonth), sub: `${ordersThisMonth.length} vendas` },
           { label: "Taxas gateway", value: brl(feesMonth), sub: "estimativa" },
+          { label: "(−) Reembolsos", value: brl(-refundsMonth), sub: `${refundThisMonth._count} estornos` },
           { label: "Receita líquida", value: brl(netRevenueMonth), sub: "após taxas e reembolsos" },
           { label: "Custos operacionais", value: brl(totalCostsMonth), sub: `${costsThisMonth.length} itens` },
           { label: "Lucro líquido", value: brl(profitMonth), sub: profitChange ? `${Number(profitChange) >= 0 ? "+" : ""}${profitChange}% vs mês anterior` : "primeiro mês" },
@@ -347,9 +348,15 @@ export default async function FinanceiroPage() {
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">
           {monthLabel}
         </h2>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           <Tile label="Receita bruta" value={brl(grossMonth)} sub={`${ordersThisMonth.length} venda${ordersThisMonth.length !== 1 ? "s" : ""}`} />
           <Tile label="Taxas gateway" value={brl(feesMonth)} color="red" sub="estimativa" />
+          <Tile
+            label="(−) Reembolsos"
+            value={brl(-refundsMonth)}
+            color="red"
+            sub={`${refundThisMonth._count} ${refundThisMonth._count !== 1 ? "estornos" : "estorno"}`}
+          />
           <Tile label="Receita líquida" value={brl(netRevenueMonth)} sub="após taxas e reembolsos" />
           <Tile label="Custos operacionais" value={brl(totalCostsMonth)} color="red" sub={`${costsThisMonth.length} ${costsThisMonth.length !== 1 ? "itens" : "item"}`} />
           <Tile
