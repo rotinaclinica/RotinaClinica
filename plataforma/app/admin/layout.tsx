@@ -1,9 +1,27 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import AdminNav from "./_components/AdminNav";
 import { isAdminRequest } from "@/lib/require-admin";
+import { readAdminPinCookie } from "@/lib/admin-pin";
+import { auth } from "@/lib/auth";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!(await isAdminRequest())) redirect("/dashboard");
+
+  // Step-up: exige PIN antes de acessar /admin/*.
+  // A própria página /admin/verificar não deve exigir o PIN (senão loop).
+  const hdrs = await headers();
+  const pathname = hdrs.get("x-pathname") ?? "";
+  const isVerifyPage = pathname === "/admin/verificar";
+
+  if (!isVerifyPage) {
+    const session = await auth();
+    const pinCookie = await readAdminPinCookie();
+    if (!pinCookie || pinCookie.userId !== session?.user?.id) {
+      const next = pathname && pathname.startsWith("/admin") ? pathname : "/admin";
+      redirect(`/admin/verificar?next=${encodeURIComponent(next)}`);
+    }
+  }
 
   return (
     <>
