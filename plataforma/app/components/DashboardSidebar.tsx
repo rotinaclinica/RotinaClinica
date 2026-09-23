@@ -108,6 +108,10 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
         {navItems.filter((item) => {
           if (isAdmin && item.href === "/dashboard/pedidos") return false;
           if (!hasAccess) return item.href === "/dashboard/meus-ebooks" || item.href === "/dashboard/pedidos" || item.href === "/dashboard/cursos";
+          // Assinante ativo já tem os ebooks liberados via /dashboard/materiais
+          // (rota /api/ebook/[id], sem custo extra). "Meus Ebooks" só serve
+          // para quem comprou ebook avulso sem ser assinante.
+          if (item.href === "/dashboard/meus-ebooks") return false;
           return true;
         }).map((item) => (
           <Link
