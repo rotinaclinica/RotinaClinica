@@ -2539,7 +2539,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 317,
     question: "Qual a dose de glicoinsulina (opção 1) no tratamento da hipercalemia e seu tempo de infusão?",
-    options: ["15 UI insulina + SG 10% 500 mL em 120 min","20 UI insulina + SG 5% 1000 mL em 60 min","5 UI insulina + 50 mL glicose 50% em 30 min","10 UI insulina + 10 amp glicose 50% em SF 0,9% 100 mL em 60 min"],
+    options: ["15 UI insulina + SG 10% 500 mL em 120 min","20 UI insulina + SG 5% 1000 mL em 60 min","5 UI insulina + 50 mL glicose 50% em 30 min","Frasco SF 0,9% 100 mL vazio + 10 amp glicose 50% + 10 UI insulina em 60 min"],
     correctIndex: 3,
     explanation: "A glicoinsulina opção 1 consiste em SF 0,9% 100 mL vazio + 10 amp glicose 50% + 10 UI insulina regular, infundida EV em 60 minutos.",
     category: "Temas PS/UPA",
