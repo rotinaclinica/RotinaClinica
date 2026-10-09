@@ -74,10 +74,11 @@ export async function POST(req: NextRequest) {
       // ── Primeiro pagamento (criado via checkout) ────────────────────────────
       if (!orderId) return NextResponse.json({ ok: true });
 
-      // Pedido já liberado por este mesmo pagamento: não reprocessa (evita
-      // estender assinatura e reenviar boas-vindas).
+      // Pedido já liberado por este pagamento (ou por outra parcela do mesmo
+      // parcelamento — cada parcela chega como um payment próprio): não
+      // reprocessa (evita estender assinatura e reenviar boas-vindas).
       const current = await db.order.findUnique({ where: { id: orderId } });
-      if (current?.status === "PAID" && current.providerRef === paymentId) {
+      if (current?.status === "PAID" && (current.providerRef === paymentId || payment.installment)) {
         return NextResponse.json({ ok: true });
       }
 
