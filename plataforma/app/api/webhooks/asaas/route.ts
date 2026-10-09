@@ -26,7 +26,12 @@ export async function POST(req: NextRequest) {
   // PAYMENT_CONFIRMED não processem o mesmo pagamento duas vezes.
   const isPayment = event === "PAYMENT_RECEIVED" || event === "PAYMENT_CONFIRMED";
   const eventKey = isPayment ? `asaas_paid_${paymentId}` : `asaas_${event}_${paymentId}`;
-  const existing = await db.webhookEvent.findUnique({ where: { externalId: eventKey } });
+  // Chaves legadas (antes de 13/09/2026) eram por evento; cartão recebe
+  // PAYMENT_CONFIRMED na aprovação e PAYMENT_RECEIVED ~30 dias depois.
+  const keys = isPayment
+    ? [eventKey, `asaas_PAYMENT_CONFIRMED_${paymentId}`, `asaas_PAYMENT_RECEIVED_${paymentId}`]
+    : [eventKey];
+  const existing = await db.webhookEvent.findFirst({ where: { externalId: { in: keys } } });
   if (existing) return NextResponse.json({ ok: true });
 
   try {
@@ -68,6 +73,13 @@ export async function POST(req: NextRequest) {
 
       // ── Primeiro pagamento (criado via checkout) ────────────────────────────
       if (!orderId) return NextResponse.json({ ok: true });
+
+      // Pedido já liberado por este mesmo pagamento: não reprocessa (evita
+      // estender assinatura e reenviar boas-vindas).
+      const current = await db.order.findUnique({ where: { id: orderId } });
+      if (current?.status === "PAID" && current.providerRef === paymentId) {
+        return NextResponse.json({ ok: true });
+      }
 
       const order = await db.order.update({
         where: { id: orderId },

@@ -568,22 +568,33 @@ export async function sendNotaFiscal({
         <tr>
           <td style="background:#0f2d4a;padding:36px 40px">
             <p style="margin:0 0 4px;color:#3db8d4;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase">Rotina Clínica</p>
-            <p style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Nota fiscal emitida 🧾</p>
+            <p style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Obrigado pela confiança! 💙</p>
           </td>
         </tr>
         <tr>
           <td style="padding:36px 40px">
             <p style="margin:0 0 16px;color:#0f2d4a;font-size:16px">Olá, <strong>${escapeHtml(customerName)}</strong>!</p>
-            <p style="margin:0 0 20px;color:#4a6a80;font-size:15px;line-height:1.7">
-              Segue em anexo a nota fiscal de serviço referente ao seu pagamento de
-              <strong>${valorFormatado}</strong>.
+            <p style="margin:0 0 16px;color:#4a6a80;font-size:15px;line-height:1.7">
+              Obrigado pela confiança! Aproveite para acessar a plataforma criada para
+              transformar sua prática clínica — do internato aos plantões.
             </p>
-            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;border-radius:12px;margin-bottom:8px">
-              <tr><td style="padding:16px 20px;color:#4a6a80;font-size:14px">
-                Nota fiscal nº <strong style="color:#0f2d4a">${escapeHtml(numero)}</strong><br>
-                Arquivo PDF anexado a este email.
+            <p style="margin:0 0 24px;color:#4a6a80;font-size:15px;line-height:1.7">
+              Sua nota fiscal segue em anexo neste email.
+            </p>
+            <table cellpadding="0" cellspacing="0" style="margin:0 auto 28px">
+              <tr><td style="background:#3db8d4;border-radius:10px">
+                <a href="https://www.rotinaclinica.com/dashboard" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none">Acessar a plataforma</a>
               </td></tr>
             </table>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;border-radius:12px">
+              <tr><td style="padding:14px 20px;color:#4a6a80;font-size:13px">
+                🧾 Nota fiscal nº <strong style="color:#0f2d4a">${escapeHtml(numero)}</strong> · ${valorFormatado} · PDF em anexo
+              </td></tr>
+            </table>
+            <p style="margin:28px 0 0;color:#0f2d4a;font-size:15px;line-height:1.6">
+              Muito obrigado,<br>
+              <strong>Lucas e Yan</strong> · Rotina Clínica
+            </p>
             <p style="margin:24px 0 0;color:#94a8b8;font-size:13px;text-align:center;line-height:1.6">
               Em caso de dúvidas, entre em contato pelo <a href="mailto:contato@rotinaclinica.com" style="color:#3db8d4;text-decoration:none">contato@rotinaclinica.com</a>
             </p>
