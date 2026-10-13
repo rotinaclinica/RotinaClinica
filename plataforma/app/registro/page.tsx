@@ -34,7 +34,7 @@ function PasswordInput({ value, onChange, placeholder }: { value: string; onChan
         required
         minLength={6}
         placeholder={placeholder}
-        className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+        className="w-full bg-white border border-[#aebfd0] rounded-xl px-4 py-2.5 pr-11 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
       />
       <button
         type="button"
@@ -280,7 +280,7 @@ function RegistroForm() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="Seu nome"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full bg-white border border-[#aebfd0] rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -292,7 +292,7 @@ function RegistroForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="voce@email.com"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full bg-white border border-[#aebfd0] rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -304,7 +304,7 @@ function RegistroForm() {
                 onChange={(e) => setPhone(maskPhone(e.target.value))}
                 required
                 placeholder="(99) 99999-9999"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full bg-white border border-[#aebfd0] rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -316,7 +316,7 @@ function RegistroForm() {
                 onChange={(e) => setCpf(maskCpf(e.target.value))}
                 required
                 placeholder="000.000.000-00"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full bg-white border border-[#aebfd0] rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -327,7 +327,7 @@ function RegistroForm() {
                 value={cep}
                 onChange={(e) => setCep(maskCep(e.target.value))}
                 placeholder="00000-000"
-                className="w-full border border-zinc-300 rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
+                className="w-full bg-white border border-[#aebfd0] rounded-xl px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent"
               />
             </div>
 
@@ -360,7 +360,7 @@ function RegistroForm() {
                     className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                       momentoProfissional === op
                         ? "bg-[#1a6aad] text-white border-[#1a6aad]"
-                        : "bg-white text-zinc-600 border-zinc-300 hover:border-[#1a6aad] hover:text-[#1a6aad]"
+                        : "bg-white text-zinc-700 border-[#aebfd0] hover:border-[#1a6aad] hover:text-[#1a6aad]"
                     }`}
                   >
                     {op}
@@ -383,7 +383,7 @@ function RegistroForm() {
                     className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                       ambientesTrabalho.includes(op)
                         ? "bg-[#1a6aad] text-white border-[#1a6aad]"
-                        : "bg-white text-zinc-600 border-zinc-300 hover:border-[#1a6aad] hover:text-[#1a6aad]"
+                        : "bg-white text-zinc-700 border-[#aebfd0] hover:border-[#1a6aad] hover:text-[#1a6aad]"
                     }`}
                   >
                     {op}

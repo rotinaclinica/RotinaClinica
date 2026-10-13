@@ -56,7 +56,7 @@ export default async function TestePage() {
                 <span className="text-2xl leading-none mt-0.5">{f.emoji}</span>
                 <div>
                   <p className="font-bold text-[#0f2d4a]">{f.title}</p>
-                  <p className="text-sm text-[#4a6a80] leading-relaxed">{f.desc}</p>
+                  <p className="text-sm text-[#2b3a4a] leading-relaxed">{f.desc}</p>
                 </div>
               </div>
             ))}
@@ -85,14 +85,14 @@ export default async function TestePage() {
             {state === "used" && (
               <div className="text-center">
                 <p className="text-[#0f2d4a] font-semibold mb-1">O teste grátis já foi utilizado nesta conta.</p>
-                <p className="text-sm text-[#4a6a80] mb-4">Assine para ter acesso completo, com renovação automática no cartão.</p>
+                <p className="text-sm text-[#2b3a4a] mb-4">Assine para ter acesso completo, com renovação automática no cartão.</p>
                 <Link href="/checkout?plano=mensal" className="inline-block bg-[#3db8d4] hover:bg-[#2fa6c2] text-[#0a1626] font-bold px-6 py-3 rounded-xl transition-colors">
                   Assinar agora →
                 </Link>
               </div>
             )}
 
-            <p className="text-xs text-[#7a93a8] text-center mt-4">
+            <p className="text-xs text-[#4d6175] text-center mt-4">
               Ao fim dos {TRIAL_DAYS} dias, o acesso é pausado e você decide se quer assinar.
             </p>
           </div>
@@ -101,7 +101,7 @@ export default async function TestePage() {
 
       <section className="px-6 py-12">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm text-[#4a6a80]">
+          <p className="text-sm text-[#2b3a4a]">
             Quer acesso completo desde já, com cursos, casos clínicos, desafios e materiais?{" "}
             <Link href="/assinatura#planos" className="font-semibold text-[#1a6aad] hover:underline">Conheça os planos</Link>
           </p>
