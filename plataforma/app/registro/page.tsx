@@ -191,7 +191,13 @@ function RegistroForm() {
       return;
     }
 
-    router.push(teste ? "/teste" : plano ? `/checkout?plano=${plano}` : "/assinatura");
+    if (teste) {
+      // Veio do caminho do teste: ativa os 7 dias e vai direto ao painel
+      const r = await fetch("/api/trial/activate", { method: "POST" }).then((x) => x.json()).catch(() => null);
+      router.push(r?.activated ? "/dashboard?teste=ativado" : "/teste");
+      return;
+    }
+    router.push(plano ? `/checkout?plano=${plano}` : "/assinatura");
   }
 
   return (
@@ -218,7 +224,7 @@ function RegistroForm() {
           {teste && (
             <div className="bg-[#3db8d4]/15 border border-[#3db8d4]/40 text-white rounded-2xl px-5 py-4">
               <p className="text-xs font-bold uppercase tracking-wider text-[#3db8d4] mb-1">Teste grátis · 7 dias</p>
-              <p className="font-extrabold text-lg leading-tight">Crie sua conta e ative o teste.</p>
+              <p className="font-extrabold text-lg leading-tight">Crie sua conta e seu teste é ativado na hora.</p>
             </div>
           )}
 

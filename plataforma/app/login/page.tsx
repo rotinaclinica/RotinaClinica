@@ -60,7 +60,9 @@ function LoginForm() {
       if (role === "ADMIN") {
         router.push("/admin");
       } else if (teste) {
-        router.push("/teste");
+        // Veio do caminho do teste: ativa os 7 dias e vai direto ao painel
+        const r = await fetch("/api/trial/activate", { method: "POST" }).then((x) => x.json()).catch(() => null);
+        router.push(r?.activated ? "/dashboard?teste=ativado" : "/teste");
       } else if (plano) {
         router.push(`/checkout?plano=${plano}`);
       } else {
@@ -90,6 +92,13 @@ function LoginForm() {
               Tudo que você precisa no plantão, em um só lugar.
             </p>
           </div>
+
+          {teste && (
+            <div className="bg-[#3db8d4]/15 border border-[#3db8d4]/40 text-white rounded-2xl px-5 py-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#3db8d4] mb-1">Teste grátis · 7 dias</p>
+              <p className="font-extrabold text-lg leading-tight">Entre e seu teste é ativado na hora.</p>
+            </div>
+          )}
 
           <ul className="space-y-3">
             {memberBenefits.map((item) => (

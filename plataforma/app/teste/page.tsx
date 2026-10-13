@@ -3,7 +3,7 @@ import Navbar from "@/app/components/Navbar";
 import { auth } from "@/lib/auth";
 import { canAccessPaidContent, getActiveTrialEnd, trialEligibility, TRIAL_DAYS } from "@/lib/subscription";
 import { redirect } from "next/navigation";
-import { activateTrial } from "./actions";
+import { activateTrialAction } from "./actions";
 
 export const metadata = {
   title: "Teste grátis por 7 dias · Rotina Clínica",
@@ -75,7 +75,7 @@ export default async function TestePage() {
             )}
 
             {state === "eligible" && (
-              <form action={activateTrial}>
+              <form action={activateTrialAction}>
                 <button type="submit" className="w-full bg-[#3db8d4] hover:bg-[#2fa6c2] text-[#0a1626] font-bold py-3.5 rounded-xl transition-colors">
                   Ativar meus {TRIAL_DAYS} dias grátis
                 </button>

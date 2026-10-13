@@ -113,6 +113,17 @@ export async function trialEligibility(userId: string): Promise<{ ok: true } | {
   return { ok: true };
 }
 
+/** Ativa o teste se elegível. updateMany com trialStartedAt null: chamadas repetidas não reiniciam. */
+export async function activateTrial(userId: string): Promise<boolean> {
+  if (!(await trialEligibility(userId)).ok) return false;
+  const now = new Date();
+  const { count } = await db.user.updateMany({
+    where: { id: userId, trialStartedAt: null },
+    data: { trialStartedAt: now, trialEndsAt: new Date(now.getTime() + TRIAL_DAYS * 86_400_000) },
+  });
+  return count > 0;
+}
+
 /**
  * Igual a canAccessPaidContent, mas sem a isenção de ADMIN/TESTER — para telas
  * que mostram o estado real da assinatura do próprio usuário.
