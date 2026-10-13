@@ -55,7 +55,7 @@ export async function GET() {
     rawLists.map(async (l) => {
       const id = Number(l.id);
       try {
-        const data = await brevo("GET", `/contacts?listId=${id}&limit=1`);
+        const data = await brevo("GET", `/contacts/lists/${id}/contacts?limit=1`);
         return { id, name: l.name, totalSubscribers: Number(data.count ?? 0) };
       } catch {
         return { id, name: l.name, totalSubscribers: 0 };

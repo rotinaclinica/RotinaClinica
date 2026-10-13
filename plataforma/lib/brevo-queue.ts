@@ -33,7 +33,8 @@ export async function fetchBrevoContacts(listIds: number[]): Promise<string[]> {
   for (const listId of listIds) {
     let offset = 0;
     while (true) {
-      const data = await brevo("GET", `/contacts?listId=${listId}&limit=${limit}&offset=${offset}`);
+      // /contacts?listId= ignora o filtro e devolve a conta inteira — usar o endpoint da lista
+      const data = await brevo("GET", `/contacts/lists/${listId}/contacts?limit=${limit}&offset=${offset}`);
       const contacts: { email?: string }[] = data.contacts ?? [];
       for (const c of contacts) {
         const email = c.email?.toLowerCase().trim();
