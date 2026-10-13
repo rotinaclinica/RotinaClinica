@@ -105,6 +105,18 @@ export default function DownloadPage({ params }: { params: Promise<{ slug: strin
           <p className="text-zinc-500 mb-6">
             Obrigado pelas respostas. Seu e-book <strong>{meta.title}</strong> está sendo baixado.
           </p>
+          <div className="bg-[#0f2d4a] rounded-xl px-5 py-5 mb-6 text-left">
+            <p className="text-white font-bold">Gostou do material?</p>
+            <p className="text-[#a9bccd] text-sm mt-1 mb-4">
+              Teste a plataforma por 7 dias: condutas, modelos de evolução e calculadoras liberadas!
+            </p>
+            <Link
+              href="/teste?utm_source=site&utm_medium=ebook-gratuito&utm_campaign=teste-gratis"
+              className="block text-center bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-5 py-3 rounded-lg text-sm transition-colors"
+            >
+              Testar grátis por 7 dias →
+            </Link>
+          </div>
           <Link href="/produtos" className="text-sm text-[#1a6aad] hover:underline">
             ← Voltar para Ebooks e Cursos
           </Link>

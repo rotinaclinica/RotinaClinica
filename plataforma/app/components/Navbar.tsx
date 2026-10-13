@@ -27,6 +27,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session, status } = useSession();
   const [hasActive, setHasActive] = useState<boolean | null>(null);
+  const [inTrial, setInTrial] = useState(false);
+  const [canTrial, setCanTrial] = useState(false);
 
   useEffect(() => {
     if (!session?.user?.id) {
@@ -35,7 +37,7 @@ export default function Navbar() {
     }
     fetch("/api/user/subscription-status")
       .then((r) => r.json())
-      .then((d) => setHasActive(d.hasActive))
+      .then((d) => { setHasActive(d.hasActive); setInTrial(!!d.inTrial); setCanTrial(!!d.canTrial); })
       .catch(() => setHasActive(false));
   }, [session?.user?.id]);
 
@@ -56,9 +58,15 @@ export default function Navbar() {
     if (!session) {
       return (
         <>
-          <Link href="/assinatura#planos" onClick={() => setOpen(false)} className={btnPrimary}>
-            Ver planos
+          <Link href="/teste?utm_source=site&utm_medium=navbar&utm_campaign=teste-gratis" onClick={() => setOpen(false)} className={btnOutline}>
+            Teste grátis
           </Link>
+          {/* Em notebooks menores (lg) o menu não comporta 3 botões */}
+          <span className={mobile ? "contents" : "hidden xl:contents"}>
+            <Link href="/assinatura#planos" onClick={() => setOpen(false)} className={btnOutline}>
+              Ver planos
+            </Link>
+          </span>
           <Link href="/login" onClick={() => setOpen(false)} className={btnOutline}>
             Entrar
           </Link>
@@ -67,7 +75,7 @@ export default function Navbar() {
     }
 
     // Assinante ativo
-    if (hasActive) {
+    if (hasActive || inTrial) {
       return (
         <>
           <Link href="/dashboard" onClick={() => setOpen(false)} className={btnPrimary}>
@@ -90,9 +98,15 @@ export default function Navbar() {
     // Logado sem assinatura ativa
     return (
       <>
-        <Link href="/assinatura#planos" onClick={() => setOpen(false)} className={btnPrimary}>
-          Ver planos
-        </Link>
+        {canTrial ? (
+          <Link href="/teste?utm_source=site&utm_medium=navbar&utm_campaign=teste-gratis" onClick={() => setOpen(false)} className={btnOutline}>
+            Teste grátis
+          </Link>
+        ) : (
+          <Link href="/assinatura#planos" onClick={() => setOpen(false)} className={btnPrimary}>
+            Ver planos
+          </Link>
+        )}
         {!mobile && (
           <Link href="/dashboard/perfil" onClick={() => setOpen(false)} title="Meu perfil" className={iconBtn}>
             <PersonIcon />

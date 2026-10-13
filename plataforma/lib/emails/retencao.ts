@@ -139,3 +139,58 @@ export function checkoutRecovery2(name: string, plano: "mensal" | "anual") {
     ${p(`Prefere outro plano ou forma de pagamento? <a href="${APP_URL}/assinatura#planos" style="color:#1a6aad;font-weight:600">Veja todas as opções</a>.`)}
   `);
 }
+
+// ── Teste grátis (Condutas, Evoluções e Calculadoras por 7 dias) ────────────
+
+const TRIAL_CHECKOUT = `${APP_URL}/checkout?plano=mensal`;
+
+const trialLista = () =>
+  list(
+    item("📋", "Condutas Clínicas", "Busque pela queixa, diagnóstico ou medicamento e tenha a conduta em segundos.", `${APP_URL}/dashboard/prescricoes`) +
+    item("📝", "Modelos de evolução", "Evoluções prontas para copiar e adaptar.", `${APP_URL}/dashboard/evolucoes`) +
+    item("🧮", "Calculadoras e escores", "Os cálculos do dia a dia à beira do leito.", `${APP_URL}/dashboard/calculadoras`)
+  );
+
+const assinanteExtras = () =>
+  p("Assinando, você mantém tudo isso e libera também <strong>cursos e videoaulas, casos clínicos, desafio clínico, materiais e anotações</strong>.");
+
+export function trialD1(name: string) {
+  return base("Seu teste grátis começou", `
+    ${hello(name)}
+    ${p("Seu teste de 7 dias do Rotina Clínica está ativo. Para aproveitar ao máximo, leve a plataforma para o seu próximo plantão ou atendimento na UBS:")}
+    ${trialLista()}
+    ${p("💡 <strong>Dica:</strong> adicione o site à tela inicial do celular. Assim a plataforma do Rotina Clínica fica a um toque, como um aplicativo.")}
+    ${btn(`${APP_URL}/dashboard`, "Acessar a plataforma →")}
+  `);
+}
+
+export function trialD5(name: string) {
+  return base("Seu teste termina em 2 dias", `
+    ${hello(name)}
+    ${p("Faltam <strong>2 dias</strong> para o fim do seu teste grátis. Se a plataforma já está ajudando no seu dia a dia, garanta a continuidade sem interrupção.")}
+    ${assinanteExtras()}
+    ${btn(TRIAL_CHECKOUT, "Assinar no cartão →")}
+    ${p("💳 No cartão a renovação é automática: você não precisa se lembrar de pagar e não perde o acesso no meio de um plantão. Sem fidelidade.")}
+    ${p(`Prefere Pix ou o plano anual? <a href="${APP_URL}/assinatura#planos" style="color:#1a6aad;font-weight:600">Veja todos os planos</a>.`)}
+  `);
+}
+
+export function trialEnded(name: string) {
+  return base("Seu teste grátis terminou", `
+    ${hello(name)}
+    ${p("Seu teste de 7 dias chegou ao fim e o acesso foi pausado. Obrigado por experimentar o Rotina Clínica!")}
+    ${p("Para voltar a usar as condutas, os modelos de evolução e as calculadoras, e liberar todo o resto da plataforma, é só assinar:")}
+    ${btn(TRIAL_CHECKOUT, "Continuar com acesso completo →")}
+    ${assinanteExtras()}
+    ${p("Ficou alguma dúvida ou faltou algo que você esperava encontrar? Responda este email. Sua opinião ajuda a melhorar a plataforma.")}
+  `);
+}
+
+export function trialAfter3(name: string) {
+  return base("Sua aliada na prática clínica continua aqui", `
+    ${hello(name)}
+    ${p("Há alguns dias seu teste grátis terminou. Seguimos aqui para quando você quiser voltar: condutas, modelos de evolução, calculadoras, cursos e muito mais, num só lugar.")}
+    ${btn(TRIAL_CHECKOUT, "Assinar no cartão →")}
+    ${p(`Prefere outro plano ou forma de pagamento? <a href="${APP_URL}/assinatura#planos" style="color:#1a6aad;font-weight:600">Veja todas as opções</a>.`)}
+  `);
+}

@@ -187,12 +187,20 @@ export default function EbooksGratuitosPage() {
                   </div>
                 ))}
               </div>
-              <Link
-                href="https://www.rotinaclinica.com/assinatura#planos"
-                className="inline-block bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-7 py-3.5 rounded-xl text-sm transition-colors"
-              >
-                Ver planos de assinatura →
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link
+                  href="/teste?utm_source=site&utm_medium=ebook-gratuito&utm_campaign=teste-gratis"
+                  className="inline-block bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-7 py-3.5 rounded-xl text-sm transition-colors"
+                >
+                  Testar grátis por 7 dias →
+                </Link>
+                <Link
+                  href="/assinatura#planos"
+                  className="inline-block border border-white/40 hover:border-white text-white font-semibold px-7 py-3.5 rounded-xl text-sm transition-colors"
+                >
+                  Ver planos de assinatura
+                </Link>
+              </div>
             </div>
           </div>
 

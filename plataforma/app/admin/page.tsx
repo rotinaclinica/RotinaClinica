@@ -40,6 +40,9 @@ export default async function AdminPage() {
     cancelamentosRecentes,
     renovandoLista,
     vencidosLista,
+    trialAtivos,
+    trialTotal,
+    trialConvertidos,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
@@ -67,6 +70,10 @@ export default async function AdminPage() {
       orderBy: { currentPeriodEnd: "desc" },
       select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true, phone: true, lastSeenAt: true } } },
     }),
+    // Teste grátis: em andamento, total que já ativou, e quantos viraram assinatura
+    db.user.count({ where: { ...notTest, trialEndsAt: { gt: now } } }),
+    db.user.count({ where: { ...notTest, trialStartedAt: { not: null } } }),
+    db.user.count({ where: { ...notTest, trialStartedAt: { not: null }, subscription: { isNot: null } } }),
   ]);
 
   let onlineNow = 0;
@@ -217,6 +224,21 @@ export default async function AdminPage() {
           <Tile label="Assinantes ativos" value={subActive} color="green" sub={`${subMonthly} mensal · ${subAnnual} anual`} />
           <Tile label="MRR" value={brl(mrr)} color="green" sub="receita recorrente mensal" />
           <Tile label="Receita este mês" value={brl(revenueMonth._sum.totalCents)} sub="pedidos pagos" />
+        </div>
+      </section>
+
+      {/* ── Teste grátis ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Teste grátis (7 dias)</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <Tile label="Em teste agora" value={trialAtivos} />
+          <Tile label="Já testaram" value={trialTotal} sub="desde o início" />
+          <Tile
+            label="Viraram assinantes"
+            value={trialConvertidos}
+            color="green"
+            sub={trialTotal > 0 ? `${Math.round((trialConvertidos / trialTotal) * 100)}% de conversão` : "—"}
+          />
         </div>
       </section>
 

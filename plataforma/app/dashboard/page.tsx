@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { calcularTier, formatarSince } from "@/lib/tier";
-import { canAccessPaidContent } from "@/lib/subscription";
+import { canAccessPaidContent, getActiveTrialEnd, isTrialRoute } from "@/lib/subscription";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -103,7 +103,10 @@ export default async function DashboardPage() {
 
   const isAdmin = user?.role === "ADMIN";
   const isTester = user?.role === "TESTER";
-  if (!isAdmin && !isTester && !(await canAccessPaidContent(session.user.id))) {
+  const hasPaid = isAdmin || isTester || (await canAccessPaidContent(session.user.id));
+  const trialEndsAt = hasPaid ? null : await getActiveTrialEnd(session.user.id);
+  const isTrial = trialEndsAt != null;
+  if (!hasPaid && !isTrial) {
     redirect("/assinatura?motivo=acesso");
   }
 
@@ -114,8 +117,8 @@ export default async function DashboardPage() {
 
   const firstName = (session.user.name ?? "").split(" ")[0];
 
-  const planLabel = isAdmin ? "Administrador" : isTester ? "Conta de testes" : subscription?.plan === "ANNUAL" ? "Plano Anual" : "Plano Mensal";
-  const isActive = isAdmin || isTester || subscription?.status === "ACTIVE";
+  const planLabel = isAdmin ? "Administrador" : isTester ? "Conta de testes" : isTrial ? "Teste grátis" : subscription?.plan === "ANNUAL" ? "Plano Anual" : "Plano Mensal";
+  const isActive = isAdmin || isTester || isTrial || subscription?.status === "ACTIVE";
   const expiresAt = subscription?.currentPeriodEnd;
 
   // Tier de gamificação: usa data da assinatura ou, para admin/tester, a data de criação da conta
@@ -133,7 +136,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* Status da assinatura */}
-          {(isAdmin || isTester || subscription) ? (
+          {(isAdmin || isTester || isTrial || subscription) ? (
             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ${
               isAdmin
                 ? "bg-[#0f2d4a] text-[#3db8d4] border border-[#3db8d4]/30"
@@ -183,11 +186,13 @@ export default async function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {sections.map((s) => (
+          {sections.map((s) => {
+            const locked = isTrial && !isTrialRoute(s.href);
+            return (
             <Link
               key={s.href}
-              href={s.href}
-              className="group bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all"
+              href={locked ? "/assinatura?motivo=teste" : s.href}
+              className={`${locked ? "opacity-60 " : ""}group bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all`}
             >
               {/* Color strip */}
               <div className={`h-2 bg-gradient-to-r ${s.color}`} />
@@ -199,7 +204,11 @@ export default async function DashboardPage() {
                       <path d={s.icon} />
                     </svg>
                   </div>
-                  {s.badge && (
+                  {locked ? (
+                    <span className="text-[10px] font-bold bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-[#a9bccd] px-2.5 py-1 rounded-xl leading-tight whitespace-nowrap w-fit">
+                      🔒 Para assinantes
+                    </span>
+                  ) : s.badge && (
                     <span className="text-[10px] font-bold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2.5 py-1 rounded-xl leading-tight whitespace-nowrap w-fit">
                       {s.badge}
                     </span>
@@ -211,7 +220,8 @@ export default async function DashboardPage() {
                 <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm leading-relaxed">{s.description}</p>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>

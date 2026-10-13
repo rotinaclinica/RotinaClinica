@@ -2,6 +2,8 @@ import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
 import PixelViewContent from "@/app/components/PixelViewContent";
+import { auth } from "@/lib/auth";
+import { trialEligibility, getActiveTrialEnd } from "@/lib/subscription";
 
 export const metadata = {
   title: "Planos e Assinatura",
@@ -51,17 +53,48 @@ function Check({ dark = false }: { dark?: boolean }) {
   );
 }
 
-export default function AssinaturaPage({
+export default async function AssinaturaPage({
   searchParams,
 }: {
-  searchParams?: { motivo?: string };
+  searchParams: Promise<{ motivo?: string }>;
 }) {
-  const semAcesso = searchParams?.motivo === "acesso";
+  const { motivo } = await searchParams;
+  const semAcesso = motivo === "acesso";
+  const doTeste = motivo === "teste";
+
+  // Teste grátis: visitante sempre pode; logado só se ainda não usou
+  const session = await auth();
+  let podeTestar = !session?.user?.id;
+  if (session?.user?.id && !(await getActiveTrialEnd(session.user.id))) {
+    podeTestar = (await trialEligibility(session.user.id)).ok;
+  }
+  const testeHref = (medium: string) => `/teste?utm_source=site&utm_medium=${medium}&utm_campaign=teste-gratis`;
   return (
     <main className="min-h-screen bg-[#f7fafc]">
       <PixelViewContent name="Planos" />
       <Navbar />
-      {semAcesso && (
+      {doTeste && (
+        <div className="bg-[#e8f6fa] border-b border-[#3db8d4]/40 px-4 py-3 text-center">
+          <p className="text-[#0f2d4a] text-sm font-medium">
+            Esta área é exclusiva para assinantes.{" "}
+            <span className="font-bold">Assine no cartão e tenha acesso completo, com renovação automática.</span>
+          </p>
+        </div>
+      )}
+      {semAcesso && podeTestar && session?.user?.id && (
+        <div className="bg-[#0f2d4a] border-b border-[#3db8d4]/40 px-4 py-4">
+          <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <p className="text-white text-sm sm:text-base font-semibold">
+              🎁 Você ainda pode testar grátis por 7 dias.
+              <span className="block text-[#a9bccd] text-xs sm:text-sm font-normal">Condutas, modelos de evolução e calculadoras liberadas na hora!</span>
+            </p>
+            <Link href={testeHref("planos-topo")} className="shrink-0 bg-[#3db8d4] hover:bg-[#2fa6c2] text-[#0a1626] font-bold text-sm px-5 py-2.5 rounded-lg transition-colors">
+              Ativar meus 7 dias grátis →
+            </Link>
+          </div>
+        </div>
+      )}
+      {semAcesso && !(podeTestar && session?.user?.id) && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-3 text-center">
           <p className="text-amber-800 text-sm font-medium">
             Sua conta não possui uma assinatura ativa.{" "}
@@ -292,6 +325,18 @@ export default function AssinaturaPage({
           <p className="text-center text-[#9ec4de] text-xs mt-8 font-medium">
             Pagamento seguro · Acesso imediato após confirmação
           </p>
+
+          {podeTestar && (
+            <div className="mt-10 max-w-3xl mx-auto rounded-2xl border border-[#3db8d4]/40 bg-[#3db8d4]/10 px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+              <div>
+                <p className="text-white font-extrabold text-lg">Ainda em dúvida?</p>
+                <p className="text-[#a9bccd] text-sm mt-1">Teste grátis por 7 dias: condutas, modelos de evolução e calculadoras liberadas!</p>
+              </div>
+              <Link href={testeHref("planos-rodape")} className="shrink-0 bg-white hover:bg-[#e8f6fa] text-[#0f2d4a] font-bold px-6 py-3 rounded-xl transition-colors">
+                Testar grátis →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

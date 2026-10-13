@@ -1,6 +1,6 @@
-import { requireSubscription } from "@/lib/require-subscription";
+import { requireTrialOrSubscription } from "@/lib/require-subscription";
 
 export default async function CalculadorasLayout({ children }: { children: React.ReactNode }) {
-  await requireSubscription();
+  await requireTrialOrSubscription();
   return <>{children}</>;
 }

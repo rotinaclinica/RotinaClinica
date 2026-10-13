@@ -1,12 +1,13 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { checkSubscriptionAccess } from "@/lib/subscription";
+import { checkSubscriptionAccess, getActiveTrialEnd, isTrialRoute } from "@/lib/subscription";
 import { headers } from "next/headers";
 import DashboardSidebar from "@/app/components/DashboardSidebar";
 import DashboardMobileNav from "@/app/components/DashboardMobileNav";
 import ActivityPing from "@/app/components/ActivityPing";
 import SubscriptionExpiryBanner from "@/app/components/SubscriptionExpiryBanner";
 import PageTracker from "./_components/PageTracker";
+import TrialBanner from "./_components/TrialBanner";
 
 // Rotas acessíveis a qualquer usuário logado, independente de assinatura
 const FREE_ROUTES = ["/dashboard/perfil", "/dashboard/pedidos", "/dashboard/meus-ebooks", "/dashboard/cursos"];
@@ -19,6 +20,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   let expiringAt: string | null = null;
   let hasAccess = role === "ADMIN" || role === "TESTER";
+  let trialEndsAt: Date | null = null;
 
   if (!hasAccess) {
     const hdrs = await headers();
@@ -27,9 +29,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
     const { canAccess, expiresAt } = await checkSubscriptionAccess(session.user.id);
     hasAccess = canAccess;
+    if (!canAccess) trialEndsAt = await getActiveTrialEnd(session.user.id);
+
+    // Teste grátis: início do painel + Condutas, Evoluções e Calculadoras
+    const trialOk = trialEndsAt != null && pathname != null && (pathname === "/dashboard" || isTrialRoute(pathname));
 
     // Rotas pagas: bloqueia não-assinante (rotas livres seguem acessíveis)
-    if (!canAccess && !isExempt) redirect("/assinatura?motivo=acesso");
+    if (!canAccess && !isExempt && !trialOk) {
+      redirect(trialEndsAt ? "/assinatura?motivo=teste" : "/assinatura?motivo=acesso");
+    }
 
     // Aviso somente se faltar ≤ 48h
     if (canAccess && expiresAt && expiresAt.getTime() - Date.now() <= 48 * 60 * 60 * 1000) {
@@ -53,16 +61,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
         initials={initials}
         isAdmin={role === "ADMIN"}
         hasAccess={hasAccess}
+        isTrial={trialEndsAt != null}
       />
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0 lg:border-l lg:border-white/5">
         {expiringAt && <SubscriptionExpiryBanner expiresAt={expiringAt} />}
+        {trialEndsAt && <TrialBanner endsAt={trialEndsAt.toISOString()} />}
         {children}
       </div>
 
       {/* Bottom nav — mobile */}
-      <DashboardMobileNav hasAccess={hasAccess} isAdmin={role === "ADMIN"} />
+      <DashboardMobileNav hasAccess={hasAccess || trialEndsAt != null} isAdmin={role === "ADMIN"} />
 
       <ActivityPing />
       <PageTracker />

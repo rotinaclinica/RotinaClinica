@@ -53,20 +53,24 @@ export default async function HomePage() {
             </ul>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/assinatura#planos"
-                className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
+                href="/teste?utm_source=site&utm_medium=home-hero&utm_campaign=teste-gratis"
+                className="inline-flex items-center justify-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
               >
-                Começar agora
+                Testar grátis por 7 dias
                 <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </Link>
               <Link
-                href="/tour"
-                className="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 border-2 border-white/70 hover:border-white text-white font-bold px-8 py-4 rounded-xl transition-all text-lg backdrop-blur-sm"
+                href="/assinatura#planos"
+                className="inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 border-2 border-white/70 hover:border-white text-white font-bold px-8 py-4 rounded-xl transition-all text-lg backdrop-blur-sm"
               >
-                Conhecer a plataforma
+                Ver planos
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
             </div>
+            <p className="mt-3 text-sm text-[#9ec4de]">
+              Condutas, modelos de evolução e calculadoras liberadas! ·{" "}
+              <Link href="/tour" className="text-white font-semibold hover:underline">Fazer o tour da plataforma</Link>
+            </p>
             <p className="mt-4 text-base text-[#9ec4de]">
               Já tem conta?{" "}
               <Link href="/login" className="text-[#3db8d4] font-bold hover:underline">

@@ -719,13 +719,21 @@ export default function TourPage() {
           <p className="text-[#b8d8ee] text-lg mb-8">
             Acesse tudo isso por menos de R$1,20 por dia com a assinatura anual.
           </p>
-          <Link
-            href="/assinatura"
-            className="inline-flex items-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
-          >
-            Ver planos e assinar
-            <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/teste?utm_source=site&utm_medium=tour&utm_campaign=teste-gratis"
+              className="inline-flex items-center justify-center gap-2 bg-[#3db8d4] hover:bg-[#2fa8c4] text-[#0f2d4a] font-bold px-10 py-4 rounded-xl transition-all shadow-lg text-lg"
+            >
+              Agora teste você: 7 dias grátis
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </Link>
+            <Link
+              href="/assinatura"
+              className="inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 border-2 border-white/70 hover:border-white text-white font-bold px-8 py-4 rounded-xl transition-all text-lg"
+            >
+              Ver planos e assinar
+            </Link>
+          </div>
           <p className="text-[#6a9ab8] text-sm mt-4">Garantia de 7 dias — reembolso total se não gostar.</p>
         </div>
       </section>

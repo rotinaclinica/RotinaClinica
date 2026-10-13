@@ -71,6 +71,48 @@ export async function checkSubscriptionAccess(userId: string): Promise<{
   return { canAccess: true, expiresAt: sub.currentPeriodEnd };
 }
 
+// ── Teste grátis ─────────────────────────────────────────────────────────────
+
+export const TRIAL_DAYS = 7;
+
+/** Seções liberadas durante o teste grátis (prefixos de rota do dashboard). */
+export const TRIAL_ROUTES = ["/dashboard/prescricoes", "/dashboard/evolucoes", "/dashboard/calculadoras"];
+
+export function isTrialRoute(pathname: string) {
+  return TRIAL_ROUTES.some((r) => pathname === r || pathname.startsWith(r + "/"));
+}
+
+/** Data de fim do teste, se estiver em andamento; null caso contrário. */
+export async function getActiveTrialEnd(userId: string): Promise<Date | null> {
+  const user = await db.user.findUnique({ where: { id: userId }, select: { trialEndsAt: true } });
+  const end = user?.trialEndsAt;
+  return end && end.getTime() > Date.now() ? end : null;
+}
+
+/**
+ * Acesso às seções do teste (Condutas, Evoluções, Calculadoras):
+ * assinante/ADMIN/TESTER ou usuário com teste em andamento.
+ */
+export async function canAccessTrialContent(userId: string): Promise<boolean> {
+  if (await canAccessPaidContent(userId)) return true;
+  return (await getActiveTrialEnd(userId)) !== null;
+}
+
+/**
+ * Pode ativar o teste? Uma vez por conta, e nunca para quem já pagou
+ * assinatura ou tem acesso por role/cortesia.
+ */
+export async function trialEligibility(userId: string): Promise<{ ok: true } | { ok: false; reason: "used" | "subscriber" }> {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { role: true, isCourtesy: true, trialStartedAt: true, subscription: { select: { id: true } } },
+  });
+  if (!user) return { ok: false, reason: "used" };
+  if (user.role !== "CUSTOMER" || user.isCourtesy || user.subscription) return { ok: false, reason: "subscriber" };
+  if (user.trialStartedAt) return { ok: false, reason: "used" };
+  return { ok: true };
+}
+
 /**
  * Igual a canAccessPaidContent, mas sem a isenção de ADMIN/TESTER — para telas
  * que mostram o estado real da assinatura do próprio usuário.

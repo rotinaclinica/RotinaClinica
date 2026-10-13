@@ -75,9 +75,14 @@ interface Props {
   initials: string;
   isAdmin?: boolean;
   hasAccess?: boolean;
+  isTrial?: boolean;
 }
 
-export default function DashboardSidebar({ userName, userEmail, initials, isAdmin, hasAccess = true }: Props) {
+// Liberadas no teste grátis; as demais aparecem com cadeado
+const TRIAL_HREFS = ["/dashboard", "/dashboard/evolucoes", "/dashboard/prescricoes", "/dashboard/calculadoras"];
+const LOCK_ICON = "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z";
+
+export default function DashboardSidebar({ userName, userEmail, initials, isAdmin, hasAccess = true, isTrial = false }: Props) {
   const pathname = usePathname();
 
   function isActive(item: typeof navItems[number]) {
@@ -107,18 +112,24 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
       <nav className="px-3 py-4 space-y-0.5">
         {navItems.filter((item) => {
           if (isAdmin && item.href === "/dashboard/pedidos") return false;
+          if (isTrial) return item.href !== "/dashboard/meus-ebooks" && item.href !== "/dashboard/pedidos";
           if (!hasAccess) return item.href === "/dashboard/meus-ebooks" || item.href === "/dashboard/pedidos" || item.href === "/dashboard/cursos";
           // Assinante ativo já tem os ebooks liberados via /dashboard/materiais
           // (rota /api/ebook/[id], sem custo extra). "Meus Ebooks" só serve
           // para quem comprou ebook avulso sem ser assinante.
           if (item.href === "/dashboard/meus-ebooks") return false;
           return true;
-        }).map((item) => (
+        }).map((item) => {
+          const locked = isTrial && !TRIAL_HREFS.includes(item.href);
+          return (
           <Link
             key={item.href}
-            href={item.href}
+            href={locked ? "/assinatura?motivo=teste" : item.href}
+            title={locked ? "Disponível para assinantes" : undefined}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-              isActive(item)
+              locked
+                ? "text-[#9ec4de]/50 hover:text-[#9ec4de] hover:bg-white/5"
+                : isActive(item)
                 ? "bg-white/10 text-white font-semibold"
                 : "text-[#9ec4de] hover:text-white hover:bg-white/8"
             }`}
@@ -126,9 +137,15 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d={item.icon} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            {item.label}
+            <span className="flex-1">{item.label}</span>
+            {locked && (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-label="Bloqueado">
+                <path d={LOCK_ICON} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </Link>
-        ))}
+          );
+        })}
       </nav>
 
       {/* Perfil + Sair */}

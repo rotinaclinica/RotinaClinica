@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFileSync } from "fs";
 import { join } from "path";
 import { auth } from "@/lib/auth";
-import { canAccessPaidContent } from "@/lib/subscription";
+import { canAccessTrialContent } from "@/lib/subscription";
 
 function getContent(): Record<string, string> {
   const filePath = join(process.cwd(), "lib", "prescricoes-content.json");
@@ -15,7 +15,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
-  if (!(await canAccessPaidContent(session.user.id))) {
+  if (!(await canAccessTrialContent(session.user.id))) {
     return NextResponse.json({ error: "Assinatura necessária." }, { status: 403 });
   }
 

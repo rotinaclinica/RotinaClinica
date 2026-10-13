@@ -31,6 +31,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const registered = searchParams.get("registered") === "1";
   const plano = searchParams.get("plano");
+  const teste = searchParams.get("teste") === "1";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -58,6 +59,8 @@ function LoginForm() {
       const role = (session?.user as { role?: string })?.role;
       if (role === "ADMIN") {
         router.push("/admin");
+      } else if (teste) {
+        router.push("/teste");
       } else if (plano) {
         router.push(`/checkout?plano=${plano}`);
       } else {
@@ -219,7 +222,7 @@ function LoginForm() {
           <div className="mt-6 space-y-2 text-center">
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Ainda não tem conta?{" "}
-              <Link href="/registro" className="text-[#1a6aad] dark:text-[#3db8d4] font-semibold hover:underline">
+              <Link href={teste ? "/registro?teste=1" : "/registro"} className="text-[#1a6aad] dark:text-[#3db8d4] font-semibold hover:underline">
                 Criar conta
               </Link>
             </p>

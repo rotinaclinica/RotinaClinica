@@ -26,6 +26,9 @@ model User {
   phone                String?
   isAmbassador         Boolean        @default(false)
   isCourtesy           Boolean        @default(false)
+  // Teste grátis (sem cartão): libera Condutas, Evoluções e Calculadoras até trialEndsAt
+  trialStartedAt       DateTime?
+  trialEndsAt          DateTime?
   ambassadorCode       String?        @unique
   utmSource            String?
   utmMedium            String?

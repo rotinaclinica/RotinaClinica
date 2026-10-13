@@ -52,6 +52,7 @@ function RegistroForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const plano = searchParams.get("plano") as keyof typeof planInfo | null;
+  const teste = searchParams.get("teste") === "1";
   const plan = plano ? planInfo[plano] : null;
 
   // Cadastros desativados temporariamente
@@ -186,11 +187,11 @@ function RegistroForm() {
     });
 
     if (result?.error) {
-      router.push(plano ? `/login?registered=1&plano=${plano}` : "/login?registered=1");
+      router.push(teste ? "/login?registered=1&teste=1" : plano ? `/login?registered=1&plano=${plano}` : "/login?registered=1");
       return;
     }
 
-    router.push(plano ? `/checkout?plano=${plano}` : "/assinatura");
+    router.push(teste ? "/teste" : plano ? `/checkout?plano=${plano}` : "/assinatura");
   }
 
   return (
@@ -214,7 +215,14 @@ function RegistroForm() {
             </p>
           </div>
 
-          {plan && (
+          {teste && (
+            <div className="bg-[#3db8d4]/15 border border-[#3db8d4]/40 text-white rounded-2xl px-5 py-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#3db8d4] mb-1">Teste grátis · 7 dias</p>
+              <p className="font-extrabold text-lg leading-tight">Crie sua conta e ative o teste.</p>
+            </div>
+          )}
+
+          {plan && !teste && (
             <div className={`${plan.color} rounded-2xl px-5 py-4`}>
               <p className="text-xs font-bold uppercase tracking-wider opacity-70 mb-1">{plan.label}</p>
               <p className="font-extrabold text-lg leading-tight">{plan.price}</p>

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
 import { dripHtml2, dripHtml7 } from "@/lib/emails/drip";
-import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2 } from "@/lib/emails/retencao";
+import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2, trialD1, trialD5, trialEnded, trialAfter3 } from "@/lib/emails/retencao";
 import { logError } from "@/lib/error-logger";
 
 export const maxDuration = 60;
@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
       where: {
         createdAt: { gte: from, lte: to },
         subscription: null,
+        trialStartedAt: null, // quem está/esteve em teste recebe a sequência própria do teste
         // Quem abandonou o checkout já recebe a recuperação (301/303) — não duplica
         emailDrips: { none: { step: { in: [step, 301] } } },
       },
@@ -73,8 +74,9 @@ export async function GET(req: NextRequest) {
 
   const onboarding = await sendOnboarding(now);
   const recovery = await sendCheckoutRecovery(now);
+  const trial = await sendTrialEmails(now);
 
-  return NextResponse.json({ results, onboarding, recovery });
+  return NextResponse.json({ results, onboarding, recovery, trial });
 }
 
 // Etapas registradas em EmailDrip (userId+step único → cada uma sai uma vez por usuário)
@@ -192,6 +194,53 @@ async function sendCheckoutRecovery(now: number) {
       } catch (err) {
         failed++;
         await logError({ route: "/api/cron/drip-emails#recovery", method: "GET", error: err });
+      }
+    }
+    out[step] = { sent, failed };
+  }
+  return out;
+}
+
+// Teste grátis: D1 (início), D5 (faltam 2 dias), fim e 3 dias após o fim.
+// "from" = referência da janela: início (trialStartedAt) ou fim (trialEndsAt).
+const TRIAL_STEPS = [
+  { step: 401, from: "start" as const, day: 1, subject: "Seu teste grátis do Rotina Clínica começou", html: trialD1 },
+  { step: 405, from: "start" as const, day: 5, subject: "Seu teste grátis termina em 2 dias", html: trialD5 },
+  { step: 407, from: "end" as const, day: 0, subject: "Seu teste grátis terminou", html: trialEnded },
+  { step: 410, from: "end" as const, day: 3, subject: "Sua aliada na prática clínica continua aqui", html: trialAfter3 },
+];
+
+async function sendTrialEmails(now: number) {
+  const out: Record<number, { sent: number; failed: number }> = {};
+
+  for (const { step, from, day, subject, html } of TRIAL_STEPS) {
+    // "fim" no dia 0: janela das últimas 24h após trialEndsAt
+    const window = from === "end" && day === 0
+      ? { gte: new Date(now - 24 * HOUR), lt: new Date(now) }
+      : dayWindow(now, day);
+    const users = await db.user.findMany({
+      where: {
+        ...realCustomer,
+        ...(from === "start" ? { trialStartedAt: window } : { trialEndsAt: window }),
+        emailDrips: { none: { step } },
+      },
+      select: { id: true, email: true, name: true },
+    });
+
+    let sent = 0;
+    let failed = 0;
+    for (const user of users) {
+      // Já assinou: para a sequência
+      const assinou = await db.subscription.count({ where: { userId: user.id, status: "ACTIVE", currentPeriodEnd: { gt: new Date(now) } } });
+      if (assinou > 0) continue;
+      const firstName = (user.name ?? "").trim().split(/s+/)[0] ?? "";
+      try {
+        await resend.emails.send({ from: FROM, to: user.email, subject, html: html(firstName) });
+        await db.emailDrip.create({ data: { userId: user.id, step } });
+        sent++;
+      } catch (err) {
+        failed++;
+        await logError({ route: "/api/cron/drip-emails#trial", method: "GET", error: err });
       }
     }
     out[step] = { sent, failed };
