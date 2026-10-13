@@ -162,7 +162,8 @@ export default async function FinanceiroPage() {
     db.financialCost.findMany({ where: { referenceMonth: { gte: sixMonthsAgo } }, orderBy: { referenceMonth: "asc" } }),
     db.financialCost.findMany({ orderBy: { referenceMonth: "desc" }, take: 30 }),
     db.subscription.findMany({
-      where: { status: "ACTIVE", ...notTestSub },
+      // Só período vigente: ACTIVE vencido ainda não foi marcado EXPIRED (expiração preguiçosa)
+      where: { status: "ACTIVE", currentPeriodEnd: { gt: new Date() }, ...notTestSub },
       select: {
         plan: true,
         user: {

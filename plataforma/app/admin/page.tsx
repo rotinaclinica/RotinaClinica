@@ -25,6 +25,10 @@ export default async function AdminPage() {
   const EXCLUDED_EMAILS = await getExcludedEmails();
   const notTest = { email: { notIn: EXCLUDED_EMAILS } };
   const notTestSub = { user: notTest };
+  // ACTIVE no banco só vira EXPIRED quando o usuário volta a acessar (expiração
+  // preguiçosa); por isso "ativo de verdade" exige também o período vigente.
+  const vigente = { status: "ACTIVE" as const, currentPeriodEnd: { gt: now } };
+  const last60d = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
 
   const [
     totalUsers,
@@ -35,12 +39,13 @@ export default async function AdminPage() {
     revenueMonth,
     cancelamentosRecentes,
     renovandoLista,
+    vencidosLista,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
-    db.subscription.count({ where: { status: "ACTIVE", ...notTestSub } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
+    db.subscription.count({ where: { ...vigente, ...notTestSub } }),
+    db.subscription.count({ where: { ...vigente, plan: "MONTHLY", ...notTestSub } }),
+    db.subscription.count({ where: { ...vigente, plan: "ANNUAL", ...notTestSub } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestSub }, _sum: { totalCents: true } }),
     db.subscription.findMany({
       where: { status: "CANCELLED", cancelledAt: { gte: last30d }, ...notTestSub },
@@ -48,9 +53,19 @@ export default async function AdminPage() {
       select: { plan: true, cancelledAt: true, user: { select: { name: true, email: true } } },
     }),
     db.subscription.findMany({
-      where: { status: "ACTIVE", currentPeriodEnd: { lte: next30 }, ...notTestSub },
+      where: { status: "ACTIVE", currentPeriodEnd: { gt: now, lte: next30 }, ...notTestSub },
       orderBy: { currentPeriodEnd: "asc" },
-      select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true } } },
+      select: { plan: true, currentPeriodEnd: true, asaasSubscriptionId: true, user: { select: { name: true, email: true } } },
+    }),
+    // Venceram nos últimos 60 dias e não renovaram — público de reconquista
+    db.subscription.findMany({
+      where: {
+        status: { in: ["ACTIVE", "EXPIRED", "PAST_DUE"] },
+        currentPeriodEnd: { gte: last60d, lte: now },
+        user: { ...notTest, role: "CUSTOMER", isCourtesy: false, anonymizedAt: null },
+      },
+      orderBy: { currentPeriodEnd: "desc" },
+      select: { plan: true, currentPeriodEnd: true, user: { select: { name: true, email: true, phone: true, lastSeenAt: true } } },
     }),
   ]);
 
@@ -145,12 +160,27 @@ export default async function AdminPage() {
         type: "table" as const,
         title: "Renovações próximas — 30 dias",
         table: {
-          headers: ["Usuário", "Email", "Plano", "Vence em"],
+          headers: ["Usuário", "Email", "Plano", "Renovação", "Vence em"],
           rows: renovandoLista.map((s) => [
             s.user.name ?? "—",
             s.user.email,
             s.plan === "ANNUAL" ? "Anual" : "Mensal",
+            s.asaasSubscriptionId ? "Automática (cartão)" : "Manual",
             s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR") : "—",
+          ]),
+        },
+      }] : []),
+      ...(vencidosLista.length > 0 ? [{
+        type: "table" as const,
+        title: "Vencidas sem renovação — 60 dias",
+        table: {
+          headers: ["Usuário", "Email", "Telefone", "Plano", "Venceu em"],
+          rows: vencidosLista.map((s) => [
+            s.user.name ?? "—",
+            s.user.email,
+            s.user.phone ?? "—",
+            s.plan === "ANNUAL" ? "Anual" : "Mensal",
+            new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR"),
           ]),
         },
       }] : []),
@@ -243,6 +273,7 @@ export default async function AdminPage() {
                 <tr>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Renovação</th>
                   <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Vence em</th>
                 </tr>
               </thead>
@@ -256,8 +287,62 @@ export default async function AdminPage() {
                     <td className="px-4 py-3 text-zinc-400 text-xs">
                       {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
                     </td>
+                    <td className="px-4 py-3 text-xs">
+                      {s.asaasSubscriptionId
+                        ? <span className="text-emerald-400">Automática (cartão)</span>
+                        : <span className="text-amber-300">Manual (Pix/avulso)</span>}
+                    </td>
                     <td className="px-4 py-3 text-xs font-medium text-amber-400">
                       {s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR") : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Vencidas sem renovação ── */}
+      {vencidosLista.length > 0 && (
+        <section>
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-1">
+            Vencidas sem renovação — 60 dias ({vencidosLista.length})
+          </h2>
+          <p className="text-xs text-zinc-400 mb-3">Recebem lembretes automáticos em D+3, D+7 e D+15. Vale um contato direto.</p>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 border-l-4 border-l-red-400 overflow-hidden">
+            <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[560px]">
+              <thead className="bg-white/5 border-b border-white/10">
+                <tr>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Venceu em</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Último acesso</th>
+                </tr>
+              </thead>
+              <tbody>
+                {vencidosLista.map((s, i) => (
+                  <tr key={i} className="border-b border-white/5 last:border-0">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-zinc-100">{s.user.name ?? "—"}</p>
+                      <p className="text-xs text-zinc-400">{s.user.email}</p>
+                      {s.user.phone && (
+                        <a href={whatsappUrl(s.user.phone)} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:underline">
+                          WhatsApp · {s.user.phone}
+                        </a>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
+                      {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      <p className="font-medium text-red-400">{new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR")}</p>
+                      <p className="text-zinc-500">há {Math.max(0, Math.floor((now.getTime() - new Date(s.currentPeriodEnd).getTime()) / 86_400_000))} dia(s)</p>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-zinc-400">
+                      {s.user.lastSeenAt ? new Date(s.user.lastSeenAt).toLocaleDateString("pt-BR") : "—"}
                     </td>
                   </tr>
                 ))}
@@ -337,4 +422,10 @@ function Tile({
       {sub && <p className="text-[11px] text-zinc-400 mt-0.5">{sub}</p>}
     </div>
   );
+}
+
+// Link wa.me a partir do telefone salvo (com ou sem DDI 55)
+function whatsappUrl(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  return `https://wa.me/${digits.length <= 11 ? "55" + digits : digits}`;
 }

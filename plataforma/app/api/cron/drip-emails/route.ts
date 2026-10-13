@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
 import { dripHtml2, dripHtml7 } from "@/lib/emails/drip";
+import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2 } from "@/lib/emails/retencao";
+import { logError } from "@/lib/error-logger";
 
 export const maxDuration = 60;
 
@@ -42,7 +44,8 @@ export async function GET(req: NextRequest) {
       where: {
         createdAt: { gte: from, lte: to },
         subscription: null,
-        emailDrips: { none: { step } },
+        // Quem abandonou o checkout já recebe a recuperação (301/303) — não duplica
+        emailDrips: { none: { step: { in: [step, 301] } } },
       },
       select: { id: true, email: true, name: true },
     });
@@ -68,5 +71,130 @@ export async function GET(req: NextRequest) {
     results[step] = { sent, failed };
   }
 
-  return NextResponse.json({ results });
+  const onboarding = await sendOnboarding(now);
+  const recovery = await sendCheckoutRecovery(now);
+
+  return NextResponse.json({ results, onboarding, recovery });
+}
+
+// Etapas registradas em EmailDrip (userId+step único → cada uma sai uma vez por usuário)
+const ONBOARDING_STEPS = [
+  { step: 101, day: 1, subject: "Seu primeiro plantão com o Rotina Clínica" },
+  { step: 103, day: 3, subject: "" }, // assunto depende de já ter acessado
+  { step: 106, day: 6, subject: "Deixe a plataforma com a sua cara" },
+];
+const RECOVERY_STEPS = [
+  { step: 301, day: 1, subject: "Sua assinatura ficou pela metade" },
+  { step: 303, day: 3, subject: "Ainda dá tempo de concluir sua assinatura" },
+];
+
+const HOUR = 60 * 60 * 1000;
+// Cron diário: janela de 24h centrada no dia-alvo, para nenhum usuário escapar
+const dayWindow = (now: number, day: number) => ({
+  gte: new Date(now - (day * 24 + 12) * HOUR),
+  lt: new Date(now - (day * 24 - 12) * HOUR),
+});
+
+const realCustomer = { role: "CUSTOMER" as const, isCourtesy: false, anonymizedAt: null };
+
+// Onboarding de novos assinantes: D1, D3 (com variação p/ quem nunca entrou) e D6
+async function sendOnboarding(now: number) {
+  const out: Record<number, { sent: number; failed: number }> = {};
+
+  for (const { step, day, subject } of ONBOARDING_STEPS) {
+    const orders = await db.order.findMany({
+      where: {
+        status: "PAID",
+        paidAt: dayWindow(now, day),
+        items: { some: { product: { type: "SUBSCRIPTION" } } },
+        user: { ...realCustomer, emailDrips: { none: { step } } },
+      },
+      select: { paidAt: true, user: { select: { id: true, email: true, name: true } } },
+    });
+
+    let sent = 0;
+    let failed = 0;
+    const seen = new Set<string>();
+    for (const { paidAt, user } of orders) {
+      if (seen.has(user.id)) continue;
+      seen.add(user.id);
+      // Só a primeira assinatura: renovação não recebe "boas-vindas"
+      const anteriores = await db.order.count({
+        where: { userId: user.id, status: "PAID", paidAt: { lt: paidAt ?? undefined }, items: { some: { product: { type: "SUBSCRIPTION" } } } },
+      });
+      if (anteriores > 0) continue;
+      const firstName = (user.name ?? "").trim().split(/\s+/)[0] ?? "";
+      try {
+        let html: string;
+        let subj = subject;
+        if (step === 101) html = onboardingD1(firstName);
+        else if (step === 106) html = onboardingD6(firstName);
+        else {
+          const acessos = await db.pageView.count({ where: { userId: user.id, createdAt: { gte: paidAt ?? undefined } } });
+          html = onboardingD3(firstName, acessos > 0);
+          subj = acessos > 0 ? "Você ainda não viu tudo o que tem aqui" : "Seu acesso ao Rotina Clínica está esperando por você";
+        }
+        await resend.emails.send({ from: FROM, to: user.email, subject: subj, html });
+        await db.emailDrip.create({ data: { userId: user.id, step } });
+        sent++;
+      } catch (err) {
+        failed++;
+        await logError({ route: "/api/cron/drip-emails#onboarding", method: "GET", error: err });
+      }
+    }
+    out[step] = { sent, failed };
+  }
+  return out;
+}
+
+// Checkout de assinatura iniciado e não pago: lembretes em D1 e D3
+async function sendCheckoutRecovery(now: number) {
+  const out: Record<number, { sent: number; failed: number }> = {};
+
+  for (const { step, day, subject } of RECOVERY_STEPS) {
+    const orders = await db.order.findMany({
+      where: {
+        status: { in: ["PENDING", "EXPIRED", "FAILED"] },
+        createdAt: dayWindow(now, day),
+        items: { some: { product: { type: "SUBSCRIPTION" } } },
+        user: { ...realCustomer, emailDrips: { none: { step } } },
+      },
+      orderBy: { createdAt: "desc" },
+      select: {
+        createdAt: true,
+        items: { select: { product: { select: { slug: true, type: true } } } },
+        user: { select: { id: true, email: true, name: true } },
+      },
+    });
+
+    let sent = 0;
+    let failed = 0;
+    const seen = new Set<string>();
+    for (const o of orders) {
+      if (seen.has(o.user.id)) continue;
+      seen.add(o.user.id);
+
+      // Já assinou por outro pedido (ex.: tentou Pix, depois pagou no cartão)?
+      const [pagouDepois, vigente] = await Promise.all([
+        db.order.count({ where: { userId: o.user.id, status: "PAID", createdAt: { gte: o.createdAt } } }),
+        db.subscription.count({ where: { userId: o.user.id, status: "ACTIVE", currentPeriodEnd: { gt: new Date(now) } } }),
+      ]);
+      if (pagouDepois > 0 || vigente > 0) continue;
+
+      const slug = o.items.find((i) => i.product.type === "SUBSCRIPTION")?.product.slug;
+      const plano = slug === "assinatura-anual" ? "anual" : "mensal";
+      const firstName = (o.user.name ?? "").trim().split(/\s+/)[0] ?? "";
+      try {
+        const html = step === 301 ? checkoutRecovery1(firstName, plano) : checkoutRecovery2(firstName, plano);
+        await resend.emails.send({ from: FROM, to: o.user.email, subject, html });
+        await db.emailDrip.create({ data: { userId: o.user.id, step } });
+        sent++;
+      } catch (err) {
+        failed++;
+        await logError({ route: "/api/cron/drip-emails#recovery", method: "GET", error: err });
+      }
+    }
+    out[step] = { sent, failed };
+  }
+  return out;
 }

@@ -12,7 +12,7 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.rotinaclinica.co
 const TZ = "America/Sao_Paulo";
 
 // Sequência de lembretes para assinaturas SEM renovação automática (Pix /
-// pagamento avulso). Chave = dias até o vencimento (no calendário de Brasília);
+// pagamento avulso), sempre empurrando para o cartão recorrente. Chave = dias até o vencimento (no calendário de Brasília);
 // negativo = dias após vencer. Com o cron diário, cada assinatura passa por
 // cada etapa uma única vez — dispensa um campo "lembrete enviado" no banco.
 const STEPS: Record<number, { subject: string; title: string; body: (venceEm: string) => string; cta: string }> = {
@@ -44,9 +44,25 @@ const STEPS: Record<number, { subject: string; title: string; body: (venceEm: st
       `Sua assinatura venceu em <strong>${d}</strong> e o acesso foi pausado. Seus dados e anotações continuam salvos — é só renovar para voltar de onde parou.`,
     cta: "Reativar meu acesso →",
   },
+  [-7]: {
+    subject: "Seu acesso ao Rotina Clínica continua pausado",
+    title: "Volte de onde parou",
+    body: (d) =>
+      `Desde <strong>${d}</strong> seu acesso está pausado. Suas anotações e seu histórico continuam guardados, esperando por você — e no cartão você reativa uma vez e nunca mais precisa se preocupar com vencimento.`,
+    cta: "Reativar com renovação automática →",
+  },
+  [-15]: {
+    subject: "Ainda dá tempo de voltar ao Rotina Clínica",
+    title: "Sua rotina de plantão mais leve de novo",
+    body: (d) =>
+      `Sua assinatura venceu em <strong>${d}</strong>. Seguimos atualizando condutas, calculadoras e conteúdos — reative no cartão e tenha tudo de volta, com renovação automática.`,
+    cta: "Quero voltar →",
+  },
 };
 
-function reminderHtml(name: string, step: (typeof STEPS)[number], venceEm: string) {
+function reminderHtml(name: string, step: (typeof STEPS)[number], venceEm: string, plano: "mensal" | "anual") {
+  // Cartão já vem selecionado no checkout e gera assinatura recorrente no Asaas
+  const checkoutUrl = `${APP_URL}/checkout?plano=${plano}`;
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -62,14 +78,18 @@ function reminderHtml(name: string, step: (typeof STEPS)[number], venceEm: strin
           <p style="margin:0 0 12px;color:#0f2d4a;font-size:16px">Olá${name ? `, <strong>${escapeHtml(name)}</strong>` : ""}!</p>
           <p style="margin:0 0 24px;color:#64748b;font-size:15px;line-height:1.6">${step.body(escapeHtml(venceEm))}</p>
           <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
-            <a href="${APP_URL}/assinatura" style="display:inline-block;background:#3db8d4;color:#fff;text-decoration:none;padding:14px 32px;border-radius:12px;font-weight:600;font-size:15px">
+            <a href="${checkoutUrl}" style="display:inline-block;background:#3db8d4;color:#fff;text-decoration:none;padding:14px 32px;border-radius:12px;font-weight:600;font-size:15px">
               ${step.cta}
             </a>
+            <p style="margin:12px 0 0;color:#64748b;font-size:13px">💳 No cartão de crédito, com renovação automática</p>
           </td></tr></table>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;background:#f0f5f9;border-radius:12px">
             <tr><td style="padding:14px 18px;color:#4a6a80;font-size:13px;line-height:1.6">
-              💡 <strong>Dica:</strong> no cartão a renovação é automática — você não precisa lembrar todo mês.
-              E no plano anual você paga 10 meses e usa 12.
+              <strong>Por que ativar no cartão?</strong><br>
+              ✅ Renovação automática: sem lembrar de pagar todo mês<br>
+              ✅ Seu acesso nunca é interrompido no meio de um plantão<br>
+              ✅ Sem fidelidade: para cancelar, é só escrever para contato@rotinaclinica.com<br>
+              <span style="display:block;margin-top:8px">Prefere Pix ou o plano anual (pague 10 meses e use 12)? <a href="${APP_URL}/assinatura#planos" style="color:#1a6aad;font-weight:600">Ver todos os planos</a></span>
             </td></tr>
           </table>
           <p style="margin:24px 0 0;color:#0f2d4a;font-size:14px;line-height:1.6">
@@ -115,12 +135,12 @@ export async function GET(req: NextRequest) {
       status: { in: ["ACTIVE", "EXPIRED", "PAST_DUE"] },
       asaasSubscriptionId: null,
       currentPeriodEnd: {
-        gte: new Date(now.getTime() - 5 * 86_400_000),
+        gte: new Date(now.getTime() - 17 * 86_400_000),
         lte: new Date(now.getTime() + 9 * 86_400_000),
       },
       user: { role: "CUSTOMER", isCourtesy: false, anonymizedAt: null },
     },
-    select: { currentPeriodEnd: true, user: { select: { email: true, name: true } } },
+    select: { plan: true, currentPeriodEnd: true, user: { select: { email: true, name: true } } },
   });
 
   const sent: Record<string, number> = {};
@@ -140,7 +160,7 @@ export async function GET(req: NextRequest) {
         from: FROM,
         to: s.user.email,
         subject: step.subject,
-        html: reminderHtml(firstName, step, venceEm),
+        html: reminderHtml(firstName, step, venceEm, s.plan === "ANNUAL" ? "anual" : "mensal"),
       });
       const label = `D${diff >= 0 ? "-" : "+"}${Math.abs(diff)}`;
       sent[label] = (sent[label] ?? 0) + 1;
