@@ -369,6 +369,19 @@ function renderInline(text: string) {
   );
 }
 
+// Destaca o rótulo curto no início do bullet ("Conduta sugerida:", "Atenção:")
+function renderLabeled(text: string) {
+  const m = text.match(/^([A-ZÀ-Ú][^:*]{1,28}):\s+(.*)$/);
+  if (!m) return renderInline(text);
+  const isAlert = /^(Atenção|Cuidado|Importante)$/i.test(m[1]);
+  return (
+    <>
+      <strong className={`font-semibold ${isAlert ? "text-amber-700 dark:text-amber-300" : "text-[#0f2d4a] dark:text-white"}`}>{m[1]}:</strong>{" "}
+      {renderInline(m[2])}
+    </>
+  );
+}
+
 export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
   const blocks = parse(conteudo);
 
@@ -378,7 +391,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
         switch (b.type) {
           case "section":
             return (
-              <p key={i} className="text-[13px] font-extrabold text-[#0f2d4a] dark:text-[#3db8d4] uppercase tracking-wider pt-3 first:pt-0">
+              <p key={i} className="text-[13px] dark:text-[15px] font-extrabold text-[#0f2d4a] dark:text-white uppercase tracking-wider pt-3 first:pt-0">
                 {b.text}
               </p>
             );
@@ -409,7 +422,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                         return acc;
                       }, [])
                       .map((ins, k) => (
-                        <p key={k} className="text-[13px] text-[#0f2d4a] dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(ins)}</p>
+                        <p key={k} className="text-[13px] text-[#0f2d4a] dark:text-[#d5dfe9] leading-relaxed text-justify">{renderInline(ins)}</p>
                       ))}
                   </div>
                 )}
@@ -450,7 +463,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                 <p className={`text-[10px] font-bold ${isPrincipios ? "text-[#0f2d4a] dark:text-[#3db8d4]" : "text-[#1a6aad] dark:text-[#3db8d4]"} uppercase tracking-wider mb-1`}>{isPrincipios ? "Princípios gerais" : "Detalhe"}</p>
                 <div className="space-y-1">
                   {b.body.map((p, k) => (
-                    <p key={k} className="text-[13px] text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(p)}</p>
+                    <p key={k} className="text-[13px] text-zinc-600 dark:text-[#bccbd9] leading-relaxed text-justify">{renderInline(p)}</p>
                   ))}
                 </div>
               </div>
@@ -459,7 +472,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
 
           case "subtitle":
             return (
-              <p key={i} className="text-sm font-bold text-[#0f2d4a] dark:text-[#7db5d0] uppercase tracking-wider pt-6 pb-0.5 first:pt-0">
+              <p key={i} className="text-sm dark:text-[15px] font-bold text-[#0f2d4a] dark:text-[#3db8d4] uppercase tracking-wider pt-6 pb-0.5 first:pt-0">
                 {b.text.startsWith("→ ") ? b.text.slice(2) : b.text}
               </p>
             );
@@ -469,7 +482,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               return (
                 <div key={i} className="flex gap-2 items-start">
                   <span className="text-[#1a6aad] dark:text-[#3db8d4] font-bold text-sm mt-0.5 flex-shrink-0">→</span>
-                  <p className="text-sm text-[#0f2d4a] dark:text-[#9ec4de] leading-relaxed">{renderInline(b.text.slice(2))}</p>
+                  <p className="text-sm text-[#0f2d4a] dark:text-[#d5dfe9] leading-relaxed">{renderLabeled(b.text.slice(2))}</p>
                 </div>
               );
             }
@@ -481,7 +494,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               );
             }
             return (
-              <p key={i} className="text-sm text-zinc-600 dark:text-[#9ec4de] leading-relaxed text-justify">{renderInline(b.text)}</p>
+              <p key={i} className="text-sm text-zinc-600 dark:text-[#d5dfe9] leading-relaxed text-justify">{renderInline(b.text)}</p>
             );
 
           case "image":

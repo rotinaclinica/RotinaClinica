@@ -536,7 +536,6 @@ export async function sendEbookDownloadLinks({
 export async function sendNotaFiscal({
   to,
   customerName,
-  numero,
   pdfUrl,
   amountCents,
 }: {
@@ -555,8 +554,8 @@ export async function sendNotaFiscal({
     from: FROM,
     to,
     bcc: "rotinaclinica77@gmail.com",
-    subject: `Sua nota fiscal — Rotina Clínica (nº ${numero})`,
-    attachments: [{ filename: `nota-fiscal-${numero}.pdf`, path: pdfUrl }],
+    subject: "Sua nota fiscal — Rotina Clínica",
+    attachments: [{ filename: "nota-fiscal-rotina-clinica.pdf", path: pdfUrl }],
     html: `
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -588,7 +587,7 @@ export async function sendNotaFiscal({
             </table>
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;border-radius:12px">
               <tr><td style="padding:14px 20px;color:#4a6a80;font-size:13px">
-                🧾 Nota fiscal nº <strong style="color:#0f2d4a">${escapeHtml(numero)}</strong> · ${valorFormatado} · PDF em anexo
+                🧾 <strong style="color:#0f2d4a">Nota fiscal</strong> · ${valorFormatado} · PDF em anexo
               </td></tr>
             </table>
             <p style="margin:28px 0 0;color:#0f2d4a;font-size:15px;line-height:1.6">

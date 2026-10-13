@@ -124,6 +124,16 @@ function PrescricaoModal({ item, onClose, onNavigate }: { item: PrescricaoMeta; 
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 const FILTROS = PRESCRICOES_FILTROS;
+// Cor da badge de cada categoria, repetida como ponto no filtro
+const FILTRO_DOT: Partial<Record<(typeof FILTROS)[number], string>> = {
+  "Emergência": "#3db8d4",
+  "Intubação": "#22d3ee",
+  "Guias práticos": "#a78bfa",
+  "PS/UPA": "#f87171",
+  "UBS/Atenção primária": "#4ade80",
+  "Medicamento": "#fb923c",
+  "Referências": "#e879f9",
+};
 type Filtro = PrescricaoFiltro;
 
 export default function PrescricoesPage() {
@@ -160,19 +170,19 @@ export default function PrescricoesPage() {
       {selected && <PrescricaoModal item={selected} onClose={handleClose} onNavigate={setSelected} />}
 
       <div className="flex-1 flex flex-col">
-        <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+        <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
           <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
             Início
           </Link>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">Condutas Clínicas</h1>
-          <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">Busque por queixa, diagnóstico, medicamento ou tema.</p>
+          <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">Condutas <span className="text-[#1a6aad] dark:text-[#3db8d4]">Clínicas</span></h1>
+          <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Busque por queixa, diagnóstico, medicamento ou tema.</p>
 
           {/* Search */}
           <div className="relative mt-4 max-w-xl">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#4a6a7e]"
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#7f9db5]"
               width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -182,7 +192,7 @@ export default function PrescricoesPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Ex: hipertensão, amoxicilina, cistite..."
-              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/10 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#4a6a7e] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent bg-[#f8fafc] dark:bg-[#0e1825]"
+              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent bg-[#f8fafc] dark:bg-[#0e1825]"
             />
             {query && (
               <button onClick={() => setQuery("")}
@@ -210,8 +220,9 @@ export default function PrescricoesPage() {
                           : f === "Intubação"
                             ? "bg-[#0e7490] text-white"
                             : "bg-[#0f2d4a] dark:bg-[#1a6aad] text-white"
-                    : "bg-zinc-100 dark:bg-white/8 text-zinc-600 dark:text-[#7d96ad] hover:bg-zinc-200 dark:hover:bg-white/12"
-                }`}>
+                    : "bg-zinc-100 dark:bg-white/[0.06] dark:ring-1 dark:ring-white/10 text-zinc-600 dark:text-[#c3d0dc] hover:bg-zinc-200 dark:hover:bg-white/12 dark:hover:text-white"
+                } inline-flex items-center gap-1.5`}>
+                {FILTRO_DOT[f] && filtro !== f && <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: FILTRO_DOT[f] }} />}
                 {f}
               </button>
             ))}
@@ -231,7 +242,7 @@ export default function PrescricoesPage() {
             </div>
           ) : (
             <>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] mb-4 font-medium">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#8aa3b8] mb-4 font-medium">
                 {resultados.length} resultado{resultados.length !== 1 ? "s" : ""}
                 {query ? ` para "${query}"` : ""}
               </p>
@@ -239,7 +250,7 @@ export default function PrescricoesPage() {
                 {resultados.map((p) => (
                   <button key={p.id}
                     onClick={() => setSelected(p)}
-                    className="text-left bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group">
+                    className="text-left bg-white dark:bg-[#131c2e] border border-[#c9d6e3] dark:border-white/8 shadow-[0_1px_3px_rgba(15,45,74,0.08)] dark:shadow-none rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group">
                     <div className="flex items-start justify-between gap-2 mb-3">
                       <div className="flex flex-wrap gap-1.5">
                         {emergenciaIds.has(p.id) && (

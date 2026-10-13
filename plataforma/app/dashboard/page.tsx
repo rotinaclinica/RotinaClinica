@@ -125,11 +125,11 @@ export default async function DashboardPage() {
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
-      <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[#0f2d4a] dark:text-[#5a7a8e] text-sm">{greeting()},</p>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-tight">{firstName}</h1>
+            <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm sm:text-base font-medium">{greeting()},</p>
+            <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white leading-tight">{firstName}</h1>
           </div>
 
           {/* Status da assinatura */}
@@ -169,7 +169,7 @@ export default async function DashboardPage() {
         )}
 
         {expiresAt && isActive && (
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-1">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] mt-1">
             Acesso até {expiresAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
           </p>
         )}
@@ -178,7 +178,7 @@ export default async function DashboardPage() {
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider">O que você quer acessar?</p>
+          <h2 className="text-base sm:text-lg font-bold text-[#0f2d4a] dark:text-white">Por onde vamos começar hoje?</h2>
           <ThemeToggle variant="switch" />
         </div>
 
