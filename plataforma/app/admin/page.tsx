@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { ExportPdfButton } from "./_components/ExportPdfButton";
 import type { PdfReportData } from "./_components/pdf-generator";
 import { getExcludedEmails } from "./_lib/excluded-emails";
+import { getRetentionMetrics, type RetentionPeriod } from "./_lib/retention-metrics";
 
 export const metadata = { title: "Admin · Rotina Clínica" };
 
@@ -87,6 +88,8 @@ export default async function AdminPage() {
       select: { plan: true, currentPeriodEnd: true, asaasSubscriptionId: true, user: { select: { name: true, email: true, phone: true, lastSeenAt: true } } },
     }),
   ]);
+
+  const retencao = await getRetentionMetrics(EXCLUDED_EMAILS, now);
 
   let onlineNow = 0;
   let active24h = 0;
@@ -253,6 +256,9 @@ export default async function AdminPage() {
           />
         </div>
       </section>
+
+      {/* ── Retenção (ajustes de 15/10/2026) ── */}
+      <RetentionSection recent={retencao.recent} months={retencao.months} />
 
       {/* ── Atividade em Tempo Real ── */}
       <section>
@@ -518,4 +524,100 @@ function Tile({
 function whatsappUrl(phone: string) {
   const digits = phone.replace(/\D/g, "");
   return `https://wa.me/${digits.length <= 11 ? "55" + digits : digits}`;
+}
+
+function pct(part: number, total: number) {
+  return total > 0 ? `${Math.round((part / total) * 100)}%` : "—";
+}
+
+function RetentionSection({ recent, months }: { recent: RetentionPeriod; months: RetentionPeriod[] }) {
+  const vencidos = recent.avulsosRenovados + recent.avulsosExpirados;
+  const novasTotal = Object.values(recent.novas).reduce((a, b) => a + b, 0);
+  const cartaoOuAnual = recent.novas.mensalCartao + recent.novas.anualCartao + recent.novas.anualPix;
+  const th = "text-left px-4 py-2.5 text-xs font-semibold text-zinc-400 whitespace-nowrap";
+
+  return (
+    <section>
+      <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-1">Retenção — efeito dos ajustes de 15/10</h2>
+      <p className="text-xs text-zinc-400 mb-3">
+        Linha de base antes de 15/10: 19 assinaturas pagas (11 mensais avulsas, 5 cartão recorrente, 2 anuais); 7 avulsos venceram sem renovar. Contas de teste, embaixadores e cortesias excluídos.
+      </p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+        <Tile
+          label="Renovação dos avulsos — 30d"
+          value={pct(recent.avulsosRenovados, vencidos)}
+          color={vencidos === 0 ? undefined : recent.avulsosRenovados >= recent.avulsosExpirados ? "green" : "red"}
+          sub={`${recent.avulsosRenovados} renovaram · ${recent.avulsosExpirados} expiraram${recent.avulsosAguardando ? ` · ${recent.avulsosAguardando} aguardando` : ""}`}
+        />
+        <Tile
+          label="Migração Pix → cartão — 30d"
+          value={recent.migracoes}
+          color={recent.migracoes > 0 ? "green" : undefined}
+          sub="pagavam Pix e passaram ao cartão"
+        />
+        <Tile
+          label="Novas no anual ou recorrente — 30d"
+          value={pct(cartaoOuAnual, novasTotal)}
+          color={novasTotal === 0 ? undefined : cartaoOuAnual >= recent.novas.mensalPix ? "green" : "yellow"}
+          sub={`${novasTotal} nova(s) · ${recent.novas.mensalPix} mensal Pix`}
+        />
+        <Tile
+          label="Reativação por e-mail — 30d"
+          value={pct(recent.reativacaoVoltaram, recent.reativacaoEnviados)}
+          color={recent.reativacaoVoltaram > 0 ? "green" : undefined}
+          sub={`${recent.reativacaoVoltaram} de ${recent.reativacaoEnviados} voltaram a acessar`}
+        />
+      </div>
+      <div className="bg-[#161b22] rounded-xl border border-white/10 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[720px]">
+            <thead className="bg-white/5 border-b border-white/10">
+              <tr>
+                <th className={th}>Período</th>
+                <th className={th}>Renovação avulsos</th>
+                <th className={th}>Pix → cartão</th>
+                <th className={th}>Mensal cartão</th>
+                <th className={th}>Mensal Pix</th>
+                <th className={th}>Anual cartão</th>
+                <th className={th}>Anual Pix</th>
+                <th className={th}>Reativação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[recent, ...months].map((p) => {
+                const venc = p.avulsosRenovados + p.avulsosExpirados;
+                return (
+                  <tr key={p.key} className={`border-b border-white/5 last:border-0 ${p.key === "30d" ? "bg-white/[0.03]" : ""}`}>
+                    <td className="px-4 py-3 text-xs font-medium text-zinc-100 whitespace-nowrap">{p.label}</td>
+                    <td className="px-4 py-3 text-xs text-zinc-400 whitespace-nowrap">
+                      {venc + p.avulsosAguardando === 0 ? "—" : (
+                        <>
+                          <span className="font-medium text-zinc-100">{pct(p.avulsosRenovados, venc)}</span>{" "}
+                          <span className="text-emerald-400">{p.avulsosRenovados} ren.</span> · <span className="text-red-400">{p.avulsosExpirados} exp.</span>
+                          {p.avulsosAguardando > 0 && <> · <span className="text-amber-300">{p.avulsosAguardando} aguard.</span></>}
+                        </>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-zinc-100">{p.migracoes || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-emerald-400">{p.novas.mensalCartao || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-amber-300">{p.novas.mensalPix || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-emerald-400">{p.novas.anualCartao || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-emerald-400">{p.novas.anualPix || "—"}</td>
+                    <td className="px-4 py-3 text-xs text-zinc-400 whitespace-nowrap">
+                      {p.reativacaoEnviados === 0 ? "—" : (
+                        <><span className="font-medium text-zinc-100">{p.reativacaoVoltaram}/{p.reativacaoEnviados}</span> voltaram</>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p className="text-[11px] text-zinc-500 mt-2">
+        Avulsos: Pix/transferência e anual parcelado, contados no mês em que o período venceu; renovação = novo pagamento até 30 dias após vencer. Novas: primeira assinatura paga do usuário. Reativação: e-mail de inatividade (10+ dias sem acesso) seguido de novo acesso.
+      </p>
+    </section>
+  );
 }
