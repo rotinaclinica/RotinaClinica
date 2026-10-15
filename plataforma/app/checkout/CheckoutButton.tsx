@@ -130,7 +130,7 @@ export default function CheckoutButton({
   const [cardName, setCardName] = useState("");
   const [cardExpiry, setCardExpiry] = useState("");
   const [cardCvv, setCardCvv] = useState("");
-  const [installments, setInstallments] = useState(1);
+  const [installments, setInstallments] = useState(isMensal ? 1 : 12); // anual abre em 12x: destaca o valor da parcela
 
   const needsPhone = false;
 
