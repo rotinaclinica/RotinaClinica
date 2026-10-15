@@ -93,11 +93,13 @@ export async function createAsaasCardPayment(params: {
     body: JSON.stringify({
       customer: params.customerId,
       billingType: "CREDIT_CARD",
-      value: params.valueCents / 100,
       dueDate,
       description: "Assinatura Rotina Clínica",
-      installmentCount: params.installments ?? 1,
-      installmentValue: params.valueCents / 100 / (params.installments ?? 1),
+      // Parcelado: o Asaas divide o totalValue e acerta os centavos (ex.: R$ 400 em
+      // 12x não fecha em parcelas iguais, e installmentValue arredondado perderia centavos).
+      ...((params.installments ?? 1) > 1
+        ? { installmentCount: params.installments, totalValue: params.valueCents / 100 }
+        : { value: params.valueCents / 100 }),
       externalReference: params.orderId,
       creditCard: params.card,
       creditCardHolderInfo: {

@@ -26,7 +26,7 @@ export default async function CheckoutPage({
   }
 
   const [product, userProfile, existing] = await Promise.all([
-    db.product.findUnique({ where: { slug: plan.slug, active: true }, select: { id: true } }),
+    db.product.findUnique({ where: { slug: plan.slug, active: true }, select: { id: true, priceCents: true } }),
     db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, phone: true } }),
     db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true, asaasSubscriptionId: true, currentPeriodEnd: true } }),
   ]);
@@ -121,7 +121,22 @@ export default async function CheckoutPage({
               </span>
             </div>
           )}
-          <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
+          <CheckoutButton
+            productId={product.id}
+            userCpf={userProfile?.cpf}
+            userPhone={userProfile?.phone}
+            plano={isMensal ? "mensal" : "anual"}
+            priceCents={product.priceCents}
+          />
+          {isMensal && (
+            <Link
+              href="/checkout?plano=anual"
+              className="block rounded-xl border-2 border-dashed border-[#3db8d4] bg-[#e8f6fa] px-4 py-3 text-center hover:bg-[#d6f0f6] transition-colors"
+            >
+              <span className="block text-sm font-bold text-[#0f2d4a]">Economize R$ 79: no anual sai R$ 33,30/mês</span>
+              <span className="block text-xs text-[#1a6aad] mt-0.5">2 meses grátis · em até 12x sem juros no cartão →</span>
+            </Link>
+          )}
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-700 hover:text-zinc-900 hover:underline transition-colors">
               ← Ver outros planos

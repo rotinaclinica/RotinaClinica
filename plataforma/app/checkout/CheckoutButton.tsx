@@ -63,6 +63,9 @@ const PRIMARY_METHODS: { id: "pix" | "card"; label: string; sub: string; badge?:
   { id: "pix", label: "PIX", sub: "Renovação manual todo mês", icon: PIX_ICON },
 ];
 
+const brl = (cents: number) =>
+  (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
 const ACCENT: Record<"pix" | "card", string> = {
   pix:  "border-zinc-400 bg-zinc-50",
   card: "border-[#0d9488] bg-[#f0fdfa]",
@@ -77,11 +80,27 @@ export default function CheckoutButton({
   productId,
   userCpf,
   userPhone,
+  plano,
+  priceCents,
 }: {
   productId: string;
   userCpf?: string | null;
   userPhone?: string | null;
+  // mensal: cartão recorrente, sem parcelas · anual: pagamento único em até 12x
+  plano: "mensal" | "anual";
+  priceCents: number;
 }) {
+  const isMensal = plano === "mensal";
+  const methods = PRIMARY_METHODS.map((m) =>
+    isMensal
+      ? m
+      : {
+          ...m,
+          sub: m.id === "card"
+            ? `Em até 12x de ${brl(priceCents / 12)} sem juros`
+            : `Pagamento único de ${brl(priceCents)}`,
+        }
+  );
   const router = useRouter();
   const [selected, setSelected] = useState<"pix" | "card">("card");
   const [loading, setLoading] = useState(false);
@@ -264,7 +283,7 @@ export default function CheckoutButton({
           <p className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider">Forma de pagamento</p>
         </div>
 
-        {PRIMARY_METHODS.map((m) => (
+        {methods.map((m) => (
           <button
             key={m.id}
             onClick={() => setSelected(m.id)}
@@ -306,6 +325,21 @@ export default function CheckoutButton({
           </button>
         ))}
 
+        {/* Pix no mensal: lembrar que a renovação é manual */}
+        {selected === "pix" && isMensal && (
+          <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs text-amber-900 leading-relaxed">
+            <strong>No Pix você precisa renovar manualmente todo mês.</strong> No cartão a renovação é automática,
+            você não corre o risco de perder o acesso no meio de um plantão e pode cancelar quando quiser.
+            <button
+              type="button"
+              onClick={() => setSelected("card")}
+              className="block mt-1.5 font-bold text-[#0d9488] underline underline-offset-2"
+            >
+              Prefiro o cartão →
+            </button>
+          </div>
+        )}
+
         {/* Formulário de cartão (inline, aparece quando selecionado) */}
         {selected === "card" && (
           <div className="space-y-3 pt-1">
@@ -343,18 +377,26 @@ export default function CheckoutButton({
                 />
               </div>
             </div>
-            <div>
-              <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Parcelas</label>
-              <select
-                value={installments}
-                onChange={(e) => setInstallments(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 bg-white text-zinc-900"
-              >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
-                  <option key={n} value={n}>{n}x sem juros</option>
-                ))}
-              </select>
-            </div>
+            {isMensal ? (
+              <p className="text-xs text-zinc-700">
+                Cobrança de {brl(priceCents)} por mês, renovada automaticamente. Cancele quando quiser.
+              </p>
+            ) : (
+              <div>
+                <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Parcelas</label>
+                <select
+                  value={installments}
+                  onChange={(e) => setInstallments(Number(e.target.value))}
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-500 text-sm focus:outline-none focus:border-[#0f2d4a] focus:ring-1 focus:ring-[#0f2d4a]/30 bg-white text-zinc-900"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
+                    <option key={n} value={n}>
+                      {n === 1 ? `À vista · ${brl(priceCents)}` : `${n}x de ${brl(priceCents / n)} sem juros`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         )}
 
