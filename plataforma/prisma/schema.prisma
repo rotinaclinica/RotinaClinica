@@ -33,6 +33,7 @@ model User {
   utmSource            String?
   utmMedium            String?
   utmCampaign          String?
+  utmContent           String?
   referrerUrl          String?
   orders               Order[]
   enrollments          Enrollment[]

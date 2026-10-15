@@ -233,7 +233,7 @@ async function sendTrialEmails(now: number) {
       // Já assinou: para a sequência
       const assinou = await db.subscription.count({ where: { userId: user.id, status: "ACTIVE", currentPeriodEnd: { gt: new Date(now) } } });
       if (assinou > 0) continue;
-      const firstName = (user.name ?? "").trim().split(/s+/)[0] ?? "";
+      const firstName = (user.name ?? "").trim().split(/\s+/)[0] ?? "";
       try {
         await resend.emails.send({ from: FROM, to: user.email, subject, html: html(firstName) });
         await db.emailDrip.create({ data: { userId: user.id, step } });

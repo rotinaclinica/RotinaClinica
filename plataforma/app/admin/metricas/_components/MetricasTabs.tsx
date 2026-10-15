@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const TABS = [
   { href: "/admin/metricas", label: "Visão geral", exact: true },
   { href: "/admin/metricas/aquisicao", label: "Aquisição" },
+  { href: "/admin/metricas/teste-gratis", label: "Teste grátis" },
 ];
 
 export default function MetricasTabs() {

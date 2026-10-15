@@ -23,6 +23,7 @@ const schema = z.object({
   utmSource: z.string().max(200).optional(),
   utmMedium: z.string().max(200).optional(),
   utmCampaign: z.string().max(200).optional(),
+  utmContent: z.string().max(200).optional(),
   referrerUrl: z.string().max(500).optional(),
 });
 
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 400 });
   }
 
-  const { name, password, phone, cpf, cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, referrerUrl } = parsed.data;
+  const { name, password, phone, cpf, cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl } = parsed.data;
   const email = parsed.data.email.toLowerCase();
 
   try {
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
 
     const passwordHash = await bcrypt.hash(password, 12);
     const cpfDigits = cpf.replace(/\D/g, "");
-    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf: encryptCpf(cpfDigits), cpfHash: hashCpf(cpfDigits), cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, referrerUrl } });
+    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf: encryptCpf(cpfDigits), cpfHash: hashCpf(cpfDigits), cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl } });
 
     // Drip email 0 — boas-vindas (fire and forget)
     resend.emails.send({

@@ -55,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               var s=p.get('utm_source')||'';
               var m=p.get('utm_medium')||'';
               var c=p.get('utm_campaign')||'';
+              var ct=p.get('utm_content')||'';
               var r=document.referrer||'';
               if(!s&&r){
                 try{var h=new URL(r).hostname.replace('www.','');
@@ -70,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               }
               if(!s)s='direto';
               if(!m)m='none';
-              var v=encodeURIComponent(s)+'|'+encodeURIComponent(m)+'|'+encodeURIComponent(c)+'|'+encodeURIComponent(r);
+              var v=encodeURIComponent(s)+'|'+encodeURIComponent(m)+'|'+encodeURIComponent(c)+'|'+encodeURIComponent(r)+'|'+encodeURIComponent(ct);
               document.cookie='rc_utm='+v+';path=/;max-age=7776000;SameSite=Lax';
             }catch(e){}
           })();

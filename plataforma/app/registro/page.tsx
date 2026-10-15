@@ -149,6 +149,7 @@ function RegistroForm() {
     let utmSource: string | undefined;
     let utmMedium: string | undefined;
     let utmCampaign: string | undefined;
+    let utmContent: string | undefined;
     let referrerUrl: string | undefined;
     try {
       const match = document.cookie.match(/rc_utm=([^;]+)/);
@@ -158,13 +159,14 @@ function RegistroForm() {
         utmMedium = parts[1] || undefined;
         utmCampaign = parts[2] || undefined;
         referrerUrl = parts[3] || undefined;
+        utmContent = parts[4] || undefined;
       }
     } catch {}
 
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined, utmSource, utmMedium, utmCampaign, referrerUrl }),
+      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl }),
     });
 
     setLoading(false);

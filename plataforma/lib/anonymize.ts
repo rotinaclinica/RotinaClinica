@@ -93,6 +93,7 @@ export async function anonymizeUser({
         utmSource: null,
         utmMedium: null,
         utmCampaign: null,
+        utmContent: null,
         referrerUrl: null,
         ambassadorCode: null,
         isAmbassador: false,
