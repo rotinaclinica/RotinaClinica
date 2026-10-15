@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { hasBlockingSubscription } from "@/lib/subscription";
 import { z } from "zod";
 import { logError } from "@/lib/error-logger";
 import {
@@ -62,11 +63,7 @@ export async function POST(req: NextRequest) {
 
   if (product.type === "SUBSCRIPTION") {
     const isAnnual = product.slug === "assinatura-anual";
-    const existing = await db.subscription.findUnique({
-      where: { userId: session.user.id },
-      select: { status: true, plan: true },
-    });
-    if (existing?.status === "ACTIVE" && existing.plan === (isAnnual ? "ANNUAL" : "MONTHLY")) {
+    if (await hasBlockingSubscription(session.user.id, isAnnual ? "ANNUAL" : "MONTHLY")) {
       return NextResponse.json({ error: "Você já possui esta assinatura ativa." }, { status: 409 });
     }
   }

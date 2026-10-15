@@ -45,30 +45,61 @@ export async function canAccessPaidContent(userId: string): Promise<boolean> {
 export async function checkSubscriptionAccess(userId: string): Promise<{
   canAccess: boolean;
   expiresAt: Date | null;
+  autoRenew: boolean;
+  plan: "MONTHLY" | "ANNUAL" | null;
 }> {
   const user = await db.user.findUnique({
     where: { id: userId },
     select: {
       role: true,
-      subscription: { select: { id: true, status: true, currentPeriodEnd: true } },
+      isCourtesy: true,
+      subscription: { select: { id: true, status: true, currentPeriodEnd: true, plan: true, asaasSubscriptionId: true } },
     },
   });
 
-  if (!user) return { canAccess: false, expiresAt: null };
-  if (user.role === "ADMIN" || user.role === "TESTER") return { canAccess: true, expiresAt: null };
+  const none = { canAccess: false, expiresAt: null, autoRenew: false, plan: null };
+  if (!user) return none;
+  if (user.role === "ADMIN" || user.role === "TESTER") return { ...none, canAccess: true };
 
   const sub = user.subscription;
-  if (!sub || sub.status !== "ACTIVE") return { canAccess: false, expiresAt: null };
+  if (!sub || sub.status !== "ACTIVE") return none;
 
   if (sub.currentPeriodEnd.getTime() <= Date.now()) {
     await db.subscription.updateMany({
       where: { id: sub.id, status: "ACTIVE" },
       data: { status: "EXPIRED" },
     });
-    return { canAccess: false, expiresAt: null };
+    return none;
   }
 
-  return { canAccess: true, expiresAt: sub.currentPeriodEnd };
+  return {
+    canAccess: true,
+    expiresAt: sub.currentPeriodEnd,
+    // Cortesia não renova por cobrança: tratada como automática para não exibir o aviso
+    autoRenew: !!sub.asaasSubscriptionId || user.isCourtesy,
+    plan: sub.plan,
+  };
+}
+
+// Quem paga avulso (Pix/transferência) pode renovar antecipadamente nos últimos
+// dias — o webhook soma o novo período ao fim do atual, sem perder dias.
+export const EARLY_RENEW_DAYS = 10;
+
+/**
+ * true quando o usuário já tem assinatura vigente que impede uma nova compra
+ * do mesmo plano: recorrente no cartão (renova sozinha) ou avulsa com mais de
+ * EARLY_RENEW_DAYS dias restantes.
+ */
+export async function hasBlockingSubscription(userId: string, plan: "MONTHLY" | "ANNUAL"): Promise<boolean> {
+  const sub = await db.subscription.findUnique({
+    where: { userId },
+    select: { status: true, plan: true, currentPeriodEnd: true, asaasSubscriptionId: true },
+  });
+  if (!sub || sub.status !== "ACTIVE" || sub.plan !== plan) return false;
+  const msLeft = sub.currentPeriodEnd.getTime() - Date.now();
+  if (msLeft <= 0) return false;
+  if (sub.asaasSubscriptionId) return true;
+  return msLeft > EARLY_RENEW_DAYS * 24 * 60 * 60 * 1000;
 }
 
 // ── Teste grátis ─────────────────────────────────────────────────────────────

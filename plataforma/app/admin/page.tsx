@@ -29,6 +29,7 @@ export default async function AdminPage() {
   // preguiçosa); por isso "ativo de verdade" exige também o período vigente.
   const vigente = { status: "ACTIVE" as const, currentPeriodEnd: { gt: now } };
   const last60d = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+  const last10d = new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000);
 
   const [
     totalUsers,
@@ -43,6 +44,7 @@ export default async function AdminPage() {
     trialAtivos,
     trialTotal,
     trialConvertidos,
+    semUsoLista,
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: last7 } } }),
@@ -74,6 +76,16 @@ export default async function AdminPage() {
     db.user.count({ where: { ...notTest, trialEndsAt: { gt: now } } }),
     db.user.count({ where: { ...notTest, trialStartedAt: { not: null } } }),
     db.user.count({ where: { ...notTest, trialStartedAt: { not: null }, subscription: { isNot: null } } }),
+    // Pagando e sem acesso há 10+ dias — risco de não renovar (recebem e-mail de reativação)
+    db.subscription.findMany({
+      where: {
+        ...vigente,
+        createdAt: { lt: last10d },
+        user: { ...notTest, role: "CUSTOMER", isCourtesy: false, anonymizedAt: null, OR: [{ lastSeenAt: null }, { lastSeenAt: { lt: last10d } }] },
+      },
+      orderBy: { currentPeriodEnd: "asc" },
+      select: { plan: true, currentPeriodEnd: true, asaasSubscriptionId: true, user: { select: { name: true, email: true, phone: true, lastSeenAt: true } } },
+    }),
   ]);
 
   let onlineNow = 0;
@@ -316,6 +328,62 @@ export default async function AdminPage() {
                     </td>
                     <td className="px-4 py-3 text-xs font-medium text-amber-400">
                       {s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR") : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Assinantes sem uso ── */}
+      {semUsoLista.length > 0 && (
+        <section>
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-1">
+            Assinantes sem uso há 10+ dias ({semUsoLista.length})
+          </h2>
+          <p className="text-xs text-zinc-400 mb-3">Pagando e sem acessar: risco de não renovar. Recebem e-mail de reativação (no máximo 1 a cada 30 dias). Vale um contato direto.</p>
+          <div className="bg-[#161b22] rounded-xl border border-white/10 border-l-4 border-l-amber-400 overflow-hidden">
+            <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[560px]">
+              <thead className="bg-white/5 border-b border-white/10">
+                <tr>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Usuário</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Plano</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Último acesso</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold text-zinc-400">Vence em</th>
+                </tr>
+              </thead>
+              <tbody>
+                {semUsoLista.map((s, i) => (
+                  <tr key={i} className="border-b border-white/5 last:border-0">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-zinc-100">{s.user.name ?? "—"}</p>
+                      <p className="text-xs text-zinc-400">{s.user.email}</p>
+                      {s.user.phone && (
+                        <a href={whatsappUrl(s.user.phone)} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:underline">
+                          WhatsApp · {s.user.phone}
+                        </a>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-zinc-400 text-xs">
+                      {s.plan === "ANNUAL" ? "Anual" : "Mensal"}
+                      <p className={s.asaasSubscriptionId ? "text-emerald-400" : "text-amber-300"}>
+                        {s.asaasSubscriptionId ? "Cartão recorrente" : "Pix/avulso"}
+                      </p>
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      {s.user.lastSeenAt ? (
+                        <>
+                          <p className="font-medium text-amber-400">{new Date(s.user.lastSeenAt).toLocaleDateString("pt-BR")}</p>
+                          <p className="text-zinc-500">há {Math.floor((now.getTime() - new Date(s.user.lastSeenAt).getTime()) / 86_400_000)} dia(s)</p>
+                        </>
+                      ) : <span className="text-zinc-500">nunca registrado</span>}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-zinc-400">
+                      {new Date(s.currentPeriodEnd).toLocaleDateString("pt-BR")}
                     </td>
                   </tr>
                 ))}

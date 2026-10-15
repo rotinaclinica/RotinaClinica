@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
 import { dripHtml2, dripHtml7 } from "@/lib/emails/drip";
-import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2, trialD1, trialD5, trialEnded, trialAfter3 } from "@/lib/emails/retencao";
+import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2, trialD1, trialD5, trialEnded, trialAfter3, inativoReativacao } from "@/lib/emails/retencao";
 import { logError } from "@/lib/error-logger";
+import { ADMIN_TEST_EMAILS } from "@/app/admin/_lib/excluded-emails";
 
 export const maxDuration = 60;
 
@@ -75,8 +76,9 @@ export async function GET(req: NextRequest) {
   const onboarding = await sendOnboarding(now);
   const recovery = await sendCheckoutRecovery(now);
   const trial = await sendTrialEmails(now);
+  const inactive = await sendInactiveNudge(now);
 
-  return NextResponse.json({ results, onboarding, recovery, trial });
+  return NextResponse.json({ results, onboarding, recovery, trial, inactive });
 }
 
 // Etapas registradas em EmailDrip (userId+step único → cada uma sai uma vez por usuário)
@@ -246,4 +248,51 @@ async function sendTrialEmails(now: number) {
     out[step] = { sent, failed };
   }
   return out;
+}
+
+// Assinante vigente sem acesso há 10+ dias: um e-mail de reativação, no máximo
+// 1 a cada 30 dias. Fica fora do onboarding (assinatura com 10+ dias).
+const INACTIVE_STEP = 501;
+const INACTIVE_DAYS = 10;
+
+async function sendInactiveNudge(now: number) {
+  const cutoff = new Date(now - INACTIVE_DAYS * 24 * HOUR);
+  const subs = await db.subscription.findMany({
+    where: {
+      status: "ACTIVE",
+      currentPeriodEnd: { gt: new Date(now) },
+      createdAt: { lt: cutoff },
+      user: {
+        ...realCustomer,
+        email: { notIn: ADMIN_TEST_EMAILS }, // contas dos fundadores e de teste
+        OR: [{ lastSeenAt: null }, { lastSeenAt: { lt: cutoff } }],
+        emailDrips: { none: { step: INACTIVE_STEP, sentAt: { gte: new Date(now - 30 * 24 * HOUR) } } },
+      },
+    },
+    select: { user: { select: { id: true, email: true, name: true } } },
+  });
+
+  let sent = 0;
+  let failed = 0;
+  for (const { user } of subs) {
+    const firstName = (user.name ?? "").trim().split(/\s+/)[0] ?? "";
+    try {
+      await resend.emails.send({
+        from: FROM,
+        to: user.email,
+        subject: "Separamos 3 atalhos para o seu próximo plantão",
+        html: inativoReativacao(firstName),
+      });
+      await db.emailDrip.upsert({
+        where: { userId_step: { userId: user.id, step: INACTIVE_STEP } },
+        create: { userId: user.id, step: INACTIVE_STEP },
+        update: { sentAt: new Date(now) },
+      });
+      sent++;
+    } catch (err) {
+      failed++;
+      await logError({ route: "/api/cron/drip-emails#inactive", method: "GET", error: err });
+    }
+  }
+  return { [INACTIVE_STEP]: { sent, failed } };
 }

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-const ADMIN_TEST_EMAILS = [
+export const ADMIN_TEST_EMAILS = [
   "lucasrodrigues_diniz@hotmail.com",
   "teste@teste.com",
   "rotinaclinica77@gmail.com",

@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { hasBlockingSubscription } from "@/lib/subscription";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
@@ -27,11 +28,13 @@ export default async function CheckoutPage({
   const [product, userProfile, existing] = await Promise.all([
     db.product.findUnique({ where: { slug: plan.slug, active: true }, select: { id: true } }),
     db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, phone: true } }),
-    db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true } }),
+    db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true, asaasSubscriptionId: true } }),
   ]);
 
   if (!product) redirect("/assinatura");
-  if (existing?.status === "ACTIVE") redirect("/dashboard");
+  // Recorrente no cartão já renova sozinho; avulso pode renovar nos últimos dias
+  if (existing?.status === "ACTIVE" && existing.asaasSubscriptionId) redirect("/dashboard");
+  if (await hasBlockingSubscription(session.user.id, plano === "anual" ? "ANNUAL" : "MONTHLY")) redirect("/dashboard");
 
   const isMensal = plano === "mensal";
 

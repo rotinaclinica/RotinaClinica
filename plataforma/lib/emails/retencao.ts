@@ -112,6 +112,23 @@ export function onboardingD6(name: string) {
   `);
 }
 
+// Assinante vigente que parou de usar (10+ dias sem acesso): reativar o hábito
+// antes do vencimento, mostrando o valor do que ele já paga.
+export function inativoReativacao(name: string) {
+  return base("Separamos 3 atalhos para o seu próximo plantão", `
+    ${hello(name)}
+    ${p("Faz alguns dias que você não passa pela plataforma, então separamos o caminho mais rápido para ela voltar a trabalhar por você:")}
+    ${list(
+      item("📋", "Condutas", "Busque pela queixa, diagnóstico ou medicamento do paciente e tenha a conduta pronta em segundos.", `${APP_URL}/dashboard/prescricoes`) +
+      item("📝", "Modelos de evolução", "Copie a evolução pronta e ganhe tempo no fim do plantão.", `${APP_URL}/dashboard/evolucoes`) +
+      item("🧮", "Calculadoras", "Escores e doses (CURB-65, Wells, SOFA, noradrenalina e outras) direto na tela.", `${APP_URL}/dashboard/calculadoras`)
+    )}
+    ${p("Dica: salve a plataforma na tela inicial do celular. No plantão, ela abre como um aplicativo.")}
+    ${btn(`${APP_URL}/dashboard`, "Voltar para a plataforma →")}
+    ${p("Se algo não funcionou como você esperava ou faltou algum tema, <strong>responda este email</strong>. Lemos todas as mensagens e seguimos atualizando o conteúdo continuamente.")}
+  `);
+}
+
 // ── Recuperação de checkout ─────────────────────────────────────────────────
 
 const PLANO_LABEL = { mensal: "mensal", anual: "anual" } as const;

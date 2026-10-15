@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const role = (session.user as { role?: string })?.role;
 
-  let expiringAt: string | null = null;
+  let expiring: { dateLabel: string; daysLeft: number; plano: "mensal" | "anual" } | null = null;
   let hasAccess = role === "ADMIN" || role === "TESTER";
   let trialEndsAt: Date | null = null;
 
@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     const pathname = hdrs.get("x-pathname");
     const isExempt = pathname != null && FREE_ROUTES.some((r) => pathname.startsWith(r));
 
-    const { canAccess, expiresAt } = await checkSubscriptionAccess(session.user.id);
+    const { canAccess, expiresAt, autoRenew, plan } = await checkSubscriptionAccess(session.user.id);
     hasAccess = canAccess;
     if (!canAccess) trialEndsAt = await getActiveTrialEnd(session.user.id);
 
@@ -39,9 +39,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
       redirect(trialEndsAt ? "/assinatura?motivo=teste" : "/assinatura?motivo=acesso");
     }
 
-    // Aviso somente se faltar ≤ 48h
-    if (canAccess && expiresAt && expiresAt.getTime() - Date.now() <= 48 * 60 * 60 * 1000) {
-      expiringAt = expiresAt.toISOString();
+    // Pagamento avulso (Pix/transferência) nos últimos 7 dias: aviso para ativar o
+    // cartão recorrente. Quem já renova automaticamente não vê aviso.
+    const msLeft = expiresAt ? expiresAt.getTime() - Date.now() : Infinity;
+    if (canAccess && !autoRenew && expiresAt && msLeft <= 7 * 24 * 60 * 60 * 1000) {
+      expiring = {
+        dateLabel: expiresAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", timeZone: "America/Sao_Paulo" }),
+        daysLeft: Math.max(0, Math.ceil(msLeft / 86_400_000)),
+        plano: plan === "ANNUAL" ? "anual" : "mensal",
+      };
     }
   }
 
@@ -66,7 +72,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-0 lg:border-l lg:border-white/5">
-        {expiringAt && <SubscriptionExpiryBanner expiresAt={expiringAt} />}
+        {expiring && <SubscriptionExpiryBanner {...expiring} />}
         {trialEndsAt && <TrialBanner endsAt={trialEndsAt.toISOString()} />}
         {children}
       </div>
