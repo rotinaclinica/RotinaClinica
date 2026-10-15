@@ -28,15 +28,28 @@ export default async function CheckoutPage({
   const [product, userProfile, existing] = await Promise.all([
     db.product.findUnique({ where: { slug: plan.slug, active: true }, select: { id: true } }),
     db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, phone: true } }),
-    db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true, asaasSubscriptionId: true } }),
+    db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true, asaasSubscriptionId: true, currentPeriodEnd: true } }),
   ]);
 
   if (!product) redirect("/assinatura");
-  // Recorrente no cartão já renova sozinho; avulso pode renovar nos últimos dias
+  // Recorrente no cartão já renova sozinho; avulso pode renovar a qualquer momento
   if (existing?.status === "ACTIVE" && existing.asaasSubscriptionId) redirect("/dashboard");
   if (await hasBlockingSubscription(session.user.id, plano === "anual" ? "ANNUAL" : "MONTHLY")) redirect("/dashboard");
 
   const isMensal = plano === "mensal";
+
+  // Renovação antecipada de quem paga avulso: o novo período soma ao fim do atual
+  // (mesma regra dos webhooks), então mostramos as duas datas para evitar compra
+  // duplicada por engano.
+  const renewal =
+    existing?.status === "ACTIVE" && existing.currentPeriodEnd > new Date()
+      ? (() => {
+          const novoFim = new Date(existing.currentPeriodEnd);
+          novoFim.setDate(novoFim.getDate() + (isMensal ? 30 : 365));
+          const fmt = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "America/Sao_Paulo" });
+          return { atual: fmt(existing.currentPeriodEnd), novo: fmt(novoFim) };
+        })()
+      : null;
 
   const faq = [
     { q: "O acesso é imediato após o pagamento?", a: "Sim. Assim que o pagamento for confirmado, você já pode acessar toda a plataforma." },
@@ -99,6 +112,15 @@ export default async function CheckoutPage({
           <p className="text-zinc-700 text-xs text-center">
             Logado como <span className="font-semibold text-zinc-900">{session.user.email}</span>
           </p>
+          {renewal && (
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 leading-snug">
+              Você já tem acesso até <strong>{renewal.atual}</strong>. Este pagamento estende seu acesso até{" "}
+              <strong>{renewal.novo}</strong>, sem perder nenhum dia.
+              <span className="block mt-1 text-xs text-emerald-800">
+                No cartão, a renovação passa a ser automática e você não precisa mais se preocupar com o vencimento.
+              </span>
+            </div>
+          )}
           <CheckoutButton productId={product.id} userCpf={userProfile?.cpf} userPhone={userProfile?.phone} />
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-700 hover:text-zinc-900 hover:underline transition-colors">
@@ -114,7 +136,8 @@ export default async function CheckoutPage({
           {[
             { icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z", text: "Acesso imediato após confirmação do pagamento" },
             ...(isMensal ? [{ icon: "M18 6L6 18M6 6l12 12", text: "Cancele quando quiser, direto pela plataforma" }] : []),
-            { icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", text: "Garantia de 7 dias — reembolso total sem perguntas" },
+            // Renovação não tem garantia de 7 dias pelo site (só a primeira assinatura)
+            ...(renewal ? [] : [{ icon: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z", text: "Garantia de 7 dias — reembolso total sem perguntas" }]),
             { icon: "M4 4h16v16H4z M9 9h6M9 13h6", text: "Plataforma em constante atualização com novos conteúdos" },
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-3 text-sm text-white">

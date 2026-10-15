@@ -173,7 +173,25 @@ export default async function PerfilPage() {
                   </div>
                 </div>
 
-
+                {sub.status === "ACTIVE" && sub.currentPeriodEnd.getTime() > Date.now() && !user.isCourtesy && (
+                  sub.asaasSubscriptionId ? (
+                    <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                      ✓ Renovação automática no cartão ativa
+                    </p>
+                  ) : (
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl bg-[#e8f4fc] dark:bg-[#1a2d45] border border-[#3db8d4]/30">
+                      <p className="flex-1 text-sm text-[#0f2d4a] dark:text-[#d4dce8] leading-snug">
+                        <strong>Renovação manual (Pix/transferência).</strong> Ative a renovação automática no cartão quando quiser: o novo período começa ao fim do atual, sem perder nenhum dia.
+                      </p>
+                      <Link
+                        href={`/checkout?plano=${sub.plan === "ANNUAL" ? "anual" : "mensal"}`}
+                        className="shrink-0 self-start sm:self-auto bg-[#1a6aad] hover:bg-[#0f2d4a] text-white px-4 py-2 rounded-xl text-sm font-bold transition-all"
+                      >
+                        Ativar no cartão
+                      </Link>
+                    </div>
+                  )
+                )}
               </div>
             );
           })()}

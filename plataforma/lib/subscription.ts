@@ -81,14 +81,11 @@ export async function checkSubscriptionAccess(userId: string): Promise<{
   };
 }
 
-// Quem paga avulso (Pix/transferência) pode renovar antecipadamente nos últimos
-// dias — o webhook soma o novo período ao fim do atual, sem perder dias.
-export const EARLY_RENEW_DAYS = 10;
-
 /**
- * true quando o usuário já tem assinatura vigente que impede uma nova compra
- * do mesmo plano: recorrente no cartão (renova sozinha) ou avulsa com mais de
- * EARLY_RENEW_DAYS dias restantes.
+ * true quando a assinatura vigente impede nova compra do mesmo plano: só a
+ * recorrente no cartão (já renova sozinha). Quem paga avulso (Pix/transferência)
+ * pode renovar ou migrar para o cartão a qualquer momento — o webhook soma o
+ * novo período ao fim do atual, sem perder dias.
  */
 export async function hasBlockingSubscription(userId: string, plan: "MONTHLY" | "ANNUAL"): Promise<boolean> {
   const sub = await db.subscription.findUnique({
@@ -96,10 +93,8 @@ export async function hasBlockingSubscription(userId: string, plan: "MONTHLY" | 
     select: { status: true, plan: true, currentPeriodEnd: true, asaasSubscriptionId: true },
   });
   if (!sub || sub.status !== "ACTIVE" || sub.plan !== plan) return false;
-  const msLeft = sub.currentPeriodEnd.getTime() - Date.now();
-  if (msLeft <= 0) return false;
-  if (sub.asaasSubscriptionId) return true;
-  return msLeft > EARLY_RENEW_DAYS * 24 * 60 * 60 * 1000;
+  if (sub.currentPeriodEnd.getTime() <= Date.now()) return false;
+  return !!sub.asaasSubscriptionId;
 }
 
 // ── Teste grátis ─────────────────────────────────────────────────────────────
