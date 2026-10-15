@@ -85,6 +85,13 @@ const sections = [
   },
 ];
 
+// Sugestão de primeiro uso nos cartões liberados do teste grátis
+const TRIAL_TIPS: Record<string, string> = {
+  "/dashboard/prescricoes": "Busque a conduta de um paciente que você atendeu hoje: queixa, diagnóstico ou medicamento.",
+  "/dashboard/evolucoes": "Abra o modelo de evolução de um caso comum do seu plantão e veja quanto tempo economiza.",
+  "/dashboard/calculadoras": "Calcule um escore ou uma dose que você usa no dia a dia, direto na tela.",
+};
+
 function greeting() {
   const h = new Date().getHours();
   if (h < 12) return "Bom dia";
@@ -181,12 +188,48 @@ export default async function DashboardPage() {
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base sm:text-lg font-bold text-[#0f2d4a] dark:text-white">Por onde vamos começar hoje?</h2>
+          <h2 className="text-base sm:text-lg font-bold text-[#0f2d4a] dark:text-white">
+            {isTrial ? "Liberado no seu teste grátis" : "Por onde vamos começar hoje?"}
+          </h2>
           <ThemeToggle variant="switch" />
         </div>
 
+        {isTrial && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+            {sections.filter((s) => isTrialRoute(s.href)).map((s) => (
+              <Link
+                key={s.href}
+                href={s.href}
+                className="group bg-white dark:bg-[#131c2e] border-2 border-[#3db8d4]/60 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] transition-all flex flex-col"
+              >
+                <div className={`h-2 bg-gradient-to-r ${s.color}`} />
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#dceef9] dark:from-[#1a2d45] dark:to-[#162438] flex items-center justify-center flex-shrink-0">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={s.icon} />
+                      </svg>
+                    </div>
+                    <h3 className="font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] text-base group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                      {s.label}
+                    </h3>
+                  </div>
+                  <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm leading-relaxed flex-1">
+                    {TRIAL_TIPS[s.href] ?? s.description}
+                  </p>
+                  <span className="mt-4 text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4]">Experimentar agora →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {isTrial && (
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#a9bccd] mb-3">Na assinatura completa você também tem</h2>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {sections.map((s) => {
+          {sections.filter((s) => !isTrial || !isTrialRoute(s.href)).map((s) => {
             const locked = isTrial && !isTrialRoute(s.href);
             return (
             <Link
