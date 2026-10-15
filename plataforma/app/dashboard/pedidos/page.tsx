@@ -35,8 +35,22 @@ export default async function PedidosPage() {
   const orders = await db.order.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
-    include: { items: { include: { product: { select: { title: true, slug: true } } } } },
+    include: { items: { include: { product: { select: { title: true, slug: true, type: true } } } } },
   });
+
+  // Renovação = assinatura paga depois de outra assinatura já paga (mesma regra de /api/refund)
+  const isSubscription = (o: (typeof orders)[number]) => o.items.some((i) => i.product.type === "SUBSCRIPTION");
+  const isRenewal = (o: (typeof orders)[number]) =>
+    isSubscription(o) &&
+    !!o.paidAt &&
+    orders.some(
+      (p) =>
+        p.id !== o.id &&
+        (p.status === "PAID" || p.status === "REFUNDED") &&
+        !!p.paidAt &&
+        p.paidAt < o.paidAt! &&
+        isSubscription(p)
+    );
 
   return (
     <div className="flex-1 flex flex-col">
@@ -52,7 +66,7 @@ export default async function PedidosPage() {
         </Link>
         <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">Meus Pedidos</h1>
         <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm mt-1">
-          Compras realizadas na plataforma. Reembolso disponível em até 7 dias após a compra.
+          Compras realizadas na plataforma. Reembolso disponível em até 7 dias após a compra (renovações da assinatura não incluídas).
         </p>
       </header>
 
@@ -69,7 +83,8 @@ export default async function PedidosPage() {
               const daysLeft = order.paidAt
                 ? Math.max(0, REFUND_WINDOW_DAYS - Math.floor((Date.now() - order.paidAt.getTime()) / (1000 * 60 * 60 * 24)))
                 : 0;
-              const canRefund = order.status === "PAID" && daysLeft > 0;
+              const renewal = isRenewal(order);
+              const canRefund = order.status === "PAID" && daysLeft > 0 && !renewal;
 
               return (
                 <div
@@ -88,7 +103,8 @@ export default async function PedidosPage() {
                           day: "2-digit", month: "long", year: "numeric",
                         })}
                         {" · "}
-                        {order.provider === "STRIPE" ? "Stripe" : "Mercado Pago"}
+                        {order.provider === "STRIPE" ? "Stripe" : order.provider === "ASAAS" ? "Asaas" : "Mercado Pago"}
+                        {renewal && " · Renovação"}
                       </p>
                     </div>
                     <div className="text-right shrink-0 space-y-1">
@@ -107,7 +123,18 @@ export default async function PedidosPage() {
                     </div>
                   )}
 
-                  {order.status === "PAID" && !canRefund && (
+                  {order.status === "PAID" && renewal && daysLeft > 0 && (
+                    <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
+                      <p className="text-xs text-zinc-400 dark:text-[#4a6a7e]">
+                        Renovação automática. Para dúvidas sobre esta cobrança, fale com o suporte:{" "}
+                        <a href="mailto:contato@rotinaclinica.com" className="font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
+                          contato@rotinaclinica.com
+                        </a>
+                      </p>
+                    </div>
+                  )}
+
+                  {order.status === "PAID" && !canRefund && !(renewal && daysLeft > 0) && (
                     <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
                       <p className="text-xs text-zinc-400 dark:text-[#4a6a7e]">Prazo de reembolso encerrado.</p>
                     </div>

@@ -6,6 +6,7 @@ import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
 import { verifyAsaasWebhook } from "@/lib/payments/asaas";
+import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("asaas-access-token");
@@ -65,6 +66,44 @@ export async function POST(req: NextRequest) {
               cancelledAt: null,
             },
           });
+
+          // Cada cobrança recorrente vira um pedido próprio (PAID) para gerar a
+          // nota fiscal da renovação — obrigação fiscal por pagamento recebido.
+          // O pedido original (externalReference) fornece o produto.
+          const renewalCents = Math.round((payment.value ?? 0) * 100);
+          const alreadyRecorded = await db.order.findFirst({
+            where: { provider: "ASAAS", providerRef: paymentId },
+            select: { id: true },
+          });
+          if (!alreadyRecorded && renewalCents > 0) {
+            const original = orderId
+              ? await db.order.findUnique({ where: { id: orderId }, include: { items: true } })
+              : null;
+            const productId =
+              original?.items[0]?.productId ??
+              (await db.product.findFirst({
+                where: { slug: existingSub.plan === "ANNUAL" ? "assinatura-anual" : "assinatura-mensal" },
+                select: { id: true },
+              }))?.id;
+
+            if (productId) {
+              const renewal = await db.order.create({
+                data: {
+                  userId: existingSub.userId,
+                  status: "PAID",
+                  provider: "ASAAS",
+                  providerRef: paymentId,
+                  totalCents: renewalCents,
+                  paymentMethod: payment.billingType === "PIX" ? "pix" : "credit_card",
+                  paidAt: new Date(),
+                  buyerSnapshot:
+                    (await captureBuyerSnapshot(existingSub.userId)) ?? original?.buyerSnapshot ?? null,
+                  items: { create: { productId, priceCents: renewalCents } },
+                },
+              });
+              await createPendingInvoiceForOrder(renewal.id).catch(() => {});
+            }
+          }
 
           // Não envia email de boas-vindas na renovação, só na primeira compra
           return NextResponse.json({ ok: true });

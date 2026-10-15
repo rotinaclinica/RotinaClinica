@@ -42,6 +42,25 @@ export async function POST(req: NextRequest) {
   // Bloqueia ciclos assinar→reembolsar→assinar→reembolsar: 1 reembolso de assinatura por usuário
   const hasSubscriptionItem = order.items.some((i) => i.product.type === "SUBSCRIPTION");
   if (hasSubscriptionItem) {
+    // Só a primeira assinatura é reembolsável pelo site (direito de arrependimento).
+    // Renovações vão para o suporte, caso a caso.
+    const earlierSubscription = await db.order.findFirst({
+      where: {
+        userId: session.user.id,
+        status: { in: ["PAID", "REFUNDED"] },
+        id: { not: order.id },
+        paidAt: { lt: order.paidAt ?? new Date() },
+        items: { some: { product: { type: "SUBSCRIPTION" } } },
+      },
+      select: { id: true },
+    });
+    if (earlierSubscription) {
+      return NextResponse.json(
+        { error: "Renovações não são reembolsáveis pelo site. Entre em contato com o suporte." },
+        { status: 400 }
+      );
+    }
+
     const prevSubscriptionRefund = await db.order.findFirst({
       where: {
         userId: session.user.id,
