@@ -48,11 +48,13 @@ const SEQUENCIAS = [
   },
 ];
 
-const VIDEOS = [
+// vertical: Shorts do YouTube (9:16) — o player abre em pé
+const VIDEOS: { id: string; titulo: string; vertical?: boolean }[] = [
   { id: "5t4vXXZICXg", titulo: "Pneumonia adquirida na comunidade (PAC)" },
   { id: "CmWVOHlO2Ww", titulo: "Hipotireoidismo" },
   { id: "HYdR18O_QF8", titulo: "Uso de insulina" },
   { id: "QMDZdkN_uyw", titulo: "Nódulo tireoidiano" },
+  { id: "BfoV7wLByHI", titulo: "IAM com supra de ST: por que repetir o ECG", vertical: true },
 ];
 
 export default function CasosContent() {
@@ -173,8 +175,15 @@ export default function CasosContent() {
       {/* ── Lightbox Vídeo ── */}
       {activeVideo !== null && (
         <div className="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4" onClick={() => setActiveVideo(null)}>
-          <div className="w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-            <div className="relative w-full rounded-xl overflow-hidden shadow-2xl" style={{ paddingTop: "56.25%" }}>
+          <div
+            className="w-full max-w-4xl"
+            style={VIDEOS.find((v) => v.id === activeVideo)?.vertical ? { maxWidth: "min(24rem, calc((100vh - 6rem) * 9 / 16))" } : undefined}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              className="relative w-full rounded-xl overflow-hidden shadow-2xl"
+              style={{ paddingTop: VIDEOS.find((v) => v.id === activeVideo)?.vertical ? "177.78%" : "56.25%" }}
+            >
               <iframe
                 src={`https://www.youtube-nocookie.com/embed/${activeVideo}?autoplay=1&rel=0`}
                 title="Vídeo"
