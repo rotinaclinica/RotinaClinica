@@ -7,6 +7,8 @@ import Link from "next/link";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { calcularTier, formatarSince } from "@/lib/tier";
 import { canAccessPaidContent, getActiveTrialEnd, isTrialRoute } from "@/lib/subscription";
+import { gruposNovidades, SECOES_NOVIDADE } from "@/lib/novidades";
+import NovidadesCard from "./_components/NovidadesCard";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -132,6 +134,12 @@ export default async function DashboardPage() {
   const sinceDate = subscription?.createdAt ?? (isAdmin || isTester ? user?.createdAt : null) ?? null;
   const tier = sinceDate ? calcularTier(sinceDate) : null;
 
+  // Novidades dos últimos dias; no teste, seções fechadas aparecem como "Para assinantes"
+  const novidades = gruposNovidades().map((g) => ({
+    ...g,
+    bloqueado: isTrial && !isTrialRoute(SECOES_NOVIDADE[g.secao].rota),
+  }));
+
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
@@ -187,6 +195,8 @@ export default async function DashboardPage() {
 
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
+        {novidades.length > 0 && <NovidadesCard grupos={novidades} />}
+
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base sm:text-lg font-bold text-[#0f2d4a] dark:text-white">
             {isTrial ? "Liberado no seu teste grátis" : "Por onde vamos começar hoje?"}

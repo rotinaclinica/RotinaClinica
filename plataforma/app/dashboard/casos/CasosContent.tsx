@@ -1,6 +1,7 @@
 "use client";
 // v2
 import { useState, useEffect } from "react";
+import { isNovo } from "@/lib/novidades";
 
 // ── Adicione novas sequências aqui ──────────────────────────────────
 const SEQUENCIAS = [
@@ -62,6 +63,18 @@ export default function CasosContent() {
   const [tab, setTab] = useState<"imagem" | "video">("imagem");
   const [carousel, setCarousel] = useState<{ seq: number; img: number } | null>(null);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+  // Link direto vindo das novidades: /dashboard/casos?video=ID abre o vídeo
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("video");
+    if (!id || !VIDEOS.some((v) => v.id === id)) return;
+    window.history.replaceState(null, "", window.location.pathname);
+    const t = setTimeout(() => {
+      setTab("video");
+      setActiveVideo(id);
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
 
   const openSeq = (seqIdx: number) => setCarousel({ seq: seqIdx, img: 0 });
 
@@ -149,7 +162,7 @@ export default function CasosContent() {
         <div>
           <p className="text-sm text-[#0f2d4a] dark:text-[#6a8fa5] mb-4">Clique no card para assistir.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {VIDEOS.map((v) => (
+            {[...VIDEOS].sort((a, b) => Number(isNovo(`/dashboard/casos?video=${b.id}`)) - Number(isNovo(`/dashboard/casos?video=${a.id}`))).map((v) => (
               <button key={v.id} onClick={() => setActiveVideo(v.id)} className="group rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 shadow-sm bg-white dark:bg-[#131c2e] text-left w-full">
                 <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
                   <img
@@ -157,6 +170,9 @@ export default function CasosContent() {
                     alt={v.titulo}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
+                  {isNovo(`/dashboard/casos?video=${v.id}`) && (
+                    <span className="absolute top-2 left-2 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#3db8d4] text-[#0f2d4a] shadow">Novo</span>
+                  )}
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                     <div className="w-16 h-16 rounded-full bg-white/90 group-hover:bg-white group-hover:scale-110 transition-all flex items-center justify-center shadow-lg">
                       <svg className="w-7 h-7 text-[#0f2d4a] ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>

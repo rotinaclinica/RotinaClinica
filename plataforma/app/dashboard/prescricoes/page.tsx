@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
+import { isNovo } from "@/lib/novidades";
 import { prescricoesMeta, emergenciaIds, evidenciaIds, medicamentoIds, ubsIds, bibliografiaIds, intubacaoIds, PRESCRICOES_FILTROS, type PrescricaoMeta, type PrescricaoFiltro } from "@/lib/prescricoes-meta";
 import PrescricaoContent from "./PrescricaoContent";
 
@@ -160,10 +161,27 @@ export default function PrescricoesPage() {
         p.categoria.toLowerCase().includes(q) ||
         p.tags.some(t => t.toLowerCase().includes(q));
       return matchFiltro && matchQ;
-    }).sort((a, b) => a.titulo.localeCompare(b.titulo, "pt-BR"));
+    }).sort((a, b) => {
+      // Sem busca, condutas novas aparecem primeiro
+      if (!q) {
+        const novo = Number(isNovo(`/dashboard/prescricoes?id=${b.id}`)) - Number(isNovo(`/dashboard/prescricoes?id=${a.id}`));
+        if (novo) return novo;
+      }
+      return a.titulo.localeCompare(b.titulo, "pt-BR");
+    });
   }, [query, filtro]);
 
   const handleClose = useCallback(() => setSelected(null), []);
+
+  // Link direto vindo das novidades: /dashboard/prescricoes?id=ID abre a conduta
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("id");
+    const item = id ? prescricoesMeta.find((p) => p.id === id) : undefined;
+    if (!item) return;
+    window.history.replaceState(null, "", window.location.pathname);
+    const t = setTimeout(() => setSelected(item), 0);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <>
@@ -253,6 +271,11 @@ export default function PrescricoesPage() {
                     className="text-left bg-white dark:bg-[#131c2e] border border-[#c9d6e3] dark:border-white/8 shadow-[0_1px_3px_rgba(15,45,74,0.08)] dark:shadow-none rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group">
                     <div className="flex items-start justify-between gap-2 mb-3">
                       <div className="flex flex-wrap gap-1.5">
+                        {isNovo(`/dashboard/prescricoes?id=${p.id}`) && (
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#3db8d4] text-[#0f2d4a]">
+                            Novo
+                          </span>
+                        )}
                         {emergenciaIds.has(p.id) && (
                           <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
                             Emergência

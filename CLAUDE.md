@@ -64,6 +64,10 @@ The prescriptions feature is a two-file system at `app/dashboard/prescricoes/`:
 - `→ ` prefix on a line protects it from being classified as a drug card, even if it contains doses.
 - Lines starting lowercase are never drugs or sections.
 
+## Novidades (new content highlight)
+
+Whenever new content is added to the platform (conduta, vídeo de caso, evolução, calculadora, aula, material), add one entry per item to `plataforma/lib/novidades.ts` (`secao`, `titulo`, direct `href`, `data` AAAA-MM-DD). It shows in the dashboard "Novidades" card and a "Novo" badge for 7 days (`NOVIDADE_DIAS`); same section + same day are grouped ("10 novas condutas"). Direct links: condutas `/dashboard/prescricoes?id=ID`, vídeos `/dashboard/casos?video=YOUTUBE_ID`.
+
 ## Editing prescriptions content
 
 ### Reading a topic
