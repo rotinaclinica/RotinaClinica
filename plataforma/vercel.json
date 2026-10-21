@@ -10,7 +10,7 @@
     },
     {
       "path": "/api/cron/brevo-marketing-batch",
-      "schedule": "0 8 * * *"
+      "schedule": "0 22 * * *"
     },
     {
       "path": "/api/cron/emitir-notas",

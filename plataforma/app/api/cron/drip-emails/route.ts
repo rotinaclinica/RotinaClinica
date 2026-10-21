@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import { dripHtml2, dripHtml7 } from "@/lib/emails/drip";
 import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2, trialD1, trialD5, trialEnded, trialAfter3, inativoReativacao } from "@/lib/emails/retencao";
 import { logError } from "@/lib/error-logger";
+import { addToBrevoList, BREVO_LIST_TRIAL_EXPIRED } from "@/lib/brevo-queue";
 import { ADMIN_TEST_EMAILS } from "@/app/admin/_lib/excluded-emails";
 
 export const maxDuration = 60;
@@ -240,6 +241,12 @@ async function sendTrialEmails(now: number) {
         await resend.emails.send({ from: FROM, to: user.email, subject, html: html(firstName) });
         await db.emailDrip.create({ data: { userId: user.id, step } });
         sent++;
+        // Teste encerrado sem assinar: entra na lista de remarketing do Brevo
+        if (step === 407) {
+          await addToBrevoList(user.email, BREVO_LIST_TRIAL_EXPIRED, user.name).catch((err) =>
+            logError({ route: "/api/cron/drip-emails#trial-brevo", method: "GET", error: err })
+          );
+        }
       } catch (err) {
         failed++;
         await logError({ route: "/api/cron/drip-emails#trial", method: "GET", error: err });

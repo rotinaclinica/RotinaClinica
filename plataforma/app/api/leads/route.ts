@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { db } from "@/lib/db";
 import { randomUUID } from "crypto";
 import { sendEbookDownloadLinks } from "@/lib/email";
+import { addToBrevoList, BREVO_LIST_LEADS } from "@/lib/brevo-queue";
 
 // Rate limiting: máx 5 submissões por IP em 10 minutos
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -18,6 +19,11 @@ function checkRateLimit(ip: string): boolean {
   if (entry.count >= RATE_LIMIT) return false;
   entry.count++;
   return true;
+}
+
+// Lead novo entra na lista de marketing do Brevo (assinantes são filtrados no envio)
+function syncLeadToBrevo(email: string, name: string) {
+  after(() => addToBrevoList(email, BREVO_LIST_LEADS, name).catch((err) => console.error("[leads] brevo sync:", err)));
 }
 
 export async function POST(req: NextRequest) {
@@ -76,6 +82,7 @@ export async function POST(req: NextRequest) {
       await db.$transaction(
         products.map((p) => db.lead.create({ data: { id: randomUUID(), ...leadBase, productId: p.id } }))
       );
+      syncLeadToBrevo(email, name);
 
       const downloadsPayload = products.map((p) => ({
         title: p.title,
@@ -109,6 +116,7 @@ export async function POST(req: NextRequest) {
         productId,
       },
     });
+    syncLeadToBrevo(email, name);
 
     return NextResponse.json({
       success: true,
