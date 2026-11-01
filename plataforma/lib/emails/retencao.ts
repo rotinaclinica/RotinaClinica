@@ -181,6 +181,40 @@ export function trialD1(name: string) {
   `);
 }
 
+type TrialUso = { conduta: boolean; evolucao: boolean; calculadora: boolean };
+
+// Só as seções que a pessoa ainda não abriu no teste (todas, se já abriu tudo)
+function trialPendentes(uso: TrialUso) {
+  const rows = [
+    !uso.conduta && item("📋", "Busque a conduta de um paciente", "Pela queixa, diagnóstico ou medicamento: a conduta aparece em segundos.", `${APP_URL}/dashboard/prescricoes`),
+    !uso.evolucao && item("📝", "Abra um modelo de evolução", "Copie, adapte e ganhe tempo no fim do plantão.", `${APP_URL}/dashboard/evolucoes`),
+    !uso.calculadora && item("🧮", "Use uma calculadora", "Escores e doses do dia a dia, direto na tela.", `${APP_URL}/dashboard/calculadoras`),
+  ].filter(Boolean);
+  return rows.length ? list(rows.join("")) : trialLista();
+}
+
+// D2: abriu a plataforma no máximo em 1 dia
+export function trialD2(name: string, uso: TrialUso) {
+  return base("Seu teste rende mais no plantão", `
+    ${hello(name)}
+    ${p("O Rotina Clínica faz mais diferença quando está aberto no meio do atendimento. Nos próximos plantões, experimente:")}
+    ${trialPendentes(uso)}
+    ${p("💡 <strong>Dica:</strong> salve o site na tela inicial do celular. No plantão ele abre como um aplicativo, a um toque.")}
+    ${btn(`${APP_URL}/dashboard`, "Abrir a plataforma →")}
+  `);
+}
+
+// D4: usou no máximo 2 dias; ainda há 3 dias de teste
+export function trialD4(name: string, uso: TrialUso) {
+  return base("Ainda faltam 3 dias do seu teste", `
+    ${hello(name)}
+    ${p("Seu teste grátis segue ativo por mais <strong>3 dias</strong>. Leve a plataforma para o próximo atendimento e veja na prática quanto tempo ela economiza:")}
+    ${trialPendentes(uso)}
+    ${btn(`${APP_URL}/dashboard`, "Usar no próximo plantão →")}
+    ${p("Ficou com dúvida ou não encontrou algum tema? <strong>Responda este email</strong>, a gente lê todas as mensagens.")}
+  `);
+}
+
 export function trialD5(name: string) {
   return base("Seu teste termina em 2 dias", `
     ${hello(name)}

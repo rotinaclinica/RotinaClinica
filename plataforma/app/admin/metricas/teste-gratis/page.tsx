@@ -20,6 +20,8 @@ const SECTIONS = [
 // Emails da sequência do teste (cron drip-emails)
 const TRIAL_EMAILS = [
   { step: 401, label: "D1" },
+  { step: 402, label: "D2" },
+  { step: 404, label: "D4" },
   { step: 405, label: "D5" },
   { step: 407, label: "Fim" },
   { step: 410, label: "+3d" },

@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Resend } from "resend";
 import { dripHtml2, dripHtml7 } from "@/lib/emails/drip";
-import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2, trialD1, trialD5, trialEnded, trialAfter3, inativoReativacao } from "@/lib/emails/retencao";
+import { onboardingD1, onboardingD3, onboardingD6, checkoutRecovery1, checkoutRecovery2, trialD1, trialD2, trialD4, trialD5, trialEnded, trialAfter3, inativoReativacao } from "@/lib/emails/retencao";
 import { logError } from "@/lib/error-logger";
 import { addToBrevoList, BREVO_LIST_TRIAL_EXPIRED } from "@/lib/brevo-queue";
 import { ADMIN_TEST_EMAILS } from "@/app/admin/_lib/excluded-emails";
+import { getTrialProgress } from "@/lib/subscription";
 
 export const maxDuration = 60;
 
@@ -204,19 +205,23 @@ async function sendCheckoutRecovery(now: number) {
   return out;
 }
 
-// Teste grátis: D1 (início), D5 (faltam 2 dias), fim e 3 dias após o fim.
-// "from" = referência da janela: início (trialStartedAt) ou fim (trialEndsAt).
-const TRIAL_STEPS = [
-  { step: 401, from: "start" as const, day: 1, subject: "Seu teste grátis do Rotina Clínica começou", html: trialD1 },
-  { step: 405, from: "start" as const, day: 5, subject: "Seu teste grátis termina em 2 dias", html: trialD5 },
-  { step: 407, from: "end" as const, day: 0, subject: "Seu teste grátis terminou", html: trialEnded },
-  { step: 410, from: "end" as const, day: 3, subject: "Sua aliada na prática clínica continua aqui", html: trialAfter3 },
+// Teste grátis: D1 (início), D2/D4 (ativação, só para quem usou pouco), D5 (faltam 2 dias),
+// fim e 3 dias após o fim. "from" = referência da janela: início (trialStartedAt) ou fim (trialEndsAt).
+// maxDias: a etapa só sai se a pessoa usou a plataforma em até N dias distintos no teste.
+type TrialUso = Awaited<ReturnType<typeof getTrialProgress>>;
+const TRIAL_STEPS: { step: number; from: "start" | "end"; day: number; subject: string; maxDias?: number; html: (n: string, uso: TrialUso) => string }[] = [
+  { step: 401, from: "start", day: 1, subject: "Seu teste grátis do Rotina Clínica começou", html: trialD1 },
+  { step: 402, from: "start", day: 2, subject: "Leve o Rotina Clínica para o seu próximo plantão", maxDias: 1, html: trialD2 },
+  { step: 404, from: "start", day: 4, subject: "Ainda faltam 3 dias do seu teste grátis", maxDias: 2, html: trialD4 },
+  { step: 405, from: "start", day: 5, subject: "Seu teste grátis termina em 2 dias", html: trialD5 },
+  { step: 407, from: "end", day: 0, subject: "Seu teste grátis terminou", html: trialEnded },
+  { step: 410, from: "end", day: 3, subject: "Sua aliada na prática clínica continua aqui", html: trialAfter3 },
 ];
 
 async function sendTrialEmails(now: number) {
   const out: Record<number, { sent: number; failed: number }> = {};
 
-  for (const { step, from, day, subject, html } of TRIAL_STEPS) {
+  for (const { step, from, day, subject, maxDias, html } of TRIAL_STEPS) {
     // "fim" no dia 0: janela das últimas 24h após trialEndsAt
     const window = from === "end" && day === 0
       ? { gte: new Date(now - 24 * HOUR), lt: new Date(now) }
@@ -227,7 +232,7 @@ async function sendTrialEmails(now: number) {
         ...(from === "start" ? { trialStartedAt: window } : { trialEndsAt: window }),
         emailDrips: { none: { step } },
       },
-      select: { id: true, email: true, name: true },
+      select: { id: true, email: true, name: true, trialStartedAt: true },
     });
 
     let sent = 0;
@@ -236,9 +241,11 @@ async function sendTrialEmails(now: number) {
       // Já assinou: para a sequência
       const assinou = await db.subscription.count({ where: { userId: user.id, status: "ACTIVE", currentPeriodEnd: { gt: new Date(now) } } });
       if (assinou > 0) continue;
+      const uso = await getTrialProgress(user.id, user.trialStartedAt ?? new Date(now));
+      if (maxDias != null && uso.dias > maxDias) continue; // já está usando: não precisa do empurrão
       const firstName = (user.name ?? "").trim().split(/\s+/)[0] ?? "";
       try {
-        await resend.emails.send({ from: FROM, to: user.email, subject, html: html(firstName) });
+        await resend.emails.send({ from: FROM, to: user.email, subject, html: html(firstName, uso) });
         await db.emailDrip.create({ data: { userId: user.id, step } });
         sent++;
         // Teste encerrado sem assinar: entra na lista de remarketing do Brevo

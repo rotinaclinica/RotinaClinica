@@ -151,6 +151,26 @@ export async function activateTrial(userId: string): Promise<boolean> {
 }
 
 /**
+ * Uso real durante o teste: quais seções já abriu e em quantos dias diferentes
+ * (horário de Brasília). Quem usa 3+ dias converte; quem usa 1 dia não (dados out/2026).
+ */
+export async function getTrialProgress(userId: string, since: Date) {
+  const views = await db.pageView.findMany({
+    where: { userId, createdAt: { gte: since } },
+    select: { path: true, createdAt: true },
+  });
+  const dia = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" });
+  const abriu = (rota: string) => views.some((v) => v.path === rota || v.path.startsWith(rota + "/"));
+  return {
+    conduta: abriu("/dashboard/prescricoes"),
+    evolucao: abriu("/dashboard/evolucoes"),
+    calculadora: abriu("/dashboard/calculadoras"),
+    dias: new Set(views.map((v) => dia.format(v.createdAt))).size,
+    diaDoTeste: Math.min(TRIAL_DAYS, Math.floor((Date.now() - since.getTime()) / 86_400_000) + 1),
+  };
+}
+
+/**
  * Igual a canAccessPaidContent, mas sem a isenção de ADMIN/TESTER — para telas
  * que mostram o estado real da assinatura do próprio usuário.
  */

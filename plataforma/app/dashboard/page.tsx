@@ -6,9 +6,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import ThemeToggle from "@/app/components/ThemeToggle";
 import { calcularTier, formatarSince } from "@/lib/tier";
-import { canAccessPaidContent, getActiveTrialEnd, isTrialRoute } from "@/lib/subscription";
+import { canAccessPaidContent, getActiveTrialEnd, getTrialProgress, isTrialRoute } from "@/lib/subscription";
 import { gruposNovidades, SECOES_NOVIDADE } from "@/lib/novidades";
 import NovidadesCard from "./_components/NovidadesCard";
+import TrialChecklist from "./_components/TrialChecklist";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -119,6 +120,9 @@ export default async function DashboardPage() {
     redirect("/assinatura?motivo=acesso");
   }
 
+  const trialStart = isTrial ? user?.trialStartedAt ?? null : null;
+  const trialProgress = trialStart ? await getTrialProgress(session.user.id, trialStart) : null;
+
   const subscription =
     user && !isAdmin && !isTester
       ? await db.subscription.findUnique({ where: { userId: user.id } })
@@ -195,6 +199,7 @@ export default async function DashboardPage() {
 
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
+        {trialProgress && <TrialChecklist progress={trialProgress} />}
         {novidades.length > 0 && <NovidadesCard grupos={novidades} />}
 
         <div className="flex items-center justify-between mb-4">
