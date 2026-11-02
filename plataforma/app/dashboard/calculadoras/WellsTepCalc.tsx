@@ -55,12 +55,12 @@ export default function WellsTepCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Wells para TEP</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Probabilidade pré-teste de tromboembolismo pulmonar</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Probabilidade pré-teste de tromboembolismo pulmonar</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
-        <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest">Critérios</p>
+        <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest">Critérios</p>
         <div className="flex flex-col gap-1.5">
           {CRITERIOS.map((item) => {
             const ativo = flags[item.campo];
@@ -96,7 +96,7 @@ export default function WellsTepCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.total % 1 === 0 ? resultado.total : resultado.total.toFixed(1).replace(".", ",")}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />

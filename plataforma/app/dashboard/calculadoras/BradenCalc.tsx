@@ -86,7 +86,7 @@ export default function BradenCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Escala de Braden</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Risco de lesão por pressão em adultos</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">Risco de lesão por pressão em adultos</p>
         </div>
       </div>
 
@@ -96,7 +96,7 @@ export default function BradenCalc() {
             <div className="flex items-center justify-between mb-2">
               <div>
                 <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{c.titulo}</p>
-                {c.subtitulo && <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">{c.subtitulo}</p>}
+                {c.subtitulo && <p className="text-[10px] text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">{c.subtitulo}</p>}
               </div>
               {respostas[ci] !== null && (
                 <span className="text-[11px] font-semibold text-[#3db8d4]">{respostas[ci]} pt</span>
@@ -119,7 +119,7 @@ export default function BradenCalc() {
                       {ativo && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                     </span>
                     <span className="flex-1 text-xs text-[#0f2d4a] dark:text-[#c4d4df]">{op.label}</span>
-                    <span className={`shrink-0 text-[11px] font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>
+                    <span className={`shrink-0 text-[11px] font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#a3b8c9]"}`}>
                       {op.pts}
                     </span>
                   </button>
@@ -130,21 +130,21 @@ export default function BradenCalc() {
         ))}
 
         {!completo && (
-          <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] text-center">
+          <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] text-center">
             Selecione uma opção para cada critério
           </p>
         )}
 
         {resultado && cor && (
           <div className={`rounded-xl border p-4 space-y-3 ${cor.box}`}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest">
               Pontuação total
             </p>
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.score}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">/ 23 pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">/ 23 pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
@@ -153,13 +153,13 @@ export default function BradenCalc() {
             <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
               {resultado.label}
             </span>
-            <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">{resultado.descricao}</p>
+            <p className="text-[11px] text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">{resultado.descricao}</p>
           </div>
         )}
 
         {/* Tabela de referência */}
         <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Classificação de risco
           </p>
           <table className="w-full text-xs">

@@ -16,7 +16,7 @@ export default function AguaLivrePage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           Déficit de Água Livre
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           Hipernatremia — cálculo do volume de reposição hídrica
         </p>
       </header>

@@ -23,7 +23,7 @@ function NumInput({ label, sublabel, value, min, max, step = 1, onChange }: {
     <div>
       <label className="block text-xs font-semibold text-zinc-600 dark:text-[#8aacbc] mb-1">
         {label}
-        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#8fa9bd] ml-1">{sublabel}</span>}
+        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#a3b8c9] ml-1">{sublabel}</span>}
       </label>
       <input
         type="number" min={min} max={max} step={step} value={value}
@@ -75,7 +75,7 @@ export default function PreventCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">PREVENT — AHA 2023</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Risco cardiovascular total em 10 anos</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Risco cardiovascular total em 10 anos</p>
         </div>
       </div>
 
@@ -122,7 +122,7 @@ export default function PreventCalc() {
         {/* Resultado */}
         {resultado && cor && (
           <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
-            <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide">Risco cardiovascular total em 10 anos</p>
+            <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#bccbd8] uppercase tracking-wide">Risco cardiovascular total em 10 anos</p>
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.risco10yr.toFixed(1)}%</p>
             </div>

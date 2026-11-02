@@ -14,7 +14,7 @@ export default function HeartScorePage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">HEART Score</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Estratificação de risco em dor torácica</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Estratificação de risco em dor torácica</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
@@ -29,15 +29,15 @@ export default function HeartScorePage() {
             {/* Barras */}
             <div className="flex items-end justify-around px-4 border-b border-[#d9e3ec] dark:border-white/15" style={{ height: 160 }}>
               <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd]">~2%</span>
+                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#bccbd8]">~2%</span>
                 <div className="w-14 rounded-t-md bg-emerald-500" style={{ height: 6 }} />
               </div>
               <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd]">~15%</span>
+                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#bccbd8]">~15%</span>
                 <div className="w-14 rounded-t-md bg-yellow-500" style={{ height: 42 }} />
               </div>
               <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd]">~50%</span>
+                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#bccbd8]">~50%</span>
                 <div className="w-14 rounded-t-md bg-red-500" style={{ height: 140 }} />
               </div>
             </div>

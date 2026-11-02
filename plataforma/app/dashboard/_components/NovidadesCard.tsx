@@ -103,7 +103,7 @@ export default function NovidadesCard({ grupos }: { grupos: Grupo[] }) {
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4]">Novo</span>
                     <span className="text-[11px] text-[#4a6a7e] dark:text-[#8aa3b8]">{s.label} · {quando(g.data)}</span>
                     {g.bloqueado && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-[#a9bccd]">🔒 Para assinantes</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-[#bccbd8]">🔒 Para assinantes</span>
                     )}
                   </div>
                   <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">{titulo}</p>

@@ -16,7 +16,7 @@ export default function News2Page() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           NEWS2
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           National Early Warning Score 2 — estratificação de gravidade na doença aguda em adultos
         </p>
       </header>

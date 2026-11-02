@@ -11,7 +11,7 @@ export default function TrialBanner({ endsAt }: { endsAt: string }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-[#3db8d4]/40 bg-[#e8f6fa] dark:bg-[#0f2a3a] px-4 py-3">
         <div className="min-w-0">
           <p className="text-sm font-bold text-[#0f2d4a] dark:text-white">⏳ {texto}</p>
-          <p className="text-xs text-[#0f2d4a]/80 dark:text-[#a9bccd] mt-0.5">
+          <p className="text-xs text-[#0f2d4a]/80 dark:text-[#bccbd8] mt-0.5">
             Condutas, modelos de evolução e calculadoras liberadas! Assine para ter tudo, sem interrupção.
           </p>
         </div>

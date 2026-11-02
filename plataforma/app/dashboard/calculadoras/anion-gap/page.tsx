@@ -16,7 +16,7 @@ export default function AnionGapPage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           Ânion Gap Sérico
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           Avaliação de acidose metabólica com ou sem correção pela albumina
         </p>
       </header>

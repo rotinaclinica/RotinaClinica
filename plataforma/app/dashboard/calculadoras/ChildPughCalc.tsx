@@ -52,14 +52,14 @@ export default function ChildPughCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Child-Pugh</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Gravidade da cirrose hepática</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Gravidade da cirrose hepática</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-2">
               {secao.titulo}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -92,7 +92,7 @@ export default function ChildPughCalc() {
           <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -103,11 +103,11 @@ export default function ChildPughCalc() {
             </div>
             <div className="border-t border-[#e6edf3] dark:border-white/12 pt-3 flex gap-4">
               <div>
-                <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wide">Sobrevida 1 ano</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wide">Sobrevida 1 ano</p>
                 <p className="text-lg font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">{resultado.sobrevida1ano}</p>
               </div>
               <div>
-                <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wide">Sobrevida 2 anos</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wide">Sobrevida 2 anos</p>
                 <p className="text-lg font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">{resultado.sobrevida2anos}</p>
               </div>
             </div>

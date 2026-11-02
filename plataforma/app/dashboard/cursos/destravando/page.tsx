@@ -23,7 +23,7 @@ export default function DestravandoPage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           {CURSO_TITULO}
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           Abordagem sistematizada das 10 queixas mais prevalentes do paciente adulto no plantão.
         </p>
       </header>
@@ -44,7 +44,7 @@ export default function DestravandoPage() {
               </div>
 
               <div className="flex-1 min-w-0">
-                <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] font-medium">
+                <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] font-medium">
                   Aula {idx + 1}
                 </span>
                 <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">

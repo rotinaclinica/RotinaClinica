@@ -73,14 +73,14 @@ export default function ChadsvascCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">CHA₂DS₂-VA</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Risco de AVC em fibrilação atrial</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Risco de AVC em fibrilação atrial</p>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
         {/* Faixa etária */}
         <div>
-          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#a9bccd] mb-2">
+          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#bccbd8] mb-2">
             Idade — critério A / A₂:
           </p>
           <div className="flex gap-2">
@@ -108,7 +108,7 @@ export default function ChadsvascCalc() {
 
         {/* Critérios binários */}
         <div>
-          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#a9bccd] mb-2">
+          <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#bccbd8] mb-2">
             Critérios clínicos (+1 cada, exceto S₂ = +2):
           </p>
           <div className="space-y-2">
@@ -151,7 +151,7 @@ export default function ChadsvascCalc() {
           <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">/ {resultado.maxPontos} pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">/ {resultado.maxPontos} pontos</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${Math.max(barWidth, 4)}%` }} />

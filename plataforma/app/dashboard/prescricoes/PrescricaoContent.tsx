@@ -308,7 +308,7 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
           onClick={() => setOpen(true)}
         />
         {caption && (
-          <figcaption className="text-xs text-zinc-500 dark:text-[#8fa9bd] italic text-center">
+          <figcaption className="text-xs text-zinc-500 dark:text-[#a3b8c9] italic text-center">
             {caption} · <button type="button" onClick={() => setOpen(true)} className="underline hover:text-zinc-300">Ampliar</button>
           </figcaption>
         )}

@@ -60,7 +60,7 @@ export default function AnionGapCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Ânion Gap Sérico</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Na⁺ − (Cl⁻ + HCO₃⁻)</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">Na⁺ − (Cl⁻ + HCO₃⁻)</p>
         </div>
       </div>
 
@@ -73,7 +73,7 @@ export default function AnionGapCalc() {
 
         <div>
           <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-1.5">
-            Albumina (g/dL) <span className="font-normal text-[#0f2d4a] dark:text-[#8fa9bd]">— opcional, para correção</span>
+            Albumina (g/dL) <span className="font-normal text-[#0f2d4a] dark:text-[#a3b8c9]">— opcional, para correção</span>
           </label>
           <input type="text" inputMode="decimal" value={albumina} placeholder="Ex: 4"
             onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setAlbumina(e.target.value); setResultado(null); }}
@@ -105,18 +105,18 @@ export default function AnionGapCalc() {
           <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-4">
               <div>
-                <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wider mb-0.5">AG sérico</p>
+                <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wider mb-0.5">AG sérico</p>
                 <div className="flex items-end gap-1.5">
                   <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.ag}</p>
-                  <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">mEq/L</p>
+                  <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">mEq/L</p>
                 </div>
               </div>
               {resultado.agCorrigido != null && (
                 <div>
-                  <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wider mb-0.5">AG corrigido</p>
+                  <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wider mb-0.5">AG corrigido</p>
                   <div className="flex items-end gap-1.5">
                     <p className="text-4xl font-extrabold text-[#3db8d4] leading-none">{resultado.agCorrigido.toFixed(1)}</p>
-                    <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">mEq/L</p>
+                    <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">mEq/L</p>
                   </div>
                 </div>
               )}
@@ -125,14 +125,14 @@ export default function AnionGapCalc() {
               <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
                 {resultado.label}
               </span>
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] mt-2 leading-relaxed">{resultado.descricao}</p>
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#bccbd8] mt-2 leading-relaxed">{resultado.descricao}</p>
             </div>
           </div>
         )}
 
         {/* Referência */}
         <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Referência
           </p>
           <div className="divide-y divide-zinc-100 dark:divide-white/12">

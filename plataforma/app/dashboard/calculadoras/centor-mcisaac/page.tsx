@@ -15,7 +15,7 @@ export default function CentorMcIsaacPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">Centor / McIsaac</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Probabilidade de faringite bacteriana por Streptococcus do grupo A</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Probabilidade de faringite bacteriana por Streptococcus do grupo A</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">

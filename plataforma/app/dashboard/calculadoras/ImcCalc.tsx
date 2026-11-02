@@ -53,7 +53,7 @@ export default function ImcCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Calculadora de IMC</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Classificação nutricional baseada no peso e altura</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Classificação nutricional baseada no peso e altura</p>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default function ImcCalc() {
                     className={`px-2.5 py-1 transition-colors ${
                       unidadeAltura === u
                         ? "bg-[#3db8d4] text-white"
-                        : "bg-[#f5f8fb] dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#8fa9bd] hover:bg-zinc-100 dark:hover:bg-[#1e3450]"
+                        : "bg-[#f5f8fb] dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#a3b8c9] hover:bg-zinc-100 dark:hover:bg-[#1e3450]"
                     }`}>
                     {u}
                   </button>
@@ -122,7 +122,7 @@ export default function ImcCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.imc.toFixed(1)}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">kg/m²</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">kg/m²</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -133,7 +133,7 @@ export default function ImcCalc() {
 
         {/* Tabela de referência */}
         <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Classificação ASMBS
           </p>
           <table className="w-full text-xs">

@@ -14,7 +14,7 @@ function NumInput({ label, sublabel, value, min, max, step = 1, onChange }: {
     <div>
       <label className="block text-xs font-semibold text-zinc-600 dark:text-[#8aacbc] mb-1">
         {label}
-        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#8fa9bd] ml-1">{sublabel}</span>}
+        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#a3b8c9] ml-1">{sublabel}</span>}
       </label>
       <input
         type="number" min={min} max={max} step={step} value={value}
@@ -28,7 +28,7 @@ function NumInput({ label, sublabel, value, min, max, step = 1, onChange }: {
 function ResultRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-[#e6edf3] dark:border-white/10 last:border-0">
-      <span className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">{label}</span>
+      <span className="text-xs text-[#0f2d4a] dark:text-[#bccbd8]">{label}</span>
       <span className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{value}</span>
     </div>
   );
@@ -42,9 +42,9 @@ function DiluicaoCard({ vol, conc, totalMg }: { vol: number; conc: number; total
 
   return (
     <div className={`rounded-xl border p-4 space-y-1 ${cor}`}>
-      <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wide">{vol} mL SF/SG</p>
+      <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wide">{vol} mL SF/SG</p>
       <p className="text-xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">{fmtConc(conc)}</p>
-      <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">{fmt(totalMg)} em {vol} mL</p>
+      <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">{fmt(totalMg)} em {vol} mL</p>
     </div>
   );
 }
@@ -92,7 +92,7 @@ export default function ReconstitucaoCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Reconstituição e Diluição</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Cálculo de concentração passo a passo</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Cálculo de concentração passo a passo</p>
         </div>
       </div>
 
@@ -169,7 +169,7 @@ export default function ReconstitucaoCalc() {
               </p>
             </div>
 
-            <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Diluir para SF 0,9% ou SG 5%:</p>
+            <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Diluir para SF 0,9% ou SG 5%:</p>
 
             <button onClick={calcularDiluicao}
               className="w-full py-2.5 rounded-xl bg-[#1a6aad] hover:bg-[#155a95] text-white font-bold text-sm transition-colors">

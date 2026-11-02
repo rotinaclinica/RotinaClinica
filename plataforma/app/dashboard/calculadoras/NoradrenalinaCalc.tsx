@@ -46,14 +46,14 @@ export default function NoradrenalinaCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Noradrenalina — Dose BIC</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">mcg/kg/min a partir da vazão em mL/h</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">mcg/kg/min a partir da vazão em mL/h</p>
         </div>
       </div>
 
       <div className="p-5 space-y-4">
         {/* Seleção de solução */}
         <div>
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">Tipo de solução</p>
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-2">Tipo de solução</p>
           <div className="flex flex-col gap-1.5">
             {(["padrao", "concentrada"] as SolucaoNora[]).map((s) => {
               const ativo = solucao === s;
@@ -65,7 +65,7 @@ export default function NoradrenalinaCalc() {
                       : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
                   }`}>
                   <span className="flex-1 font-semibold">{SOLUCOES[s].label}</span>
-                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">{SOLUCOES[s].descricao}</span>
+                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">{SOLUCOES[s].descricao}</span>
                 </button>
               );
             })}
@@ -78,13 +78,13 @@ export default function NoradrenalinaCalc() {
             <label className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mb-1 block">Vazão (mL/h)</label>
             <input type="number" value={vazao} placeholder="ex: 15"
               onChange={(e) => { setVazao(e.target.value); reset(); }}
-              className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent" />
+              className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent" />
           </div>
           <div>
             <label className="text-[11px] text-[#0f2d4a] dark:text-[#8aacbc] mb-1 block">Peso (kg)</label>
             <input type="number" value={peso} placeholder="ex: 70"
               onChange={(e) => { setPeso(e.target.value); reset(); }}
-              className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent" />
+              className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent" />
           </div>
         </div>
 
@@ -101,12 +101,12 @@ export default function NoradrenalinaCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.dose.toFixed(3)}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">mcg/kg/min</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">mcg/kg/min</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
-            <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">
+            <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">
               Dose no choque: 0,05 a 3,3 mcg/kg/minuto (UpToDate)
             </p>
           </div>

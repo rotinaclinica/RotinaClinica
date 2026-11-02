@@ -59,7 +59,7 @@ export default function ChangePasswordForm() {
               required
               minLength={i === 0 ? 1 : 8}
               placeholder="••••••••"
-              className="w-full border border-zinc-300 dark:border-white/15 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1e3654] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent"
+              className="w-full border border-zinc-300 dark:border-white/15 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1e3654] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent"
             />
           </div>
         );

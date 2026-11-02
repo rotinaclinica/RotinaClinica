@@ -51,7 +51,7 @@ export default function MeldNaCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">MELD-Na</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Priorização em transplante hepático</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Priorização em transplante hepático</p>
         </div>
       </div>
 
@@ -68,7 +68,7 @@ export default function MeldNaCalc() {
               <input
                 type="number" value={value} placeholder={placeholder}
                 onChange={(e) => { set(e.target.value); reset(); }}
-                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
               />
             </div>
           ))}
@@ -81,7 +81,7 @@ export default function MeldNaCalc() {
               : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
           }`}>
           <span className="flex-1 font-semibold">Em diálise</span>
-          <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">creatinina → 4,0 mg/dL</span>
+          <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">creatinina → 4,0 mg/dL</span>
         </button>
 
         {erro && <p className="text-xs text-red-500 dark:text-red-400">{erro}</p>}
@@ -95,11 +95,11 @@ export default function MeldNaCalc() {
           <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-4">
               <div>
-                <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wide mb-0.5">MELD-Na</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wide mb-0.5">MELD-Na</p>
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.meldNa}</p>
               </div>
               <div className="mb-1">
-                <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-wide mb-0.5">MELD</p>
+                <p className="text-[10px] text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-wide mb-0.5">MELD</p>
                 <p className="text-xl font-bold text-[#0f2d4a] dark:text-[#7a9aae] leading-none">{resultado.meld}</p>
               </div>
             </div>

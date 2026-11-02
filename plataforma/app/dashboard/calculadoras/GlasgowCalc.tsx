@@ -52,14 +52,14 @@ export default function GlasgowCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Escala de Coma de Glasgow</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Nível de consciência — E + V + M</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Nível de consciência — E + V + M</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-2">
               {secao.titulo}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -78,7 +78,7 @@ export default function GlasgowCalc() {
                     <span className="flex-1 font-semibold">{opt.label}</span>
                     <span className={`text-xs font-bold shrink-0 ${
                       ativo
-                        ? isNT ? "text-zinc-500 dark:text-zinc-400" : "text-[#3db8d4]"
+                        ? isNT ? "text-zinc-500 dark:text-[#bccbd8]" : "text-[#3db8d4]"
                         : "text-zinc-400 dark:text-[#3db8d4]/40"
                     }`}>
                       {opt.valor !== null ? `+${opt.valor}` : "NT"}
@@ -103,8 +103,8 @@ export default function GlasgowCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {total !== null ? total : "NT"}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5 ml-1">({resultado.label_score})</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">pontos</p>
+              <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5 ml-1">({resultado.label_score})</p>
             </div>
             {total !== null && (
               <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">

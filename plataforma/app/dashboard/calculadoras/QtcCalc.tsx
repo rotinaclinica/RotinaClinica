@@ -49,7 +49,7 @@ export default function QtcCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">QTc — Fórmula de Bazett</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Intervalo QT corrigido pela frequência cardíaca</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">Intervalo QT corrigido pela frequência cardíaca</p>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export default function QtcCalc() {
           />
           {/* Referência de caixas → ms */}
           <div className="mt-2 rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-            <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#8fa9bd] px-3 py-1.5 bg-[#f5f8fb] dark:bg-[#132842] border-b border-[#e6edf3] dark:border-white/12 uppercase tracking-wider">
+            <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#a3b8c9] px-3 py-1.5 bg-[#f5f8fb] dark:bg-[#132842] border-b border-[#e6edf3] dark:border-white/12 uppercase tracking-wider">
               Quadradinhos → ms &nbsp;<span className="font-normal normal-case">Padronização: 25 mm/s</span>
             </p>
             <div className="grid grid-cols-4 divide-x divide-y divide-zinc-100 dark:divide-white/12">
@@ -99,7 +99,7 @@ export default function QtcCalc() {
                     <span className={`text-xs font-bold ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#e8edf5]"}`}>
                       {r.ms} ms
                     </span>
-                    <span className={`text-[10px] ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>
+                    <span className={`text-[10px] ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#a3b8c9]"}`}>
                       {r.caixas}□
                     </span>
                   </button>
@@ -134,7 +134,7 @@ export default function QtcCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {Math.round(resultado.qtc)}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">ms</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">ms</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -143,7 +143,7 @@ export default function QtcCalc() {
               <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
                 {resultado.label}
               </span>
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] mt-2 leading-relaxed">{resultado.descricao}</p>
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#bccbd8] mt-2 leading-relaxed">{resultado.descricao}</p>
             </div>
             <p className="text-[10px] text-[#0f2d4a] dark:text-[#3a5a70]">
               RR = {resultado.rr.toFixed(3)} s &nbsp;·&nbsp; QTc = {Math.round(resultado.qtc)} ms
@@ -153,7 +153,7 @@ export default function QtcCalc() {
 
         {/* Tabela de referência */}
         <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Valores de referência
           </p>
           <table className="w-full text-xs">

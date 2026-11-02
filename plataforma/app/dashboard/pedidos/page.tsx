@@ -65,14 +65,14 @@ export default async function PedidosPage() {
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">Meus <span className="text-[#1a6aad] dark:text-[#3db8d4]">Pedidos</span></h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm mt-1">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm mt-1">
           Compras realizadas na plataforma. Reembolso disponível em até 7 dias após a compra (renovações da assinatura não incluídas).
         </p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
         {orders.length === 0 ? (
-          <div className="text-center py-20 text-[#0f2d4a] dark:text-[#7f9db5]">
+          <div className="text-center py-20 text-[#0f2d4a] dark:text-[#9fb5c7]">
             <p className="text-lg font-medium mb-2">Nenhum pedido ainda</p>
             <p className="text-sm">Suas compras aparecerão aqui.</p>
           </div>
@@ -98,7 +98,7 @@ export default async function PedidosPage() {
                           {item.product.title}
                         </p>
                       ))}
-                      <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5]">
+                      <p className="text-xs text-[#0f2d4a] dark:text-[#9fb5c7]">
                         {new Date(order.createdAt).toLocaleDateString("pt-BR", {
                           day: "2-digit", month: "long", year: "numeric",
                         })}
@@ -125,7 +125,7 @@ export default async function PedidosPage() {
 
                   {order.status === "PAID" && renewal && daysLeft > 0 && (
                     <div className="border-t border-[#e6edf3] dark:border-white/10 pt-3">
-                      <p className="text-xs text-zinc-400 dark:text-[#7f9db5]">
+                      <p className="text-xs text-zinc-400 dark:text-[#9fb5c7]">
                         Renovação automática. Para dúvidas sobre esta cobrança, fale com o suporte:{" "}
                         <a href="mailto:contato@rotinaclinica.com" className="font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
                           contato@rotinaclinica.com
@@ -136,7 +136,7 @@ export default async function PedidosPage() {
 
                   {order.status === "PAID" && !canRefund && !(renewal && daysLeft > 0) && (
                     <div className="border-t border-[#e6edf3] dark:border-white/10 pt-3">
-                      <p className="text-xs text-zinc-400 dark:text-[#7f9db5]">Prazo de reembolso encerrado.</p>
+                      <p className="text-xs text-zinc-400 dark:text-[#9fb5c7]">Prazo de reembolso encerrado.</p>
                     </div>
                   )}
 

@@ -38,7 +38,7 @@ export default function DocStagePage() {
                 PARCEIRA OFICIAL
               </span>
             </div>
-            <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+            <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
               Videoaulas exclusivas da nossa parceira oficial.
             </p>
           </div>
@@ -68,7 +68,7 @@ export default function DocStagePage() {
                 <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                   {modulo.titulo}
                 </p>
-                <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] mt-0.5 leading-relaxed">
+                <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] mt-0.5 leading-relaxed">
                   {modulo.descricao}
                 </p>
               </div>

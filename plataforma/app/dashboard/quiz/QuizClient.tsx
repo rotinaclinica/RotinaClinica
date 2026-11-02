@@ -38,10 +38,10 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                   ? "Bom começo!"
                   : "Continue estudando!"}
           </h2>
-          <p className="text-lg text-[#0f2d4a] dark:text-[#a9bccd]">
+          <p className="text-lg text-[#0f2d4a] dark:text-[#bccbd8]">
             Você acertou <span className="font-bold text-[#1a6aad] dark:text-[#3db8d4]">{finalScore}</span> de 3 perguntas
           </p>
-          <p className="text-sm text-[#0f2d4a]/50 dark:text-[#a9bccd] mt-2">
+          <p className="text-sm text-[#0f2d4a]/50 dark:text-[#bccbd8] mt-2">
             Volte amanhã para manter sua sequência!
           </p>
         </div>
@@ -82,7 +82,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                             ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700/50 text-emerald-800 dark:text-emerald-300 font-semibold"
                             : wasChosen && !isCorrectOpt
                               ? "bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700/50 text-red-800 dark:text-red-300 line-through"
-                              : "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a]/60 dark:text-[#a9bccd]"
+                              : "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a]/60 dark:text-[#bccbd8]"
                         }`}
                       >
                         {opt}
@@ -90,7 +90,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                     );
                   })}
                 </div>
-                <p className="text-xs text-[#0f2d4a]/70 dark:text-[#a9bccd] ml-9 leading-relaxed bg-blue-50 dark:bg-blue-900/10 rounded-lg px-3 py-2">
+                <p className="text-xs text-[#0f2d4a]/70 dark:text-[#bccbd8] ml-9 leading-relaxed bg-blue-50 dark:bg-blue-900/10 rounded-lg px-3 py-2">
                   {q.explanation}
                 </p>
               </div>
@@ -158,7 +158,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
           <span className="text-xs font-bold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2.5 py-1 rounded-xl">
             {q.category}
           </span>
-          <span className="text-xs font-semibold text-[#0f2d4a]/50 dark:text-[#a9bccd]">
+          <span className="text-xs font-semibold text-[#0f2d4a]/50 dark:text-[#bccbd8]">
             {currentQ + 1} / {questions.length}
           </span>
         </div>
@@ -183,7 +183,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
               } else if (isSelected && !isCorrectOpt) {
                 cls += "border-red-400 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300";
               } else {
-                cls += "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a]/40 dark:text-[#a9bccd]/40";
+                cls += "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a]/40 dark:text-[#bccbd8]/40";
               }
             } else if (isSelected) {
               cls += "border-[#1a6aad] dark:border-[#3db8d4] bg-[#1a6aad]/5 dark:bg-[#3db8d4]/10 text-[#0f2d4a] dark:text-[#e8edf5]";
@@ -202,7 +202,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                         ? "border-red-400 bg-red-400 text-white"
                         : isSelected
                           ? "border-[#1a6aad] dark:border-[#3db8d4] bg-[#1a6aad] dark:bg-[#3db8d4] text-white"
-                          : "border-zinc-300 dark:border-white/20 text-[#0f2d4a]/50 dark:text-[#a9bccd]"
+                          : "border-zinc-300 dark:border-white/20 text-[#0f2d4a]/50 dark:text-[#bccbd8]"
                   }`}>
                     {String.fromCharCode(65 + i)}
                   </span>

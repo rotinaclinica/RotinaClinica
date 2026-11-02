@@ -14,7 +14,7 @@ export default function ImcPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">Índice de Massa Corporal</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Classificação nutricional baseada no peso e altura</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Classificação nutricional baseada no peso e altura</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">

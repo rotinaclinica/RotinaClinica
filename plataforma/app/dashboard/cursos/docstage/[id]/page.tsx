@@ -18,7 +18,7 @@ export default async function DocstageModuloPage({
       <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard/cursos/docstage"
-          className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#7f9db5] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
+          className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#9fb5c7] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
@@ -28,7 +28,7 @@ export default async function DocstageModuloPage({
         <h1 className="text-lg sm:text-xl font-extrabold text-[#0f2d4a] dark:text-white leading-snug mb-1">
           {modulo.titulo}
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm leading-relaxed">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm leading-relaxed">
           {modulo.descricao}
         </p>
       </header>
@@ -43,7 +43,7 @@ export default async function DocstageModuloPage({
               </svg>
             </div>
             <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">Em breve</p>
-            <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
+            <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">
               As videoaulas deste módulo estão sendo preparadas.
             </p>
           </div>
@@ -69,7 +69,7 @@ export default async function DocstageModuloPage({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] font-medium">
+                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] font-medium">
                     Aula {idx + 1}
                   </span>
                   <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">

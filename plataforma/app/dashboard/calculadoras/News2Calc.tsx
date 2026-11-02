@@ -22,7 +22,7 @@ function NumInput({ label, sublabel, value, min, max, step = 1, onChange }: {
   return (
     <div>
       <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-1">
-        {label} <span className="font-normal text-[#0f2d4a] dark:text-[#8fa9bd]">{sublabel}</span>
+        {label} <span className="font-normal text-[#0f2d4a] dark:text-[#a3b8c9]">{sublabel}</span>
       </label>
       <input type="number" min={min} max={max} step={step} value={value}
         onChange={(e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) onChange(v); }}
@@ -39,7 +39,7 @@ function Toggle({ label, sublabel, opcoes, value, onChange }: {
   return (
     <div>
       <p className="text-xs font-semibold text-[#0f2d4a] dark:text-[#8aacbc] mb-0.5">{label}</p>
-      {sublabel && <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] mb-1.5">{sublabel}</p>}
+      {sublabel && <p className="text-[10px] text-[#0f2d4a] dark:text-[#a3b8c9] mb-1.5">{sublabel}</p>}
       {!sublabel && <div className="mb-1.5" />}
       <div className="flex gap-2">
         {opcoes.map(({ v, l }) => (
@@ -87,7 +87,7 @@ export default function News2Calc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">NEWS2</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">National Early Warning Score 2</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">National Early Warning Score 2</p>
         </div>
       </div>
 
@@ -124,7 +124,7 @@ export default function News2Calc() {
             <div className={`rounded-xl border p-4 space-y-3 ${cor.box}`}>
               <div className="flex items-end gap-2">
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-                <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
+                <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">pontos</p>
               </div>
               <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
                 <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
@@ -134,7 +134,7 @@ export default function News2Calc() {
                 <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
                   {resultado.label}
                 </span>
-                <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] mt-1.5 font-medium">{resultado.resposta}</p>
+                <p className="text-[11px] text-[#0f2d4a] dark:text-[#bccbd8] mt-1.5 font-medium">{resultado.resposta}</p>
               </div>
               {resultado.temItemTres && resultado.total <= 4 && (
                 <p className="text-[11px] text-amber-700 dark:text-amber-400 font-medium">
@@ -145,7 +145,7 @@ export default function News2Calc() {
 
             {/* Detalhamento por parâmetro */}
             <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
+              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
                 Pontuação por parâmetro
               </p>
               {PONTOS_LABELS.map(({ key, label }) => {
@@ -170,7 +170,7 @@ export default function News2Calc() {
 
         {/* Tabela de referência */}
         <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Interpretação NEWS2
           </p>
           {[
@@ -187,9 +187,9 @@ export default function News2Calc() {
                 <div className="flex items-start gap-3">
                   <div className="w-36 shrink-0 pt-0.5">
                     <span className={`text-[11px] font-mono font-bold ${ativo ? "" : "text-[#0f2d4a] dark:text-[#9ec4de]"}`}>{linha.faixa}</span>
-                    {linha.sub && <p className={`text-[10px] font-mono ${ativo ? "opacity-80" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>{linha.sub}</p>}
+                    {linha.sub && <p className={`text-[10px] font-mono ${ativo ? "opacity-80" : "text-[#0f2d4a] dark:text-[#a3b8c9]"}`}>{linha.sub}</p>}
                   </div>
-                  <span className={`text-[11px] flex-1 leading-relaxed ${ativo ? "font-semibold" : "text-[#0f2d4a] dark:text-[#a9bccd]"}`}>{linha.resposta}</span>
+                  <span className={`text-[11px] flex-1 leading-relaxed ${ativo ? "font-semibold" : "text-[#0f2d4a] dark:text-[#bccbd8]"}`}>{linha.resposta}</span>
                   {ativo && <span className="text-[10px] shrink-0">◀</span>}
                 </div>
               </div>

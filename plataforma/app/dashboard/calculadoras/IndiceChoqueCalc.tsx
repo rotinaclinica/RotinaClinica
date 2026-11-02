@@ -40,12 +40,12 @@ export default function IndiceChoqueCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Índice de Choque</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Triagem rápida de instabilidade hemodinâmica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Triagem rápida de instabilidade hemodinâmica</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
-        <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest">
+        <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest">
           Índice de Choque = FC ÷ PAS
         </p>
 
@@ -83,7 +83,7 @@ export default function IndiceChoqueCalc() {
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.indice.toFixed(2)}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">IC</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">IC</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />

@@ -101,7 +101,7 @@ function PrescricaoModal({ item, onClose, onNavigate }: { item: PrescricaoMeta; 
               <PrescricaoContent conteudo={conteudo} />
               {relacionados.length > 0 && (
                 <div className="mt-6 pt-4 border-t border-[#e6edf3] dark:border-white/12">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f9db5] mb-2">Ver também</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#9fb5c7] mb-2">Ver também</p>
                   <div className="flex flex-wrap gap-2">
                     {relacionados.map(rel => (
                       <button
@@ -196,11 +196,11 @@ export default function PrescricoesPage() {
             Início
           </Link>
           <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">Condutas <span className="text-[#1a6aad] dark:text-[#3db8d4]">Clínicas</span></h1>
-          <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Busque por queixa, diagnóstico, medicamento ou tema.</p>
+          <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Busque por queixa, diagnóstico, medicamento ou tema.</p>
 
           {/* Search */}
           <div className="relative mt-4 max-w-xl">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#7f9db5]"
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#9fb5c7]"
               width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -210,11 +210,11 @@ export default function PrescricoesPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Ex: hipertensão, amoxicilina, cistite..."
-              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent bg-[#f8fafc] dark:bg-[#112036]"
+              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent bg-[#f8fafc] dark:bg-[#112036]"
             />
             {query && (
               <button onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#7f9db5] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#9fb5c7] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
                 aria-label="Limpar">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -256,7 +256,7 @@ export default function PrescricoesPage() {
                 </svg>
               </div>
               <p className="font-bold text-[#0f2d4a] dark:text-white mb-1">Nenhuma prescrição encontrada</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd]">Tente outra queixa ou diagnóstico.</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9]">Tente outra queixa ou diagnóstico.</p>
             </div>
           ) : (
             <>

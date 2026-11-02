@@ -15,7 +15,7 @@ export default function Curb65Page() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">CURB-65</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Gravidade da pneumonia adquirida na comunidade</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Gravidade da pneumonia adquirida na comunidade</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">

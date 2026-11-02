@@ -150,7 +150,7 @@ export default async function DashboardPage() {
       <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm sm:text-base font-medium">{greeting()},</p>
+            <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm sm:text-base font-medium">{greeting()},</p>
             <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white leading-tight">{firstName}</h1>
           </div>
 
@@ -191,7 +191,7 @@ export default async function DashboardPage() {
         )}
 
         {expiresAt && isActive && (
-          <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] mt-1">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] mt-1">
             Acesso até {expiresAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
           </p>
         )}
@@ -229,7 +229,7 @@ export default async function DashboardPage() {
                       {s.label}
                     </h3>
                   </div>
-                  <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm leading-relaxed flex-1">
+                  <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm leading-relaxed flex-1">
                     {TRIAL_TIPS[s.href] ?? s.description}
                   </p>
                   <span className="mt-4 text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4]">Experimentar agora →</span>
@@ -240,7 +240,7 @@ export default async function DashboardPage() {
         )}
 
         {isTrial && (
-          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#a9bccd] mb-3">Na assinatura completa você também tem</h2>
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#bccbd8] mb-3">Na assinatura completa você também tem</h2>
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -263,7 +263,7 @@ export default async function DashboardPage() {
                     </svg>
                   </div>
                   {locked ? (
-                    <span className="text-[10px] font-bold bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-[#a9bccd] px-2.5 py-1 rounded-xl leading-tight whitespace-nowrap w-fit">
+                    <span className="text-[10px] font-bold bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-[#bccbd8] px-2.5 py-1 rounded-xl leading-tight whitespace-nowrap w-fit">
                       🔒 Para assinantes
                     </span>
                   ) : s.badge && (
@@ -275,7 +275,7 @@ export default async function DashboardPage() {
                 <h2 className="font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] text-base mb-1 group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                   {s.label}
                 </h2>
-                <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm leading-relaxed">{s.description}</p>
+                <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm leading-relaxed">{s.description}</p>
               </div>
             </Link>
             );

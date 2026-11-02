@@ -15,7 +15,7 @@ export default function CidPage() {
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">CID-<span className="text-[#1a6aad] dark:text-[#3db8d4]">10</span></h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm mt-0.5">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm mt-0.5">
           Busque por código ou nome da doença/condição.
         </p>
       </header>

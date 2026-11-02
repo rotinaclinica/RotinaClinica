@@ -30,7 +30,7 @@ export default async function AirtraqAulaPage({
         <h1 className="text-base sm:text-lg font-extrabold text-[#0f2d4a] dark:text-white leading-snug">
           {video.titulo}
         </h1>
-        <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Vídeo {idx + 1} de {AIRTRAQ_VIDEOS.length}</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">Vídeo {idx + 1} de {AIRTRAQ_VIDEOS.length}</p>
       </header>
 
       <main className="flex-1 p-4 sm:p-6 flex flex-col items-center">

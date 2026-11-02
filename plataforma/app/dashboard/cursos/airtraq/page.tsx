@@ -38,7 +38,7 @@ export default function AirtraqPage() {
                 PARCEIRA OFICIAL
               </span>
             </div>
-            <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+            <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
               Garanta segurança na sua intubação!
             </p>
           </div>
@@ -66,7 +66,7 @@ export default function AirtraqPage() {
                 </svg>
               </div>
               <p className="text-[#0f2d4a] dark:text-[#e8edf5] font-bold text-base mb-1">Em breve</p>
-              <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm max-w-xs">
+              <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm max-w-xs">
                 Os vídeos do Airtraq serão disponibilizados em breve. Fique de olho!
               </p>
             </div>
@@ -93,14 +93,14 @@ export default function AirtraqPage() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] font-medium">
+                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] font-medium">
                     Vídeo {idx + 1}
                   </span>
                   <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                     {video.titulo}
                   </p>
                   {video.descricao && (
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] mt-0.5 leading-snug line-clamp-2">
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] mt-0.5 leading-snug line-clamp-2">
                       {video.descricao}
                     </p>
                   )}

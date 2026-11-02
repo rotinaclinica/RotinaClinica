@@ -16,7 +16,7 @@ export default function QuatroTsPage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           Score 4Ts
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           Probabilidade de Trombocitopenia Induzida por Heparina (TIH)
         </p>
       </header>

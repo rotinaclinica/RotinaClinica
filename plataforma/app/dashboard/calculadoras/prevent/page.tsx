@@ -57,7 +57,7 @@ export default function PreventPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">PREVENT — AHA 2023</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Risco cardiovascular total em 10 anos — pacientes 30–79 anos sem DCV conhecida</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Risco cardiovascular total em 10 anos — pacientes 30–79 anos sem DCV conhecida</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
@@ -69,7 +69,7 @@ export default function PreventPage() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
-              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide">Metas de LDL por risco cardiovascular</p>
+              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#bccbd8] uppercase tracking-wide">Metas de LDL por risco cardiovascular</p>
             </div>
             <div className="divide-y divide-zinc-100 dark:divide-white/10">
               {METAS_LDL.map((row) => (
@@ -78,7 +78,7 @@ export default function PreventPage() {
                     <span className={`text-xs font-extrabold w-20 shrink-0 ${row.cor}`}>{row.risco}</span>
                     <span className={`text-sm font-extrabold ${row.cor}`}>{row.meta}</span>
                   </div>
-                  <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">{row.definicao}</p>
+                  <p className="text-[11px] text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">{row.definicao}</p>
                 </div>
               ))}
             </div>

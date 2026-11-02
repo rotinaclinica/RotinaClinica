@@ -66,7 +66,7 @@ export default async function CursosPage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           Cursos e <span className="text-[#1a6aad] dark:text-[#3db8d4]">Videoaulas</span>
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           Conteúdo de qualidade, baseado em evidências. Estude no seu ritmo.
         </p>
       </header>
@@ -101,13 +101,13 @@ export default async function CursosPage() {
                     </span>
                   )}
                 </div>
-                <p className="text-sm sm:text-[15px] text-[#0f2d4a]/80 dark:text-[#a9bccd] leading-relaxed">
+                <p className="text-sm sm:text-[15px] text-[#0f2d4a]/80 dark:text-[#bccbd8] leading-relaxed">
                   {curso.descricao}
                 </p>
               </div>
 
               <svg
-                className="shrink-0 text-zinc-400 dark:text-[#8fa9bd] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
+                className="shrink-0 text-zinc-400 dark:text-[#a3b8c9] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
                 width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
               >

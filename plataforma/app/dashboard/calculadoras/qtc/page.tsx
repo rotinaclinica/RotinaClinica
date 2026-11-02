@@ -16,7 +16,7 @@ export default function QtcPage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
           QTc — Intervalo QT Corrigido
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">
           Correção do intervalo QT pela frequência cardíaca pela Fórmula de Bazett
         </p>
       </header>

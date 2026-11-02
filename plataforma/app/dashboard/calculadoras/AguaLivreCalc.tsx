@@ -49,7 +49,7 @@ export default function AguaLivreCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Déficit de Água Livre</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Hipernatremia — reposição hídrica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Hipernatremia — reposição hídrica</p>
         </div>
       </div>
 
@@ -94,7 +94,7 @@ export default function AguaLivreCalc() {
 
         {/* TBW info */}
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#f5f8fb] dark:bg-[#132842] border border-[#e6edf3] dark:border-white/12">
-          <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">Água corporal total (TBW):</span>
+          <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">Água corporal total (TBW):</span>
           <span className="text-[11px] font-bold text-[#1a6aad] dark:text-[#3db8d4]">{tbwLabel}</span>
         </div>
 
@@ -143,16 +143,16 @@ export default function AguaLivreCalc() {
           <div className="space-y-3">
             {/* Resultado principal */}
             <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4">
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-3">
+              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-3">
                 Déficit de água livre
               </p>
               <div className="flex items-end gap-2 mb-1">
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                   {resultado.deficit.toFixed(2)}
                 </p>
-                <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">L total</p>
+                <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">L total</p>
               </div>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8]">
                 Déficit total para atingir Na {sodioDesejado} mEq/L
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function AguaLivreCalc() {
                 </p>
                 <p className="text-sm text-[#1a6aad] dark:text-[#3db8d4] mb-0.5">L</p>
               </div>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8]">
                 Meta: Na {resultado.sodioMeta24h.toFixed(0)} mEq/L (máx. ↓10 mEq/L em 24h)
               </p>
             </div>

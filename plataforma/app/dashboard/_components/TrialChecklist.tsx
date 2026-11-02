@@ -32,7 +32,7 @@ export default function TrialChecklist({ progress }: { progress: Progress }) {
 
       {completo ? (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className="text-sm text-[#0f2d4a] dark:text-[#a9bccd]">
+          <p className="text-sm text-[#0f2d4a] dark:text-[#bccbd8]">
             Continue com acesso a tudo, sem interrupção no meio de um plantão.
           </p>
           <Link
@@ -55,7 +55,7 @@ export default function TrialChecklist({ progress }: { progress: Progress }) {
                 >
                   {p.feito ? "✓" : ""}
                 </span>
-                <span className={`text-sm ${p.feito ? "text-zinc-400 dark:text-[#a9bccd] line-through" : "text-[#0f2d4a] dark:text-[#e8edf5] font-semibold"}`}>
+                <span className={`text-sm ${p.feito ? "text-zinc-400 dark:text-[#bccbd8] line-through" : "text-[#0f2d4a] dark:text-[#e8edf5] font-semibold"}`}>
                   {p.titulo}
                 </span>
                 {!p.feito && p.href && <span className="ml-auto text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4]">→</span>}
@@ -77,7 +77,7 @@ export default function TrialChecklist({ progress }: { progress: Progress }) {
       )}
 
       {!completo && dias < META_DIAS && (
-        <p className="mt-3 text-xs text-[#0f2d4a]/80 dark:text-[#a9bccd]">
+        <p className="mt-3 text-xs text-[#0f2d4a]/80 dark:text-[#bccbd8]">
           💡 Salve o site na tela inicial do celular: no próximo plantão ele abre como um aplicativo.
         </p>
       )}

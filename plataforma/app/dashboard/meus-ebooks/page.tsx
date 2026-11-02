@@ -35,7 +35,7 @@ export default async function MeusEbooksPage() {
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mt-3">
           Meus <span className="text-[#1a6aad] dark:text-[#3db8d4]">Ebooks</span>
         </h1>
-        <p className="text-sm text-[#0f2d4a]/60 dark:text-[#a9bccd] mt-0.5">
+        <p className="text-sm text-[#0f2d4a]/60 dark:text-[#bccbd8] mt-0.5">
           Ebooks que você comprou. Baixe sempre que precisar.
         </p>
       </header>

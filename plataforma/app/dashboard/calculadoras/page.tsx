@@ -333,8 +333,8 @@ export default function CalculadorasPage() {
           Início
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">Calculadoras <span className="text-[#1a6aad] dark:text-[#3db8d4]">Clínicas</span></h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Os escores e calculadoras mais utilizados na prática clínica.</p>
-        <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] mt-1 font-medium">{CALCULADORAS.length} calculadoras</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Os escores e calculadoras mais utilizados na prática clínica.</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#9fb5c7] mt-1 font-medium">{CALCULADORAS.length} calculadoras</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
@@ -355,7 +355,7 @@ export default function CalculadorasPage() {
                         <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 uppercase tracking-wide">Beta</span>
                       )}
                     </div>
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] line-clamp-2 leading-snug">{calc.descricao}</p>
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] line-clamp-2 leading-snug">{calc.descricao}</p>
                   </div>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-300 dark:text-[#3a5a70] group-hover:text-[#3db8d4] transition-colors shrink-0">
                     <polyline points="9 18 15 12 9 6"/>

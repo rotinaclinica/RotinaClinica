@@ -28,12 +28,12 @@ function AulaCard({ aula, email }: { aula: Aula; email: string }) {
           <h2 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug mb-1">
             {aula.titulo}
           </h2>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">
             {aula.descricao}
           </p>
         </div>
 
-        <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">
+        <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">
           <span>{aula.tamanho}</span>
           <span>·</span>
           <span>PDF</span>
@@ -77,7 +77,7 @@ function TemaCard({ tema, onClick }: { tema: (typeof AULAS_TEMAS)[number]; onCli
               {tema.nome}
             </h2>
           </div>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">
             {tema.descricao}
           </p>
         </div>
@@ -118,7 +118,7 @@ export default function MateriaisTabs({ email }: { email: string }) {
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "ebooks"
               ? "bg-white dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-[#0f2d4a] dark:text-[#a9bccd] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
+              : "text-[#0f2d4a] dark:text-[#bccbd8] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
           }`}
         >
           Ebooks
@@ -128,7 +128,7 @@ export default function MateriaisTabs({ email }: { email: string }) {
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "aulas"
               ? "bg-white dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-[#0f2d4a] dark:text-[#a9bccd] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
+              : "text-[#0f2d4a] dark:text-[#bccbd8] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
           }`}
         >
           Aulas
@@ -160,12 +160,12 @@ export default function MateriaisTabs({ email }: { email: string }) {
                   <h2 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug mb-1">
                     {ebook.titulo}
                   </h2>
-                  <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
+                  <p className="text-xs text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">
                     {ebook.descricao}
                   </p>
                 </div>
 
-                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">
+                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">
                   <span>{ebook.paginas}</span>
                   <span>·</span>
                   <span>{ebook.formato}</span>

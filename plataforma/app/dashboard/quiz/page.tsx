@@ -118,7 +118,7 @@ export default async function QuizPage() {
             <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">
               Desafio Clínico <span className="text-[#1a6aad] dark:text-[#3db8d4]">Diário</span>
             </h1>
-            <p className="text-sm text-[#0f2d4a]/60 dark:text-[#a9bccd] mt-0.5">
+            <p className="text-sm text-[#0f2d4a]/60 dark:text-[#bccbd8] mt-0.5">
               3 perguntas novas todo dia. Teste seu conhecimento!
             </p>
           </div>
@@ -144,7 +144,7 @@ export default async function QuizPage() {
           </div>
         </div>
 
-        <p className="text-xs text-[#0f2d4a]/50 dark:text-[#a9bccd] mt-3">
+        <p className="text-xs text-[#0f2d4a]/50 dark:text-[#bccbd8] mt-3">
           🛡️ <strong>Escudos</strong> protegem sua sequência se pular 1 dia. Ganhe 1 a cada 5 dias consecutivos (máx 3).
         </p>
       </header>

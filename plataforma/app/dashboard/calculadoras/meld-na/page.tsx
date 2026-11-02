@@ -14,7 +14,7 @@ export default function MeldNaPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">MELD-Na</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Priorização em transplante hepático</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Priorização em transplante hepático</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">

@@ -24,7 +24,7 @@ export default function HasbledPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">HAS-BLED</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Risco de sangramento maior em pacientes anticoagulados com FA</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Risco de sangramento maior em pacientes anticoagulados com FA</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">
@@ -45,15 +45,15 @@ export default function HasbledPage() {
           {/* Tabela de interpretação */}
           <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
             <div className="px-5 py-3 border-b border-[#e6edf3] dark:border-white/12">
-              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide">Interpretação da pontuação</p>
+              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#bccbd8] uppercase tracking-wide">Interpretação da pontuação</p>
             </div>
             <div className="divide-y divide-zinc-100 dark:divide-white/10">
               {INTERPRETACAO.map((row) => (
                 <div key={row.pontos} className="flex items-center gap-3 px-5 py-3">
                   <span className="w-7 text-center font-extrabold text-sm text-[#0f2d4a] dark:text-[#e8edf5] shrink-0">{row.pontos}</span>
                   <span className={`w-20 text-xs font-semibold shrink-0 ${row.cor}`}>{row.grupo}</span>
-                  <span className="w-10 text-xs text-[#0f2d4a] dark:text-[#8fa9bd] shrink-0">{row.risco}</span>
-                  <span className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">{row.conduta}</span>
+                  <span className="w-10 text-xs text-[#0f2d4a] dark:text-[#a3b8c9] shrink-0">{row.risco}</span>
+                  <span className="text-xs text-[#0f2d4a] dark:text-[#bccbd8]">{row.conduta}</span>
                 </div>
               ))}
             </div>

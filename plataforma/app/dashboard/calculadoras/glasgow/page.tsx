@@ -14,7 +14,7 @@ export default function GlasgowPage() {
           Calculadoras
         </Link>
         <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">Escala de Coma de Glasgow</h1>
-        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Avaliação do nível de consciência — E + V + M</p>
+        <p className="text-[#0f2d4a] dark:text-[#bccbd8] text-sm">Avaliação do nível de consciência — E + V + M</p>
       </header>
 
       <main className="flex-1 p-6 sm:p-8">

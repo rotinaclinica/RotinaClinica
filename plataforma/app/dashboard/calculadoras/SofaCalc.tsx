@@ -69,7 +69,7 @@ export default function SofaCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">SOFA</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Avaliação sequencial de disfunção orgânica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Avaliação sequencial de disfunção orgânica</p>
         </div>
       </div>
 
@@ -77,7 +77,7 @@ export default function SofaCalc() {
 
         {/* Respiratório */}
         <div>
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-2">
             Respiratório — PaO₂ / FiO₂
           </p>
           <div className="flex gap-2 mb-2">
@@ -87,7 +87,7 @@ export default function SofaCalc() {
                 type="number" min="0" max="600" value={pao2}
                 onChange={(e) => { setPao2(e.target.value); setResultado(null); }}
                 placeholder="ex: 80"
-                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
               />
             </div>
             <div className="flex-1">
@@ -96,7 +96,7 @@ export default function SofaCalc() {
                 type="number" min="21" max="100" value={fio2}
                 onChange={(e) => { setFio2(e.target.value); setResultado(null); }}
                 placeholder="ex: 40"
-                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
               />
             </div>
           </div>
@@ -115,18 +115,18 @@ export default function SofaCalc() {
                 : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
             }`}>
             <span className="flex-1 font-semibold">Em ventilação mecânica</span>
-            <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">incluindo CPAP</span>
+            <span className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">incluindo CPAP</span>
           </button>
         </div>
 
         {/* Demais componentes */}
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-0.5">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-0.5">
               {secao.titulo}
             </p>
             {secao.sublabel && (
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] mb-2 italic">{secao.sublabel}</p>
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] mb-2 italic">{secao.sublabel}</p>
             )}
             {!secao.sublabel && <div className="mb-2" />}
             <div className="flex flex-col gap-1.5">
@@ -159,8 +159,8 @@ export default function SofaCalc() {
           <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5 ml-1">/ 24</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">pontos</p>
+              <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5 ml-1">/ 24</p>
             </div>
             <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
@@ -170,7 +170,7 @@ export default function SofaCalc() {
               {resultado.conduta}
             </p>
             {resultado.respiratorio === null && (
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] italic border-t border-[#e6edf3] dark:border-white/12 pt-2">
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] italic border-t border-[#e6edf3] dark:border-white/12 pt-2">
                 PaO₂/FiO₂ não informado — componente respiratório calculado como 0.
               </p>
             )}

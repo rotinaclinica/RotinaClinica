@@ -315,7 +315,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
             if (isEf) {
               return (
                 <div key={i} className="flex items-baseline gap-2 mb-1">
-                  <span className="text-zinc-400 dark:text-[#a9bccd] flex-shrink-0">•</span>
+                  <span className="text-zinc-400 dark:text-[#bccbd8] flex-shrink-0">•</span>
                   <p className="text-justify leading-relaxed">
                     <span className="font-bold text-[#0f2d4a] dark:text-white">{block.label}: </span>
                     {block.value && <span className="text-zinc-700 dark:text-white">{toSentenceCase(block.value)}</span>}
@@ -336,7 +336,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
           case "sub-text":
             return (
               <div key={i} className="flex items-baseline gap-2 mb-1">
-                <span className="text-zinc-400 dark:text-[#a9bccd] flex-shrink-0">•</span>
+                <span className="text-zinc-400 dark:text-[#bccbd8] flex-shrink-0">•</span>
                 <p className="text-zinc-600 dark:text-white leading-relaxed text-justify">{block.text}</p>
               </div>
             );
@@ -346,7 +346,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
             const withDot = /[.!?:]$/.test(txt) ? txt : txt + ".";
             return (
               <div key={i} className="flex items-baseline gap-2 mb-1">
-                <span className="text-zinc-400 dark:text-[#a9bccd] flex-shrink-0">•</span>
+                <span className="text-zinc-400 dark:text-[#bccbd8] flex-shrink-0">•</span>
                 <p className="text-zinc-600 dark:text-white text-justify leading-relaxed">
                   {withDot}
                 </p>

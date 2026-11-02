@@ -172,7 +172,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
         <div className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 py-5 flex items-center justify-between">
           <div>
             <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">Anotações</h1>
-            <p className="text-sm text-zinc-500 dark:text-[#a9bccd] mt-0.5">
+            <p className="text-sm text-zinc-500 dark:text-[#bccbd8] mt-0.5">
               {notes.length}/{LIMIT} anotações salvas
             </p>
           </div>
@@ -194,7 +194,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
                 <svg className="text-[#1a6aad] dark:text-[#3db8d4]" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
               </div>
               <p className="font-bold text-[#0f2d4a] dark:text-white mb-1">Nenhuma anotação ainda</p>
-              <p className="text-sm text-[#0f2d4a]/70 dark:text-[#a9bccd]">Clique em &quot;Nova anotação&quot; para guardar o que quiser ter à mão no plantão.</p>
+              <p className="text-sm text-[#0f2d4a]/70 dark:text-[#bccbd8]">Clique em &quot;Nova anotação&quot; para guardar o que quiser ter à mão no plantão.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -211,13 +211,13 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
                   </button>
-                  <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm mb-2 pr-6 line-clamp-2">
+                  <h3 className="font-bold text-[#0f2d4a] dark:text-white text-base mb-2 pr-6 line-clamp-2">
                     {note.title || "Sem título"}
                   </h3>
-                  <p className="text-zinc-700 dark:text-zinc-400 text-xs leading-relaxed line-clamp-3 mb-3">
+                  <p className="text-zinc-700 dark:text-[#cad7e3] text-sm leading-relaxed line-clamp-3 mb-3">
                     {stripHtml(note.content) || "Sem conteúdo"}
                   </p>
-                  <p className="text-[10px] text-zinc-500 dark:text-zinc-500 font-medium uppercase tracking-wide">
+                  <p className="text-[11px] text-zinc-500 dark:text-[#bccbd8] font-medium uppercase tracking-wide">
                     {formatDate(note.updatedAt)}
                   </p>
                 </div>
@@ -246,7 +246,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               <button
                 onClick={copyText}
                 disabled={busy}
-                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-[#d9e3ec] dark:border-white/15 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
+                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-[#bccbd8] hover:text-[#0f2d4a] dark:hover:text-white border border-[#d9e3ec] dark:border-white/15 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
                 {copied ? (
                   <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copiado</>
@@ -257,7 +257,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               <button
                 onClick={downloadPdf}
                 disabled={busy}
-                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-[#d9e3ec] dark:border-white/15 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
+                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-[#bccbd8] hover:text-[#0f2d4a] dark:hover:text-white border border-[#d9e3ec] dark:border-white/15 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 {busy ? "Gerando…" : "Baixar PDF"}
@@ -345,9 +345,9 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 px-4">
           <div className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
             <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-base mb-2">Excluir anotação?</h3>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-5">Esta ação não pode ser desfeita.</p>
+            <p className="text-zinc-500 dark:text-[#bccbd8] text-sm mb-5">Esta ação não pode ser desfeita.</p>
             <div className="flex gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="flex-1 border border-[#d9e3ec] dark:border-white/15 text-zinc-600 dark:text-zinc-400 font-semibold py-2 rounded-xl text-sm hover:bg-[#f5f8fb] dark:hover:bg-white/5 transition-colors">Cancelar</button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 border border-[#d9e3ec] dark:border-white/15 text-zinc-600 dark:text-[#bccbd8] font-semibold py-2 rounded-xl text-sm hover:bg-[#f5f8fb] dark:hover:bg-white/5 transition-colors">Cancelar</button>
               <button onClick={() => deleteNote(deleteConfirm)} disabled={busy} className="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white font-semibold py-2 rounded-xl text-sm transition-colors">Excluir</button>
             </div>
           </div>

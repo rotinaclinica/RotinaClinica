@@ -59,7 +59,7 @@ export default function PreventInfoModal({ children }: Props) {
 
             <button
               onClick={() => setOpen(false)}
-              className="w-full text-center text-xs text-[#0f2d4a] dark:text-[#7f9db5] hover:text-zinc-600 dark:hover:text-[#7a9ab8] transition-colors py-1"
+              className="w-full text-center text-xs text-[#0f2d4a] dark:text-[#9fb5c7] hover:text-zinc-600 dark:hover:text-[#7a9ab8] transition-colors py-1"
             >
               Fechar
             </button>

@@ -30,7 +30,7 @@ export default function IsrCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">ISR — Intubação em Sequência Rápida</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Doses calculadas pelo peso do paciente</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9]">Doses calculadas pelo peso do paciente</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function IsrCalc() {
           <input
             type="number" value={peso} placeholder="ex: 70"
             onChange={(e) => setPeso(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#9fb5c7] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
           />
         </div>
 
@@ -54,8 +54,8 @@ export default function IsrCalc() {
 
               {/* Cabeçalho colunas */}
               <div className="grid grid-cols-2 px-3 py-1.5 bg-[#f5f8fb] dark:bg-[#132842] border-b border-[#e6edf3] dark:border-white/12">
-                <p className="text-[10px] font-bold text-[#0f2d4a] dark:text-[#7f9db5] uppercase tracking-wide">Medicamento</p>
-                {pesoValido && <p className="text-[10px] font-bold text-[#0f2d4a] dark:text-[#7f9db5] uppercase tracking-wide">Dose calculada</p>}
+                <p className="text-[10px] font-bold text-[#0f2d4a] dark:text-[#9fb5c7] uppercase tracking-wide">Medicamento</p>
+                {pesoValido && <p className="text-[10px] font-bold text-[#0f2d4a] dark:text-[#9fb5c7] uppercase tracking-wide">Dose calculada</p>}
               </div>
 
               {cat.medicamentos.map((med, i) => {
@@ -72,7 +72,7 @@ export default function IsrCalc() {
                       <div className="space-y-1.5">
                         <div>
                           <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">{med.nome}</p>
-                          <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">
+                          <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">
                             {med.doseMin}{med.doseMax ? `–${med.doseMax}` : ""} {med.unidade}
                           </p>
                         </div>
@@ -83,7 +83,7 @@ export default function IsrCalc() {
                               className={`px-2 py-0.5 rounded-md text-[10px] font-semibold border transition-all ${
                                 ai === idx
                                   ? "bg-[#3db8d4]/15 border-[#3db8d4] text-[#3db8d4]"
-                                  : "bg-zinc-100 dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-500 dark:text-[#8fa9bd] hover:border-[#3db8d4]/50"
+                                  : "bg-zinc-100 dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-500 dark:text-[#a3b8c9] hover:border-[#3db8d4]/50"
                               }`}>
                               {a.label}
                             </button>
@@ -95,9 +95,9 @@ export default function IsrCalc() {
                       {calc && (
                         <div>
                           <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{calc.volStr}</p>
-                          <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">{calc.doseStr}</p>
+                          <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9]">{calc.doseStr}</p>
                           {ap.nota && (
-                            <p className="text-[10px] text-[#0f2d4a] dark:text-[#7f9db5] mt-0.5">{ap.nota}</p>
+                            <p className="text-[10px] text-[#0f2d4a] dark:text-[#9fb5c7] mt-0.5">{ap.nota}</p>
                           )}
                         </div>
                       )}

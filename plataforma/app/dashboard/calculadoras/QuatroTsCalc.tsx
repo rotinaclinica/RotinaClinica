@@ -83,13 +83,13 @@ export default function QuatroTsCalc() {
     <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
       <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12">
         <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Score 4Ts — TIH</p>
-        <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">
+        <p className="text-xs text-[#0f2d4a] dark:text-[#a3b8c9] mt-0.5">
           Probabilidade de Trombocitopenia Induzida por Heparina
         </p>
       </div>
 
       <div className="p-5 space-y-5">
-        <div className="flex gap-2 items-start px-3 py-2.5 rounded-xl bg-[#f5f8fb] dark:bg-[#132842] border border-[#e6edf3] dark:border-white/12 text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
+        <div className="flex gap-2 items-start px-3 py-2.5 rounded-xl bg-[#f5f8fb] dark:bg-[#132842] border border-[#e6edf3] dark:border-white/12 text-xs text-[#0f2d4a] dark:text-[#bccbd8] leading-relaxed">
           <span className="shrink-0 text-[#3db8d4] font-bold">i</span>
           <span><span className="font-semibold">Nadir</span> = valor mínimo de plaquetas atingido após o início da heparina. Para a queda percentual, compare com o valor basal antes da queda relacionada à heparina.</span>
         </div>
@@ -114,7 +114,7 @@ export default function QuatroTsCalc() {
                       {ativo && <span className="w-2 h-2 rounded-full bg-white" />}
                     </span>
                     <span className="flex-1 text-xs text-[#0f2d4a] dark:text-[#c4d4df] leading-relaxed">{op.label}</span>
-                    <span className={`shrink-0 text-xs font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>
+                    <span className={`shrink-0 text-xs font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#a3b8c9]"}`}>
                       +{op.pts}
                     </span>
                   </button>
@@ -125,7 +125,7 @@ export default function QuatroTsCalc() {
         ))}
 
         {!completo && (
-          <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] text-center">
+          <p className="text-[11px] text-[#0f2d4a] dark:text-[#a3b8c9] text-center">
             Selecione uma opção para cada critério
           </p>
         )}
@@ -134,14 +134,14 @@ export default function QuatroTsCalc() {
           <div className="space-y-3">
             {/* Score */}
             <div className={`rounded-xl border p-4 ${cor.box}`}>
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
+              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest mb-2">
                 Pontuação total
               </p>
               <div className="flex items-end gap-2 mb-2">
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                   {resultado.score}
                 </p>
-                <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">/ 8 pontos</p>
+                <p className="text-sm text-[#0f2d4a] dark:text-[#a3b8c9] mb-0.5">/ 8 pontos</p>
               </div>
               <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden mb-3">
                 <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
@@ -150,7 +150,7 @@ export default function QuatroTsCalc() {
               <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
                 {resultado.label}
               </span>
-              <span className="ml-2 text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
+              <span className="ml-2 text-xs text-[#0f2d4a] dark:text-[#bccbd8]">
                 VPP {resultado.ppv}
               </span>
             </div>
@@ -158,7 +158,7 @@ export default function QuatroTsCalc() {
             {/* Conduta */}
             <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
               <div className="px-4 py-2.5 bg-zinc-100 dark:bg-[#132842] border-b border-[#d9e3ec] dark:border-white/12">
-                <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest">Conduta</p>
+                <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#a3b8c9] uppercase tracking-widest">Conduta</p>
               </div>
               <div className="p-4 space-y-2.5 bg-white dark:bg-[#172741]">
                 <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{conduta.titulo}</p>
