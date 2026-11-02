@@ -121,7 +121,7 @@ export default function NovidadesCard({ grupos }: { grupos: Grupo[] }) {
               {varios && !g.bloqueado && aberto === g.chave && (
                 <ul className="mt-2 flex flex-col gap-0.5">
                   {g.itens.map((i) => (
-                    <li key={i.href}>
+                    <li key={i.titulo}>
                       <Link href={i.href} onClick={() => marcarVisto(g.chave)} className="block py-1.5 text-[13px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
                         {i.titulo} →
                       </Link>
