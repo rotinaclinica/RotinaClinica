@@ -23,6 +23,7 @@ export const NOVIDADES: Novidade[] = [
   { secao: "materiais", titulo: "Ebook: O Racional da Prescrição Médica", href: "/dashboard/materiais", data: "2026-11-02" },
   { secao: "materiais", titulo: "Ebook: Manual de Prescrições (Amostra)", href: "/dashboard/materiais", data: "2026-11-02" },
   { secao: "plataforma", titulo: "Visual renovado: mais cor, contraste e conforto para o seu plantão", href: "/dashboard", data: "2026-11-02" },
+  { secao: "plataforma", titulo: "Ranking do Desafio Diário: veja quem lidera o mês e o geral", href: "/dashboard/quiz#ranking", data: "2026-11-02" },
 ];
 
 export const SECOES_NOVIDADE: Record<SecaoNovidade, { label: string; singular: string; plural: string; rota: string; acao: string }> = {
