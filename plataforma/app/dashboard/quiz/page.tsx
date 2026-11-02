@@ -6,61 +6,11 @@ import { redirect } from "next/navigation";
 import { canAccessPaidContent } from "@/lib/subscription";
 import { getDailyQuestions, getTodayDateStr, getQuizDateUTC } from "@/lib/quiz-questions";
 import { QuizClient } from "./QuizClient";
+import RankingQuiz from "./RankingQuiz";
+import { calcStreakAndFreezes, getQuizRankings, MAX_FREEZES, FREEZE_EARN_INTERVAL } from "@/lib/quiz-ranking";
 import Link from "next/link";
 
 export const metadata = { title: "Quiz Diário · Rotina Clínica" };
-
-const MAX_FREEZES = 3;
-const FREEZE_EARN_INTERVAL = 5;
-
-function prevDay(dateStr: string): string {
-  const d = new Date(dateStr + "T12:00:00");
-  d.setDate(d.getDate() - 1);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
-function calcStreakAndFreezes(attempts: { quizDate: Date }[]): { streak: number; freezes: number } {
-  if (attempts.length === 0) return { streak: 0, freezes: 0 };
-
-  const dateSet = new Set(
-    attempts.map((a) => {
-      const d = new Date(a.quizDate);
-      return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
-    })
-  );
-  const sortedDates = [...dateSet].sort().reverse();
-
-  const today = getTodayDateStr();
-  const yesterday = prevDay(today);
-
-  if (sortedDates[0] !== today && sortedDates[0] !== yesterday) return { streak: 0, freezes: 0 };
-
-  let streak = 0;
-  let freezesEarned = 0;
-  let freezesUsed = 0;
-  let cursor = sortedDates[0] === today ? today : yesterday;
-
-  while (true) {
-    if (dateSet.has(cursor)) {
-      streak++;
-      if (streak > 0 && streak % FREEZE_EARN_INTERVAL === 0) {
-        freezesEarned = Math.min(freezesEarned + 1, MAX_FREEZES + freezesUsed);
-      }
-      cursor = prevDay(cursor);
-    } else {
-      if (freezesEarned > freezesUsed) {
-        freezesUsed++;
-        streak++;
-        cursor = prevDay(cursor);
-      } else {
-        break;
-      }
-    }
-  }
-
-  const freezesAvailable = Math.max(0, freezesEarned - freezesUsed);
-  return { streak, freezes: freezesAvailable };
-}
 
 export default async function QuizPage() {
   const session = await auth();
@@ -68,7 +18,7 @@ export default async function QuizPage() {
 
   const user = await db.user.findUnique({
     where: { id: session.user.id },
-    select: { role: true },
+    select: { role: true, rankingOptOut: true },
   });
   const isAdmin = user?.role === "ADMIN";
   const isTester = user?.role === "TESTER";
@@ -79,7 +29,7 @@ export default async function QuizPage() {
   const todayStr = getTodayDateStr();
   const quizDate = getQuizDateUTC(todayStr);
 
-  const [todayAttempt, allAttempts, totalAttempts] = await Promise.all([
+  const [todayAttempt, allAttempts, totalAttempts, rankings] = await Promise.all([
     db.quizAttempt.findUnique({
       where: { userId_quizDate: { userId: session.user.id, quizDate } },
     }),
@@ -90,6 +40,7 @@ export default async function QuizPage() {
       take: 90,
     }),
     db.quizAttempt.count({ where: { userId: session.user.id } }),
+    getQuizRankings(session.user.id),
   ]);
 
   const { streak, freezes } = calcStreakAndFreezes(allAttempts);
@@ -97,6 +48,8 @@ export default async function QuizPage() {
   const avgScore = totalAttempts > 0 ? Math.round((totalCorrect / (totalAttempts * 5)) * 100) : 0;
 
   const questions = getDailyQuestions(todayStr);
+  const nomeMes = new Date(`${todayStr}T12:00:00`).toLocaleDateString("pt-BR", { month: "long" });
+  const nomeMesCap = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
 
   const todayResult = todayAttempt
     ? {
@@ -142,6 +95,10 @@ export default async function QuizPage() {
             <span className="text-lg leading-none">🛡️</span>
             <span className="text-sm font-bold text-violet-700 dark:text-violet-400">{freezes} escudo{freezes !== 1 ? "s" : ""}</span>
           </div>
+          <a href="#ranking" className="flex items-center gap-2 bg-[#e8f4fc] dark:bg-[#3db8d4]/15 border border-[#1a6aad]/25 dark:border-[#3db8d4]/40 rounded-full px-3.5 py-1.5 hover:bg-[#d3e9f7] dark:hover:bg-[#3db8d4]/25 transition-colors">
+            <span className="text-lg leading-none">🏆</span>
+            <span className="text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4]">Ranking</span>
+          </a>
         </div>
 
         <p className="text-xs text-[#0f2d4a]/50 dark:text-[#bccbd8] mt-3">
@@ -154,6 +111,13 @@ export default async function QuizPage() {
           questions={questions}
           dateStr={todayStr}
           existingResult={todayResult}
+        />
+        <RankingQuiz
+          mensal={rankings.mensal}
+          geral={rankings.geral}
+          participa={user?.role === "CUSTOMER" && !user.rankingOptOut}
+          equipe={isAdmin || isTester}
+          nomeMes={nomeMesCap}
         />
       </main>
     </div>

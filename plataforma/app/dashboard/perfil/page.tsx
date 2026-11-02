@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import ChangePasswordForm from "./ChangePasswordForm";
 import DeleteAccountSection from "./DeleteAccountSection";
+import RankingToggle from "./RankingToggle";
 import ThemeToggle from "@/app/components/ThemeToggle";
 
 export const metadata = { title: "Meu Perfil · Rotina Clínica" };
@@ -196,6 +197,14 @@ export default async function PerfilPage() {
             );
           })()}
         </section>
+
+        {/* Ranking do Desafio Diário — só assinantes (contas da equipe não entram) */}
+        {!isAdmin && !isTester && (
+          <section id="ranking" className="scroll-mt-6 bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6">
+            <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#9fb5c7] uppercase tracking-wider mb-5">Ranking</h2>
+            <RankingToggle participa={!user.rankingOptOut} />
+          </section>
+        )}
 
         {/* Alterar senha */}
         <section className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6">

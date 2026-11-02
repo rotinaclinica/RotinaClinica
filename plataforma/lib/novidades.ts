@@ -68,5 +68,8 @@ export function gruposNovidades(agora = Date.now()): GrupoNovidade[] {
     g.itens.push({ titulo: n.titulo, href: n.href });
     grupos.set(chave, g);
   }
-  return [...grupos.values()].sort((a, b) => b.data.localeCompare(a.data));
+  // A chave inclui a quantidade de itens: se entrar item novo num grupo já dispensado, ele volta a aparecer
+  return [...grupos.values()]
+    .map((g) => ({ ...g, chave: `${g.chave}|${g.itens.length}` }))
+    .sort((a, b) => b.data.localeCompare(a.data));
 }

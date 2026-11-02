@@ -22,6 +22,8 @@ model User {
   cpfHash              String?
   cep                  String?
   anonymizedAt         DateTime?
+  // Desafio Diário: true = não aparece no ranking (opção no perfil)
+  rankingOptOut        Boolean        @default(false)
   adminPinHash         String?
   phone                String?
   isAmbassador         Boolean        @default(false)

@@ -91,7 +91,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
   }
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[#0c1829] flex-shrink-0 relative z-10 shadow-[2px_0_8px_rgba(0,0,0,0.3)] border-r border-white/10">
+    <aside className="hidden lg:flex flex-col w-64 min-h-screen bg-[#0f2d4a] dark:bg-[linear-gradient(180deg,#1a3050_0%,#13233c_100%)] flex-shrink-0 relative z-10 shadow-[2px_0_8px_rgba(0,0,0,0.3)] border-r border-white/10">
       {/* Logo + toggle */}
       <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between gap-2">
         <Link href="/" className="min-w-0 overflow-hidden"><Logo variant="light" /></Link>
@@ -131,7 +131,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
                 ? "text-[#9ec4de]/50 hover:text-[#9ec4de] hover:bg-white/5"
                 : isActive(item)
                 ? "bg-[#3db8d4]/15 text-white font-semibold shadow-[inset_3px_0_0_#3db8d4] [&>svg]:text-[#3db8d4]"
-                : "text-[#9ec4de] hover:text-white hover:bg-white/8"
+                : "text-[#c3dbeb] hover:text-white hover:bg-white/10"
             }`}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
