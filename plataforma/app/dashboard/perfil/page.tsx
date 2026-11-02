@@ -22,7 +22,7 @@ const planLabel: Record<string, string> = {
 
 const statusLabel: Record<string, { text: string; color: string }> = {
   ACTIVE: { text: "Ativa", color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-  CANCELLED: { text: "Cancelada", color: "bg-zinc-100 text-zinc-500 border-zinc-200" },
+  CANCELLED: { text: "Cancelada", color: "bg-zinc-100 text-zinc-500 border-[#d9e3ec]" },
   EXPIRED: { text: "Expirada", color: "bg-red-50 text-red-600 border-red-200" },
   PAST_DUE: { text: "Pagamento pendente", color: "bg-amber-50 text-amber-700 border-amber-200" },
 };
@@ -50,7 +50,7 @@ export default async function PerfilPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
@@ -69,8 +69,8 @@ export default async function PerfilPage() {
       <main className="flex-1 p-6 sm:p-8 space-y-6 max-w-2xl">
 
         {/* Dados do usuário */}
-        <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
-          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Dados da conta</h2>
+        <section className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#7f9db5] uppercase tracking-wider mb-5">Dados da conta</h2>
 
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-full bg-[#3db8d4] flex items-center justify-center text-[#0f2d4a] font-extrabold text-lg flex-shrink-0">
@@ -78,28 +78,28 @@ export default async function PerfilPage() {
             </div>
             <div>
               <p className="font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] text-base">{user.name ?? "—"}</p>
-              <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">{user.email}</p>
+              <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">{user.email}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Nome</p>
-              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">{user.name ?? "—"}</p>
+            <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Nome</p>
+              <p className="text-sm font-semibold text-zinc-800 dark:text-[#e8edf5]">{user.name ?? "—"}</p>
             </div>
-            <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">E-mail</p>
-              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8] truncate">{user.email}</p>
+            <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">E-mail</p>
+              <p className="text-sm font-semibold text-zinc-800 dark:text-[#e8edf5] truncate">{user.email}</p>
             </div>
-            <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Tipo de conta</p>
-              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
+            <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Tipo de conta</p>
+              <p className="text-sm font-semibold text-zinc-800 dark:text-[#e8edf5]">
                 {roleLabel[user.role] ?? (sub?.status === "ACTIVE" ? "Assinante" : "Não assinante")}
               </p>
             </div>
-            <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Membro desde</p>
-              <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
+            <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Membro desde</p>
+              <p className="text-sm font-semibold text-zinc-800 dark:text-[#e8edf5]">
                 {user.createdAt.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
               </p>
             </div>
@@ -107,8 +107,8 @@ export default async function PerfilPage() {
         </section>
 
         {/* Plano / assinatura */}
-        <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
-          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Assinatura</h2>
+        <section className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#7f9db5] uppercase tracking-wider mb-5">Assinatura</h2>
 
           {isAdmin && (
             <div className="flex items-center gap-3 p-4 rounded-xl bg-[#0f2d4a]">
@@ -125,8 +125,8 @@ export default async function PerfilPage() {
           )}
 
           {!isAdmin && !isTester && !sub && (
-            <div className="flex flex-col gap-4 p-4 rounded-xl bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/8">
-              <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">Você não possui uma assinatura ativa.</p>
+            <div className="flex flex-col gap-4 p-4 rounded-xl bg-[#f5f8fb] dark:bg-white/5 border border-[#d9e3ec] dark:border-white/12">
+              <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">Você não possui uma assinatura ativa.</p>
               <a
                 href="/assinatura"
                 className="self-start bg-[#1a6aad] hover:bg-[#0f2d4a] text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
@@ -137,30 +137,30 @@ export default async function PerfilPage() {
           )}
 
           {!isAdmin && !isTester && sub && (() => {
-            const s = statusLabel[sub.status] ?? { text: sub.status, color: "bg-zinc-100 text-zinc-500 border-zinc-200" };
+            const s = statusLabel[sub.status] ?? { text: sub.status, color: "bg-zinc-100 text-zinc-500 border-[#d9e3ec]" };
             return (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Plano</p>
-                    <p className="text-sm font-bold text-zinc-800 dark:text-[#d4dce8]">{planLabel[sub.plan] ?? sub.plan}</p>
+                  <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Plano</p>
+                    <p className="text-sm font-bold text-zinc-800 dark:text-[#e8edf5]">{planLabel[sub.plan] ?? sub.plan}</p>
                   </div>
-                  <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Status</p>
+                  <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Status</p>
                     <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full border ${s.color}`}>
                       <span className="w-1.5 h-1.5 rounded-full bg-current" />
                       {s.text}
                     </span>
                   </div>
-                  <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Início do período</p>
-                    <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
+                  <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Início do período</p>
+                    <p className="text-sm font-semibold text-zinc-800 dark:text-[#e8edf5]">
                       {sub.currentPeriodStart.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
                     </p>
                   </div>
-                  <div className="bg-zinc-50 dark:bg-white/5 rounded-xl px-4 py-3">
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] font-medium mb-0.5">Acesso até</p>
-                    <p className="text-sm font-semibold text-zinc-800 dark:text-[#d4dce8]">
+                  <div className="bg-[#f5f8fb] dark:bg-white/5 rounded-xl px-4 py-3">
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] font-medium mb-0.5">Acesso até</p>
+                    <p className="text-sm font-semibold text-zinc-800 dark:text-[#e8edf5]">
                       {sub.currentPeriodEnd.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" })}
                     </p>
                     <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-0.5">
@@ -179,8 +179,8 @@ export default async function PerfilPage() {
                       ✓ Renovação automática no cartão ativa
                     </p>
                   ) : (
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl bg-[#e8f4fc] dark:bg-[#1a2d45] border border-[#3db8d4]/30">
-                      <p className="flex-1 text-sm text-[#0f2d4a] dark:text-[#d4dce8] leading-snug">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl bg-[#e8f4fc] dark:bg-[#1e3654] border border-[#3db8d4]/30">
+                      <p className="flex-1 text-sm text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">
                         <strong>Renovação manual (Pix/transferência).</strong> Ative a renovação automática no cartão quando quiser: o novo período começa ao fim do atual, sem perder nenhum dia.
                       </p>
                       <Link
@@ -198,8 +198,8 @@ export default async function PerfilPage() {
         </section>
 
         {/* Alterar senha */}
-        <section className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
-          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-5">Alterar senha</h2>
+        <section className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#7f9db5] uppercase tracking-wider mb-5">Alterar senha</h2>
           <ChangePasswordForm />
         </section>
 
@@ -207,8 +207,8 @@ export default async function PerfilPage() {
         {!isAdmin && <DeleteAccountSection email={user.email} />}
 
         {/* Sair — visível apenas no mobile onde a sidebar fica oculta */}
-        <section className="lg:hidden bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6">
-          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#4a6a7e] uppercase tracking-wider mb-4">Sessão</h2>
+        <section className="lg:hidden bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6">
+          <h2 className="text-sm font-bold text-[#0f2d4a] dark:text-[#7f9db5] uppercase tracking-wider mb-4">Sessão</h2>
           <Link
             href="/api/auth/signout"
             className="flex items-center gap-3 text-red-600 font-semibold text-sm hover:text-red-700 transition-colors"

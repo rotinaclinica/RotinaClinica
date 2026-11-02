@@ -19,7 +19,7 @@ export default function TrialChecklist({ progress }: { progress: Progress }) {
   const completo = feitos === passos.length;
 
   return (
-    <section className="mb-8 rounded-2xl border border-[#3db8d4]/40 bg-white dark:bg-[#131c2e] p-5">
+    <section className="mb-8 rounded-2xl border border-[#3db8d4]/40 bg-white dark:bg-[#172741] p-5">
       <div className="flex items-start justify-between gap-3 mb-1">
         <h2 className="text-base font-extrabold text-[#0f2d4a] dark:text-white">
           {completo ? "Você aproveitou bem o seu teste! 🎉" : "Aproveite seu teste em 4 passos"}
@@ -55,7 +55,7 @@ export default function TrialChecklist({ progress }: { progress: Progress }) {
                 >
                   {p.feito ? "✓" : ""}
                 </span>
-                <span className={`text-sm ${p.feito ? "text-zinc-400 dark:text-[#6a8fa5] line-through" : "text-[#0f2d4a] dark:text-[#e8edf5] font-semibold"}`}>
+                <span className={`text-sm ${p.feito ? "text-zinc-400 dark:text-[#a9bccd] line-through" : "text-[#0f2d4a] dark:text-[#e8edf5] font-semibold"}`}>
                   {p.titulo}
                 </span>
                 {!p.feito && p.href && <span className="ml-auto text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4]">→</span>}

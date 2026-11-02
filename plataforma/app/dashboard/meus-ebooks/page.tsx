@@ -26,7 +26,7 @@ export default async function MeusEbooksPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-5">
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="text-sm text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
             ← Voltar
@@ -62,10 +62,10 @@ export default async function MeusEbooksPage() {
               return (
                 <div
                   key={enrollment.id}
-                  className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden flex flex-col"
+                  className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden flex flex-col"
                 >
                   {p.coverImage && (
-                    <div className="bg-zinc-50 dark:bg-[#0d1525] flex items-center justify-center h-48 overflow-hidden border-b border-zinc-100 dark:border-white/5">
+                    <div className="bg-[#f5f8fb] dark:bg-[#0d1525] flex items-center justify-center h-48 overflow-hidden border-b border-[#e6edf3] dark:border-white/8">
                       <img src={p.coverImage} alt={p.title} className="h-full w-full object-contain p-4" />
                     </div>
                   )}

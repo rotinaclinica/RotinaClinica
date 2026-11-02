@@ -75,7 +75,7 @@ export default function NovidadesCard({ grupos }: { grupos: Grupo[] }) {
   };
 
   return (
-    <section className="mb-8 bg-white dark:bg-[#131c2e] border border-[#3db8d4]/50 rounded-2xl p-4 sm:p-5">
+    <section className="mb-8 bg-white dark:bg-[#172741] border border-[#3db8d4]/50 rounded-2xl p-4 sm:p-5">
       <div className="flex items-center gap-2 mb-3">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="dark:stroke-[#3db8d4]">
           <path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z" />
@@ -96,7 +96,7 @@ export default function NovidadesCard({ grupos }: { grupos: Grupo[] }) {
           const destino = g.bloqueado ? "/assinatura?motivo=teste" : varios ? s.rota : g.itens[0].href;
 
           return (
-            <li key={g.chave} className="rounded-xl border border-zinc-200 dark:border-white/8 bg-[#f8fbfd] dark:bg-white/[0.03] px-3.5 py-3">
+            <li key={g.chave} className="rounded-xl border border-[#d9e3ec] dark:border-white/12 bg-[#f8fbfd] dark:bg-white/[0.03] px-3.5 py-3">
               <div className="flex items-start gap-2">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">

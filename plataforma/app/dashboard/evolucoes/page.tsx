@@ -43,9 +43,9 @@ function EvolucaoModal({ item, onClose }: { item: EvolucaoMeta; onClose: () => v
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-white dark:bg-[#131c2e] w-full h-full sm:h-auto sm:max-w-2xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
+      <div className="relative bg-white dark:bg-[#172741] w-full h-full sm:h-auto sm:max-w-2xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
         {/* Header */}
-        <div className="flex items-start gap-3 p-5 border-b border-zinc-200 dark:border-white/8 flex-shrink-0">
+        <div className="flex items-start gap-3 p-5 border-b border-[#d9e3ec] dark:border-white/12 flex-shrink-0">
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-bold text-[#3db8d4] uppercase tracking-widest mb-1">
               Modelo de evolução
@@ -131,7 +131,7 @@ export default function EvolucoesPag() {
       {selected && <EvolucaoModal item={selected} onClose={handleClose} />}
 
       <div className="flex-1 flex flex-col">
-        <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+        <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
           <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
@@ -157,7 +157,7 @@ export default function EvolucoesPag() {
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Ex: cefaleia, ITU, dengue, asma..."
-              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent bg-[#f8fafc] dark:bg-[#0e1825]"
+              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent bg-[#f8fafc] dark:bg-[#112036]"
             />
             {query && (
               <button onClick={() => setQuery("")}
@@ -180,11 +180,11 @@ export default function EvolucoesPag() {
                 </svg>
               </div>
               <p className="font-bold text-[#0f2d4a] dark:text-[#7d96ad] mb-1">Nenhum modelo encontrado</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e]">Tente outro diagnóstico ou queixa.</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd]">Tente outro diagnóstico ou queixa.</p>
             </div>
           ) : (
             <>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e] mb-4 font-medium">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5] mb-4 font-medium">
                 {resultados.length} modelo{resultados.length !== 1 ? "s" : ""}
                 {query ? ` para "${query}"` : ""}
               </p>
@@ -193,14 +193,14 @@ export default function EvolucoesPag() {
                   <button
                     key={e.id}
                     onClick={() => setSelected(e)}
-                    className="text-left bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group"
+                    className="text-left bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group"
                   >
                     <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#dceef9] dark:from-[#1a2d45] dark:to-[#162438] flex items-center justify-center mb-3">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                       </svg>
                     </div>
-                    <h3 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                    <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                       {e.titulo}
                     </h3>
                   </button>

@@ -21,7 +21,7 @@ export default function PreventInfoModal({ children }: Props) {
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-white dark:bg-[#131c2e] rounded-2xl shadow-2xl w-full max-w-md p-6"
+            className="bg-white dark:bg-[#172741] rounded-2xl shadow-2xl w-full max-w-md p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start gap-4 mb-5">
@@ -59,7 +59,7 @@ export default function PreventInfoModal({ children }: Props) {
 
             <button
               onClick={() => setOpen(false)}
-              className="w-full text-center text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-zinc-600 dark:hover:text-[#7a9ab8] transition-colors py-1"
+              className="w-full text-center text-xs text-[#0f2d4a] dark:text-[#7f9db5] hover:text-zinc-600 dark:hover:text-[#7a9ab8] transition-colors py-1"
             >
               Fechar
             </button>

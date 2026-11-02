@@ -25,7 +25,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
     const displayAnswers = savedAnswers.length > 0 ? savedAnswers : answers;
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6 sm:p-8 text-center mb-6">
+        <div className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6 sm:p-8 text-center mb-6">
           <div className="text-5xl mb-3">
             {finalScore === 3 ? "🏆" : finalScore >= 2 ? "💪" : "📚"}
           </div>
@@ -38,10 +38,10 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                   ? "Bom começo!"
                   : "Continue estudando!"}
           </h2>
-          <p className="text-lg text-[#0f2d4a] dark:text-[#6a8fa5]">
+          <p className="text-lg text-[#0f2d4a] dark:text-[#a9bccd]">
             Você acertou <span className="font-bold text-[#1a6aad] dark:text-[#3db8d4]">{finalScore}</span> de 3 perguntas
           </p>
-          <p className="text-sm text-[#0f2d4a]/50 dark:text-[#6a8fa5] mt-2">
+          <p className="text-sm text-[#0f2d4a]/50 dark:text-[#a9bccd] mt-2">
             Volte amanhã para manter sua sequência!
           </p>
         </div>
@@ -54,7 +54,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
             return (
               <div
                 key={q.id}
-                className={`bg-white dark:bg-[#131c2e] border rounded-xl p-5 ${
+                className={`bg-white dark:bg-[#172741] border rounded-xl p-5 ${
                   wasCorrect
                     ? "border-emerald-300 dark:border-emerald-700/50"
                     : "border-red-300 dark:border-red-700/50"
@@ -82,7 +82,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                             ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700/50 text-emerald-800 dark:text-emerald-300 font-semibold"
                             : wasChosen && !isCorrectOpt
                               ? "bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700/50 text-red-800 dark:text-red-300 line-through"
-                              : "border-zinc-200 dark:border-white/8 text-[#0f2d4a]/60 dark:text-[#6a8fa5]"
+                              : "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a]/60 dark:text-[#a9bccd]"
                         }`}
                       >
                         {opt}
@@ -90,7 +90,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                     );
                   })}
                 </div>
-                <p className="text-xs text-[#0f2d4a]/70 dark:text-[#6a8fa5] ml-9 leading-relaxed bg-blue-50 dark:bg-blue-900/10 rounded-lg px-3 py-2">
+                <p className="text-xs text-[#0f2d4a]/70 dark:text-[#a9bccd] ml-9 leading-relaxed bg-blue-50 dark:bg-blue-900/10 rounded-lg px-3 py-2">
                   {q.explanation}
                 </p>
               </div>
@@ -152,13 +152,13 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
         ))}
       </div>
 
-      <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6 sm:p-8">
+      <div className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6 sm:p-8">
         {/* Category + counter */}
         <div className="flex items-center justify-between mb-4">
           <span className="text-xs font-bold bg-[#3db8d4]/15 dark:bg-[#3db8d4]/20 text-[#1a6aad] dark:text-[#3db8d4] px-2.5 py-1 rounded-xl">
             {q.category}
           </span>
-          <span className="text-xs font-semibold text-[#0f2d4a]/50 dark:text-[#6a8fa5]">
+          <span className="text-xs font-semibold text-[#0f2d4a]/50 dark:text-[#a9bccd]">
             {currentQ + 1} / {questions.length}
           </span>
         </div>
@@ -183,13 +183,13 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
               } else if (isSelected && !isCorrectOpt) {
                 cls += "border-red-400 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300";
               } else {
-                cls += "border-zinc-200 dark:border-white/8 text-[#0f2d4a]/40 dark:text-[#6a8fa5]/40";
+                cls += "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a]/40 dark:text-[#a9bccd]/40";
               }
             } else if (isSelected) {
               cls += "border-[#1a6aad] dark:border-[#3db8d4] bg-[#1a6aad]/5 dark:bg-[#3db8d4]/10 text-[#0f2d4a] dark:text-[#e8edf5]";
             } else {
               cls +=
-                "border-zinc-200 dark:border-white/10 text-[#0f2d4a] dark:text-[#e8edf5] hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/30 hover:bg-[#3db8d4]/5 dark:hover:bg-[#3db8d4]/5";
+                "border-[#d9e3ec] dark:border-white/15 text-[#0f2d4a] dark:text-[#e8edf5] hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/30 hover:bg-[#3db8d4]/5 dark:hover:bg-[#3db8d4]/5";
             }
 
             return (
@@ -202,7 +202,7 @@ export function QuizClient({ questions, dateStr, existingResult }: Props) {
                         ? "border-red-400 bg-red-400 text-white"
                         : isSelected
                           ? "border-[#1a6aad] dark:border-[#3db8d4] bg-[#1a6aad] dark:bg-[#3db8d4] text-white"
-                          : "border-zinc-300 dark:border-white/20 text-[#0f2d4a]/50 dark:text-[#6a8fa5]"
+                          : "border-zinc-300 dark:border-white/20 text-[#0f2d4a]/50 dark:text-[#a9bccd]"
                   }`}>
                     {String.fromCharCode(65 + i)}
                   </span>

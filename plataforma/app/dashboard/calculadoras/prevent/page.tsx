@@ -49,7 +49,7 @@ const METAS_LDL = [
 export default function PreventPage() {
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link href="/dashboard/calculadoras" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
@@ -64,21 +64,21 @@ export default function PreventPage() {
         <div className="max-w-lg space-y-5">
 
           {/* Metas de LDL */}
-          <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-            <div className="px-5 py-3 border-b border-zinc-100 dark:border-white/8 flex items-center gap-2">
+          <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+            <div className="px-5 py-3 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
-              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide">Metas de LDL por risco cardiovascular</p>
+              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide">Metas de LDL por risco cardiovascular</p>
             </div>
-            <div className="divide-y divide-zinc-100 dark:divide-white/6">
+            <div className="divide-y divide-zinc-100 dark:divide-white/10">
               {METAS_LDL.map((row) => (
                 <div key={row.risco} className={`px-5 py-3.5 ${row.bg}`}>
                   <div className="flex items-center gap-3 mb-1">
                     <span className={`text-xs font-extrabold w-20 shrink-0 ${row.cor}`}>{row.risco}</span>
                     <span className={`text-sm font-extrabold ${row.cor}`}>{row.meta}</span>
                   </div>
-                  <p className="text-[11px] text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">{row.definicao}</p>
+                  <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">{row.definicao}</p>
                 </div>
               ))}
             </div>

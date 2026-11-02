@@ -8,7 +8,7 @@ type Tab = "ebooks" | "aulas";
 
 function AulaCard({ aula, email }: { aula: Aula; email: string }) {
   return (
-    <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col">
+    <div className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl overflow-hidden flex flex-col">
       {/* Ícone */}
       <div className="h-40 bg-[#0a1220] flex items-center justify-center rounded-t-2xl">
         <div className="w-16 h-16 bg-[#1a2d45] rounded-2xl flex items-center justify-center">
@@ -25,21 +25,21 @@ function AulaCard({ aula, email }: { aula: Aula; email: string }) {
       {/* Info */}
       <div className="p-5 flex flex-col flex-1 gap-3">
         <div>
-          <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
+          <h2 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug mb-1">
             {aula.titulo}
           </h2>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
             {aula.descricao}
           </p>
         </div>
 
-        <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
+        <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">
           <span>{aula.tamanho}</span>
           <span>·</span>
           <span>PDF</span>
         </div>
 
-        <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
+        <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#132842] rounded-xl px-3 py-2.5">
           <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
@@ -58,7 +58,7 @@ function TemaCard({ tema, onClick }: { tema: (typeof AULAS_TEMAS)[number]; onCli
   return (
     <button
       onClick={onClick}
-      className="text-left bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col hover:border-[#3db8d4] dark:hover:border-[#3db8d4] transition-colors group"
+      className="text-left bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl overflow-hidden flex flex-col hover:border-[#3db8d4] dark:hover:border-[#3db8d4] transition-colors group"
     >
       {/* Logo do tema */}
       <div className="h-40 bg-[#0a1220] flex items-center justify-center rounded-t-2xl overflow-hidden">
@@ -73,17 +73,17 @@ function TemaCard({ tema, onClick }: { tema: (typeof AULAS_TEMAS)[number]; onCli
       <div className="p-5 flex flex-col flex-1 gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug">
+            <h2 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug">
               {tema.nome}
             </h2>
           </div>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+          <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
             {tema.descricao}
           </p>
         </div>
 
         <div className="mt-auto flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-full px-2.5 py-1">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] bg-[#f0f7ff] dark:bg-[#132842] rounded-full px-2.5 py-1">
             {tema.aulas.length} aula{tema.aulas.length !== 1 ? "s" : ""}
           </span>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#1a6aad] dark:text-[#3db8d4] group-hover:gap-1.5 transition-all">
@@ -112,13 +112,13 @@ export default function MateriaisTabs({ email }: { email: string }) {
   return (
     <>
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 bg-zinc-100 dark:bg-white/6 rounded-xl p-1 w-fit">
+      <div className="flex gap-1 mb-6 bg-zinc-100 dark:bg-white/8 rounded-xl p-1 w-fit">
         <button
           onClick={() => switchTab("ebooks")}
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "ebooks"
-              ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-[#0f2d4a] dark:text-[#6a8fa5] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
+              ? "bg-white dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
+              : "text-[#0f2d4a] dark:text-[#a9bccd] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
           }`}
         >
           Ebooks
@@ -127,8 +127,8 @@ export default function MateriaisTabs({ email }: { email: string }) {
           onClick={() => switchTab("aulas")}
           className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "aulas"
-              ? "bg-white dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
-              : "text-[#0f2d4a] dark:text-[#6a8fa5] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
+              ? "bg-white dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#e8edf5] shadow-sm"
+              : "text-[#0f2d4a] dark:text-[#a9bccd] hover:text-[#0f2d4a] dark:hover:text-[#9ec4de]"
           }`}
         >
           Aulas
@@ -140,7 +140,7 @@ export default function MateriaisTabs({ email }: { email: string }) {
           {EBOOKS.map((ebook) => (
             <div
               key={ebook.id}
-              className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden flex flex-col"
+              className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl overflow-hidden flex flex-col"
             >
               {/* Cover */}
               <div
@@ -157,22 +157,22 @@ export default function MateriaisTabs({ email }: { email: string }) {
               {/* Info */}
               <div className="p-5 flex flex-col flex-1 gap-3">
                 <div>
-                  <h2 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug mb-1">
+                  <h2 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug mb-1">
                     {ebook.titulo}
                   </h2>
-                  <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+                  <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
                     {ebook.descricao}
                   </p>
                 </div>
 
-                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">
+                <div className="flex gap-3 text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">
                   <span>{ebook.paginas}</span>
                   <span>·</span>
                   <span>{ebook.formato}</span>
                 </div>
 
                 {!ebook.downloadUrl && (
-                  <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
+                  <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#132842] rounded-xl px-3 py-2.5">
                     <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
                     </svg>

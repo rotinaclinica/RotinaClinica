@@ -16,7 +16,7 @@ const INTERPRETACAO = [
 export default function HasbledPage() {
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link href="/dashboard/calculadoras" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
@@ -43,17 +43,17 @@ export default function HasbledPage() {
           </div>
 
           {/* Tabela de interpretação */}
-          <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-            <div className="px-5 py-3 border-b border-zinc-100 dark:border-white/8">
-              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide">Interpretação da pontuação</p>
+          <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+            <div className="px-5 py-3 border-b border-[#e6edf3] dark:border-white/12">
+              <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide">Interpretação da pontuação</p>
             </div>
-            <div className="divide-y divide-zinc-100 dark:divide-white/6">
+            <div className="divide-y divide-zinc-100 dark:divide-white/10">
               {INTERPRETACAO.map((row) => (
                 <div key={row.pontos} className="flex items-center gap-3 px-5 py-3">
                   <span className="w-7 text-center font-extrabold text-sm text-[#0f2d4a] dark:text-[#e8edf5] shrink-0">{row.pontos}</span>
                   <span className={`w-20 text-xs font-semibold shrink-0 ${row.cor}`}>{row.grupo}</span>
-                  <span className="w-10 text-xs text-[#0f2d4a] dark:text-[#5a7a8e] shrink-0">{row.risco}</span>
-                  <span className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">{row.conduta}</span>
+                  <span className="w-10 text-xs text-[#0f2d4a] dark:text-[#8fa9bd] shrink-0">{row.risco}</span>
+                  <span className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">{row.conduta}</span>
                 </div>
               ))}
             </div>

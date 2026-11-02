@@ -43,23 +43,23 @@ export default function GlasgowCalc() {
   const barWidth = total !== null ? Math.round(((total - 3) / 12) * 100) : 0;
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
       {/* Cabeçalho */}
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] overflow-hidden shrink-0">
           <img src="/images/calculadoras/cerebro.png" alt="cérebro" className="w-full h-full object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Escala de Coma de Glasgow</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Nível de consciência — E + V + M</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Nível de consciência — E + V + M</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
               {secao.titulo}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -73,7 +73,7 @@ export default function GlasgowCalc() {
                         ? isNT
                           ? "bg-zinc-100 dark:bg-zinc-800/60 border-zinc-400 dark:border-zinc-500 text-zinc-700 dark:text-zinc-300"
                           : "bg-[#3db8d4]/10 border-[#3db8d4] text-[#0f2d4a] dark:text-[#e8edf5]"
-                        : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
+                        : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
                     }`}>
                     <span className="flex-1 font-semibold">{opt.label}</span>
                     <span className={`text-xs font-bold shrink-0 ${
@@ -98,22 +98,22 @@ export default function GlasgowCalc() {
         </button>
 
         {resultado && cor && (
-          <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
+          <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {total !== null ? total : "NT"}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">pontos</p>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5 ml-1">({resultado.label_score})</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
+              <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5 ml-1">({resultado.label_score})</p>
             </div>
             {total !== null && (
-              <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+              <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
                 <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
               </div>
             )}
             <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
             {resultado.conduta && (
-              <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3">
+              <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-[#e6edf3] dark:border-white/12 pt-3">
                 {resultado.conduta}
               </p>
             )}

@@ -39,8 +39,8 @@ export default function AguaLivreCalc() {
   const isCrianca = faixa === "crianca";
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] overflow-hidden shrink-0 flex items-center justify-center">
           <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10">
             <path d="M20 4 C20 4 8 18 8 26 a12 12 0 0 0 24 0 C32 18 20 4 20 4Z" fill="#3db8d4" opacity="0.85"/>
@@ -49,7 +49,7 @@ export default function AguaLivreCalc() {
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Déficit de Água Livre</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Hipernatremia — reposição hídrica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Hipernatremia — reposição hídrica</p>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function AguaLivreCalc() {
                 className={`px-3 py-2 rounded-xl border text-xs font-semibold transition-all text-center ${
                   faixa === f.value
                     ? "bg-[#3db8d4] border-[#3db8d4] text-white"
-                    : "border-zinc-200 dark:border-white/8 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
+                    : "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
                 }`}>
                 {f.label}
               </button>
@@ -83,7 +83,7 @@ export default function AguaLivreCalc() {
                   className={`flex-1 py-2 rounded-xl border text-xs font-semibold transition-all ${
                     sexo === s.value
                       ? "bg-[#3db8d4] border-[#3db8d4] text-white"
-                      : "border-zinc-200 dark:border-white/8 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
+                      : "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
                   }`}>
                   {s.label}
                 </button>
@@ -93,8 +93,8 @@ export default function AguaLivreCalc() {
         )}
 
         {/* TBW info */}
-        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-50 dark:bg-[#0f1e30] border border-zinc-100 dark:border-white/8">
-          <span className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">Água corporal total (TBW):</span>
+        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#f5f8fb] dark:bg-[#132842] border border-[#e6edf3] dark:border-white/12">
+          <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">Água corporal total (TBW):</span>
           <span className="text-[11px] font-bold text-[#1a6aad] dark:text-[#3db8d4]">{tbwLabel}</span>
         </div>
 
@@ -104,7 +104,7 @@ export default function AguaLivreCalc() {
           <input type="text" inputMode="decimal" value={peso}
             onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setPeso(e.target.value); setResultado(null); }}
             placeholder="Ex: 70"
-            className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
           />
         </div>
 
@@ -117,7 +117,7 @@ export default function AguaLivreCalc() {
             <input type="text" inputMode="decimal" value={sodioAtual}
               onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setSodioAtual(e.target.value); setResultado(null); }}
               placeholder="> 140"
-              className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
+              className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
             />
           </div>
           <div className="flex-1">
@@ -127,7 +127,7 @@ export default function AguaLivreCalc() {
             <input type="text" inputMode="decimal" value={sodioDesejado}
               onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setSodioDesejado(e.target.value); setResultado(null); }}
               placeholder="140"
-              className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
+              className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
             />
           </div>
         </div>
@@ -142,17 +142,17 @@ export default function AguaLivreCalc() {
         {resultado && (
           <div className="space-y-3">
             {/* Resultado principal */}
-            <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4">
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-3">
+            <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4">
+              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-3">
                 Déficit de água livre
               </p>
               <div className="flex items-end gap-2 mb-1">
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                   {resultado.deficit.toFixed(2)}
                 </p>
-                <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">L total</p>
+                <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">L total</p>
               </div>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
                 Déficit total para atingir Na {sodioDesejado} mEq/L
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function AguaLivreCalc() {
                 </p>
                 <p className="text-sm text-[#1a6aad] dark:text-[#3db8d4] mb-0.5">L</p>
               </div>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">
+              <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
                 Meta: Na {resultado.sodioMeta24h.toFixed(0)} mEq/L (máx. ↓10 mEq/L em 24h)
               </p>
             </div>

@@ -167,9 +167,9 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
 
   return (
     <>
-      <div className="min-h-screen bg-[#f4f8fc] dark:bg-[#0d1829]">
+      <div className="min-h-screen bg-[#f4f8fc] dark:bg-[#0f1b2d]">
         {/* Header */}
-        <div className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 py-5 flex items-center justify-between">
+        <div className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 py-5 flex items-center justify-between">
           <div>
             <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">Anotações</h1>
             <p className="text-sm text-zinc-500 dark:text-[#a9bccd] mt-0.5">
@@ -199,7 +199,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               {notes.map(note => (
                 <div
                   key={note.id}
-                  className="group bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all cursor-pointer relative"
+                  className="group bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all cursor-pointer relative"
                   onClick={() => openNote(note)}
                 >
                   <button
@@ -227,9 +227,9 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
 
       {/* Editor Modal */}
       {open !== null && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white dark:bg-[#0d1829]">
+        <div className="fixed inset-0 z-50 flex flex-col bg-white dark:bg-[#0f1b2d]">
           {/* Modal header */}
-          <div className="flex items-center gap-3 px-5 py-3 border-b border-zinc-200 dark:border-white/8 bg-white dark:bg-[#131c2e]">
+          <div className="flex items-center gap-3 px-5 py-3 border-b border-[#d9e3ec] dark:border-white/12 bg-white dark:bg-[#172741]">
             <button onClick={closeEditor} className="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 transition-colors p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/8">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             </button>
@@ -244,7 +244,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               <button
                 onClick={copyText}
                 disabled={busy}
-                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
+                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-[#d9e3ec] dark:border-white/15 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
                 {copied ? (
                   <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copiado</>
@@ -255,7 +255,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
               <button
                 onClick={downloadPdf}
                 disabled={busy}
-                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
+                className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-[#0f2d4a] dark:hover:text-white border border-[#d9e3ec] dark:border-white/15 hover:border-zinc-400 dark:hover:border-white/30 px-3 py-1.5 rounded-lg transition-all disabled:opacity-40"
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 {busy ? "Gerando…" : "Baixar PDF"}
@@ -271,7 +271,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
           </div>
 
           {/* Toolbar */}
-          <div className="flex flex-wrap items-center gap-0.5 px-4 py-2 border-b border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#131c2e] text-xs">
+          <div className="flex flex-wrap items-center gap-0.5 px-4 py-2 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#172741] text-xs">
             {tbBtn("N", "bold", undefined, "Negrito")}
             <button type="button" onMouseDown={e => { e.preventDefault(); exec("italic"); }} title="Itálico" className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 italic text-sm font-medium transition-colors">I</button>
             <button type="button" onMouseDown={e => { e.preventDefault(); exec("underline"); }} title="Sublinhado" className="px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-white/10 text-zinc-700 dark:text-zinc-300 underline text-sm font-medium transition-colors">S</button>
@@ -279,7 +279,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
             <select
               onChange={e => exec("fontName", e.target.value)}
               defaultValue=""
-              className="text-xs border border-zinc-200 dark:border-white/10 rounded px-1 py-0.5 bg-white dark:bg-[#1a2a3a] text-zinc-700 dark:text-zinc-300 cursor-pointer"
+              className="text-xs border border-[#d9e3ec] dark:border-white/15 rounded px-1 py-0.5 bg-white dark:bg-[#1a2a3a] text-zinc-700 dark:text-zinc-300 cursor-pointer"
             >
               <option value="" disabled>Fonte</option>
               <option value="Arial, sans-serif">Sans-serif</option>
@@ -289,7 +289,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
             <select
               onChange={e => exec("fontSize", e.target.value)}
               defaultValue=""
-              className="text-xs border border-zinc-200 dark:border-white/10 rounded px-1 py-0.5 bg-white dark:bg-[#1a2a3a] text-zinc-700 dark:text-zinc-300 cursor-pointer"
+              className="text-xs border border-[#d9e3ec] dark:border-white/15 rounded px-1 py-0.5 bg-white dark:bg-[#1a2a3a] text-zinc-700 dark:text-zinc-300 cursor-pointer"
             >
               <option value="" disabled>Tamanho</option>
               <option value="2">Pequeno</option>
@@ -318,7 +318,7 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
           </div>
 
           {/* Editor area */}
-          <div className="flex-1 overflow-y-auto p-6 sm:p-10 bg-white dark:bg-[#0d1829]">
+          <div className="flex-1 overflow-y-auto p-6 sm:p-10 bg-white dark:bg-[#0f1b2d]">
             <div id="print-area">
               <div
                 ref={editorRef}
@@ -341,11 +341,11 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
       {/* Delete confirm */}
       {deleteConfirm && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+          <div className="bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
             <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-base mb-2">Excluir anotação?</h3>
             <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-5">Esta ação não pode ser desfeita.</p>
             <div className="flex gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="flex-1 border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-400 font-semibold py-2 rounded-xl text-sm hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors">Cancelar</button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 border border-[#d9e3ec] dark:border-white/15 text-zinc-600 dark:text-zinc-400 font-semibold py-2 rounded-xl text-sm hover:bg-[#f5f8fb] dark:hover:bg-white/5 transition-colors">Cancelar</button>
               <button onClick={() => deleteNote(deleteConfirm)} disabled={busy} className="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white font-semibold py-2 rounded-xl text-sm transition-colors">Excluir</button>
             </div>
           </div>

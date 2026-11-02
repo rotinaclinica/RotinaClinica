@@ -147,7 +147,7 @@ export default async function DashboardPage() {
   return (
     <div className="flex-1 flex flex-col">
       {/* Header */}
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-5">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm sm:text-base font-medium">{greeting()},</p>
@@ -215,7 +215,7 @@ export default async function DashboardPage() {
               <Link
                 key={s.href}
                 href={s.href}
-                className="group bg-white dark:bg-[#131c2e] border-2 border-[#3db8d4]/60 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] transition-all flex flex-col"
+                className="group bg-white dark:bg-[#172741] border-2 border-[#3db8d4]/60 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] transition-all flex flex-col"
               >
                 <div className={`h-2 bg-gradient-to-r ${s.color}`} />
                 <div className="p-5 flex flex-col flex-1">
@@ -250,7 +250,7 @@ export default async function DashboardPage() {
             <Link
               key={s.href}
               href={locked ? "/assinatura?motivo=teste" : s.href}
-              className={`${locked ? "opacity-60 " : ""}group bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all`}
+              className={`${locked ? "opacity-60 " : ""}group bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all`}
             >
               {/* Color strip */}
               <div className={`h-2 bg-gradient-to-r ${s.color}`} />
@@ -275,7 +275,7 @@ export default async function DashboardPage() {
                 <h2 className="font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] text-base mb-1 group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                   {s.label}
                 </h2>
-                <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm leading-relaxed">{s.description}</p>
+                <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm leading-relaxed">{s.description}</p>
               </div>
             </Link>
             );

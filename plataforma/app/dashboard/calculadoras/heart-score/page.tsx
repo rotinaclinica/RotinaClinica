@@ -6,7 +6,7 @@ export const metadata = { title: "HEART Score · Rotina Clínica" };
 export default function HeartScorePage() {
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link href="/dashboard/calculadoras" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
@@ -22,22 +22,22 @@ export default function HeartScorePage() {
           <HeartScoreCalc />
 
           {/* Gráfico MACE */}
-          <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 p-5">
+          <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 p-5">
             <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-center mb-4">
               Eventos cardiovasculares maiores em 6 semanas
             </p>
             {/* Barras */}
-            <div className="flex items-end justify-around px-4 border-b border-zinc-200 dark:border-white/10" style={{ height: 160 }}>
+            <div className="flex items-end justify-around px-4 border-b border-[#d9e3ec] dark:border-white/15" style={{ height: 160 }}>
               <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5]">~2%</span>
+                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd]">~2%</span>
                 <div className="w-14 rounded-t-md bg-emerald-500" style={{ height: 6 }} />
               </div>
               <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5]">~15%</span>
+                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd]">~15%</span>
                 <div className="w-14 rounded-t-md bg-yellow-500" style={{ height: 42 }} />
               </div>
               <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5]">~50%</span>
+                <span className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd]">~50%</span>
                 <div className="w-14 rounded-t-md bg-red-500" style={{ height: 140 }} />
               </div>
             </div>
@@ -47,7 +47,7 @@ export default function HeartScorePage() {
               <span className="w-14 text-center text-xs font-semibold text-zinc-600 dark:text-[#8aacbc]">4 a 6</span>
               <span className="w-14 text-center text-xs font-semibold text-zinc-600 dark:text-[#8aacbc]">≥ 7</span>
             </div>
-            <div className="mt-4 rounded-lg bg-zinc-100 dark:bg-[#0f1e30] px-3 py-2 text-center">
+            <div className="mt-4 rounded-lg bg-zinc-100 dark:bg-[#132842] px-3 py-2 text-center">
               <p className="text-[11px] font-semibold text-zinc-600 dark:text-[#8aacbc]">
                 Baixo risco = Escore HEART ≤ 3 pontos
               </p>

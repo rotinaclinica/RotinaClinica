@@ -34,7 +34,7 @@ export default function DashboardMobileNav({ hasAccess = true, isAdmin = false }
       {menuOpen && (
         <div className="lg:hidden fixed inset-0 z-50" role="dialog" aria-modal="true">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMenuOpen(false)} />
-          <div className="absolute bottom-[64px] left-0 right-0 bg-white dark:bg-[#111a26] rounded-t-2xl shadow-2xl p-2 pb-3 safe-area-pb">
+          <div className="absolute bottom-[64px] left-0 right-0 bg-white dark:bg-[#172741] rounded-t-2xl shadow-2xl p-2 pb-3 safe-area-pb">
             <div className="w-10 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600 mx-auto my-2" />
 
             <Link

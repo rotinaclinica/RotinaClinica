@@ -42,14 +42,14 @@ export default function QtcCalc() {
   const barWidth = resultado ? Math.min(100, Math.round((resultado.qtc / 600) * 100)) : 0;
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] overflow-hidden shrink-0 flex items-center justify-center">
           <img src="/images/calculadoras/coracao.png" alt="coração" className="w-full h-full object-contain scale-[2.0]" />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">QTc — Fórmula de Bazett</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">Intervalo QT corrigido pela frequência cardíaca</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Intervalo QT corrigido pela frequência cardíaca</p>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function QtcCalc() {
                 className={`flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
                   sexo === s
                     ? "bg-[#3db8d4] border-[#3db8d4] text-white"
-                    : "border-zinc-200 dark:border-white/8 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
+                    : "border-[#d9e3ec] dark:border-white/12 text-[#0f2d4a] dark:text-[#8aacbc] hover:border-[#3db8d4]/50"
                 }`}>
                 {s === "masculino" ? "Masculino" : "Feminino"}
               </button>
@@ -80,26 +80,26 @@ export default function QtcCalc() {
           <input type="text" inputMode="decimal" value={qt}
             onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setQt(e.target.value); setResultado(null); }}
             placeholder="Ex: 420"
-            className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
           />
           {/* Referência de caixas → ms */}
-          <div className="mt-2 rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
-            <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#5a7a8e] px-3 py-1.5 bg-zinc-50 dark:bg-[#0f1e30] border-b border-zinc-100 dark:border-white/8 uppercase tracking-wider">
+          <div className="mt-2 rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
+            <p className="text-[10px] font-semibold text-[#0f2d4a] dark:text-[#8fa9bd] px-3 py-1.5 bg-[#f5f8fb] dark:bg-[#132842] border-b border-[#e6edf3] dark:border-white/12 uppercase tracking-wider">
               Quadradinhos → ms &nbsp;<span className="font-normal normal-case">Padronização: 25 mm/s</span>
             </p>
-            <div className="grid grid-cols-4 divide-x divide-y divide-zinc-100 dark:divide-white/8">
+            <div className="grid grid-cols-4 divide-x divide-y divide-zinc-100 dark:divide-white/12">
               {CAIXAS_REF.map((r) => {
                 const ativo = qtNum === r.ms;
                 return (
                   <button key={r.caixas} type="button"
                     onClick={() => { setQt(String(r.ms)); setResultado(null); }}
                     className={`flex flex-col items-center py-2 transition-colors ${
-                      ativo ? "bg-[#3db8d4]/10 dark:bg-[#3db8d4]/15" : "hover:bg-zinc-50 dark:hover:bg-white/4"
+                      ativo ? "bg-[#3db8d4]/10 dark:bg-[#3db8d4]/15" : "hover:bg-[#f5f8fb] dark:hover:bg-white/4"
                     }`}>
                     <span className={`text-xs font-bold ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#e8edf5]"}`}>
                       {r.ms} ms
                     </span>
-                    <span className={`text-[10px] ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#5a7a8e]"}`}>
+                    <span className={`text-[10px] ${ativo ? "text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>
                       {r.caixas}□
                     </span>
                   </button>
@@ -117,7 +117,7 @@ export default function QtcCalc() {
           <input type="text" inputMode="decimal" value={fc}
             onChange={(e) => { if (/[^0-9.,]/.test(e.target.value)) return; setFc(e.target.value); setResultado(null); }}
             placeholder="Ex: 75"
-            className="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-white/8 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
+            className="w-full px-3 py-2.5 rounded-xl border border-[#d9e3ec] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-[#0f2d4a] dark:text-[#e8edf5] placeholder-zinc-400 dark:placeholder-[#3a5a70] focus:outline-none focus:border-[#3db8d4]"
           />
         </div>
 
@@ -129,21 +129,21 @@ export default function QtcCalc() {
         </button>
 
         {resultado && cor && (
-          <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
+          <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {Math.round(resultado.qtc)}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">ms</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">ms</p>
             </div>
-            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
             <div>
               <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
                 {resultado.label}
               </span>
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#6a8fa5] mt-2 leading-relaxed">{resultado.descricao}</p>
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] mt-2 leading-relaxed">{resultado.descricao}</p>
             </div>
             <p className="text-[10px] text-[#0f2d4a] dark:text-[#3a5a70]">
               RR = {resultado.rr.toFixed(3)} s &nbsp;·&nbsp; QTc = {Math.round(resultado.qtc)} ms
@@ -152,13 +152,13 @@ export default function QtcCalc() {
         )}
 
         {/* Tabela de referência */}
-        <div className="rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest px-4 py-2.5 border-b border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30]">
+        <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Valores de referência
           </p>
           <table className="w-full text-xs">
             <thead>
-              <tr className="bg-zinc-50 dark:bg-[#0f1e30] border-b border-zinc-100 dark:border-white/8">
+              <tr className="bg-[#f5f8fb] dark:bg-[#132842] border-b border-[#e6edf3] dark:border-white/12">
                 <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Categoria</th>
                 <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Homem</th>
                 <th className="text-left px-4 py-2 font-semibold text-[#0f2d4a] dark:text-[#8aacbc]">Mulher</th>
@@ -173,8 +173,8 @@ export default function QtcCalc() {
               ].map((linha, i) => {
                 const ativo = resultado?.categoria === linha.cat;
                 return (
-                  <tr key={i} className={`border-b border-zinc-100 dark:border-white/8 last:border-0 transition-colors ${
-                    ativo ? COR_MAP[linha.cor as keyof typeof COR_MAP].badge : "hover:bg-zinc-50 dark:hover:bg-white/4"
+                  <tr key={i} className={`border-b border-[#e6edf3] dark:border-white/12 last:border-0 transition-colors ${
+                    ativo ? COR_MAP[linha.cor as keyof typeof COR_MAP].badge : "hover:bg-[#f5f8fb] dark:hover:bg-white/4"
                   }`}>
                     <td className={`px-4 py-2 ${ativo ? "font-bold" : "font-medium text-[#0f2d4a] dark:text-[#c4d4df]"}`}>
                       {linha.label}{ativo && <span className="ml-1.5 text-[10px]">◀</span>}

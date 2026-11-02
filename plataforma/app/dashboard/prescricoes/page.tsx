@@ -38,13 +38,13 @@ function PrescricaoModal({ item, onClose, onNavigate }: { item: PrescricaoMeta; 
     <div className="fixed inset-0 z-50 flex sm:items-center sm:justify-center sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-white dark:bg-[#131c2e] w-full h-full sm:h-auto sm:max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
+      <div className="relative bg-white dark:bg-[#172741] w-full h-full sm:h-auto sm:max-w-5xl sm:rounded-2xl shadow-2xl flex flex-col sm:max-h-[85dvh]">
         {/* Header */}
-        <div className="flex items-start gap-3 p-5 border-b border-zinc-200 dark:border-white/8 flex-shrink-0">
+        <div className="flex items-start gap-3 p-5 border-b border-[#d9e3ec] dark:border-white/12 flex-shrink-0">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 mb-2 flex-wrap">
               {emerg && (
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1e3654] text-[#1a6aad] dark:text-[#3db8d4]">
                   Emergência
                 </span>
               )}
@@ -100,8 +100,8 @@ function PrescricaoModal({ item, onClose, onNavigate }: { item: PrescricaoMeta; 
             <>
               <PrescricaoContent conteudo={conteudo} />
               {relacionados.length > 0 && (
-                <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-white/8">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#4a6a7e] mb-2">Ver também</p>
+                <div className="mt-6 pt-4 border-t border-[#e6edf3] dark:border-white/12">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-[#7f9db5] mb-2">Ver também</p>
                   <div className="flex flex-wrap gap-2">
                     {relacionados.map(rel => (
                       <button
@@ -188,7 +188,7 @@ export default function PrescricoesPage() {
       {selected && <PrescricaoModal item={selected} onClose={handleClose} onNavigate={setSelected} />}
 
       <div className="flex-1 flex flex-col">
-        <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+        <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
           <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
@@ -210,11 +210,11 @@ export default function PrescricoesPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Ex: hipertensão, amoxicilina, cistite..."
-              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent bg-[#f8fafc] dark:bg-[#0e1825]"
+              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] dark:focus:ring-[#3db8d4] focus:border-transparent bg-[#f8fafc] dark:bg-[#112036]"
             />
             {query && (
               <button onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#7f9db5] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
                 aria-label="Limpar">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -256,7 +256,7 @@ export default function PrescricoesPage() {
                 </svg>
               </div>
               <p className="font-bold text-[#0f2d4a] dark:text-[#7d96ad] mb-1">Nenhuma prescrição encontrada</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e]">Tente outra queixa ou diagnóstico.</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd]">Tente outra queixa ou diagnóstico.</p>
             </div>
           ) : (
             <>
@@ -268,7 +268,7 @@ export default function PrescricoesPage() {
                 {resultados.map((p) => (
                   <button key={p.id}
                     onClick={() => setSelected(p)}
-                    className="text-left bg-white dark:bg-[#131c2e] border border-[#c9d6e3] dark:border-white/8 shadow-[0_1px_3px_rgba(15,45,74,0.08)] dark:shadow-none rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group">
+                    className="text-left bg-white dark:bg-[#172741] border border-[#c9d6e3] dark:border-white/12 shadow-[0_1px_3px_rgba(15,45,74,0.08)] dark:shadow-none rounded-2xl p-5 hover:shadow-md hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all group">
                     <div className="flex items-start justify-between gap-2 mb-3">
                       <div className="flex flex-wrap gap-1.5">
                         {isNovo(`/dashboard/prescricoes?id=${p.id}`) && (
@@ -277,7 +277,7 @@ export default function PrescricoesPage() {
                           </span>
                         )}
                         {emergenciaIds.has(p.id) && (
-                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1a2d45] text-[#1a6aad] dark:text-[#3db8d4]">
+                          <span className="inline-block text-[10px] font-bold px-2.5 py-1 rounded-full tracking-wide bg-[#e8f4fc] dark:bg-[#1e3654] text-[#1a6aad] dark:text-[#3db8d4]">
                             Emergência
                           </span>
                         )}
@@ -313,7 +313,7 @@ export default function PrescricoesPage() {
                         )}
                       </div>
                     </div>
-                    <h3 className="font-bold text-[#0f2d4a] dark:text-[#d4dce8] text-sm leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                    <h3 className="font-bold text-[#0f2d4a] dark:text-[#e8edf5] text-sm leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                       {p.titulo}
                     </h3>
                   </button>

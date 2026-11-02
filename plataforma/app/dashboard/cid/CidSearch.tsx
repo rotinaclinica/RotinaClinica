@@ -51,7 +51,7 @@ export default function CidSearch() {
           value={query}
           onChange={handleChange}
           placeholder="Digite um código (ex: J18) ou nome da doença (ex: pneumonia)"
-          className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#131c2e] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a6aad]/40 shadow-sm"
+          className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-white dark:bg-[#172741] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a6aad]/40 shadow-sm"
           autoFocus
         />
         {loading && (
@@ -92,12 +92,12 @@ export default function CidSearch() {
           {results.map((r) => (
             <div
               key={r.code}
-              className="flex items-center gap-3 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl px-4 py-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
+              className="flex items-center gap-3 bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-xl px-4 py-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
-              <span className="font-mono text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4] bg-[#e8f4fc] dark:bg-[#0f1e30] px-2.5 py-1 rounded-lg flex-shrink-0 min-w-[4rem] text-center">
+              <span className="font-mono text-sm font-bold text-[#1a6aad] dark:text-[#3db8d4] bg-[#e8f4fc] dark:bg-[#132842] px-2.5 py-1 rounded-lg flex-shrink-0 min-w-[4rem] text-center">
                 {r.code}
               </span>
-              <span className="text-sm text-[#0f2d4a] dark:text-[#d4dce8] leading-snug">
+              <span className="text-sm text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">
                 {r.descricao}
               </span>
             </div>

@@ -23,12 +23,12 @@ function NumInput({ label, sublabel, value, min, max, step = 1, onChange }: {
     <div>
       <label className="block text-xs font-semibold text-zinc-600 dark:text-[#8aacbc] mb-1">
         {label}
-        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#5a7a8e] ml-1">{sublabel}</span>}
+        {sublabel && <span className="font-normal text-[#0f2d4a] dark:text-[#8fa9bd] ml-1">{sublabel}</span>}
       </label>
       <input
         type="number" min={min} max={max} step={step} value={value}
         onChange={(e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) onChange(v); }}
-        className="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-[#0e1825] text-sm text-zinc-900 dark:text-[#e8edf5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+        className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-white dark:bg-[#112036] text-sm text-zinc-900 dark:text-[#e8edf5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
       />
       <p className="text-[10px] text-[#0f2d4a] dark:text-[#3a5a70] mt-0.5">{min}–{max}</p>
     </div>
@@ -45,7 +45,7 @@ function BoolInput({ label, value, onChange }: { label: string; value: boolean; 
             className={`flex-1 py-2 rounded-xl border text-xs font-semibold transition-all ${
               value === v
                 ? "bg-[#3db8d4]/10 border-[#3db8d4] text-[#0f2d4a] dark:text-[#e8edf5]"
-                : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-600 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
+                : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-600 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
             }`}>
             {l}
           </button>
@@ -67,15 +67,15 @@ export default function PreventCalc() {
   const cor = resultado ? COR[resultado.categoria] : null;
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] flex items-center justify-center shrink-0 overflow-hidden">
           <img src="/images/calculadoras/coracao.png" alt="coração" className="w-full h-full object-contain" />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">PREVENT — AHA 2023</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Risco cardiovascular total em 10 anos</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Risco cardiovascular total em 10 anos</p>
         </div>
       </div>
 
@@ -89,7 +89,7 @@ export default function PreventCalc() {
                 className={`flex-1 py-2 rounded-xl border text-xs font-semibold transition-all ${
                   input.sexo === v
                     ? "bg-[#3db8d4]/10 border-[#3db8d4] text-[#0f2d4a] dark:text-[#e8edf5]"
-                    : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-600 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
+                    : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-600 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
                 }`}>
                 {l}
               </button>
@@ -121,12 +121,12 @@ export default function PreventCalc() {
 
         {/* Resultado */}
         {resultado && cor && (
-          <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
-            <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide">Risco cardiovascular total em 10 anos</p>
+          <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
+            <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide">Risco cardiovascular total em 10 anos</p>
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.risco10yr.toFixed(1)}%</p>
             </div>
-            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
                 style={{ width: `${Math.min(resultado.risco10yr * 3.5, 100)}%` }} />
             </div>

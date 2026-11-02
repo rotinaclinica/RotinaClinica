@@ -325,7 +325,7 @@ const CALCULADORAS = [
 export default function CalculadorasPage() {
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
@@ -341,7 +341,7 @@ export default function CalculadorasPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl">
           {CALCULADORAS.map((calc) => {
             const cardContent = (
-              <div className="group flex items-stretch h-[88px] bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/40 transition-all overflow-hidden w-full">
+              <div className="group flex items-stretch h-[88px] bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 hover:border-[#3db8d4]/50 dark:hover:border-[#3db8d4]/40 transition-all overflow-hidden w-full">
                 {/* Thumbnail */}
                 <div className={`w-[88px] shrink-0 flex items-center justify-center overflow-hidden rounded-l-2xl ${calc.iconBg}`}>
                   {calc.icon}
@@ -355,7 +355,7 @@ export default function CalculadorasPage() {
                         <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 uppercase tracking-wide">Beta</span>
                       )}
                     </div>
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] line-clamp-2 leading-snug">{calc.descricao}</p>
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] line-clamp-2 leading-snug">{calc.descricao}</p>
                   </div>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-300 dark:text-[#3a5a70] group-hover:text-[#3db8d4] transition-colors shrink-0">
                     <polyline points="9 18 15 12 9 6"/>

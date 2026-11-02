@@ -59,7 +59,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .toUpperCase();
 
   return (
-    <div className="min-h-screen flex bg-[#f0f5f9] dark:bg-[#0c1117]">
+    <div className="min-h-screen flex bg-[#f0f5f9] dark:bg-[#0f1b2d]">
       {/* Sidebar — desktop */}
       <DashboardSidebar
         userName={session.user.name ?? ""}

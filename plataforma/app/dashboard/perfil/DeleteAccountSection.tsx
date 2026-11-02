@@ -47,7 +47,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
 
   if (!open) {
     return (
-      <section className="bg-white dark:bg-[#131c2e] border border-red-200 dark:border-red-900/40 rounded-2xl p-6">
+      <section className="bg-white dark:bg-[#172741] border border-red-200 dark:border-red-900/40 rounded-2xl p-6">
         <h2 className="text-sm font-bold text-red-700 dark:text-red-400 uppercase tracking-wider mb-2">
           Zona de risco
         </h2>
@@ -67,7 +67,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
   }
 
   return (
-    <section className="bg-white dark:bg-[#131c2e] border-2 border-red-300 dark:border-red-800 rounded-2xl p-6">
+    <section className="bg-white dark:bg-[#172741] border-2 border-red-300 dark:border-red-800 rounded-2xl p-6">
       <h2 className="text-sm font-bold text-red-700 dark:text-red-400 uppercase tracking-wider mb-4">
         Confirmar exclusão de conta
       </h2>
@@ -91,7 +91,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
             type="email"
             value={email}
             disabled
-            className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-500 bg-zinc-100 dark:bg-[#1a2d45]"
+            className="w-full border border-zinc-300 dark:border-white/15 rounded-xl px-4 py-2.5 text-sm text-zinc-500 bg-zinc-100 dark:bg-[#1e3654]"
           />
         </div>
 
@@ -105,7 +105,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="••••••••"
-            className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1a2d45] focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full border border-zinc-300 dark:border-white/15 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1e3654] focus:outline-none focus:ring-2 focus:ring-red-500"
           />
         </div>
 
@@ -119,7 +119,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
             maxLength={500}
             rows={2}
             placeholder="Se quiser contar, a gente agradece o retorno..."
-            className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1a2d45]"
+            className="w-full border border-zinc-300 dark:border-white/15 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1e3654]"
           />
         </div>
 
@@ -132,7 +132,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
             value={confirmText}
             onChange={(e) => setConfirmText(e.target.value)}
             placeholder={CONFIRM_PHRASE}
-            className="w-full border border-zinc-300 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1a2d45] font-mono uppercase"
+            className="w-full border border-zinc-300 dark:border-white/15 rounded-xl px-4 py-2.5 text-sm text-zinc-900 dark:text-[#e8edf5] bg-white dark:bg-[#1e3654] font-mono uppercase"
           />
         </div>
 
@@ -158,7 +158,7 @@ export default function DeleteAccountSection({ email }: { email: string }) {
           <button
             type="button"
             onClick={() => { setOpen(false); setPassword(""); setReason(""); setConfirmText(""); setAck(false); setError(""); }}
-            className="flex-1 sm:flex-none border border-zinc-300 dark:border-white/10 text-zinc-700 dark:text-[#c8dce8] px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-zinc-50 dark:hover:bg-white/5"
+            className="flex-1 sm:flex-none border border-zinc-300 dark:border-white/15 text-zinc-700 dark:text-[#c8dce8] px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#f5f8fb] dark:hover:bg-white/5"
           >
             Cancelar
           </button>

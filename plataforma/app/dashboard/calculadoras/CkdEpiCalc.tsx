@@ -41,22 +41,22 @@ export default function CkdEpiCalc() {
   const barWidth = resultado ? Math.min(100, Math.round((resultado.egfr / 120) * 100)) : 0;
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
       {/* Cabeçalho */}
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0f1e30] flex items-center justify-center shrink-0 overflow-hidden">
           <img src="/images/calculadoras/ckd-epi.png" alt="rim" className="w-full h-full object-contain" />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">CKD-EPI 2021</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Taxa de Filtração Glomerular estimada (TFGe)</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Taxa de Filtração Glomerular estimada (TFGe)</p>
         </div>
       </div>
 
       <div className="p-5 space-y-5">
         {/* Sexo */}
         <div>
-          <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide mb-2">Sexo biológico</label>
+          <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide mb-2">Sexo biológico</label>
           <div className="flex gap-2">
             {(["M", "F"] as Sexo[]).map((s) => (
               <button
@@ -65,7 +65,7 @@ export default function CkdEpiCalc() {
                 className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
                   sexo === s
                     ? "bg-[#3db8d4] text-white border-[#3db8d4]"
-                    : "bg-zinc-50 dark:bg-[#1a2d45] text-[#0f2d4a] dark:text-[#6a8fa5] border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50"
+                    : "bg-[#f5f8fb] dark:bg-[#1e3654] text-[#0f2d4a] dark:text-[#a9bccd] border-[#d9e3ec] dark:border-white/12 hover:border-[#3db8d4]/50"
                 }`}
               >
                 {s === "M" ? "Masculino" : "Feminino"}
@@ -77,7 +77,7 @@ export default function CkdEpiCalc() {
         {/* Campos numéricos */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide mb-1.5">
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide mb-1.5">
               Idade <span className="normal-case font-normal">(anos)</span>
             </label>
             <input
@@ -88,11 +88,11 @@ export default function CkdEpiCalc() {
               placeholder="ex: 65"
               value={idade}
               onChange={(e) => setIdade(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-[#0f1e30] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-300 dark:placeholder:text-[#3a5a70] focus:outline-none focus:border-[#3db8d4] transition-colors"
+              className="w-full px-3 py-2.5 rounded-xl text-sm border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#132842] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-300 dark:placeholder:text-[#3a5a70] focus:outline-none focus:border-[#3db8d4] transition-colors"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#6a8fa5] uppercase tracking-wide mb-1.5">
+            <label className="block text-xs font-semibold text-[#0f2d4a] dark:text-[#a9bccd] uppercase tracking-wide mb-1.5">
               Creatinina <span className="normal-case font-normal">(mg/dL)</span>
             </label>
             <input
@@ -101,7 +101,7 @@ export default function CkdEpiCalc() {
               placeholder="ex: 1.2"
               value={creatinina}
               onChange={(e) => setCreatinina(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl text-sm border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-[#0f1e30] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-300 dark:placeholder:text-[#3a5a70] focus:outline-none focus:border-[#3db8d4] transition-colors"
+              className="w-full px-3 py-2.5 rounded-xl text-sm border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#132842] text-[#0f2d4a] dark:text-[#e8edf5] placeholder:text-zinc-300 dark:placeholder:text-[#3a5a70] focus:outline-none focus:border-[#3db8d4] transition-colors"
             />
           </div>
         </div>
@@ -119,15 +119,15 @@ export default function CkdEpiCalc() {
 
         {/* Resultado */}
         {resultado && cor && (
-          <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
+          <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             {/* Valor */}
             <p className="text-3xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
               {resultado.egfr}
-              <span className="text-sm font-normal text-[#0f2d4a] dark:text-[#5a7a8e] ml-1.5">mL/min/1,73 m²</span>
+              <span className="text-sm font-normal text-[#0f2d4a] dark:text-[#8fa9bd] ml-1.5">mL/min/1,73 m²</span>
             </p>
 
             {/* Barra visual */}
-            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
                 style={{ width: `${barWidth}%` }}
@@ -135,7 +135,7 @@ export default function CkdEpiCalc() {
             </div>
 
             {/* Estágio */}
-            <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">
+            <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
               Se DRC:{" "}
               <span className={`inline-block px-2 py-0.5 rounded-md text-xs font-bold ${cor.badge}`}>
                 Estágio {resultado.estadio}

@@ -79,14 +79,14 @@ export default function BradenCalc() {
   }
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] overflow-hidden shrink-0 flex items-center justify-center">
           <img src="/images/calculadoras/lesao-pressao.png" alt="lesão por pressão" className="w-full h-full object-contain" />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Escala de Braden</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">Risco de lesão por pressão em adultos</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Risco de lesão por pressão em adultos</p>
         </div>
       </div>
 
@@ -96,7 +96,7 @@ export default function BradenCalc() {
             <div className="flex items-center justify-between mb-2">
               <div>
                 <p className="text-xs font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{c.titulo}</p>
-                {c.subtitulo && <p className="text-[10px] text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">{c.subtitulo}</p>}
+                {c.subtitulo && <p className="text-[10px] text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">{c.subtitulo}</p>}
               </div>
               {respostas[ci] !== null && (
                 <span className="text-[11px] font-semibold text-[#3db8d4]">{respostas[ci]} pt</span>
@@ -111,7 +111,7 @@ export default function BradenCalc() {
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl border text-left transition-all ${
                       ativo
                         ? "bg-[#e8f4fc] dark:bg-[#1a3a5c] border-[#1a6aad] dark:border-[#3db8d4]"
-                        : "border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50"
+                        : "border-[#d9e3ec] dark:border-white/12 hover:border-[#3db8d4]/50"
                     }`}>
                     <span className={`shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
                       ativo ? "border-[#1a6aad] dark:border-[#3db8d4] bg-[#1a6aad] dark:bg-[#3db8d4]" : "border-zinc-300 dark:border-white/20"
@@ -119,7 +119,7 @@ export default function BradenCalc() {
                       {ativo && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                     </span>
                     <span className="flex-1 text-xs text-[#0f2d4a] dark:text-[#c4d4df]">{op.label}</span>
-                    <span className={`shrink-0 text-[11px] font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#5a7a8e]"}`}>
+                    <span className={`shrink-0 text-[11px] font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>
                       {op.pts}
                     </span>
                   </button>
@@ -130,36 +130,36 @@ export default function BradenCalc() {
         ))}
 
         {!completo && (
-          <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] text-center">
+          <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] text-center">
             Selecione uma opção para cada critério
           </p>
         )}
 
         {resultado && cor && (
           <div className={`rounded-xl border p-4 space-y-3 ${cor.box}`}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest">
               Pontuação total
             </p>
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                 {resultado.score}
               </p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ 23 pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">/ 23 pontos</p>
             </div>
-            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
                 style={{ width: `${(resultado.score / 23) * 100}%` }} />
             </div>
             <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
               {resultado.label}
             </span>
-            <p className="text-[11px] text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">{resultado.descricao}</p>
+            <p className="text-[11px] text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">{resultado.descricao}</p>
           </div>
         )}
 
         {/* Tabela de referência */}
-        <div className="rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest px-4 py-2.5 border-b border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30]">
+        <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest px-4 py-2.5 border-b border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842]">
             Classificação de risco
           </p>
           <table className="w-full text-xs">
@@ -172,8 +172,8 @@ export default function BradenCalc() {
               ].map((linha, i) => {
                 const ativo = resultado?.categoria === linha.cat;
                 return (
-                  <tr key={i} className={`border-b border-zinc-100 dark:border-white/8 last:border-0 transition-colors ${
-                    ativo ? COR_MAP[linha.cor as keyof typeof COR_MAP].badge : "hover:bg-zinc-50 dark:hover:bg-white/4"
+                  <tr key={i} className={`border-b border-[#e6edf3] dark:border-white/12 last:border-0 transition-colors ${
+                    ativo ? COR_MAP[linha.cor as keyof typeof COR_MAP].badge : "hover:bg-[#f5f8fb] dark:hover:bg-white/4"
                   }`}>
                     <td className="px-4 py-2 font-mono text-[#0f2d4a] dark:text-[#9ec4de]">{linha.faixa}</td>
                     <td className={`px-4 py-2 ${ativo ? "font-bold" : "font-medium text-[#0f2d4a] dark:text-[#c4d4df]"}`}>

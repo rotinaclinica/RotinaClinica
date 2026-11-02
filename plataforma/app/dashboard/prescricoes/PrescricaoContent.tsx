@@ -303,12 +303,12 @@ function ImageBlock({ src, caption }: { src: string; caption?: string }) {
         <img
           src={src}
           alt={caption ?? ""}
-          className="max-w-full rounded-lg border border-zinc-200 dark:border-white/10 shadow-sm cursor-zoom-in"
+          className="max-w-full rounded-lg border border-[#d9e3ec] dark:border-white/15 shadow-sm cursor-zoom-in"
           style={{ objectFit: "contain" }}
           onClick={() => setOpen(true)}
         />
         {caption && (
-          <figcaption className="text-xs text-zinc-500 dark:text-[#5a7a8e] italic text-center">
+          <figcaption className="text-xs text-zinc-500 dark:text-[#8fa9bd] italic text-center">
             {caption} · <button type="button" onClick={() => setOpen(true)} className="underline hover:text-zinc-300">Ampliar</button>
           </figcaption>
         )}
@@ -403,7 +403,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                 i > 0 && (blocks[i-1].type === "drug" || blocks[i-1].type === "note") ? "mt-4 mb-1" :
                 "my-2"
               }>
-                <div className="inline-flex items-baseline gap-2 border border-[#1a6aad]/35 dark:border-[#3db8d4]/30 bg-[#f0f7ff] dark:bg-[#1a2d45] rounded-lg px-3 py-1.5">
+                <div className="inline-flex items-baseline gap-2 border border-[#1a6aad]/35 dark:border-[#3db8d4]/30 bg-[#f0f7ff] dark:bg-[#1e3654] rounded-lg px-3 py-1.5">
                   <span className="text-[14px] font-bold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">{b.name.replace(/\s+comprimidos?\b\.?/gi, '').trim()}</span>
                   {b.qty && (
                     <span className="text-[13px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] whitespace-nowrap">{b.qty}</span>
@@ -447,7 +447,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               const descricao = colonIdx !== -1 ? raw.slice(0, colonIdx).trim() : "";
               const sequencia = colonIdx !== -1 ? raw.slice(colonIdx + 1).trim() : raw;
               return (
-                <div key={i} className="border-2 border-[#0f2d4a] dark:border-[#3db8d4]/50 bg-[#eaf0f8] dark:bg-[#1a2d45] rounded-lg px-4 py-4 mt-2 text-center">
+                <div key={i} className="border-2 border-[#0f2d4a] dark:border-[#3db8d4]/50 bg-[#eaf0f8] dark:bg-[#1e3654] rounded-lg px-4 py-4 mt-2 text-center">
                   {descricao && (
                     <p className="text-[13px] font-semibold text-[#0f2d4a] dark:text-[#3db8d4] uppercase tracking-wide mb-2">{descricao}</p>
                   )}
@@ -459,7 +459,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               );
             }
             return (
-              <div key={i} className={`border-l-[3px] ${isPrincipios ? "border-[#0f2d4a] dark:border-[#3db8d4]/60 bg-[#eaf0f8] dark:bg-[#1a2d45]" : "border-[#3db8d4] bg-[#f8fbfd] dark:bg-[#0e1f2d]"} rounded-r-lg pl-3.5 pr-3 py-2.5 mt-8`}>
+              <div key={i} className={`border-l-[3px] ${isPrincipios ? "border-[#0f2d4a] dark:border-[#3db8d4]/60 bg-[#eaf0f8] dark:bg-[#1e3654]" : "border-[#3db8d4] bg-[#f8fbfd] dark:bg-[#0e1f2d]"} rounded-r-lg pl-3.5 pr-3 py-2.5 mt-8`}>
                 <p className={`text-[10px] font-bold ${isPrincipios ? "text-[#0f2d4a] dark:text-[#3db8d4]" : "text-[#1a6aad] dark:text-[#3db8d4]"} uppercase tracking-wider mb-1`}>{isPrincipios ? "Princípios gerais" : "Detalhe"}</p>
                 <div className="space-y-1">
                   {b.body.map((p, k) => (
@@ -529,7 +529,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                 href={b.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#1a6aad]/40 dark:border-[#3db8d4]/35 bg-[#f0f7ff] dark:bg-[#1a2d45] text-[13px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:bg-[#e0eeff] dark:hover:bg-[#1f3550] transition-colors mr-2 mb-1"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#1a6aad]/40 dark:border-[#3db8d4]/35 bg-[#f0f7ff] dark:bg-[#1e3654] text-[13px] font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:bg-[#e0eeff] dark:hover:bg-[#1f3550] transition-colors mr-2 mb-1"
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -548,7 +548,7 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
               <div key={i} className="my-2 rounded-lg border border-[#1a6aad]/25 dark:border-[#3db8d4]/20 overflow-x-auto">
                 <table className="w-full text-[13px]">
                   <thead>
-                    <tr className="bg-[#0f2d4a] dark:bg-[#080e1a] text-white">
+                    <tr className="bg-[#0f2d4a] dark:bg-[#0c1829] text-white">
                       {b.rows[0]?.cells.map((cell, ci) => (
                         <th key={ci} className={`px-3 py-2 text-left font-semibold min-w-[90px] ${colW}`}>{cell}</th>
                       ))}
@@ -556,9 +556,9 @@ export default function PrescricaoContent({ conteudo }: { conteudo: string }) {
                   </thead>
                   <tbody>
                     {b.rows.slice(1).map((row, k) => (
-                      <tr key={k} className={k % 2 === 0 ? "bg-white dark:bg-[#131c2e]" : "bg-[#f0f7ff] dark:bg-[#1a2535]"}>
+                      <tr key={k} className={k % 2 === 0 ? "bg-white dark:bg-[#172741]" : "bg-[#f0f7ff] dark:bg-[#1a2535]"}>
                         {row.cells.map((cell, ci) => (
-                          <td key={ci} className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-zinc-100 dark:border-white/8 min-w-[90px]">{cell}</td>
+                          <td key={ci} className="px-3 py-2 text-zinc-600 dark:text-[#9ec4de] border-t border-[#e6edf3] dark:border-white/12 min-w-[90px]">{cell}</td>
                         ))}
                       </tr>
                     ))}

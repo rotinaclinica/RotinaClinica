@@ -80,16 +80,16 @@ export default function QuatroTsCalc() {
   }
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12">
         <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">Score 4Ts — TIH</p>
-        <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">
+        <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">
           Probabilidade de Trombocitopenia Induzida por Heparina
         </p>
       </div>
 
       <div className="p-5 space-y-5">
-        <div className="flex gap-2 items-start px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-[#0f1e30] border border-zinc-100 dark:border-white/8 text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+        <div className="flex gap-2 items-start px-3 py-2.5 rounded-xl bg-[#f5f8fb] dark:bg-[#132842] border border-[#e6edf3] dark:border-white/12 text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
           <span className="shrink-0 text-[#3db8d4] font-bold">i</span>
           <span><span className="font-semibold">Nadir</span> = valor mínimo de plaquetas atingido após o início da heparina. Para a queda percentual, compare com o valor basal antes da queda relacionada à heparina.</span>
         </div>
@@ -106,7 +106,7 @@ export default function QuatroTsCalc() {
                     className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-xl border text-left transition-all ${
                       ativo
                         ? "bg-[#e8f4fc] dark:bg-[#1a3a5c] border-[#1a6aad] dark:border-[#3db8d4]"
-                        : "border-zinc-200 dark:border-white/8 hover:border-[#3db8d4]/50"
+                        : "border-[#d9e3ec] dark:border-white/12 hover:border-[#3db8d4]/50"
                     }`}>
                     <span className={`shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 transition-colors ${
                       ativo ? "border-[#1a6aad] dark:border-[#3db8d4] bg-[#1a6aad] dark:bg-[#3db8d4]" : "border-zinc-300 dark:border-white/20"
@@ -114,7 +114,7 @@ export default function QuatroTsCalc() {
                       {ativo && <span className="w-2 h-2 rounded-full bg-white" />}
                     </span>
                     <span className="flex-1 text-xs text-[#0f2d4a] dark:text-[#c4d4df] leading-relaxed">{op.label}</span>
-                    <span className={`shrink-0 text-xs font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#5a7a8e]"}`}>
+                    <span className={`shrink-0 text-xs font-bold ${ativo ? "text-[#1a6aad] dark:text-[#3db8d4]" : "text-[#0f2d4a] dark:text-[#8fa9bd]"}`}>
                       +{op.pts}
                     </span>
                   </button>
@@ -125,7 +125,7 @@ export default function QuatroTsCalc() {
         ))}
 
         {!completo && (
-          <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] text-center">
+          <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] text-center">
             Selecione uma opção para cada critério
           </p>
         )}
@@ -134,33 +134,33 @@ export default function QuatroTsCalc() {
           <div className="space-y-3">
             {/* Score */}
             <div className={`rounded-xl border p-4 ${cor.box}`}>
-              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
+              <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
                 Pontuação total
               </p>
               <div className="flex items-end gap-2 mb-2">
                 <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">
                   {resultado.score}
                 </p>
-                <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ 8 pontos</p>
+                <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">/ 8 pontos</p>
               </div>
-              <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden mb-3">
+              <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden mb-3">
                 <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`}
                   style={{ width: `${(resultado.score / 8) * 100}%` }} />
               </div>
               <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold ${cor.badge}`}>
                 {resultado.label}
               </span>
-              <span className="ml-2 text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">
+              <span className="ml-2 text-xs text-[#0f2d4a] dark:text-[#a9bccd]">
                 VPP {resultado.ppv}
               </span>
             </div>
 
             {/* Conduta */}
-            <div className="rounded-xl border border-zinc-100 dark:border-white/8 overflow-hidden">
-              <div className="px-4 py-2.5 bg-zinc-100 dark:bg-[#0f1e30] border-b border-zinc-200 dark:border-white/8">
-                <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest">Conduta</p>
+            <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 overflow-hidden">
+              <div className="px-4 py-2.5 bg-zinc-100 dark:bg-[#132842] border-b border-[#d9e3ec] dark:border-white/12">
+                <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest">Conduta</p>
               </div>
-              <div className="p-4 space-y-2.5 bg-white dark:bg-[#131c2e]">
+              <div className="p-4 space-y-2.5 bg-white dark:bg-[#172741]">
                 <p className="text-sm font-bold text-[#0f2d4a] dark:text-[#e8edf5]">{conduta.titulo}</p>
                 <div className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium ${
                   conduta.heparinaOk

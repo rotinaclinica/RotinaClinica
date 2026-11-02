@@ -60,16 +60,16 @@ export default function SofaCalc() {
     : null;
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
       {/* Cabeçalho */}
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] overflow-hidden shrink-0">
           <img src="/images/calculadoras/sepsis.png" alt="sepse" className="w-full h-full object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">SOFA</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Avaliação sequencial de disfunção orgânica</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Avaliação sequencial de disfunção orgânica</p>
         </div>
       </div>
 
@@ -77,7 +77,7 @@ export default function SofaCalc() {
 
         {/* Respiratório */}
         <div>
-          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-2">
+          <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-2">
             Respiratório — PaO₂ / FiO₂
           </p>
           <div className="flex gap-2 mb-2">
@@ -87,7 +87,7 @@ export default function SofaCalc() {
                 type="number" min="0" max="600" value={pao2}
                 onChange={(e) => { setPao2(e.target.value); setResultado(null); }}
                 placeholder="ex: 80"
-                className="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#4a6a7e] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
               />
             </div>
             <div className="flex-1">
@@ -96,7 +96,7 @@ export default function SofaCalc() {
                 type="number" min="21" max="100" value={fio2}
                 onChange={(e) => { setFio2(e.target.value); setResultado(null); }}
                 placeholder="ex: 40"
-                className="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-[#1a2d45] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#4a6a7e] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
+                className="w-full px-3 py-2 rounded-xl border border-[#d9e3ec] dark:border-white/15 bg-[#f5f8fb] dark:bg-[#1e3654] text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#3db8d4] focus:border-transparent"
               />
             </div>
           </div>
@@ -112,21 +112,21 @@ export default function SofaCalc() {
             className={`w-full text-left px-3 py-2.5 rounded-xl border text-sm transition-all flex items-center gap-3 ${
               vm
                 ? "bg-[#3db8d4]/10 border-[#3db8d4] text-[#0f2d4a] dark:text-[#e8edf5]"
-                : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
+                : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
             }`}>
             <span className="flex-1 font-semibold">Em ventilação mecânica</span>
-            <span className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e]">incluindo CPAP</span>
+            <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd]">incluindo CPAP</span>
           </button>
         </div>
 
         {/* Demais componentes */}
         {SECOES.map((secao) => (
           <div key={secao.key}>
-            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#5a7a8e] uppercase tracking-widest mb-0.5">
+            <p className="text-[11px] font-bold text-[#0f2d4a] dark:text-[#8fa9bd] uppercase tracking-widest mb-0.5">
               {secao.titulo}
             </p>
             {secao.sublabel && (
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] mb-2 italic">{secao.sublabel}</p>
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] mb-2 italic">{secao.sublabel}</p>
             )}
             {!secao.sublabel && <div className="mb-2" />}
             <div className="flex flex-col gap-1.5">
@@ -137,7 +137,7 @@ export default function SofaCalc() {
                     className={`w-full text-left px-3 py-2 rounded-xl border text-sm transition-all flex items-center gap-3 ${
                       ativo
                         ? "bg-[#3db8d4]/10 border-[#3db8d4] text-[#0f2d4a] dark:text-[#e8edf5]"
-                        : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
+                        : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
                     }`}>
                     <span className="flex-1 font-semibold leading-snug">{opt.label}</span>
                     <span className={`text-xs font-bold shrink-0 ${ativo ? "text-[#3db8d4]" : "text-zinc-400 dark:text-[#3db8d4]/40"}`}>
@@ -156,21 +156,21 @@ export default function SofaCalc() {
         </button>
 
         {resultado && cor && (
-          <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
+          <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">pontos</p>
-              <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5 ml-1">/ 24</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">pontos</p>
+              <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5 ml-1">/ 24</p>
             </div>
-            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
             <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
-            <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3">
+            <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-[#e6edf3] dark:border-white/12 pt-3">
               {resultado.conduta}
             </p>
             {resultado.respiratorio === null && (
-              <p className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] italic border-t border-zinc-100 dark:border-white/8 pt-2">
+              <p className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] italic border-t border-[#e6edf3] dark:border-white/12 pt-2">
                 PaO₂/FiO₂ não informado — componente respiratório calculado como 0.
               </p>
             )}

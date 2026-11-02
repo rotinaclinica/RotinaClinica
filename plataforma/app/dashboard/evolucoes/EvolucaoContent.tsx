@@ -284,7 +284,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
         switch (block.type) {
           case "title":
             return (
-              <div key={i} className="mt-6 mb-3 -mx-5 px-5 py-2 bg-[#e8f4fc] dark:bg-[#1a2d45] border-y border-[#c8e4f5] dark:border-[#1e3a5c]">
+              <div key={i} className="mt-6 mb-3 -mx-5 px-5 py-2 bg-[#e8f4fc] dark:bg-[#1e3654] border-y border-[#c8e4f5] dark:border-[#1e3a5c]">
                 <p className="text-[10px] font-bold text-[#1a6aad] dark:text-[#3db8d4] uppercase tracking-widest">
                   {block.text}
                 </p>
@@ -315,7 +315,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
             if (isEf) {
               return (
                 <div key={i} className="flex items-baseline gap-2 mb-1">
-                  <span className="text-zinc-400 dark:text-[#6a8fa5] flex-shrink-0">•</span>
+                  <span className="text-zinc-400 dark:text-[#a9bccd] flex-shrink-0">•</span>
                   <p className="text-justify leading-relaxed">
                     <span className="font-bold text-[#0f2d4a] dark:text-white">{block.label}: </span>
                     {block.value && <span className="text-zinc-700 dark:text-white">{toSentenceCase(block.value)}</span>}
@@ -336,7 +336,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
           case "sub-text":
             return (
               <div key={i} className="flex items-baseline gap-2 mb-1">
-                <span className="text-zinc-400 dark:text-[#6a8fa5] flex-shrink-0">•</span>
+                <span className="text-zinc-400 dark:text-[#a9bccd] flex-shrink-0">•</span>
                 <p className="text-zinc-600 dark:text-white leading-relaxed text-justify">{block.text}</p>
               </div>
             );
@@ -346,7 +346,7 @@ export default function EvolucaoContent({ conteudo }: { conteudo: string }) {
             const withDot = /[.!?:]$/.test(txt) ? txt : txt + ".";
             return (
               <div key={i} className="flex items-baseline gap-2 mb-1">
-                <span className="text-zinc-400 dark:text-[#6a8fa5] flex-shrink-0">•</span>
+                <span className="text-zinc-400 dark:text-[#a9bccd] flex-shrink-0">•</span>
                 <p className="text-zinc-600 dark:text-white text-justify leading-relaxed">
                   {withDot}
                 </p>

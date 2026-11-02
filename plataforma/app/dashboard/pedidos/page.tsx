@@ -54,7 +54,7 @@ export default async function PedidosPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors"
@@ -72,7 +72,7 @@ export default async function PedidosPage() {
 
       <main className="flex-1 p-6 sm:p-8">
         {orders.length === 0 ? (
-          <div className="text-center py-20 text-[#0f2d4a] dark:text-[#4a6a7e]">
+          <div className="text-center py-20 text-[#0f2d4a] dark:text-[#7f9db5]">
             <p className="text-lg font-medium mb-2">Nenhum pedido ainda</p>
             <p className="text-sm">Suas compras aparecerão aqui.</p>
           </div>
@@ -89,7 +89,7 @@ export default async function PedidosPage() {
               return (
                 <div
                   key={order.id}
-                  className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 p-5 space-y-3"
+                  className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 p-5 space-y-3"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-0.5">
@@ -98,7 +98,7 @@ export default async function PedidosPage() {
                           {item.product.title}
                         </p>
                       ))}
-                      <p className="text-xs text-[#0f2d4a] dark:text-[#4a6a7e]">
+                      <p className="text-xs text-[#0f2d4a] dark:text-[#7f9db5]">
                         {new Date(order.createdAt).toLocaleDateString("pt-BR", {
                           day: "2-digit", month: "long", year: "numeric",
                         })}
@@ -118,14 +118,14 @@ export default async function PedidosPage() {
                   </div>
 
                   {canRefund && (
-                    <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
+                    <div className="border-t border-[#e6edf3] dark:border-white/10 pt-3">
                       <RefundButton orderId={order.id} daysLeft={daysLeft} />
                     </div>
                   )}
 
                   {order.status === "PAID" && renewal && daysLeft > 0 && (
-                    <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
-                      <p className="text-xs text-zinc-400 dark:text-[#4a6a7e]">
+                    <div className="border-t border-[#e6edf3] dark:border-white/10 pt-3">
+                      <p className="text-xs text-zinc-400 dark:text-[#7f9db5]">
                         Renovação automática. Para dúvidas sobre esta cobrança, fale com o suporte:{" "}
                         <a href="mailto:contato@rotinaclinica.com" className="font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
                           contato@rotinaclinica.com
@@ -135,13 +135,13 @@ export default async function PedidosPage() {
                   )}
 
                   {order.status === "PAID" && !canRefund && !(renewal && daysLeft > 0) && (
-                    <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
-                      <p className="text-xs text-zinc-400 dark:text-[#4a6a7e]">Prazo de reembolso encerrado.</p>
+                    <div className="border-t border-[#e6edf3] dark:border-white/10 pt-3">
+                      <p className="text-xs text-zinc-400 dark:text-[#7f9db5]">Prazo de reembolso encerrado.</p>
                     </div>
                   )}
 
                   {order.status === "REFUNDED" && (
-                    <div className="border-t border-zinc-100 dark:border-white/6 pt-3">
+                    <div className="border-t border-[#e6edf3] dark:border-white/10 pt-3">
                       <p className="text-xs text-blue-500">Reembolso processado. O acesso foi removido.</p>
                     </div>
                   )}

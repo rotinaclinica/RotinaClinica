@@ -8,7 +8,7 @@ export const metadata = { title: "Airtraq · Rotina Clínica" };
 export default function AirtraqPage() {
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard/cursos"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors"
@@ -20,7 +20,7 @@ export default function AirtraqPage() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <div className="relative shrink-0 rounded-xl overflow-hidden bg-[#0f2d4a] border border-zinc-200 dark:border-white/8 flex items-center justify-center" style={{ width: 64, height: 64 }}>
+          <div className="relative shrink-0 rounded-xl overflow-hidden bg-[#0f2d4a] border border-[#d9e3ec] dark:border-white/12 flex items-center justify-center" style={{ width: 64, height: 64 }}>
             <Image
               src="/Airtraq/Imagem gerada pelo Chatgpt.png"
               alt="Airtraq"
@@ -51,7 +51,7 @@ export default function AirtraqPage() {
         <CupomBanner />
 
         {/* Sobre o Airtraq */}
-        <div className="max-w-2xl mb-6 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-5">
+        <div className="max-w-2xl mb-6 bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-xl p-5">
           <p className="text-xs font-bold text-[#1a6aad] dark:text-[#3db8d4] uppercase tracking-wider mb-2">Sobre</p>
           <p className="text-sm text-zinc-600 dark:text-[#9ec4de] leading-relaxed">{AIRTRAQ_DESCRICAO}</p>
         </div>
@@ -66,7 +66,7 @@ export default function AirtraqPage() {
                 </svg>
               </div>
               <p className="text-[#0f2d4a] dark:text-[#e8edf5] font-bold text-base mb-1">Em breve</p>
-              <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm max-w-xs">
+              <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm max-w-xs">
                 Os vídeos do Airtraq serão disponibilizados em breve. Fique de olho!
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function AirtraqPage() {
               <Link
                 key={video.id}
                 href={`/dashboard/cursos/airtraq/${video.id}`}
-                className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
+                className="flex items-center gap-4 bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
               >
                 <div className="relative shrink-0 rounded-lg overflow-hidden bg-[#0f2d4a]" style={{ width: 60, height: 96 }}>
                   {video.youtubeId && (
@@ -93,20 +93,20 @@ export default function AirtraqPage() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] font-medium">
+                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] font-medium">
                     Vídeo {idx + 1}
                   </span>
-                  <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                  <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                     {video.titulo}
                   </p>
                   {video.descricao && (
-                    <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] mt-0.5 leading-snug line-clamp-2">
+                    <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] mt-0.5 leading-snug line-clamp-2">
                       {video.descricao}
                     </p>
                   )}
                 </div>
                 <svg
-                  className="shrink-0 text-zinc-300 dark:text-[#3a5a6e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
+                  className="shrink-0 text-zinc-300 dark:text-[#5a7a8e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
                   width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                 >

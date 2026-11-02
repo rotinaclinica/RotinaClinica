@@ -36,19 +36,19 @@ export default function Curb65Calc() {
   const barWidth = resultado ? Math.round((resultado.total / resultado.maxPontos) * 100) : 0;
 
   return (
-    <div className="bg-white dark:bg-[#131c2e] rounded-2xl border border-zinc-200 dark:border-white/8 overflow-hidden">
-      <div className="px-5 py-4 border-b border-zinc-100 dark:border-white/8 flex items-center gap-3">
+    <div className="bg-white dark:bg-[#172741] rounded-2xl border border-[#d9e3ec] dark:border-white/12 overflow-hidden">
+      <div className="px-5 py-4 border-b border-[#e6edf3] dark:border-white/12 flex items-center gap-3">
         <div className="w-16 h-16 rounded-xl bg-[#0a1628] flex items-center justify-center shrink-0 overflow-hidden">
           <img src="/images/calculadoras/pulmao.png" alt="pulmão" className="w-full h-full object-contain" />
         </div>
         <div>
           <p className="font-bold text-sm text-[#0f2d4a] dark:text-[#e8edf5]">CURB-65</p>
-          <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e]">Gravidade da pneumonia adquirida na comunidade</p>
+          <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd]">Gravidade da pneumonia adquirida na comunidade</p>
         </div>
       </div>
 
       <div className="p-5 space-y-3">
-        <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5]">Marque os critérios presentes (+1 ponto cada):</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd]">Marque os critérios presentes (+1 ponto cada):</p>
 
         {CRITERIOS.map((c) => {
           const ativo = valores[c.campo];
@@ -59,7 +59,7 @@ export default function Curb65Calc() {
               className={`w-full text-left px-3 py-2.5 rounded-xl border text-sm transition-all flex items-center gap-3 ${
                 ativo
                   ? "bg-[#3db8d4]/10 border-[#3db8d4] text-[#0f2d4a] dark:text-[#e8edf5]"
-                  : "bg-zinc-50 dark:bg-[#1a2d45] border-zinc-200 dark:border-white/8 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
+                  : "bg-[#f5f8fb] dark:bg-[#1e3654] border-[#d9e3ec] dark:border-white/12 text-zinc-700 dark:text-[#c8dce8] hover:border-[#3db8d4]/50"
               }`}
             >
               <span className={`inline-flex items-center justify-center w-6 h-6 rounded text-[10px] font-bold shrink-0 ${
@@ -86,18 +86,18 @@ export default function Curb65Calc() {
         </button>
 
         {resultado && cor && (
-          <div className="rounded-xl border border-zinc-100 dark:border-white/8 bg-zinc-50 dark:bg-[#0f1e30] p-4 space-y-3">
+          <div className="rounded-xl border border-[#e6edf3] dark:border-white/12 bg-[#f5f8fb] dark:bg-[#132842] p-4 space-y-3">
             <div className="flex items-end gap-2">
               <p className="text-4xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-none">{resultado.total}</p>
-              <p className="text-sm text-[#0f2d4a] dark:text-[#5a7a8e] mb-0.5">/ {resultado.maxPontos} pontos</p>
+              <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd] mb-0.5">/ {resultado.maxPontos} pontos</p>
             </div>
-            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1a2d45] rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-zinc-200 dark:bg-[#1e3654] rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-500 ${cor.bar}`} style={{ width: `${barWidth}%` }} />
             </div>
             <div className="flex items-center gap-2">
               <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-bold ${cor.badge}`}>{resultado.label}</span>
             </div>
-            <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-zinc-100 dark:border-white/8 pt-3">
+            <p className="text-xs text-zinc-600 dark:text-[#8aacbc] leading-relaxed border-t border-[#e6edf3] dark:border-white/12 pt-3">
               {resultado.conduta}
             </p>
           </div>

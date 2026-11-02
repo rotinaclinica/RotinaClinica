@@ -53,7 +53,7 @@ export default async function CursosPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors"
@@ -77,7 +77,7 @@ export default async function CursosPage() {
             <Link
               key={curso.slug}
               href={`/dashboard/cursos/${curso.slug}`}
-              className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-300 dark:border-white/15 shadow-sm rounded-xl p-4 sm:p-5 hover:border-[#1a6aad]/60 hover:shadow-md dark:hover:border-[#3db8d4]/30 transition-colors group"
+              className="flex items-center gap-4 bg-white dark:bg-[#172741] border border-zinc-300 dark:border-white/15 shadow-sm rounded-xl p-4 sm:p-5 hover:border-[#1a6aad]/60 hover:shadow-md dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
               {/* Thumbnail */}
               <div
@@ -107,7 +107,7 @@ export default async function CursosPage() {
               </div>
 
               <svg
-                className="shrink-0 text-zinc-400 dark:text-[#5a7a8e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
+                className="shrink-0 text-zinc-400 dark:text-[#8fa9bd] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
                 width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
               >

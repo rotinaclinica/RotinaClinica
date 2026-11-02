@@ -15,7 +15,7 @@ export default async function DocstageModuloPage({
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.16),transparent_70%),linear-gradient(180deg,#1a3050_0%,#142540_100%)] border-b border-[#d9e3ec] dark:border-white/12 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard/cursos/docstage"
           className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#7f9db5] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
@@ -36,14 +36,14 @@ export default async function DocstageModuloPage({
       <main className="flex-1 p-6 sm:p-8">
         {modulo.aulas.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center max-w-xs mx-auto gap-3">
-            <div className="w-16 h-16 rounded-2xl bg-[#1a2d45]/10 dark:bg-[#1a2d45] flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-[#1a2d45]/10 dark:bg-[#1e3654] flex items-center justify-center">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3db8d4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                 <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8]">Em breve</p>
-            <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-relaxed">
+            <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5]">Em breve</p>
+            <p className="text-xs text-[#0f2d4a] dark:text-[#a9bccd] leading-relaxed">
               As videoaulas deste módulo estão sendo preparadas.
             </p>
           </div>
@@ -53,7 +53,7 @@ export default async function DocstageModuloPage({
               <Link
                 key={aula.id}
                 href={`/dashboard/cursos/docstage/${id}/${aula.id}`}
-                className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
+                className="flex items-center gap-4 bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-xl p-3 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
               >
                 <div className="relative shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-[#0f2d4a] to-[#1a6aad]" style={{ width: 120, height: 68 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -69,15 +69,15 @@ export default async function DocstageModuloPage({
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#5a7a8e] font-medium">
+                  <span className="text-[11px] text-[#0f2d4a] dark:text-[#8fa9bd] font-medium">
                     Aula {idx + 1}
                   </span>
-                  <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                  <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                     {aula.titulo}
                   </p>
                 </div>
                 <svg
-                  className="shrink-0 text-zinc-300 dark:text-[#3a5a6e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
+                  className="shrink-0 text-zinc-300 dark:text-[#5a7a8e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
                   width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                 >
