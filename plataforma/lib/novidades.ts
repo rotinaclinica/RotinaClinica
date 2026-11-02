@@ -18,6 +18,7 @@ export interface Novidade {
 
 export const NOVIDADES: Novidade[] = [
   { secao: "casos", titulo: "IAM com supra de ST: por que repetir o ECG", href: "/dashboard/casos?video=BfoV7wLByHI", data: "2026-10-20" },
+  { secao: "materiais", titulo: "Osteoporose: abordagem prática", href: "/dashboard/materiais", data: "2026-11-02" },
 ];
 
 export const SECOES_NOVIDADE: Record<SecaoNovidade, { label: string; singular: string; plural: string; rota: string; acao: string }> = {

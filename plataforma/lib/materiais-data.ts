@@ -58,6 +58,15 @@ export const AULAS_TEMAS: Tema[] = [
       { id: "prescricao-racional", titulo: "Prescrição Racional", descricao: "Princípios e estratégias de prescrição racional de medicamentos para a prática clínica diária.", tamanho: "6,3 MB" },
     ],
   },
+  {
+    id: "clinica-medica",
+    nome: "Clínica Médica",
+    descricao: "Aulas sobre temas de clínica médica.",
+    logo: "/logos-temas/clinica-medica.png",
+    aulas: [
+      { id: "osteoporose", titulo: "Osteoporose: abordagem prática", descricao: "Diagnóstico, rastreio e tratamento da osteoporose na UBS, com exemplo prático do alendronato de sódio.", tamanho: "3,3 MB" },
+    ],
+  },
 ];
 
 export const AULAS_MATERIAIS: Aula[] = [];

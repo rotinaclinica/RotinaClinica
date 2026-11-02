@@ -81,6 +81,11 @@ const EBOOKS: Record<string, { file: string; name: string; folder?: string; blob
     name: "Pancreatite Aguda e Crônica — Rotina Clínica",
     folder: "aulasconteudooffline",
   },
+  "osteoporose": {
+    file: "Osteoporose - Abordagem Prática.pdf",
+    name: "Osteoporose: abordagem prática — Rotina Clínica",
+    folder: "aulasconteudooffline",
+  },
 };
 
 export async function GET(
