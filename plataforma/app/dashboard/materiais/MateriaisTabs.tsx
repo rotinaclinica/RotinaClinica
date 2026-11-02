@@ -171,18 +171,21 @@ export default function MateriaisTabs({ email }: { email: string }) {
                   <span>{ebook.formato}</span>
                 </div>
 
-                <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
-                  <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <p className="text-[11px] text-[#1a6aad] dark:text-[#3db8d4] leading-relaxed">
-                    O arquivo será vinculado ao seu e-mail{email ? ` (${email})` : ""} em cada página.
-                  </p>
-                </div>
+                {!ebook.downloadUrl && (
+                  <div className="flex items-start gap-2 bg-[#f0f7ff] dark:bg-[#0f1e30] rounded-xl px-3 py-2.5">
+                    <svg className="shrink-0 mt-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <p className="text-[11px] text-[#1a6aad] dark:text-[#3db8d4] leading-relaxed">
+                      O arquivo será vinculado ao seu e-mail{email ? ` (${email})` : ""} em cada página.
+                    </p>
+                  </div>
+                )}
 
                 <DownloadButton
                   ebookId={ebook.id}
                   filename={`${ebook.titulo}.pdf`}
+                  url={ebook.downloadUrl}
                 />
               </div>
             </div>

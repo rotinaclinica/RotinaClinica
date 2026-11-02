@@ -88,4 +88,32 @@ export const EBOOKS = [
     formato: "PDF",
     capa: "/images/ebook-iot.png",
   },
+  // Gratuitos: mesmos PDFs do formulário de leads, baixados direto pela rota pública (sem marca d'água)
+  {
+    id: "has-dm2-ubs",
+    titulo: "Abordagem da HAS e DM2 na Atenção Primária",
+    descricao: "Abordagem sistematizada e completa da hipertensão arterial e do diabetes tipo 2 na UBS.",
+    paginas: "Gratuito",
+    formato: "PDF",
+    capa: "/images/ebook-gratis-has-dm2.png",
+    downloadUrl: "/api/download/has-dm2-ubs",
+  },
+  {
+    id: "racional-prescricao",
+    titulo: "O Racional da Prescrição Médica",
+    descricao: "Entenda a lógica por trás de cada prescrição.",
+    paginas: "Gratuito",
+    formato: "PDF",
+    capa: "/images/ebook-gratis-racional.png",
+    downloadUrl: "/api/download/racional-prescricao",
+  },
+  {
+    id: "manual-prescricoes-gratis",
+    titulo: "Manual de Prescrições (Amostra)",
+    descricao: "Modelos de prescrições prontos para otimizar seus atendimentos.",
+    paginas: "Gratuito",
+    formato: "PDF",
+    capa: "/images/ebook-gratis-manual.jpg",
+    downloadUrl: "/api/download/manual-prescricoes-gratis",
+  },
 ];

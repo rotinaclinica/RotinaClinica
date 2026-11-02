@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function DownloadButton({ ebookId, filename }: { ebookId: string; filename: string }) {
+export default function DownloadButton({ ebookId, filename, url }: { ebookId: string; filename: string; url?: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -10,21 +10,21 @@ export default function DownloadButton({ ebookId, filename }: { ebookId: string;
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/ebook/${ebookId}`);
+      const res = await fetch(url ?? `/api/ebook/${ebookId}`);
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(data.error ?? "Erro ao gerar o arquivo.");
         return;
       }
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
+      const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
+      a.href = objectUrl;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
       a.remove();
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(objectUrl);
     } catch {
       setError("Erro de conexão. Tente novamente.");
     } finally {
