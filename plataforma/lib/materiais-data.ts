@@ -95,7 +95,7 @@ export const EBOOKS = [
     descricao: "Abordagem sistematizada e completa da hipertensão arterial e do diabetes tipo 2 na UBS.",
     paginas: "Gratuito",
     formato: "PDF",
-    capa: "/images/ebook-gratis-has-dm2.png",
+    capa: "/images/ebook-gratis-has-dm2-painel.png",
     downloadUrl: "/api/download/has-dm2-ubs",
   },
   {
@@ -104,7 +104,7 @@ export const EBOOKS = [
     descricao: "Entenda a lógica por trás de cada prescrição.",
     paginas: "Gratuito",
     formato: "PDF",
-    capa: "/images/ebook-gratis-racional.png",
+    capa: "/images/ebook-gratis-racional-painel.png",
     downloadUrl: "/api/download/racional-prescricao",
   },
   {
