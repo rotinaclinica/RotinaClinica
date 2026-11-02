@@ -107,7 +107,7 @@ export default async function QuizPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-5">
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="text-sm text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
             ← Voltar
@@ -115,10 +115,10 @@ export default async function QuizPage() {
         </div>
         <div className="flex items-center justify-between mt-3 flex-wrap gap-3">
           <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">
-              Desafio Clínico Diário
+            <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">
+              Desafio Clínico <span className="text-[#1a6aad] dark:text-[#3db8d4]">Diário</span>
             </h1>
-            <p className="text-sm text-[#0f2d4a]/60 dark:text-[#6a8fa5] mt-0.5">
+            <p className="text-sm text-[#0f2d4a]/60 dark:text-[#a9bccd] mt-0.5">
               3 perguntas novas todo dia. Teste seu conhecimento!
             </p>
           </div>
@@ -144,7 +144,7 @@ export default async function QuizPage() {
           </div>
         </div>
 
-        <p className="text-xs text-[#0f2d4a]/50 dark:text-[#6a8fa5] mt-3">
+        <p className="text-xs text-[#0f2d4a]/50 dark:text-[#a9bccd] mt-3">
           🛡️ <strong>Escudos</strong> protegem sua sequência se pular 1 dia. Ganhe 1 a cada 5 dias consecutivos (máx 3).
         </p>
       </header>

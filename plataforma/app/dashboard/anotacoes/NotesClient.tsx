@@ -169,10 +169,10 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
     <>
       <div className="min-h-screen bg-[#f4f8fc] dark:bg-[#0d1829]">
         {/* Header */}
-        <div className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 py-5 flex items-center justify-between">
+        <div className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 py-5 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-[#0f2d4a] dark:text-[#e8edf5]">Anotações</h1>
-            <p className="text-sm text-zinc-500 dark:text-[#6a8fa5] mt-0.5">
+            <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">Anotações</h1>
+            <p className="text-sm text-zinc-500 dark:text-[#a9bccd] mt-0.5">
               {notes.length}/{LIMIT} anotações salvas
             </p>
           </div>

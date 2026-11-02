@@ -8,7 +8,7 @@ export const metadata = { title: "Airtraq · Rotina Clínica" };
 export default function AirtraqPage() {
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard/cursos"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors"
@@ -31,14 +31,14 @@ export default function AirtraqPage() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5]">
+              <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white">
                 {AIRTRAQ_TITULO}
               </h1>
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#1a6aad]/10 dark:bg-[#3db8d4]/10 text-[#1a6aad] dark:text-[#3db8d4]">
                 PARCEIRA OFICIAL
               </span>
             </div>
-            <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">
+            <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
               Garanta segurança na sua intubação!
             </p>
           </div>

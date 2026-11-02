@@ -17,7 +17,7 @@ export default async function AirtraqAulaPage({
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-4">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-4">
         <Link
           href="/dashboard/cursos/airtraq"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-3 transition-colors"
@@ -27,10 +27,10 @@ export default async function AirtraqAulaPage({
           </svg>
           Airtraq
         </Link>
-        <h1 className="text-base sm:text-lg font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug">
+        <h1 className="text-base sm:text-lg font-extrabold text-[#0f2d4a] dark:text-white leading-snug">
           {video.titulo}
         </h1>
-        <p className="text-xs text-[#0f2d4a] dark:text-[#5a7a8e] mt-0.5">Vídeo {idx + 1} de {AIRTRAQ_VIDEOS.length}</p>
+        <p className="text-xs text-[#0f2d4a] dark:text-[#8fa9bd] mt-0.5">Vídeo {idx + 1} de {AIRTRAQ_VIDEOS.length}</p>
       </header>
 
       <main className="flex-1 p-4 sm:p-6 flex flex-col items-center">

@@ -131,23 +131,23 @@ export default function EvolucoesPag() {
       {selected && <EvolucaoModal item={selected} onClose={handleClose} />}
 
       <div className="flex-1 flex flex-col">
-        <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+        <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
           <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:text-[#0f2d4a] dark:hover:text-white mb-4 transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
             Início
           </Link>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] mb-1">
-            Modelos de evolução
+          <h1 className="text-xl sm:text-2xl dark:sm:text-3xl font-extrabold text-[#0f2d4a] dark:text-white mb-1">
+            Modelos de <span className="text-[#1a6aad] dark:text-[#3db8d4]">evolução</span>
           </h1>
-          <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm">
+          <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm">
             Modelos prontos para você usar na sua prática clínica.
           </p>
 
           {/* Search */}
           <div className="relative mt-4 max-w-xl">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#4a6a7e]"
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#7f9db5]"
               width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -157,11 +157,11 @@ export default function EvolucoesPag() {
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Ex: cefaleia, ITU, dengue, asma..."
-              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/10 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#4a6a7e] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent bg-[#f8fafc] dark:bg-[#0e1825]"
+              className="w-full pl-11 pr-10 py-3 border border-zinc-300 dark:border-white/15 rounded-2xl text-sm text-zinc-900 dark:text-[#e8edf5] placeholder:text-zinc-400 dark:placeholder:text-[#7f9db5] focus:outline-none focus:ring-2 focus:ring-[#1a6aad] focus:border-transparent bg-[#f8fafc] dark:bg-[#0e1825]"
             />
             {query && (
               <button onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0f2d4a] dark:text-[#7f9db5] hover:text-zinc-600 dark:hover:text-[#9ec4de]"
                 aria-label="Limpar">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>

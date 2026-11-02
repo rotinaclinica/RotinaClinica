@@ -15,20 +15,20 @@ export default async function DocstageModuloPage({
 
   return (
     <div className="flex-1 flex flex-col">
-      <header className="bg-white dark:bg-[#131c2e] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
+      <header className="bg-white dark:bg-[radial-gradient(700px_220px_at_15%_0%,rgba(61,184,212,0.10),transparent_70%),linear-gradient(180deg,#152540_0%,#111b2d_100%)] border-b border-zinc-200 dark:border-white/8 px-6 sm:px-8 py-6">
         <Link
           href="/dashboard/cursos/docstage"
-          className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#4a6a7e] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
+          className="inline-flex items-center gap-1 text-xs text-[#0f2d4a] dark:text-[#7f9db5] hover:text-[#1a6aad] dark:hover:text-[#3db8d4] mb-3 transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Docstage
         </Link>
-        <h1 className="text-lg sm:text-xl font-extrabold text-[#0f2d4a] dark:text-[#e8edf5] leading-snug mb-1">
+        <h1 className="text-lg sm:text-xl font-extrabold text-[#0f2d4a] dark:text-white leading-snug mb-1">
           {modulo.titulo}
         </h1>
-        <p className="text-[#0f2d4a] dark:text-[#6a8fa5] text-sm leading-relaxed">
+        <p className="text-[#0f2d4a] dark:text-[#a9bccd] text-sm leading-relaxed">
           {modulo.descricao}
         </p>
       </header>
