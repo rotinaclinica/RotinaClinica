@@ -77,7 +77,7 @@ export default async function CursosPage() {
             <Link
               key={curso.slug}
               href={`/dashboard/cursos/${curso.slug}`}
-              className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-200 dark:border-white/8 rounded-xl p-4 hover:border-[#1a6aad]/40 dark:hover:border-[#3db8d4]/30 transition-colors group"
+              className="flex items-center gap-4 bg-white dark:bg-[#131c2e] border border-zinc-300 dark:border-white/15 shadow-sm rounded-xl p-4 sm:p-5 hover:border-[#1a6aad]/60 hover:shadow-md dark:hover:border-[#3db8d4]/30 transition-colors group"
             >
               {/* Thumbnail */}
               <div
@@ -91,24 +91,24 @@ export default async function CursosPage() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <p className="text-sm font-semibold text-[#0f2d4a] dark:text-[#d4dce8] leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <p className="text-base sm:text-lg font-bold text-[#0f2d4a] dark:text-white leading-snug group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors">
                     {curso.titulo}
                   </p>
                   {curso.badge && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#1a6aad]/10 dark:bg-[#3db8d4]/10 text-[#1a6aad] dark:text-[#3db8d4]">
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#1a6aad]/10 dark:bg-[#3db8d4]/10 text-[#1a6aad] dark:text-[#3db8d4]">
                       {curso.badge}
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-[#0f2d4a] dark:text-[#6a8fa5] leading-snug">
+                <p className="text-sm sm:text-[15px] text-[#0f2d4a]/80 dark:text-[#a9bccd] leading-relaxed">
                   {curso.descricao}
                 </p>
               </div>
 
               <svg
-                className="shrink-0 text-zinc-300 dark:text-[#3a5a6e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
-                width="16" height="16" viewBox="0 0 24 24" fill="none"
+                className="shrink-0 text-zinc-400 dark:text-[#5a7a8e] group-hover:text-[#1a6aad] dark:group-hover:text-[#3db8d4] transition-colors"
+                width="20" height="20" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
               >
                 <polyline points="9 18 15 12 9 6"/>
