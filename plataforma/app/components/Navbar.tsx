@@ -7,9 +7,12 @@ import { useSession } from "next-auth/react";
 export function Logo({ variant = "dark" }: { variant?: "dark" | "light" }) {
   return (
     <img
-      src={variant === "light" ? "/images/logo-branco.png" : "/images/logo-azul.png"}
+      src={variant === "light" ? "/images/logo-branco-web.png" : "/images/logo-azul-web.png"}
       alt="Rotina Clínica"
-      className="h-7 sm:h-8 w-auto"
+      width={960}
+      height={144}
+      // object-contain: em espaços estreitos (ex.: sidebar) a logo encolhe sem achatar
+      className="h-7 sm:h-8 w-auto max-w-full object-contain object-left"
     />
   );
 }
