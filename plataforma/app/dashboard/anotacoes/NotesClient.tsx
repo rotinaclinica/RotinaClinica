@@ -189,10 +189,12 @@ export default function NotesClient({ initialNotes }: { initialNotes: Note[] }) 
         {/* Grid */}
         <div className="max-w-5xl mx-auto px-6 py-8">
           {notes.length === 0 ? (
-            <div className="text-center py-20">
-              <svg className="mx-auto mb-4 text-zinc-300 dark:text-zinc-600" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              <p className="text-zinc-500 dark:text-zinc-400 font-medium">Nenhuma anotação ainda</p>
-              <p className="text-zinc-400 dark:text-zinc-500 text-sm mt-1">Clique em &quot;Nova anotação&quot; para começar.</p>
+            <div className="flex flex-col items-center text-center py-20">
+              <div className="w-16 h-16 bg-[#e8f4fc] dark:bg-[#3db8d4]/15 ring-1 ring-[#1a6aad]/10 dark:ring-[#3db8d4]/25 rounded-2xl flex items-center justify-center mb-4">
+                <svg className="text-[#1a6aad] dark:text-[#3db8d4]" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </div>
+              <p className="font-bold text-[#0f2d4a] dark:text-white mb-1">Nenhuma anotação ainda</p>
+              <p className="text-sm text-[#0f2d4a]/70 dark:text-[#a9bccd]">Clique em &quot;Nova anotação&quot; para guardar o que quiser ter à mão no plantão.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -250,12 +250,12 @@ export default function PrescricoesPage() {
         <main className="flex-1 p-6 sm:p-8">
           {resultados.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-16 h-16 bg-zinc-100 dark:bg-[#1a2535] rounded-2xl flex items-center justify-center mb-4">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-16 h-16 bg-[#e8f4fc] dark:bg-[#3db8d4]/15 ring-1 ring-[#1a6aad]/10 dark:ring-[#3db8d4]/25 rounded-2xl flex items-center justify-center mb-4">
+                <svg className="text-[#1a6aad] dark:text-[#3db8d4]" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
               </div>
-              <p className="font-bold text-[#0f2d4a] dark:text-[#7d96ad] mb-1">Nenhuma prescrição encontrada</p>
+              <p className="font-bold text-[#0f2d4a] dark:text-white mb-1">Nenhuma prescrição encontrada</p>
               <p className="text-sm text-[#0f2d4a] dark:text-[#8fa9bd]">Tente outra queixa ou diagnóstico.</p>
             </div>
           ) : (

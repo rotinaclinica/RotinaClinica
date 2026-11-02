@@ -5,7 +5,7 @@
 
 export const NOVIDADE_DIAS = 7;
 
-export type SecaoNovidade = "condutas" | "evolucoes" | "calculadoras" | "casos" | "cursos" | "materiais";
+export type SecaoNovidade = "condutas" | "evolucoes" | "calculadoras" | "casos" | "cursos" | "materiais" | "plataforma";
 
 export interface Novidade {
   secao: SecaoNovidade;
@@ -22,6 +22,7 @@ export const NOVIDADES: Novidade[] = [
   { secao: "materiais", titulo: "Ebook: Abordagem da HAS e DM2 na Atenção Primária", href: "/dashboard/materiais", data: "2026-11-02" },
   { secao: "materiais", titulo: "Ebook: O Racional da Prescrição Médica", href: "/dashboard/materiais", data: "2026-11-02" },
   { secao: "materiais", titulo: "Ebook: Manual de Prescrições (Amostra)", href: "/dashboard/materiais", data: "2026-11-02" },
+  { secao: "plataforma", titulo: "Visual renovado: mais cor, contraste e conforto para o seu plantão", href: "/dashboard", data: "2026-11-02" },
 ];
 
 export const SECOES_NOVIDADE: Record<SecaoNovidade, { label: string; singular: string; plural: string; rota: string; acao: string }> = {
@@ -31,6 +32,7 @@ export const SECOES_NOVIDADE: Record<SecaoNovidade, { label: string; singular: s
   casos: { label: "Casos clínicos · Vídeo", singular: "Novo vídeo", plural: "novos vídeos de casos clínicos", rota: "/dashboard/casos", acao: "Assistir" },
   cursos: { label: "Cursos e videoaulas", singular: "Nova aula", plural: "novas aulas", rota: "/dashboard/cursos", acao: "Assistir" },
   materiais: { label: "Ebooks e materiais", singular: "Novo material", plural: "novos materiais", rota: "/dashboard/materiais", acao: "Abrir" },
+  plataforma: { label: "Plataforma", singular: "Novidade na plataforma", plural: "novidades na plataforma", rota: "/dashboard", acao: "Ver" },
 };
 
 const DIA_MS = 86_400_000;

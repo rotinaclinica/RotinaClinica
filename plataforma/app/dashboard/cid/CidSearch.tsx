@@ -79,8 +79,16 @@ export default function CidSearch() {
 
       {/* Resultados */}
       {searched && results.length === 0 && !loading && (
-        <div className="text-center py-12 text-zinc-400 dark:text-zinc-500 text-sm">
-          Nenhum resultado encontrado para <span className="font-semibold text-zinc-600 dark:text-zinc-300">&quot;{query}&quot;</span>.
+        <div className="flex flex-col items-center text-center py-12">
+          <div className="w-16 h-16 bg-[#e8f4fc] dark:bg-[#3db8d4]/15 ring-1 ring-[#1a6aad]/10 dark:ring-[#3db8d4]/25 rounded-2xl flex items-center justify-center mb-4">
+            <svg className="text-[#1a6aad] dark:text-[#3db8d4]" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <p className="font-bold text-[#0f2d4a] dark:text-white mb-1">
+            Nenhum resultado para <span className="text-[#1a6aad] dark:text-[#3db8d4]">&quot;{query}&quot;</span>
+          </p>
+          <p className="text-sm text-[#0f2d4a]/70 dark:text-[#a9bccd]">Tente o código (ex: J18) ou outro nome da doença.</p>
         </div>
       )}
 

@@ -105,7 +105,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
         </div>
         <div className="min-w-0">
           <p className="text-white text-sm font-semibold truncate">{userName}</p>
-          <p className="text-[#5a8caa] text-xs truncate">{userEmail}</p>
+          <p className="text-[#8fb3cc] text-xs truncate">{userEmail}</p>
         </div>
       </div>
 
@@ -130,7 +130,7 @@ export default function DashboardSidebar({ userName, userEmail, initials, isAdmi
               locked
                 ? "text-[#9ec4de]/50 hover:text-[#9ec4de] hover:bg-white/5"
                 : isActive(item)
-                ? "bg-white/10 text-white font-semibold"
+                ? "bg-[#3db8d4]/15 text-white font-semibold shadow-[inset_3px_0_0_#3db8d4] [&>svg]:text-[#3db8d4]"
                 : "text-[#9ec4de] hover:text-white hover:bg-white/8"
             }`}
           >

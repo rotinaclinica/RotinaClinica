@@ -107,13 +107,13 @@ export default function DashboardMobileNav({ hasAccess = true, isAdmin = false }
               key={item.href}
               href={item.href}
               className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 ${
-                isActive(item) ? "text-white" : "text-[#5a8caa]"
+                isActive(item) ? "text-[#3db8d4]" : "text-[#8fb3cc]"
               }`}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d={item.icon} stroke="currentColor" strokeWidth={isActive(item) ? "2.5" : "2"} strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className={`text-[10px] font-medium leading-none truncate ${isActive(item) ? "text-white" : "text-[#5a8caa]"}`}>
+              <span className={`text-[10px] font-medium leading-none truncate ${isActive(item) ? "text-white font-semibold" : "text-[#8fb3cc]"}`}>
                 {item.label}
               </span>
             </Link>
@@ -126,13 +126,13 @@ export default function DashboardMobileNav({ hasAccess = true, isAdmin = false }
             aria-label="Menu do perfil"
             aria-expanded={menuOpen}
             className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 ${
-              profileActive || menuOpen ? "text-white" : "text-[#5a8caa]"
+              profileActive || menuOpen ? "text-[#3db8d4]" : "text-[#8fb3cc]"
             }`}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d={PROFILE_ICON} stroke="currentColor" strokeWidth={profileActive || menuOpen ? "2.5" : "2"} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className={`text-[10px] font-medium leading-none truncate ${profileActive || menuOpen ? "text-white" : "text-[#5a8caa]"}`}>
+            <span className={`text-[10px] font-medium leading-none truncate ${profileActive || menuOpen ? "text-white font-semibold" : "text-[#8fb3cc]"}`}>
               Perfil
             </span>
           </button>

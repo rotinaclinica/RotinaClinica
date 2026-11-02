@@ -19,7 +19,7 @@ const sections = [
     label: "Modelos de evolução",
     description: "Modelos de evolução prontos para facilitar o atendimento.",
     badge: "Agilidade no atendimento",
-    color: "from-[#0f2d4a] to-[#1a6aad]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z",
   },
   {
@@ -27,7 +27,7 @@ const sections = [
     label: "Condutas Clínicas",
     description: "Busque por queixa, diagnóstico, medicamento ou tema.",
     badge: "Atualizações constantes",
-    color: "from-[#0f2d4a] to-[#1a6aad]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
   },
   {
@@ -43,7 +43,7 @@ const sections = [
     label: "Cursos e Videoaulas",
     description: "Conteúdo de qualidade, baseado em evidências. Estude no seu ritmo.",
     badge: "Abordagem prática e sistematizada",
-    color: "from-[#3db8d4] to-[#2fa8c4]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
@@ -51,7 +51,7 @@ const sections = [
     label: "Ebooks e Materiais",
     description: "PDFs e materiais de apoio para baixar e consultar offline.",
     badge: "Utilize offline em qualquer dispositivo",
-    color: "from-[#0f2d4a] to-[#3db8d4]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
   },
   {
@@ -59,7 +59,7 @@ const sections = [
     label: "Calculadoras Clínicas",
     description: "Escores, doses e ferramentas interativas para o dia a dia.",
     badge: "Agilidade e praticidade",
-    color: "from-[#1a6aad] to-[#0f2d4a]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
   },
   {
@@ -67,7 +67,7 @@ const sections = [
     label: "Desafio Clínico Diário",
     description: "3 perguntas novas todo dia. Teste seu conhecimento e mantenha sua sequência!",
     badge: "Novo",
-    color: "from-[#d97706] to-[#f59e0b]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M13 10V3L4 14h7v7l9-11h-7z",
   },
   {
@@ -75,7 +75,7 @@ const sections = [
     label: "CID-10",
     description: "Busque por código ou nome da doença/condição.",
     badge: "Classificação Internacional",
-    color: "from-[#0f2d4a] to-[#1a4a6e]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
   },
   {
@@ -83,7 +83,7 @@ const sections = [
     label: "Anotações",
     description: "Registre casos interessantes ou informações relevantes para consultar depois.",
     badge: "Gerar PDF",
-    color: "from-[#0e7490] to-[#0f2d4a]",
+    color: "from-[#1a6aad] to-[#3db8d4]",
     icon: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z",
   },
 ];
@@ -141,7 +141,7 @@ export default async function DashboardPage() {
   // Novidades dos últimos dias; no teste, seções fechadas aparecem como "Para assinantes"
   const novidades = gruposNovidades().map((g) => ({
     ...g,
-    bloqueado: isTrial && !isTrialRoute(SECOES_NOVIDADE[g.secao].rota),
+    bloqueado: isTrial && g.secao !== "plataforma" && !isTrialRoute(SECOES_NOVIDADE[g.secao].rota),
   }));
 
   return (
@@ -217,11 +217,11 @@ export default async function DashboardPage() {
                 href={s.href}
                 className="group bg-white dark:bg-[#172741] border-2 border-[#3db8d4]/60 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] transition-all flex flex-col"
               >
-                <div className={`h-2 bg-gradient-to-r ${s.color}`} />
+                <div className={`h-1.5 bg-gradient-to-r ${s.color}`} />
                 <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#dceef9] dark:from-[#1a2d45] dark:to-[#162438] flex items-center justify-center flex-shrink-0">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#d3e9f7] dark:from-[#3db8d4]/20 dark:to-[#1a6aad]/20 ring-1 ring-[#1a6aad]/10 dark:ring-[#3db8d4]/25 flex items-center justify-center flex-shrink-0">
+                      <svg className="text-[#1a6aad] dark:text-[#3db8d4]" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d={s.icon} />
                       </svg>
                     </div>
@@ -253,12 +253,12 @@ export default async function DashboardPage() {
               className={`${locked ? "opacity-60 " : ""}group bg-white dark:bg-[#172741] border border-[#d9e3ec] dark:border-white/12 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#3db8d4] dark:hover:border-[#3db8d4]/60 transition-all`}
             >
               {/* Color strip */}
-              <div className={`h-2 bg-gradient-to-r ${s.color}`} />
+              <div className={`h-1.5 bg-gradient-to-r ${s.color}`} />
 
               <div className="p-5">
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#dceef9] dark:from-[#1a2d45] dark:to-[#162438] flex items-center justify-center flex-shrink-0">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a6aad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#e8f4fc] to-[#d3e9f7] dark:from-[#3db8d4]/20 dark:to-[#1a6aad]/20 ring-1 ring-[#1a6aad]/10 dark:ring-[#3db8d4]/25 flex items-center justify-center flex-shrink-0">
+                    <svg className="text-[#1a6aad] dark:text-[#3db8d4]" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d={s.icon} />
                     </svg>
                   </div>
