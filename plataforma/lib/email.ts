@@ -36,7 +36,7 @@ export async function sendPurchaseConfirmation({
                 <td style="padding:20px 24px;background:#f0f7ff;border-radius:12px;border:1px solid #dde6ef">
                   <p style="margin:0 0 14px;color:#0f2d4a;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px">O que você tem acesso:</p>
                   <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📋 &nbsp;<strong>Prescrições prontas</strong> — mais de 200 temas organizados por especialidade</td></tr>
+                    <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📋 &nbsp;<strong>Prescrições prontas</strong> — mais de 250 temas organizados por especialidade</td></tr>
                     <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📝 &nbsp;<strong>Modelos de evolução</strong> — registros clínicos estruturados para o dia a dia</td></tr>
                     <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">🧮 &nbsp;<strong>Calculadoras clínicas</strong> — escores e cálculos de uso rápido no plantão</td></tr>
                     <tr><td style="padding:5px 0;color:#2d5a7a;font-size:14px;line-height:1.5">📚 &nbsp;<strong>Ebooks para uso offline</strong> — conteúdo para baixar e consultar sem internet</td></tr>
@@ -492,7 +492,7 @@ export async function sendEbookDownloadLinks({
                   Tudo que você precisa para agir com segurança e agilidade, em qualquer cenário clínico:
                 </p>
                 <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
-                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">📋 &nbsp;<strong style="color:#ffffff">Condutas Clínicas</strong> — +200 prescrições para PS, UPA, UBS e internação</td></tr>
+                  <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">📋 &nbsp;<strong style="color:#ffffff">Condutas Clínicas</strong> — +250 prescrições para PS, UPA, UBS e internação</td></tr>
                   <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">🧮 &nbsp;<strong style="color:#ffffff">Calculadoras Clínicas</strong> — escores validados para uso imediato no plantão</td></tr>
                   <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">📝 &nbsp;<strong style="color:#ffffff">Modelos de Evolução</strong> — registros prontos para agilizar cada atendimento</td></tr>
                   <tr><td style="padding:5px 0;color:#c8dff0;font-size:13px;line-height:1.5">🎓 &nbsp;<strong style="color:#ffffff">Cursos e Aulas Online</strong> — Destravando o Plantão e muito mais</td></tr>
