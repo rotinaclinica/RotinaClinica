@@ -97,9 +97,7 @@ export default function RankingQuiz({
         {aba === "mensal"
           ? "Soma dos acertos no mês; zera todo dia 1º. Empate: maior ofensiva."
           : "Soma de todos os acertos desde o primeiro desafio. Empate: maior ofensiva."}{" "}
-        {equipe ? (
-          "Contas da equipe não entram no ranking."
-        ) : participa ? (
+        {equipe ? null : participa ? (
           <>
             Não quer aparecer?{" "}
             <Link href="/dashboard/perfil#ranking" className="font-semibold text-[#1a6aad] dark:text-[#3db8d4] hover:underline">
