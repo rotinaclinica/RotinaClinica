@@ -67,12 +67,12 @@ const brl = (cents: number) =>
   (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 const ACCENT: Record<"pix" | "card", string> = {
-  pix:  "border-zinc-400 bg-zinc-50",
+  pix:  "border-[#0f2d4a] bg-[#f0f5f9]",
   card: "border-[#0d9488] bg-[#f0fdfa]",
 };
 
 const BTN_COLOR: Record<"pix" | "card", string> = {
-  pix:  "bg-zinc-600 hover:bg-zinc-700",
+  pix:  "bg-[#0f2d4a] hover:bg-[#1a4a6e]",
   card: "bg-[#0d9488] hover:bg-[#0f766e]",
 };
 
@@ -286,7 +286,7 @@ export default function CheckoutButton({
 
         {/* Só o método escolhido aparece: cartão é o caminho principal; Pix fica abaixo do botão de pagar */}
         <div className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 ${ACCENT[selected]}`}>
-          <span className={`flex-shrink-0 ${selected === "card" ? "text-[#0d9488]" : "text-zinc-600"}`}>
+          <span className={`flex-shrink-0 ${selected === "card" ? "text-[#0d9488]" : "text-[#0f2d4a]"}`}>
             {current.icon}
           </span>
           <span className="min-w-0">
@@ -426,11 +426,17 @@ export default function CheckoutButton({
         <button
           type="button"
           onClick={() => { setError(""); setSelected(selected === "card" ? "pix" : "card"); }}
-          className="block w-full py-2 text-center text-sm font-medium text-zinc-700 underline underline-offset-2 hover:text-zinc-900 transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 border-[#0f2d4a]/60 bg-white text-[#0f2d4a] hover:bg-[#f0f5f9] transition-colors"
         >
-          {selected === "card"
-            ? isMensal ? "Prefiro pagar com PIX (renovação manual)" : "Prefiro pagar com PIX"
-            : "Prefiro pagar com cartão →"}
+          <span className="flex-shrink-0">{selected === "card" ? PIX_ICON : CARD_ICON}</span>
+          <span className="min-w-0 text-left">
+            <span className="block text-sm font-bold">
+              {selected === "card" ? "Prefiro pagar com PIX" : "Prefiro pagar com cartão"}
+            </span>
+            {selected === "card" && isMensal && (
+              <span className="block text-xs text-zinc-700">Renovação manual todo mês</span>
+            )}
+          </span>
         </button>
 
         {/* Garantia em destaque */}
