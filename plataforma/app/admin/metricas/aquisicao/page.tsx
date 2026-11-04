@@ -40,17 +40,21 @@ export default async function AquisicaoPage() {
       utmCampaign: true,
       referrerUrl: true,
       createdAt: true,
-      subscription: { select: { plan: true, status: true } },
+      subscription: { select: { plan: true, status: true, currentPeriodEnd: true } },
     },
     orderBy: { createdAt: "desc" },
   });
+
+  const now = new Date();
+  const isVigente = (s: { status: string; currentPeriodEnd: Date } | null) =>
+    s?.status === "ACTIVE" && s.currentPeriodEnd > now;
 
   const channelCounts = new Map<string, { total: number; active: number }>();
   for (const sub of subscribers) {
     const src = (sub.utmSource ?? "pre-tracking").toLowerCase();
     const entry = channelCounts.get(src) ?? { total: 0, active: 0 };
     entry.total++;
-    if (sub.subscription?.status === "ACTIVE") entry.active++;
+    if (isVigente(sub.subscription)) entry.active++;
     channelCounts.set(src, entry);
   }
 
@@ -170,11 +174,11 @@ export default async function AquisicaoPage() {
                       </td>
                       <td className="px-4 py-3">
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
-                          sub.subscription?.status === "ACTIVE"
+                          isVigente(sub.subscription)
                             ? "bg-emerald-500/20 text-emerald-300"
                             : "bg-red-500/20 text-red-300"
                         }`}>
-                          {sub.subscription?.status === "ACTIVE" ? "Ativo" : sub.subscription?.status}
+                          {isVigente(sub.subscription) ? "Ativo" : sub.subscription?.status === "ACTIVE" ? "Vencido" : sub.subscription?.status}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-zinc-400 text-xs whitespace-nowrap">

@@ -17,7 +17,8 @@ export default function PixelPurchase({
       if (sessionStorage.getItem(key)) return;
       const w = window as unknown as { fbq?: (...args: unknown[]) => void };
       if (w.fbq) {
-        w.fbq("track", "Purchase", { value: valueCents / 100, currency });
+        // Mesmo event ID do envio pelo servidor (lib/meta/capi.ts): a Meta conta uma vez só
+        w.fbq("track", "Purchase", { value: valueCents / 100, currency }, { eventID: `purchase_${orderId}` });
         sessionStorage.setItem(key, "1");
       }
     } catch {

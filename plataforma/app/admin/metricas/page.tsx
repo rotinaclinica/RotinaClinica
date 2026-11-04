@@ -44,12 +44,20 @@ export default async function MetricasPage() {
   const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  // Mesmo ponto do mês anterior, para comparar períodos iguais (31/03 vira 28/02)
+  const lastMonthLastDay = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+  const samePointLastMonth = new Date(startOfLastMonth);
+  samePointLastMonth.setDate(Math.min(now.getDate(), lastMonthLastDay));
+  samePointLastMonth.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
   const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
 
   const EXCLUDED_EMAILS = await getExcludedEmails();
   const notTest = { email: { notIn: EXCLUDED_EMAILS } };
   const notTestSub = { user: notTest };
   const notTestOrder = { user: notTest };
+  // Assinatura vencida segue "ACTIVE" até o próximo acesso do usuário: só conta como
+  // ativa se o período ainda estiver vigente (mesmo critério de /admin).
+  const vigente = { status: "ACTIVE" as const, currentPeriodEnd: { gt: now } };
 
   const userEmails = (await db.user.findMany({ select: { email: true } }))
     .map((u) => u.email)
@@ -65,7 +73,8 @@ export default async function MetricasPage() {
     subsMonthly,
     subsAnnual,
     subsCancelled30d,
-    subsCancelledTotal,
+    subsExpired30d,
+    subsEver,
     ordersTotal,
     ordersPaid,
     ordersAbandoned,
@@ -90,20 +99,27 @@ export default async function MetricasPage() {
   ] = await Promise.all([
     db.user.count(),
     db.user.count({ where: { createdAt: { gte: startOfMonth } } }),
-    db.user.count({ where: { createdAt: { gte: startOfLastMonth, lt: startOfMonth } } }),
+    db.user.count({ where: { createdAt: { gte: startOfLastMonth, lt: samePointLastMonth } } }),
     db.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
     db.user.count({ where: { createdAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo } } }),
-    db.subscription.count({ where: { status: "ACTIVE", ...notTestSub } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "MONTHLY", ...notTestSub } }),
-    db.subscription.count({ where: { status: "ACTIVE", plan: "ANNUAL", ...notTestSub } }),
+    db.subscription.count({ where: { ...vigente, ...notTestSub } }),
+    db.subscription.count({ where: { ...vigente, plan: "MONTHLY", ...notTestSub } }),
+    db.subscription.count({ where: { ...vigente, plan: "ANNUAL", ...notTestSub } }),
     db.subscription.count({ where: { status: "CANCELLED", cancelledAt: { gte: thirtyDaysAgo }, ...notTestSub } }),
-    db.subscription.count({ where: { status: "CANCELLED", ...notTestSub } }),
+    db.subscription.count({
+      where: {
+        status: { in: ["ACTIVE", "EXPIRED", "PAST_DUE"] },
+        currentPeriodEnd: { gte: thirtyDaysAgo, lte: now },
+        ...notTestSub,
+      },
+    }),
+    db.subscription.count({ where: notTestSub }),
     db.order.count({ where: notTestOrder }),
     db.order.count({ where: { status: "PAID", ...notTestOrder } }),
     db.order.count({ where: { status: { in: ["EXPIRED", "FAILED", "PENDING"] }, ...notTestOrder } }),
     db.order.aggregate({ where: { status: "PAID", ...notTestOrder }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
-    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: startOfMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
+    db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: samePointLastMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: thirtyDaysAgo }, ...notTestOrder }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: sixtyDaysAgo, lt: thirtyDaysAgo }, ...notTestOrder }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", provider: "STRIPE", ...notTestOrder }, _sum: { totalCents: true } }),
@@ -166,10 +182,14 @@ export default async function MetricasPage() {
 
   const userGrowth30 = users60to30d ? ((users30d - users60to30d) / users60to30d * 100).toFixed(1) : null;
 
-  const activePlusChurned = subsActive + subsCancelled30d;
-  const churnRate = activePlusChurned ? ((subsCancelled30d / activePlusChurned) * 100).toFixed(1) : "0.0";
+  // Perdidos em 30 dias: cancelaram ou deixaram o período vencer sem renovar
+  const subsLost30d = subsCancelled30d + subsExpired30d;
+  const activePlusLost = subsActive + subsLost30d;
+  const churnFraction = activePlusLost ? subsLost30d / activePlusLost : 0;
+  const churnRate = (churnFraction * 100).toFixed(1);
+  const churnSub = `${subsCancelled30d} cancelada${subsCancelled30d !== 1 ? "s" : ""} · ${subsExpired30d} vencida${subsExpired30d !== 1 ? "s" : ""} sem renovar`;
 
-  const conversionRate = totalUsers ? ((subsActive + subsCancelledTotal) / totalUsers * 100).toFixed(1) : "0.0";
+  const conversionRate = totalUsers ? (subsEver / totalUsers * 100).toFixed(1) : "0.0";
 
   const checkoutConversion = ordersTotal ? ((ordersPaid / ordersTotal) * 100).toFixed(1) : "0.0";
 
@@ -177,9 +197,12 @@ export default async function MetricasPage() {
 
   const ticketMedio = ordersPaid ? Math.round(grossAll / ordersPaid) : 0;
 
-  const ltvEstimado = ticketMedio * (subsActive > 0 ? Math.max(1, Math.round(subsActive / Math.max(subsCancelled30d * 12, 1))) : 1);
-
   const mrr = subsMonthly * 3990 + Math.round(subsAnnual * 40000 / 12);
+
+  // LTV = receita mensal média por assinante ÷ churn mensal (sem perdas no período, não há base)
+  const ltvEstimado = subsActive > 0 && churnFraction > 0 ? Math.round(mrr / subsActive / churnFraction) : null;
+  const ltvLabel = ltvEstimado === null ? "—" : brl(ltvEstimado);
+  const ltvSub = "receita mensal por assinante ÷ churn de 30 dias";
 
   // Fee breakdown by gateway
   const feesByGateway = {
@@ -219,9 +242,9 @@ export default async function MetricasPage() {
         type: "cards",
         title: "Indicadores-chave",
         cards: [
-          { label: "MRR", value: brl(mrr), sub: "receita recorrente mensal" },
+          { label: "MRR", value: brl(mrr), sub: "assinaturas com período vigente" },
           { label: "Assinantes ativos", value: String(subsActive), sub: `${subsMonthly} mensal · ${subsAnnual} anual` },
-          { label: "Churn (30 dias)", value: `${churnRate}%`, sub: `${subsCancelled30d} cancelamentos` },
+          { label: "Churn (30 dias)", value: `${churnRate}%`, sub: churnSub },
           { label: "Ticket médio", value: brl(ticketMedio), sub: "por pedido pago" },
         ],
       },
@@ -252,9 +275,9 @@ export default async function MetricasPage() {
         title: "Crescimento",
         cards: [
           { label: "Novos cadastros (30d)", value: String(users30d), sub: userGrowth30 ? `${Number(userGrowth30) >= 0 ? "+" : ""}${userGrowth30}%` : undefined },
-          { label: "Cadastros este mês", value: String(usersThisMonth), sub: usersChange ? `${Number(usersChange) >= 0 ? "+" : ""}${usersChange}%` : undefined },
+          { label: "Cadastros este mês", value: String(usersThisMonth), sub: usersChange ? `${Number(usersChange) >= 0 ? "+" : ""}${usersChange}% vs mesmo período do mês anterior` : undefined },
           { label: "Receita (30d)", value: brl(rev30), sub: revGrowth30 ? `${Number(revGrowth30) >= 0 ? "+" : ""}${revGrowth30}%` : undefined },
-          { label: "Receita este mês", value: brl(revThisM), sub: revChange ? `${Number(revChange) >= 0 ? "+" : ""}${revChange}%` : undefined },
+          { label: "Receita este mês", value: brl(revThisM), sub: revChange ? `${Number(revChange) >= 0 ? "+" : ""}${revChange}% vs mesmo período do mês anterior` : undefined },
         ],
       },
       {
@@ -274,7 +297,7 @@ export default async function MetricasPage() {
           { label: "Receita total", value: brl(grossAll), sub: `${ordersPaid} vendas` },
           { label: "Reembolsos", value: brl(refundAll), sub: `${refundCount} pedidos` },
           { label: "Taxa de reembolso", value: pct(refundCount, ordersPaid), sub: `${refundCount} de ${ordersPaid}` },
-          { label: "LTV estimado", value: brl(ltvEstimado), sub: "lifetime value" },
+          { label: "LTV estimado", value: ltvLabel, sub: ltvSub },
         ],
       },
     ],
@@ -295,9 +318,9 @@ export default async function MetricasPage() {
       <section>
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Indicadores-chave</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <Tile label="MRR" value={brl(mrr)} color="green" sub="receita recorrente mensal" />
+          <Tile label="MRR" value={brl(mrr)} color="green" sub="assinaturas com período vigente" />
           <Tile label="Assinantes ativos" value={subsActive} color="green" sub={`${subsMonthly} mensal · ${subsAnnual} anual`} />
-          <Tile label="Churn (30 dias)" value={`${churnRate}%`} color={Number(churnRate) > 5 ? "red" : undefined} sub={`${subsCancelled30d} cancelamento${subsCancelled30d !== 1 ? "s" : ""}`} />
+          <Tile label="Churn (30 dias)" value={`${churnRate}%`} color={Number(churnRate) > 5 ? "red" : undefined} sub={churnSub} />
           <Tile label="Ticket médio" value={brl(ticketMedio)} sub="por pedido pago" />
         </div>
       </section>
@@ -348,7 +371,7 @@ export default async function MetricasPage() {
           <FunnelBar steps={[
             { label: "Leads", value: leadsTotal },
             { label: "Cadastros", value: totalUsers },
-            { label: "Assinantes", value: subsActive + subsCancelledTotal },
+            { label: "Já assinaram", value: subsEver },
             { label: "Ativos", value: subsActive },
           ]} />
         </div>
@@ -367,7 +390,7 @@ export default async function MetricasPage() {
           <Tile
             label="Cadastros este mês"
             value={usersThisMonth}
-            sub={usersChange ? `${Number(usersChange) >= 0 ? "+" : ""}${usersChange}% vs mês anterior` : "sem comparação"}
+            sub={usersChange ? `${Number(usersChange) >= 0 ? "+" : ""}${usersChange}% vs mesmo período do mês anterior` : "sem comparação"}
           />
           <Tile
             label="Receita (30d)"
@@ -378,7 +401,7 @@ export default async function MetricasPage() {
           <Tile
             label="Receita este mês"
             value={brl(revThisM)}
-            sub={revChange ? `${Number(revChange) >= 0 ? "+" : ""}${revChange}% vs mês anterior` : "sem comparação"}
+            sub={revChange ? `${Number(revChange) >= 0 ? "+" : ""}${revChange}% vs mesmo período do mês anterior` : "sem comparação"}
           />
         </div>
       </section>
@@ -388,7 +411,7 @@ export default async function MetricasPage() {
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Evolução mensal</h2>
         <div className="grid grid-cols-1 gap-3">
           <BarChart title="Receita mensal — últimos 12 meses (R$)" bars={revenueBars} />
-          <BarChart title="Novos cadastros — últimos 12 meses" bars={userBars} />
+          <BarChart title="Novos cadastros — últimos 12 meses" bars={userBars} format="number" />
         </div>
       </section>
 
@@ -426,7 +449,7 @@ export default async function MetricasPage() {
             color={refundCount > 0 ? "red" : undefined}
             sub={`${refundCount} de ${ordersPaid}`}
           />
-          <Tile label="LTV estimado" value={brl(ltvEstimado)} sub="lifetime value por cliente" />
+          <Tile label="LTV estimado" value={ltvLabel} sub={ltvSub} />
         </div>
       </section>
     </div>

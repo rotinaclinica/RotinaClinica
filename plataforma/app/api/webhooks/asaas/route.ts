@@ -7,6 +7,7 @@ import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
 import { verifyAsaasWebhook } from "@/lib/payments/asaas";
 import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
+import { trackPurchase } from "@/lib/meta/capi";
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("asaas-access-token");
@@ -208,6 +209,7 @@ export async function POST(req: NextRequest) {
 
       await createPendingInvoiceForOrder(order.id).catch(() => {});
       await processReferral(order.id).catch(() => {});
+      trackPurchase(order.id);
     } else if (event === "PAYMENT_REFUNDED" || event === "PAYMENT_CHARGEBACK_REQUESTED") {
       const order = await db.order.findUnique({ where: { id: orderId }, include: { user: true } });
       if (order?.user?.email) {

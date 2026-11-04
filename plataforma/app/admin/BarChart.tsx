@@ -8,7 +8,15 @@ function fmtBRL(cents: number) {
   return `R$${Math.round(cents / 100)}`;
 }
 
-export function BarChart({ title, bars }: { title: string; bars: Bar[] }) {
+export function BarChart({
+  title,
+  bars,
+  format = "brl",
+}: {
+  title: string;
+  bars: Bar[];
+  format?: "brl" | "number";
+}) {
   const max = Math.max(...bars.map((b) => b.value), 1);
   const W = 480;
   const H = 140;
@@ -44,7 +52,7 @@ export function BarChart({ title, bars }: { title: string; bars: Bar[] }) {
                   fill={bar.current ? "#818cf8" : "#9ca3af"}
                   fontWeight={bar.current ? "700" : "400"}
                 >
-                  {fmtBRL(bar.value)}
+                  {format === "number" ? bar.value : fmtBRL(bar.value)}
                 </text>
               )}
               <text

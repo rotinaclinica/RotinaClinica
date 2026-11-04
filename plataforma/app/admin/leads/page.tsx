@@ -65,7 +65,7 @@ export default async function AdminLeadsPage({
     : undefined;
 
   const activeSubUsers = await db.user.findMany({
-    where: { subscription: { status: "ACTIVE" } },
+    where: { subscription: { status: "ACTIVE", currentPeriodEnd: { gt: new Date() } } },
     select: { email: true },
   });
   const activeSet = new Set(activeSubUsers.map((u) => u.email.toLowerCase()));

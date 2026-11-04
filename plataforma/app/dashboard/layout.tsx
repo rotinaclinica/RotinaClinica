@@ -8,6 +8,7 @@ import ActivityPing from "@/app/components/ActivityPing";
 import SubscriptionExpiryBanner from "@/app/components/SubscriptionExpiryBanner";
 import PageTracker from "./_components/PageTracker";
 import TrialBanner from "./_components/TrialBanner";
+import TrialPixel from "./_components/TrialPixel";
 
 // Rotas acessíveis a qualquer usuário logado, independente de assinatura
 const FREE_ROUTES = ["/dashboard/perfil", "/dashboard/pedidos", "/dashboard/meus-ebooks", "/dashboard/cursos"];
@@ -82,6 +83,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       <ActivityPing />
       <PageTracker />
+      {trialEndsAt && <TrialPixel userId={session.user.id} />}
     </div>
   );
 }

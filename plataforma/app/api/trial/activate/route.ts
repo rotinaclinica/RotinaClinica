@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { activateTrial } from "@/lib/subscription";
+import { trackTrialStart } from "@/lib/meta/capi";
 
 // Chamado pelo login/cadastro quando a pessoa veio do caminho do teste (?teste=1)
 export async function POST() {
@@ -9,5 +10,6 @@ export async function POST() {
     return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
   const activated = await activateTrial(session.user.id);
+  if (activated) await trackTrialStart(session.user.id);
   return NextResponse.json({ activated });
 }

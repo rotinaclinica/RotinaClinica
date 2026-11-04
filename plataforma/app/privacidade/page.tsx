@@ -27,7 +27,7 @@ const sections = [
         <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
       </svg>
     ),
-    texto: "Não vendemos ou compartilhamos seus dados com terceiros, exceto com os gateways de pagamento (Stripe, Mercado Pago e Asaas) para processamento da transação e com a administração tributária municipal para emissão da nota fiscal, quando aplicável.",
+    texto: "Não vendemos ou compartilhamos seus dados com terceiros, exceto com os gateways de pagamento (Stripe, Mercado Pago e Asaas) para processamento da transação e com a administração tributária municipal para emissão da nota fiscal, quando aplicável. Para medir o resultado dos nossos anúncios, informamos à Meta (Facebook e Instagram) compras e ativações de teste grátis, com seu e-mail e telefone em formato criptografado (hash) e dados técnicos de navegação, como IP, navegador e cookies do pixel.",
   },
   {
     titulo: "Seus direitos (LGPD)",
@@ -103,7 +103,7 @@ export default function PrivacidadePage() {
           ))}
 
           <p className="text-center text-zinc-400 text-xs pt-4">
-            Última atualização: setembro de 2026
+            Última atualização: novembro de 2026
           </p>
         </div>
       </div>

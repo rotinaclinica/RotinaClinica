@@ -50,6 +50,7 @@ export default async function AdminAcessosPage({
   ]);
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const now = new Date();
 
   return (
     <div className="space-y-8">
@@ -85,7 +86,9 @@ export default async function AdminAcessosPage({
             </tr>
           </thead>
           <tbody>
-            {subscriptions.map((s) => (
+            {subscriptions.map((s) => {
+              const lapsed = s.status === "ACTIVE" && s.currentPeriodEnd <= now;
+              return (
               <tr key={s.id} className="border-b border-white/10 last:border-none">
                 <td className="px-5 py-4">
                   <div className="font-medium text-zinc-100">{s.user.name ?? "—"}</div>
@@ -93,8 +96,8 @@ export default async function AdminAcessosPage({
                 </td>
                 <td className="px-5 py-4 text-zinc-400">{planLabel(s.plan)}</td>
                 <td className="px-5 py-4">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${statusStyle(s.status)}`}>
-                    {s.status === "ACTIVE" ? "Ativa" : s.status === "CANCELLED" ? "Cancelada" : s.status === "EXPIRED" ? "Expirada" : "Em atraso"}
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${statusStyle(lapsed ? "EXPIRED" : s.status)}`}>
+                    {lapsed ? "Vencida" : s.status === "ACTIVE" ? "Ativa" : s.status === "CANCELLED" ? "Cancelada" : s.status === "EXPIRED" ? "Expirada" : "Em atraso"}
                   </span>
                 </td>
                 <td className="px-5 py-4 text-xs text-zinc-400">
@@ -106,7 +109,8 @@ export default async function AdminAcessosPage({
                   {s.status === "ACTIVE" && <RevokeButton subscriptionId={s.id} />}
                 </td>
               </tr>
-            ))}
+              );
+            })}
             {subscriptions.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-5 py-10 text-center text-zinc-400">

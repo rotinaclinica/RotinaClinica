@@ -6,6 +6,7 @@ import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendRefundNoti
 import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
+import { trackPurchase } from "@/lib/meta/capi";
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
@@ -119,6 +120,7 @@ export async function POST(req: NextRequest) {
     // Nunca deve quebrar a confirmação de pagamento — daí o catch.
     await createPendingInvoiceForOrder(order.id).catch(() => {});
     await processReferral(order.id).catch(() => {});
+    trackPurchase(order.id);
   }
 
   if (event.type === "charge.refunded") {
