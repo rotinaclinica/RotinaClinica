@@ -103,6 +103,7 @@ export default function CheckoutButton({
   );
   const router = useRouter();
   const [selected, setSelected] = useState<"pix" | "card">("card");
+  const current = methods.find((m) => m.id === selected) ?? methods[0];
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
@@ -283,60 +284,29 @@ export default function CheckoutButton({
           <p className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider">Forma de pagamento</p>
         </div>
 
-        {methods.map((m) => (
-          <button
-            key={m.id}
-            onClick={() => setSelected(m.id)}
-            className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 transition-all text-left ${
-              selected === m.id ? ACCENT[m.id] : "border-zinc-400 bg-white hover:border-[#0f2d4a]/40"
-            }`}
-          >
-            <span className={`flex-shrink-0 ${
-              selected === m.id
-                ? m.id === "card" ? "text-[#0d9488]" : "text-zinc-600"
-                : "text-zinc-500"
-            }`}>
-              {m.icon}
-            </span>
-            <span className="min-w-0">
-              <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
-                {m.label}
-                {m.badge && (
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                    m.id === "card"
-                      ? "bg-[#0d9488] text-white"
-                      : "bg-zinc-500 text-white"
-                  }`}>
-                    {m.badge}
-                  </span>
-                )}
-              </span>
-              {m.sub && <span className="block text-xs text-zinc-600 mt-0.5">{m.sub}</span>}
-            </span>
-            <span className={`ml-auto w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${
-              selected === m.id
-                ? m.id === "card" ? "border-[#0d9488]" : "border-zinc-500"
-                : "border-zinc-400"
-            }`}>
-              {selected === m.id && (
-                <span className={`w-2 h-2 rounded-full ${m.id === "card" ? "bg-[#0d9488]" : "bg-zinc-500"}`} />
+        {/* Só o método escolhido aparece: cartão é o caminho principal; Pix fica abaixo do botão de pagar */}
+        <div className={`flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 ${ACCENT[selected]}`}>
+          <span className={`flex-shrink-0 ${selected === "card" ? "text-[#0d9488]" : "text-zinc-600"}`}>
+            {current.icon}
+          </span>
+          <span className="min-w-0">
+            <span className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+              {current.label}
+              {current.badge && (
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#0d9488] text-white">
+                  {current.badge}
+                </span>
               )}
             </span>
-          </button>
-        ))}
+            <span className="block text-xs text-zinc-600 mt-0.5">{current.sub}</span>
+          </span>
+        </div>
 
         {/* Pix no mensal: lembrar que a renovação é manual */}
         {selected === "pix" && isMensal && (
           <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs text-amber-900 leading-relaxed">
             <strong>No Pix você precisa renovar manualmente todo mês.</strong> No cartão a renovação é automática,
             você não corre o risco de perder o acesso no meio de um plantão e pode cancelar quando quiser.
-            <button
-              type="button"
-              onClick={() => setSelected("card")}
-              className="block mt-1.5 font-bold text-[#0d9488] underline underline-offset-2"
-            >
-              Prefiro o cartão →
-            </button>
           </div>
         )}
 
@@ -451,6 +421,16 @@ export default function CheckoutButton({
               {`Pagar com ${selected === "pix" ? "PIX" : "cartão de crédito"}`}
             </span>
           )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => { setError(""); setSelected(selected === "card" ? "pix" : "card"); }}
+          className="block w-full py-2 text-center text-sm font-medium text-zinc-700 underline underline-offset-2 hover:text-zinc-900 transition-colors"
+        >
+          {selected === "card"
+            ? isMensal ? "Prefiro pagar com PIX (renovação manual)" : "Prefiro pagar com PIX"
+            : "Prefiro pagar com cartão →"}
         </button>
 
         {/* Garantia em destaque */}

@@ -121,22 +121,42 @@ export default async function CheckoutPage({
               </span>
             </div>
           )}
+          {/* Troca de plano no próprio checkout: o anual fica sempre à vista */}
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { id: "anual", nome: "Anual", valor: "R$ 33,30/mês", nota: "Economize R$ 79 · até 12x", selo: "Melhor valor" },
+              { id: "mensal", nome: "Mensal", valor: "R$ 39,90/mês", nota: "Renova no cartão", selo: null },
+            ].map((p) => {
+              const ativo = p.id === plano;
+              return (
+                <Link
+                  key={p.id}
+                  href={`/checkout?plano=${p.id}`}
+                  aria-current={ativo ? "true" : undefined}
+                  className={`relative block rounded-xl border-2 px-3 pb-3 pt-4 transition-colors ${
+                    ativo ? "border-[#0d9488] bg-[#f0fdfa]" : "border-zinc-300 bg-white hover:border-[#0f2d4a]/40"
+                  }`}
+                >
+                  {p.selo && (
+                    <span className="absolute -top-2 left-3 rounded-full bg-[#3db8d4] px-2 py-0.5 text-[10px] font-bold text-[#0f2d4a]">
+                      {p.selo}
+                    </span>
+                  )}
+                  <span className="block text-xs font-semibold text-zinc-700">{p.nome}</span>
+                  <span className="block text-sm font-extrabold text-[#0f2d4a]">{p.valor}</span>
+                  <span className="block text-[11px] leading-tight text-zinc-700 mt-0.5">{p.nota}</span>
+                </Link>
+              );
+            })}
+          </div>
           <CheckoutButton
+            key={plano}
             productId={product.id}
             userCpf={userProfile?.cpf}
             userPhone={userProfile?.phone}
             plano={isMensal ? "mensal" : "anual"}
             priceCents={product.priceCents}
           />
-          {isMensal && (
-            <Link
-              href="/checkout?plano=anual"
-              className="block rounded-xl border-2 border-dashed border-[#3db8d4] bg-[#e8f6fa] px-4 py-3 text-center hover:bg-[#d6f0f6] transition-colors"
-            >
-              <span className="block text-sm font-bold text-[#0f2d4a]">Economize R$ 79: no anual sai R$ 33,30/mês</span>
-              <span className="block text-xs text-[#1a6aad] mt-0.5">2 meses grátis · em até 12x sem juros no cartão →</span>
-            </Link>
-          )}
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-700 hover:text-zinc-900 hover:underline transition-colors">
               ← Ver outros planos

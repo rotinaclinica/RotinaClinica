@@ -27,6 +27,7 @@ const monthlyItems = [
   "Casos clínicos em imagem e vídeo",
   "Cursos e aulas online",
   "Ebooks e materiais em PDF",
+  "Renovação automática no cartão",
   "Cancele quando quiser",
 ];
 
@@ -35,7 +36,7 @@ const annualItems = [
   "Acesso garantido por 12 meses",
   "Equivale a 2 meses grátis",
   "Economize R$ 79 por ano",
-  "Cancele quando quiser",
+  "Em até 12x sem juros no cartão",
 ];
 
 const faqs = [
@@ -255,7 +256,7 @@ export default async function AssinaturaPage({
                     <span className="text-white text-3xl font-extrabold leading-none pb-0.5">,30</span>
                     <span className="text-[#9ec4de] text-lg pb-1.5 ml-1">/mês</span>
                   </div>
-                  <p className="text-[#9ec4de] text-sm">cobrado anualmente · R$ 400/ano</p>
+                  <p className="text-[#9ec4de] text-sm">R$ 400/ano · em até 12x sem juros no cartão</p>
                 </div>
                 <div className="flex flex-wrap gap-2 sm:justify-end">
                   <span className="bg-[#3db8d4]/20 border border-[#3db8d4]/40 text-[#3db8d4] text-xs font-bold px-3 py-1.5 rounded-full">
@@ -298,7 +299,7 @@ export default async function AssinaturaPage({
                   <span className="text-[#0f2d4a]/70 text-xl pb-0.5">,90</span>
                   <span className="text-zinc-500 text-sm pb-1 ml-1">/mês</span>
                 </div>
-                <p className="text-zinc-500 text-sm">cancele quando quiser</p>
+                <p className="text-zinc-500 text-sm">no cartão, sem se preocupar com o vencimento</p>
               </div>
               <div className="sm:flex-1">
                 <ul className="space-y-2 mb-5 sm:mb-0">
