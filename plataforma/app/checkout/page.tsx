@@ -4,6 +4,7 @@ import { hasBlockingSubscription } from "@/lib/subscription";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
+import PageTracker from "@/app/dashboard/_components/PageTracker";
 
 const PLANS = {
   anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,30/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
@@ -62,6 +63,7 @@ export default async function CheckoutPage({
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start px-4 py-8">
+      <PageTracker />
       <img src="/images/turma.jpg" alt="" aria-hidden="true" className="fixed inset-0 w-full h-full object-cover -z-10" />
       <div className="fixed inset-0 bg-[#0f2d4a]/75 -z-10" />
 

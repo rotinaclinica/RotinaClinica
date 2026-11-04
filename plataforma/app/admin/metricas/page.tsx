@@ -75,9 +75,7 @@ export default async function MetricasPage() {
     subsCancelled30d,
     subsExpired30d,
     subsEver,
-    ordersTotal,
     ordersPaid,
-    ordersAbandoned,
     revenueTotal,
     revenueThisMonth,
     revenueLastMonth,
@@ -114,9 +112,7 @@ export default async function MetricasPage() {
       },
     }),
     db.subscription.count({ where: notTestSub }),
-    db.order.count({ where: notTestOrder }),
     db.order.count({ where: { status: "PAID", ...notTestOrder } }),
-    db.order.count({ where: { status: { in: ["EXPIRED", "FAILED", "PENDING"] }, ...notTestOrder } }),
     db.order.aggregate({ where: { status: "PAID", ...notTestOrder }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
     db.order.aggregate({ where: { status: "PAID", paidAt: { gte: startOfLastMonth, lt: samePointLastMonth }, ...notTestOrder }, _sum: { totalCents: true } }),
@@ -151,6 +147,31 @@ export default async function MetricasPage() {
       select: { provider: true, paymentMethod: true, totalCents: true },
     }),
   ]);
+
+  // Checkout por pessoa, não por pedido: cada tentativa gera um pedido, então quem tentou
+  // várias vezes e pagou contava como abandono. Reembolsado também pagou.
+  const pago = { status: { in: ["PAID", "REFUNDED"] as ("PAID" | "REFUNDED")[] } };
+  const [tentaram, pagaram, aberturas] = await Promise.all([
+    db.order.findMany({ where: notTestOrder, distinct: ["userId"], select: { userId: true } }),
+    db.order.findMany({ where: { ...pago, ...notTestOrder }, distinct: ["userId"], select: { userId: true } }),
+    db.pageView.findMany({
+      where: { path: "/checkout", createdAt: { gte: thirtyDaysAgo } },
+      distinct: ["userId"],
+      select: { userId: true },
+    }),
+  ]);
+  const checkoutAbandonaram = tentaram.length - pagaram.length;
+  // Quem abriu o checkout e não clicou em pagar não gera pedido: só aparece aqui
+  const abriramIds = aberturas.map((a) => a.userId);
+  const [abriramCheckout, abriramEPagaram] = await Promise.all([
+    db.user.count({ where: { id: { in: abriramIds }, ...notTest } }),
+    db.order.findMany({
+      where: { ...pago, ...notTestOrder, userId: { in: abriramIds }, createdAt: { gte: thirtyDaysAgo } },
+      distinct: ["userId"],
+      select: { userId: true },
+    }),
+  ]);
+  const abriramSemPagar = abriramCheckout - abriramEPagaram.length;
 
   // Lucro líquido estimado
   const totalFeesAll = allPaidOrders.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
@@ -191,7 +212,10 @@ export default async function MetricasPage() {
 
   const conversionRate = totalUsers ? (subsEver / totalUsers * 100).toFixed(1) : "0.0";
 
-  const checkoutConversion = ordersTotal ? ((ordersPaid / ordersTotal) * 100).toFixed(1) : "0.0";
+  const checkoutConversion = tentaram.length ? ((pagaram.length / tentaram.length) * 100).toFixed(1) : "0.0";
+  const checkoutSub = `${checkoutAbandonaram} de ${tentaram.length} pessoas não pagaram`;
+  const aberturaLabel = "Abriram o checkout (30 dias)";
+  const aberturaSub = `${abriramSemPagar} não pagaram · registro desde 03/11/26`;
 
   const leadConversion = leadsTotal ? ((leadsConverted / leadsTotal) * 100).toFixed(1) : "0.0";
 
@@ -267,7 +291,8 @@ export default async function MetricasPage() {
           { label: "Leads capturados", value: String(leadsTotal), sub: `+${leads30d} últimos 30 dias` },
           { label: "Lead → Cadastro", value: `${leadConversion}%`, sub: `${leadsConverted} converteram` },
           { label: "Cadastro → Assinante", value: `${conversionRate}%`, sub: `${totalUsers} cadastros` },
-          { label: "Checkout → Pagamento", value: `${checkoutConversion}%`, sub: `${ordersAbandoned} abandonos` },
+          { label: aberturaLabel, value: String(abriramCheckout), sub: aberturaSub },
+          { label: "Clicou em pagar → Pagou", value: `${checkoutConversion}%`, sub: checkoutSub },
         ],
       },
       {
@@ -365,7 +390,8 @@ export default async function MetricasPage() {
           <Tile label="Leads capturados" value={leadsTotal} sub={`+${leads30d} últimos 30 dias`} />
           <Tile label="Lead → Cadastro" value={`${leadConversion}%`} sub={`${leadsConverted} converteram`} />
           <Tile label="Cadastro → Assinante" value={`${conversionRate}%`} sub={`${totalUsers} cadastros total`} />
-          <Tile label="Checkout → Pagamento" value={`${checkoutConversion}%`} color={Number(checkoutConversion) > 70 ? "green" : "yellow"} sub={`${ordersAbandoned} abandono${ordersAbandoned !== 1 ? "s" : ""}`} />
+          <Tile label={aberturaLabel} value={abriramCheckout} sub={aberturaSub} />
+          <Tile label="Clicou em pagar → Pagou" value={`${checkoutConversion}%`} color={Number(checkoutConversion) > 70 ? "green" : "yellow"} sub={checkoutSub} />
         </div>
         <div className="mt-3">
           <FunnelBar steps={[

@@ -114,6 +114,7 @@ export default async function ComportamentoPage({
         JOIN "User" u ON u.id = pv."userId"
         JOIN "Subscription" s ON s."userId" = u.id
         WHERE pv."createdAt" >= ${since7}
+          AND pv.path <> '/checkout'
           AND s.status = 'ACTIVE'
           AND u.role = 'CUSTOMER'
           AND u."anonymizedAt" IS NULL
@@ -130,6 +131,7 @@ export default async function ComportamentoPage({
         JOIN "User" u ON u.id = pv."userId"
         JOIN "Subscription" s ON s."userId" = u.id
         WHERE pv."createdAt" >= ${since7}
+          AND pv.path <> '/checkout'
           AND s.status = 'ACTIVE'
           AND u.role = 'CUSTOMER'
           AND u."anonymizedAt" IS NULL

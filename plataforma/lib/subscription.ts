@@ -150,13 +150,16 @@ export async function activateTrial(userId: string): Promise<boolean> {
   return count > 0;
 }
 
+/** Abrir o checkout é registrado em PageView, mas não é uso da plataforma: fica fora das contas de uso. */
+export const CHECKOUT_PATH = "/checkout";
+
 /**
  * Uso real durante o teste: quais seções já abriu e em quantos dias diferentes
  * (horário de Brasília). Quem usa 3+ dias converte; quem usa 1 dia não (dados out/2026).
  */
 export async function getTrialProgress(userId: string, since: Date) {
   const views = await db.pageView.findMany({
-    where: { userId, createdAt: { gte: since } },
+    where: { userId, createdAt: { gte: since }, path: { not: CHECKOUT_PATH } },
     select: { path: true, createdAt: true },
   });
   const dia = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" });

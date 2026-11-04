@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { CHECKOUT_PATH } from "@/lib/subscription";
 
 const schema = z.object({
   path: z.string().min(1).max(512),
@@ -43,9 +44,10 @@ export async function POST(req: NextRequest) {
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ ok: true });
 
-  // Só rastreamos rotas do próprio dashboard.
+  // Só rastreamos rotas do próprio dashboard, além da abertura do checkout
+  // (quem abre e não paga não gera pedido, então não apareceria em lugar nenhum).
   const path = parsed.data.path.split("?")[0].split("#")[0];
-  if (!path.startsWith("/dashboard") && !path.startsWith("/curso")) {
+  if (!path.startsWith("/dashboard") && !path.startsWith("/curso") && path !== CHECKOUT_PATH) {
     return NextResponse.json({ ok: true });
   }
 

@@ -136,7 +136,7 @@ async function sendOnboarding(now: number) {
         if (step === 101) html = onboardingD1(firstName);
         else if (step === 106) html = onboardingD6(firstName);
         else {
-          const acessos = await db.pageView.count({ where: { userId: user.id, createdAt: { gte: paidAt ?? undefined } } });
+          const acessos = await db.pageView.count({ where: { userId: user.id, createdAt: { gte: paidAt ?? undefined }, path: { not: "/checkout" } } });
           html = onboardingD3(firstName, acessos > 0);
           subj = acessos > 0 ? "Você ainda não viu tudo o que tem aqui" : "Seu acesso ao Rotina Clínica está esperando por você";
         }

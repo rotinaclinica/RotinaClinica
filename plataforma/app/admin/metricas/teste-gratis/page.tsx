@@ -96,7 +96,7 @@ export default async function TesteGratisPage() {
   );
   const views = users.length
     ? await db.pageView.findMany({
-        where: { userId: { in: users.map((u) => u.id) }, createdAt: { gte: earliest ?? now } },
+        where: { userId: { in: users.map((u) => u.id) }, createdAt: { gte: earliest ?? now }, path: { not: "/checkout" } },
         select: { userId: true, path: true, createdAt: true },
       })
     : [];
