@@ -46,7 +46,7 @@ export function dripHtml0(name: string) {
       A plataforma foi desenvolvida para estar presente em cada etapa da sua jornada — na faculdade, no internato, nos plantões e nos atendimentos da UBS — com modelos de evolução e condutas prontas, calculadoras clínicas, discussão de casos novos toda semana, o curso Destravando o Plantão, conteúdos exclusivos dos nossos parceiros e ebooks disponíveis para uso offline.
     </p>
     <p style="margin:0 0 24px;color:#475569;font-size:15px;line-height:1.7">
-      Tudo isso por <strong>R$ 33,30/mês</strong> no plano anual.
+      Tudo isso por <strong>R$ 33,33/mês</strong> no plano anual.
     </p>
     ${btn(`${APP_URL}/checkout?plano=anual`, "Quero assinar agora →")}
     <p style="margin:20px 0 0;color:#94a3b8;font-size:13px;text-align:center">

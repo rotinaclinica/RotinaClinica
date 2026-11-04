@@ -7,7 +7,7 @@ import CheckoutButton from "./CheckoutButton";
 import PageTracker from "@/app/dashboard/_components/PageTracker";
 
 const PLANS = {
-  anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,30/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
+  anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,33/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
   mensal: { slug: "assinatura-mensal", label: "Plano Mensal",  price: "R$ 39,90/mês", detail: "Cancele quando quiser" },
 } as const;
 
@@ -126,7 +126,7 @@ export default async function CheckoutPage({
           {/* Troca de plano no próprio checkout: o anual fica sempre à vista */}
           <div className="grid grid-cols-2 gap-2">
             {[
-              { id: "anual", nome: "Anual", valor: "R$ 33,30/mês", nota: "Economize R$ 79 · até 12x", selo: "Melhor valor" },
+              { id: "anual", nome: "Anual", valor: "R$ 33,33/mês", nota: "Economize R$ 79 · até 12x", selo: "Melhor valor" },
               { id: "mensal", nome: "Mensal", valor: "R$ 39,90/mês", nota: "Renova no cartão", selo: null },
             ].map((p) => {
               const ativo = p.id === plano;

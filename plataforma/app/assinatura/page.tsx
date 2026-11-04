@@ -8,7 +8,7 @@ import { trialEligibility, getActiveTrialEnd } from "@/lib/subscription";
 export const metadata = {
   title: "Planos e Assinatura",
   description:
-    "Assine o Rotina Clínica e tenha acesso a prescrições prontas, calculadoras clínicas, casos, cursos e ebooks para o plantão, a UBS e a emergência. A partir de R$ 33,30/mês.",
+    "Assine o Rotina Clínica e tenha acesso a prescrições prontas, calculadoras clínicas, casos, cursos e ebooks para o plantão, a UBS e a emergência. A partir de R$ 33,33/mês.",
 };
 
 const benefits = [
@@ -227,7 +227,7 @@ export default async function AssinaturaPage({
             <p className="text-white font-extrabold text-base">
               + calculadoras e escores, casos clínicos detalhados, aulas online e novos conteúdos adicionados constantemente, sempre baseados nas melhores evidências da literatura médica.
             </p>
-            <p className="text-[#32bcad] font-extrabold text-xl mt-1">a partir de R$ 33,30/mês</p>
+            <p className="text-[#32bcad] font-extrabold text-xl mt-1">a partir de R$ 33,33/mês</p>
           </div>
         </div>
       </section>
@@ -281,7 +281,7 @@ export default async function AssinaturaPage({
                 href="/checkout?plano=anual"
                 className="block text-center bg-[#3db8d4] text-[#0f2d4a] font-bold py-4 rounded-2xl hover:bg-[#2fa8c4] transition-all shadow text-base"
               >
-                Assinar agora — R$ 33,30/mês
+                Assinar agora — R$ 33,33/mês
               </Link>
               <p className="flex items-center justify-center gap-2 mt-3 text-xs text-white/70">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>

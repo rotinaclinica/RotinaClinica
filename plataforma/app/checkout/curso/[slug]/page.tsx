@@ -89,7 +89,7 @@ export default async function CursoCheckoutPage({ params }: { params: Promise<{ 
               <p className="text-xs text-white/80 leading-relaxed mb-3">
                 Com a assinatura do Rotina Clínica, você tem acesso a este curso e todos os outros conteúdos,
                 incluindo ebooks, prescrições, calculadoras, casos clínicos e muito mais
-                — por apenas <strong className="text-[#32bcad]">R$ 33,30/mês</strong> no plano anual.
+                — por apenas <strong className="text-[#32bcad]">R$ 33,33/mês</strong> no plano anual.
               </p>
               <Link
                 href="/assinatura"

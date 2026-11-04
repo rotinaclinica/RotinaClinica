@@ -55,7 +55,7 @@ Enquanto isso, deixa eu te lembrar o que está te esperando lá dentro:
 
 Tudo isso no celular, disponível em qualquer lugar.
 
-O plano mensal começa em R$ 39,90/mês. Se preferir o anual, sai por R$ 33,30/mês (equivale a 2 meses grátis).
+O plano mensal começa em R$ 39,90/mês. Se preferir o anual, sai por R$ 33,33/mês (equivale a 2 meses grátis).
 
 E se por algum motivo não gostar, devolvemos 100% em até 7 dias — sem burocracia.
 
