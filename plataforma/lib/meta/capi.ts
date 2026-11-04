@@ -37,9 +37,12 @@ function normalizePhone(phone: string) {
   return digits.length === 10 || digits.length === 11 ? `55${digits}` : digits;
 }
 
-async function sendEvent({ name, eventId, user, browser, sourcePath, customData }: CapiEvent) {
+async function sendEvent(
+  { name, eventId, user, browser, sourcePath, customData }: CapiEvent,
+  testCode = process.env.META_CAPI_TEST_CODE,
+) {
   const token = process.env.META_CAPI_TOKEN;
-  if (!token) return;
+  if (!token) return { configured: false as const };
 
   // A Meta exige user agent em eventos "website". O webhook de pagamento não vê o
   // navegador do comprador, então a compra vai como evento gerado pelo sistema.
@@ -65,7 +68,7 @@ async function sendEvent({ name, eventId, user, browser, sourcePath, customData 
         custom_data: customData,
       },
     ],
-    ...(process.env.META_CAPI_TEST_CODE ? { test_event_code: process.env.META_CAPI_TEST_CODE } : {}),
+    ...(testCode ? { test_event_code: testCode } : {}),
     access_token: token,
   };
 
@@ -76,10 +79,44 @@ async function sendEvent({ name, eventId, user, browser, sourcePath, customData 
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(5000),
     });
-    if (!res.ok) console.error(`[capi] ${name} ${eventId}: HTTP ${res.status}`);
+    const response: unknown = await res.json().catch(() => null);
+    if (!res.ok) console.error(`[capi] ${name} ${eventId}: HTTP ${res.status}`, response);
+    return { configured: true as const, status: res.status, response };
   } catch (err) {
-    console.error(`[capi] ${name} ${eventId}: ${err instanceof Error ? err.message : "erro"}`);
+    const error = err instanceof Error ? err.message : "erro";
+    console.error(`[capi] ${name} ${eventId}: ${error}`);
+    return { configured: true as const, status: 0, response: { error } };
   }
+}
+
+/** Teste do painel admin: os eventos só aparecem em "Eventos de Teste" e não contam nos dados reais. */
+export async function sendCapiTestEvents(testCode: string, user: { id: string; email: string }) {
+  const stamp = Date.now();
+  const target = { ...user, phone: null };
+  const [purchase, startTrial] = await Promise.all([
+    sendEvent(
+      {
+        name: "Purchase",
+        eventId: `test_purchase_${stamp}`,
+        user: target,
+        sourcePath: "/pedido/teste",
+        customData: { value: 39.9, currency: "BRL" },
+      },
+      testCode,
+    ),
+    sendEvent(
+      {
+        name: "StartTrial",
+        eventId: `test_trial_${stamp}`,
+        user: target,
+        browser: { userAgent: "capi-test" },
+        sourcePath: "/dashboard",
+        customData: { value: 0, currency: "BRL" },
+      },
+      testCode,
+    ),
+  ]);
+  return { purchase, startTrial };
 }
 
 async function loadMeasurableUser(userId: string) {
