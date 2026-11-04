@@ -302,6 +302,17 @@ export default function CheckoutButton({
           </span>
         </div>
 
+        {/* No celular o formulário empurra o botão do Pix para longe: avisar logo aqui que ele existe */}
+        {selected === "card" && (
+          <button
+            type="button"
+            onClick={() => { setError(""); setSelected("pix"); }}
+            className="w-full py-2 text-sm text-center text-zinc-800"
+          >
+            Prefere Pix? <span className="font-bold text-[#0f2d4a] underline underline-offset-2">Trocar</span>
+          </button>
+        )}
+
         {/* Pix no mensal: lembrar que a renovação é manual */}
         {selected === "pix" && isMensal && (
           <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs text-amber-900 leading-relaxed">
@@ -393,17 +404,6 @@ export default function CheckoutButton({
           )}
         </div>
 
-        {/* Depoimento rotativo */}
-        <div className="bg-[#f0fdfb] border border-[#32bcad]/40 rounded-xl px-4 py-3">
-          <div className="flex gap-0.5 mb-1.5">
-            {[...Array(5)].map((_, i) => (
-              <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            ))}
-          </div>
-          <p className="text-xs text-zinc-800 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
-          <p className="text-xs font-bold text-[#0f2d4a] mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
-        </div>
-
         {/* Botão principal */}
         <button
           onClick={() => pay(selected)}
@@ -438,6 +438,17 @@ export default function CheckoutButton({
             )}
           </span>
         </button>
+
+        {/* Depoimento rotativo */}
+        <div className="bg-[#f0fdfb] border border-[#32bcad]/40 rounded-xl px-4 py-3">
+          <div className="flex gap-0.5 mb-1.5">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            ))}
+          </div>
+          <p className="text-xs text-zinc-800 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
+          <p className="text-xs font-bold text-[#0f2d4a] mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
+        </div>
 
         {/* Garantia em destaque */}
         <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
