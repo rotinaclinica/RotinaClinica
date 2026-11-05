@@ -11,6 +11,8 @@ import { db } from "@/lib/db";
 
 const PIXEL_ID = "1052043933951264";
 const GRAPH_URL = `https://graph.facebook.com/v22.0/${PIXEL_ID}/events`;
+// Domínio fixo: o mesmo do pixel no navegador, independente da URL configurada no ambiente.
+const SITE_URL = "https://www.rotinaclinica.com";
 
 type BrowserContext = {
   fbp?: string;
@@ -55,7 +57,7 @@ async function sendEvent(
         event_time: Math.floor(Date.now() / 1000),
         event_id: eventId,
         action_source: fromBrowser ? "website" : "system_generated",
-        ...(fromBrowser ? { event_source_url: `${process.env.NEXT_PUBLIC_APP_URL}${sourcePath}` } : {}),
+        ...(fromBrowser ? { event_source_url: `${SITE_URL}${sourcePath}` } : {}),
         user_data: {
           em: [sha256(user.email.trim().toLowerCase())],
           external_id: [sha256(user.id)],
