@@ -173,15 +173,33 @@ export default function PrescricoesPage() {
 
   const handleClose = useCallback(() => setSelected(null), []);
 
-  // Link direto vindo das novidades: /dashboard/prescricoes?id=ID abre a conduta
+  // Link direto vindo das novidades: /dashboard/prescricoes?id=ID abre a conduta.
+  // ?q=texto chega da busca do painel (primeira sessão do teste) e já filtra a lista.
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const q = params.get("q")?.slice(0, 100);
     const item = id ? prescricoesMeta.find((p) => p.id === id) : undefined;
-    if (!item) return;
-    window.history.replaceState(null, "", window.location.pathname);
-    const t = setTimeout(() => setSelected(item), 0);
+    if (!item && !q) return;
+    // Limpa a URL só quando aplicar (o efeito pode rodar 2x em desenvolvimento)
+    const t = setTimeout(() => {
+      window.history.replaceState(null, "", window.location.pathname);
+      if (q) setQuery(q);
+      if (item) setSelected(item);
+    }, 0);
     return () => clearTimeout(t);
   }, []);
+
+  // Avisa a oferta do teste grátis (TrialOffer, no layout) de cada conduta aberta/fechada
+  const selectedId = selected?.id;
+  useEffect(() => {
+    if (!selectedId) return;
+    window.dispatchEvent(new CustomEvent("rc:conduta-aberta", { detail: { id: selectedId } }));
+  }, [selectedId]);
+  useEffect(() => {
+    if (selectedId) return;
+    window.dispatchEvent(new Event("rc:conduta-fechada"));
+  }, [selectedId]);
 
   return (
     <>

@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   title: { default: "Rotina Clínica", template: "%s | Rotina Clínica" },
   description: "Cursos e materiais digitais para profissionais da saúde",
   metadataBase: new URL("https://www.rotinaclinica.com"),
+  // Na tela inicial do iPhone abre sem a barra do navegador, como aplicativo
+  appleWebApp: { capable: true, title: "Rotina Clínica", statusBarStyle: "default" },
   openGraph: {
     title: "Rotina Clínica",
     description: "Cursos e materiais digitais para profissionais da saúde",

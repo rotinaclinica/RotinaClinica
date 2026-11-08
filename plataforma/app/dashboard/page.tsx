@@ -10,6 +10,7 @@ import { canAccessPaidContent, getActiveTrialEnd, getTrialProgress, isTrialRoute
 import { gruposNovidades, SECOES_NOVIDADE } from "@/lib/novidades";
 import NovidadesCard from "./_components/NovidadesCard";
 import TrialChecklist from "./_components/TrialChecklist";
+import TrialFirstStep from "./_components/TrialFirstStep";
 
 export const metadata = { title: "Dashboard · Rotina Clínica" };
 
@@ -199,7 +200,9 @@ export default async function DashboardPage() {
 
       {/* Content */}
       <main className="flex-1 p-6 sm:p-8">
-        {trialProgress && <TrialChecklist progress={trialProgress} />}
+        {/* Teste: antes da 1ª conduta, uma tarefa direta; depois, o checklist */}
+        {trialProgress && !trialProgress.conduta && <TrialFirstStep />}
+        {trialProgress && trialProgress.conduta && <TrialChecklist progress={trialProgress} />}
         {novidades.length > 0 && <NovidadesCard grupos={novidades} />}
 
         <div className="flex items-center justify-between mb-4">
