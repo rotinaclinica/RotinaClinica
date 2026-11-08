@@ -28,9 +28,30 @@ function shouldDedup(userId: string, path: string): boolean {
   return false;
 }
 
+// Visitante sem conta que abriu o checkout: grava com userId "anon_<id do navegador>".
+// Esse id não existe na tabela User, então as consultas que juntam PageView a User
+// (comportamento, retenção, uso do teste) não enxergam essas linhas.
+const ANON_CHECKOUT_PATH = "/checkout-visitante";
+const anonSchema = z.object({
+  path: z.literal(ANON_CHECKOUT_PATH),
+  visitorId: z.string().regex(/^[a-f0-9]{16,40}$/),
+});
+
+async function trackAnonCheckout(req: NextRequest, body: unknown) {
+  const parsed = anonSchema.safeParse(body);
+  if (!parsed.success) return;
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit("track-anon", ip, 10, 60_000)) return;
+  const userId = `anon_${parsed.data.visitorId}`;
+  if (shouldDedup(userId, ANON_CHECKOUT_PATH)) return;
+  await db.pageView.create({ data: { userId, path: ANON_CHECKOUT_PATH } }).catch(() => {});
+}
+
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
+    const body = await req.json().catch(() => null);
+    await trackAnonCheckout(req, body);
     return NextResponse.json({ ok: true }, { status: 200 });
   }
 

@@ -7,6 +7,7 @@ import { encryptCpf, hashCpf } from "@/lib/crypto/cpf";
 const schema = z.object({
   cpf: z.string().regex(/^\d{11}$/, "CPF deve conter 11 dígitos"),
   phone: z.string().min(10).optional(),
+  cep: z.string().regex(/^\d{8}$/).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
       cpf: encryptCpf(parsed.data.cpf),
       cpfHash: hashCpf(parsed.data.cpf),
       ...(parsed.data.phone ? { phone: parsed.data.phone } : {}),
+      ...(parsed.data.cep ? { cep: parsed.data.cep } : {}),
     },
   });
 

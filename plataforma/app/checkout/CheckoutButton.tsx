@@ -80,12 +80,15 @@ export default function CheckoutButton({
   productId,
   userCpf,
   userPhone,
+  userHasCep = true,
   plano,
   priceCents,
 }: {
   productId: string;
   userCpf?: string | null;
   userPhone?: string | null;
+  // Sem CEP salvo (cadastro curto do checkout): pede junto com o CPF, para a nota fiscal
+  userHasCep?: boolean;
   // mensal: cartão recorrente, sem parcelas · anual: pagamento único em até 12x
   plano: "mensal" | "anual";
   priceCents: number;
@@ -114,6 +117,7 @@ export default function CheckoutButton({
   const [showCpfModal, setShowCpfModal] = useState(false);
   const [cpf, setCpf] = useState("");
   const [phone, setPhone] = useState("");
+  const [cep, setCep] = useState("");
   const [saving, setSaving] = useState(false);
   const [fieldError, setFieldError] = useState("");
   const [cpfSaved, setCpfSaved] = useState(false);
@@ -139,6 +143,7 @@ export default function CheckoutButton({
     setShowCpfModal(false);
     setCpf("");
     setPhone("");
+    setCep("");
     setFieldError("");
   }
 
@@ -147,12 +152,14 @@ export default function CheckoutButton({
     const phoneDigits = phone.replace(/\D/g, "");
     if (cpfDigits.length !== 11) { setFieldError("Digite um CPF válido com 11 dígitos."); return; }
     if (needsPhone && phoneDigits.length < 10) { setFieldError("Digite um celular válido."); return; }
+    const cepDigits = cep.replace(/\D/g, "");
+    if (!userHasCep && cepDigits.length !== 8) { setFieldError("Digite um CEP válido com 8 dígitos."); return; }
     setSaving(true);
     setFieldError("");
     const res = await fetch("/api/user/cpf", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cpf: cpfDigits, ...(needsPhone ? { phone: phoneDigits } : {}) }),
+      body: JSON.stringify({ cpf: cpfDigits, ...(needsPhone ? { phone: phoneDigits } : {}), ...(!userHasCep ? { cep: cepDigits } : {}) }),
     });
     setSaving(false);
     if (!res.ok) { setFieldError("Erro ao salvar dados. Tente novamente."); return; }
@@ -245,7 +252,9 @@ export default function CheckoutButton({
             <div>
               <h2 className="text-base font-bold text-zinc-900 mb-1">Dados para pagamento</h2>
               <p className="text-xs text-zinc-500">
-                Precisamos do seu CPF para emitir a nota fiscal do pagamento.
+                {userHasCep
+                  ? "Precisamos do seu CPF para emitir a nota fiscal do pagamento."
+                  : "Precisamos do seu CPF e CEP para emitir a nota fiscal do pagamento."}
               </p>
             </div>
             <div className="space-y-3">
@@ -257,6 +266,16 @@ export default function CheckoutButton({
                   className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40"
                 />
               </div>
+              {!userHasCep && (
+                <div>
+                  <label className="block text-xs font-bold text-[#0f2d4a] mb-1">CEP</label>
+                  <input
+                    type="text" inputMode="numeric" placeholder="00000-000" autoComplete="postal-code"
+                    value={cep} onChange={(e) => { const d = e.target.value.replace(/\D/g, "").slice(0, 8); setCep(d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d); }}
+                    className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/40"
+                  />
+                </div>
+              )}
               {needsPhone && (
                 <div>
                   <label className="block text-xs font-bold text-[#0f2d4a] mb-1">Celular</label>

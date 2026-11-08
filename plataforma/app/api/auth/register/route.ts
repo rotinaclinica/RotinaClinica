@@ -15,8 +15,11 @@ const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(8),
-  phone: z.string().min(10),
-  cpf: z.string().length(11),
+  // Cadastro curto do checkout (quick): só nome, e-mail e senha. CPF e CEP são
+  // pedidos na tela de pagamento, antes de cobrar (necessários para a nota fiscal).
+  quick: z.literal(true).optional(),
+  phone: z.string().min(10).optional(),
+  cpf: z.string().length(11).optional(),
   cep: z.string().length(8).optional(),
   momentoProfissional: z.string().optional(),
   ambienteTrabalho: z.string().optional(),
@@ -47,6 +50,11 @@ export async function POST(req: NextRequest) {
     const msg = fieldMessages[first?.path?.[0] as string] ?? "Dados inválidos.";
     return NextResponse.json({ error: msg }, { status: 400 });
   }
+  // Fora do cadastro curto, telefone e CPF continuam obrigatórios
+  if (!parsed.data.quick) {
+    if (!parsed.data.phone) return NextResponse.json({ error: "Telefone inválido. Digite DDD + número." }, { status: 400 });
+    if (!parsed.data.cpf) return NextResponse.json({ error: "CPF inválido. Digite os 11 dígitos." }, { status: 400 });
+  }
 
   const { name, password, phone, cpf, cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl } = parsed.data;
   const email = parsed.data.email.toLowerCase();
@@ -58,8 +66,8 @@ export async function POST(req: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const cpfDigits = cpf.replace(/\D/g, "");
-    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf: encryptCpf(cpfDigits), cpfHash: hashCpf(cpfDigits), cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl } });
+    const cpfDigits = cpf?.replace(/\D/g, "");
+    const user = await db.user.create({ data: { name, email, passwordHash, phone, cpf: cpfDigits ? encryptCpf(cpfDigits) : null, cpfHash: cpfDigits ? hashCpf(cpfDigits) : null, cep, momentoProfissional, ambienteTrabalho, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl } });
 
     // Drip email 0 — boas-vindas (fire and forget)
     resend.emails.send({

@@ -121,7 +121,9 @@ function RegistroForm() {
     e.preventDefault();
     setError("");
 
-    if (password !== confirm) {
+    // Teste grátis: cadastro curto (nome, e-mail e senha). CPF e CEP são pedidos
+    // no checkout se a pessoa assinar depois.
+    if (!teste && password !== confirm) {
       setError("As senhas não coincidem.");
       return;
     }
@@ -134,12 +136,12 @@ function RegistroForm() {
     const cpfDigits = cpf.replace(/\D/g, "");
     const phoneDigits = phone.replace(/\D/g, "");
 
-    if (cpfDigits.length !== 11) {
+    if (!teste && cpfDigits.length !== 11) {
       setError("CPF inválido. Digite os 11 dígitos.");
       return;
     }
 
-    if (phoneDigits.length < 10) {
+    if (!teste && phoneDigits.length < 10) {
       setError("Telefone inválido. Digite DDD + número.");
       return;
     }
@@ -166,7 +168,7 @@ function RegistroForm() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined, momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl }),
+      body: JSON.stringify({ name, email, password, ...(teste ? { quick: true } : { phone: phoneDigits, cpf: cpfDigits, cep: cep.replace(/\D/g, "") || undefined }), momentoProfissional: momentoProfissional || undefined, ambienteTrabalho: ambientesTrabalho.length ? ambientesTrabalho.join(", ") : undefined, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl }),
     });
 
     setLoading(false);
@@ -304,6 +306,8 @@ function RegistroForm() {
               />
             </div>
 
+            {!teste && (
+              <>
             <div>
               <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Celular</label>
               <input
@@ -339,11 +343,15 @@ function RegistroForm() {
               />
             </div>
 
+              </>
+            )}
+
             <div>
               <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Senha</label>
-              <PasswordInput value={password} onChange={setPassword} placeholder="Mínimo 6 caracteres" />
+              <PasswordInput value={password} onChange={setPassword} placeholder="Mínimo 8 caracteres" />
             </div>
 
+            {!teste && (
             <div>
               <label className="block text-sm font-semibold text-[#0f2d4a] mb-1.5">Confirme sua senha</label>
               <div className="relative">
@@ -353,6 +361,7 @@ function RegistroForm() {
                 <p className="text-red-500 text-xs mt-1">As senhas não coincidem.</p>
               )}
             </div>
+            )}
 
             {/* Momento profissional */}
             <div>

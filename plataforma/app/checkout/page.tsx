@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
 import PageTracker from "@/app/dashboard/_components/PageTracker";
+import QuickSignup from "./QuickSignup";
+import AnonCheckoutTracker from "./AnonCheckoutTracker";
 
 const PLANS = {
   anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,33/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
@@ -21,21 +23,23 @@ export default async function CheckoutPage({
 
   if (!plan) redirect("/assinatura");
 
+  // Visitante sem conta não é mais mandado ao login: cria a conta aqui mesmo
+  // (nome, e-mail e senha) e a página recarrega já logada, com o pagamento.
   const session = await auth();
-  if (!session?.user?.id) {
-    redirect(`/login?callbackUrl=/checkout?plano=${plano}`);
-  }
+  const userId = session?.user?.id ?? null;
 
   const [product, userProfile, existing] = await Promise.all([
     db.product.findUnique({ where: { slug: plan.slug, active: true }, select: { id: true, priceCents: true } }),
-    db.user.findUnique({ where: { id: session.user.id }, select: { cpf: true, phone: true } }),
-    db.subscription.findUnique({ where: { userId: session.user.id }, select: { status: true, asaasSubscriptionId: true, currentPeriodEnd: true } }),
+    userId ? db.user.findUnique({ where: { id: userId }, select: { cpf: true, phone: true, cep: true } }) : null,
+    userId ? db.subscription.findUnique({ where: { userId }, select: { status: true, asaasSubscriptionId: true, currentPeriodEnd: true } }) : null,
   ]);
 
   if (!product) redirect("/assinatura");
-  // Recorrente no cartão já renova sozinho; avulso pode renovar a qualquer momento
-  if (existing?.status === "ACTIVE" && existing.asaasSubscriptionId) redirect("/dashboard");
-  if (await hasBlockingSubscription(session.user.id, plano === "anual" ? "ANNUAL" : "MONTHLY")) redirect("/dashboard");
+  if (userId) {
+    // Recorrente no cartão já renova sozinho; avulso pode renovar a qualquer momento
+    if (existing?.status === "ACTIVE" && existing.asaasSubscriptionId) redirect("/dashboard");
+    if (await hasBlockingSubscription(userId, plano === "anual" ? "ANNUAL" : "MONTHLY")) redirect("/dashboard");
+  }
 
   const isMensal = plano === "mensal";
 
@@ -63,7 +67,7 @@ export default async function CheckoutPage({
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start px-4 py-8">
-      <PageTracker />
+      {userId ? <PageTracker /> : <AnonCheckoutTracker />}
       <img src="/images/turma.jpg" alt="" aria-hidden="true" className="fixed inset-0 w-full h-full object-cover -z-10" />
       <div className="fixed inset-0 bg-[#0f2d4a]/75 -z-10" />
 
@@ -111,9 +115,11 @@ export default async function CheckoutPage({
           </div>
         </div>
         <div className="px-6 py-6 space-y-4">
-          <p className="text-zinc-700 text-xs text-center">
-            Logado como <span className="font-semibold text-zinc-900">{session.user.email}</span>
-          </p>
+          {userId && (
+            <p className="text-zinc-700 text-xs text-center">
+              Logado como <span className="font-semibold text-zinc-900">{session?.user?.email}</span>
+            </p>
+          )}
           {renewal && (
             <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 leading-snug">
               Você já tem acesso até <strong>{renewal.atual}</strong>. Este pagamento estende seu acesso até{" "}
@@ -151,14 +157,19 @@ export default async function CheckoutPage({
               );
             })}
           </div>
-          <CheckoutButton
-            key={plano}
-            productId={product.id}
-            userCpf={userProfile?.cpf}
-            userPhone={userProfile?.phone}
-            plano={isMensal ? "mensal" : "anual"}
-            priceCents={product.priceCents}
-          />
+          {userId ? (
+            <CheckoutButton
+              key={plano}
+              productId={product.id}
+              userCpf={userProfile?.cpf}
+              userPhone={userProfile?.phone}
+              userHasCep={!!userProfile?.cep}
+              plano={isMensal ? "mensal" : "anual"}
+              priceCents={product.priceCents}
+            />
+          ) : (
+            <QuickSignup plano={isMensal ? "mensal" : "anual"} />
+          )}
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-700 hover:text-zinc-900 hover:underline transition-colors">
               ← Ver outros planos

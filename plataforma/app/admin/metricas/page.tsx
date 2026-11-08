@@ -172,6 +172,12 @@ export default async function MetricasPage() {
     }),
   ]);
   const abriramSemPagar = abriramCheckout - abriramEPagaram.length;
+  // Visitantes sem conta que abriram o checkout (id aleatório do navegador, desde 08/11/26)
+  const visitantesCheckout = (await db.pageView.findMany({
+    where: { path: "/checkout-visitante", createdAt: { gte: thirtyDaysAgo } },
+    distinct: ["userId"],
+    select: { userId: true },
+  })).length;
 
   // Lucro líquido estimado
   const totalFeesAll = allPaidOrders.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
@@ -215,7 +221,7 @@ export default async function MetricasPage() {
   const checkoutConversion = tentaram.length ? ((pagaram.length / tentaram.length) * 100).toFixed(1) : "0.0";
   const checkoutSub = `${checkoutAbandonaram} de ${tentaram.length} pessoas não pagaram`;
   const aberturaLabel = "Abriram o checkout (30 dias)";
-  const aberturaSub = `${abriramSemPagar} não pagaram · registro desde 03/11/26`;
+  const aberturaSub = `${abriramSemPagar} não pagaram · +${visitantesCheckout} sem conta (desde 08/11/26)`;
 
   const leadConversion = leadsTotal ? ((leadsConverted / leadsTotal) * 100).toFixed(1) : "0.0";
 

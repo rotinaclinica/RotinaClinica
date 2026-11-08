@@ -30,8 +30,13 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const registered = searchParams.get("registered") === "1";
-  const plano = searchParams.get("plano");
   const teste = searchParams.get("teste") === "1";
+  // Destino depois do login: só caminhos internos (evita redirecionar para outro site)
+  const rawCallback = searchParams.get("callbackUrl");
+  const callbackUrl = rawCallback && rawCallback.startsWith("/") && !rawCallback.startsWith("//") && !rawCallback.includes("\\") ? rawCallback : null;
+  // O plano pode vir direto (?plano=) ou dentro do destino (/checkout?plano=)
+  const planoParam = searchParams.get("plano") ?? (callbackUrl?.startsWith("/checkout") ? new URLSearchParams(callbackUrl.split("?")[1] ?? "").get("plano") : null);
+  const plano = planoParam === "anual" || planoParam === "mensal" ? planoParam : null;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,6 +70,8 @@ function LoginForm() {
         router.push(r?.activated ? "/dashboard?teste=ativado" : "/teste");
       } else if (plano) {
         router.push(`/checkout?plano=${plano}`);
+      } else if (callbackUrl) {
+        router.push(callbackUrl);
       } else {
         router.push("/dashboard");
       }
@@ -231,7 +238,7 @@ function LoginForm() {
           <div className="mt-6 space-y-2 text-center">
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Ainda não tem conta?{" "}
-              <Link href={teste ? "/registro?teste=1" : "/registro"} className="text-[#1a6aad] dark:text-[#3db8d4] font-semibold hover:underline">
+              <Link href={teste ? "/registro?teste=1" : plano ? `/checkout?plano=${plano}` : "/registro"} className="text-[#1a6aad] dark:text-[#3db8d4] font-semibold hover:underline">
                 Criar conta
               </Link>
             </p>
