@@ -4,10 +4,17 @@ import { auth } from "@/lib/auth";
 import { canAccessPaidContent, getActiveTrialEnd, trialEligibility, TRIAL_DAYS } from "@/lib/subscription";
 import { redirect } from "next/navigation";
 import { activateTrialAction } from "./actions";
+import { shareMeta } from "@/lib/seo";
 
 export const metadata = {
-  title: "Teste grátis por 7 dias · Rotina Clínica",
+  title: "Teste grátis por 7 dias",
   description: "Experimente grátis por 7 dias as Condutas Clínicas, os Modelos de evolução e as Calculadoras do Rotina Clínica.",
+  ...shareMeta(
+    "/teste",
+    "Teste grátis o Rotina Clínica por 7 dias",
+    "Condutas clínicas, modelos de evolução e calculadoras liberados por 7 dias para usar no seu plantão. Sem cartão de crédito.",
+    "/teste/opengraph-image.jpg"
+  ),
 };
 
 const FEATURES = [

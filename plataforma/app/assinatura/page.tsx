@@ -4,11 +4,17 @@ import { Logo } from "@/app/components/Navbar";
 import PixelViewContent from "@/app/components/PixelViewContent";
 import { auth } from "@/lib/auth";
 import { trialEligibility, getActiveTrialEnd } from "@/lib/subscription";
+import { shareMeta } from "@/lib/seo";
 
 export const metadata = {
   title: "Planos e Assinatura",
   description:
     "Assine o Rotina Clínica e tenha acesso a prescrições prontas, calculadoras clínicas, casos, cursos e ebooks para o plantão, a UBS e a emergência. A partir de R$ 33,33/mês.",
+  ...shareMeta(
+    "/assinatura",
+    "Assine o Rotina Clínica · a partir de R$ 33,33/mês",
+    "Condutas prontas, modelos de evolução, calculadoras, casos, cursos e ebooks para o plantão, a UBS e a emergência. Garantia de 7 dias."
+  ),
 };
 
 const benefits = [

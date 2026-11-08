@@ -1,11 +1,17 @@
 import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
 import TurmaCarousel from "@/app/components/TurmaCarousel";
+import { shareMeta } from "@/lib/seo";
 
 export const metadata = {
   title: "Conheça a plataforma",
   description:
     "Conheça o Rotina Clínica: a plataforma completa para o médico generalista e o estudante — prescrições, calculadoras, cursos e materiais para a rotina no plantão, na UBS e na emergência.",
+  ...shareMeta(
+    "/conheca",
+    "Conheça a plataforma do Rotina Clínica",
+    "Prescrições, calculadoras, cursos e materiais para o médico generalista e o estudante no plantão, na UBS e na emergência."
+  ),
 };
 
 export default function ConhecaPage() {

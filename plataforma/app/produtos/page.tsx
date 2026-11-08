@@ -2,11 +2,17 @@ import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import { Logo } from "@/app/components/Navbar";
 import { prescricoesMeta } from "@/lib/prescricoes-meta";
+import { shareMeta } from "@/lib/seo";
 
 export const metadata = {
   title: "Ebooks e Cursos",
   description:
     "Ebooks e cursos práticos para o plantão: Manual de Prescrições da UBS à emergência, Guia de Intubação e Ventilação Mecânica e o curso Destravando o Plantão.",
+  ...shareMeta(
+    "/produtos",
+    "Ebooks e cursos do Rotina Clínica",
+    "Manual de Prescrições da UBS à emergência, Guia de Intubação e Ventilação Mecânica e o curso Destravando o Plantão."
+  ),
 };
 
 const PAID_PRODUCTS = [

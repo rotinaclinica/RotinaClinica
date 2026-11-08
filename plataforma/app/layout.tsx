@@ -8,24 +8,27 @@ import ThemeProvider from "@/app/components/ThemeProvider";
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap", weight: ["500", "600", "700", "800"] });
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm", display: "swap", weight: ["400", "500", "600", "700"] });
 
+const DESCRICAO =
+  "Mais de 250 condutas clínicas, modelos de evolução, calculadoras, casos e cursos para médicos e estudantes no plantão, PS, UPA e UBS.";
+
 export const metadata: Metadata = {
   title: { default: "Rotina Clínica", template: "%s | Rotina Clínica" },
-  description: "Cursos e materiais digitais para profissionais da saúde",
+  description: DESCRICAO,
   metadataBase: new URL("https://www.rotinaclinica.com"),
   // Na tela inicial do iPhone abre sem a barra do navegador, como aplicativo
   appleWebApp: { capable: true, title: "Rotina Clínica", statusBarStyle: "default" },
+  // Padrão das páginas sem prévia própria (sem url: cada página informa a sua via lib/seo.ts)
   openGraph: {
-    title: "Rotina Clínica",
-    description: "Cursos e materiais digitais para profissionais da saúde",
-    url: "https://www.rotinaclinica.com",
+    title: "Rotina Clínica · Condutas prontas para o plantão",
+    description: DESCRICAO,
     siteName: "Rotina Clínica",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rotina Clínica",
-    description: "Cursos e materiais digitais para profissionais da saúde",
+    title: "Rotina Clínica · Condutas prontas para o plantão",
+    description: DESCRICAO,
   },
 };
 

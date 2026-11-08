@@ -8,11 +8,17 @@ import TourPrescricaoModal from "./TourPrescricaoModal";
 import TourEvolucaoModal from "./TourEvolucaoModal";
 import TourCasosMockup from "./TourCasosMockup";
 import TourMateriaisMockup from "./TourMateriaisMockup";
+import { shareMeta } from "@/lib/seo";
 
 export const metadata = {
   title: "Tour pela plataforma",
   description:
     "Faça um tour pela plataforma do Rotina Clínica: veja por dentro as prescrições, os modelos de evolução, os casos clínicos e os materiais que agilizam a sua rotina.",
+  ...shareMeta(
+    "/tour",
+    "Tour pela plataforma do Rotina Clínica",
+    "Veja por dentro as prescrições, os modelos de evolução, os casos clínicos e os materiais que agilizam a sua rotina."
+  ),
 };
 
 function getPrescricaoContent(id: string): string {

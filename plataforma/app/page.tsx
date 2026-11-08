@@ -1,5 +1,18 @@
 export const revalidate = 300;
 
+import { shareMeta } from "@/lib/seo";
+
+export const metadata = {
+  title: { absolute: "Rotina Clínica · Condutas prontas para o plantão" },
+  description:
+    "Mais de 250 condutas clínicas, modelos de evolução, calculadoras, casos e cursos para médicos e estudantes no plantão, PS, UPA e UBS.",
+  ...shareMeta(
+    "/",
+    "Rotina Clínica · Condutas prontas para o plantão",
+    "Mais de 250 condutas clínicas, modelos de evolução, calculadoras, casos e cursos para médicos e estudantes no plantão, PS, UPA e UBS."
+  ),
+};
+
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { Logo } from "@/app/components/Navbar";
