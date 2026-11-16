@@ -7,6 +7,10 @@ import CheckoutButton from "./CheckoutButton";
 import PageTracker from "@/app/dashboard/_components/PageTracker";
 import QuickSignup from "./QuickSignup";
 import AnonCheckoutTracker from "./AnonCheckoutTracker";
+import { ofertaPorSlug } from "@/lib/promocoes";
+
+const brl = (cents: number) =>
+  (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 const PLANS = {
   anual:  { slug: "assinatura-anual",  label: "Plano Anual",   price: "R$ 33,33/mês",  detail: "R$ 400/ano · acesso por 12 meses" },
@@ -16,9 +20,9 @@ const PLANS = {
 export default async function CheckoutPage({
   searchParams,
 }: {
-  searchParams: Promise<{ plano?: string }>;
+  searchParams: Promise<{ plano?: string; oferta?: string }>;
 }) {
-  const { plano } = await searchParams;
+  const { plano, oferta: ofertaParam } = await searchParams;
   const plan = PLANS[plano as keyof typeof PLANS];
 
   if (!plan) redirect("/assinatura");
@@ -35,6 +39,28 @@ export default async function CheckoutPage({
   ]);
 
   if (!product) redirect("/assinatura");
+
+  // Oferta por link (?oferta=blackweek): só vale com o cupom ativo, no prazo e
+  // válido para este produto. O desconto de verdade é recalculado no servidor.
+  const oferta = ofertaPorSlug(ofertaParam);
+  const coupon = oferta
+    ? await db.coupon.findUnique({
+        where: { code: oferta.couponCode },
+        select: { active: true, expiresAt: true, discountType: true, discountValue: true, maxUses: true, usedCount: true, products: { select: { id: true } } },
+      })
+    : null;
+  const promo =
+    oferta && coupon && coupon.active &&
+    (!coupon.expiresAt || coupon.expiresAt > new Date()) &&
+    (!coupon.maxUses || coupon.usedCount < coupon.maxUses) &&
+    (coupon.products.length === 0 || coupon.products.some((p) => p.id === product.id))
+      ? { oferta, coupon }
+      : null;
+  const descontoDe = (cents: number) =>
+    !promo ? 0 : Math.min(cents, promo.coupon.discountType === "PERCENT" ? Math.round((cents * promo.coupon.discountValue) / 100) : promo.coupon.discountValue);
+  const finalCents = product.priceCents - descontoDe(product.priceCents);
+  const ofQs = promo ? `&oferta=${promo.oferta.slug}` : "";
+  const pct = promo?.coupon.discountType === "PERCENT" ? promo.coupon.discountValue : null;
   if (userId) {
     // Recorrente no cartão já renova sozinho; avulso pode renovar a qualquer momento
     if (existing?.status === "ACTIVE" && existing.asaasSubscriptionId) redirect("/dashboard");
@@ -42,6 +68,16 @@ export default async function CheckoutPage({
   }
 
   const isMensal = plano === "mensal";
+  const ciclos = promo?.oferta.ciclosMensal ?? 0;
+  const head = !promo
+    ? { label: plan.label, price: plan.price, detail: plan.detail, de: null as string | null }
+    : isMensal
+      ? { label: "Plano Mensal · Black Week", price: `${brl(finalCents)}/mês`, de: `${brl(product.priceCents)}/mês`,
+          detail: `${pct ? `${pct}% off` : "Desconto"} nas ${ciclos} primeiras mensalidades, enquanto a assinatura seguir ativa` }
+      : { label: "Plano Anual · Black Week", price: `12x de ${brl(finalCents / 12)}`, de: `${brl(product.priceCents)} no ano`,
+          detail: `${brl(finalCents)} no ano · Pix ou cartão em até 12x` };
+  const anualFinal = 40000 - descontoDe(40000);
+  const mensalFinal = 3990 - descontoDe(3990);
 
   // Renovação antecipada de quem paga avulso: o novo período soma ao fim do atual
   // (mesma regra dos webhooks), então mostramos as duas datas para evitar compra
@@ -74,9 +110,10 @@ export default async function CheckoutPage({
       {/* Card principal de checkout */}
       <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden">
         <div className="bg-[#0f2d4a] px-6 py-6">
-          <p className="text-[#9ec4de] text-xs font-semibold uppercase tracking-wider mb-1">{plan.label}</p>
-          <p className="text-white text-3xl font-extrabold">{plan.price}</p>
-          <p className="text-[#9ec4de] text-sm mt-1">{plan.detail}</p>
+          <p className="text-[#9ec4de] text-xs font-semibold uppercase tracking-wider mb-1">{head.label}</p>
+          {head.de && <p className="text-[#9ec4de] text-sm line-through">{head.de}</p>}
+          <p className="text-white text-3xl font-extrabold">{head.price}</p>
+          <p className="text-[#9ec4de] text-sm mt-1">{head.detail}</p>
           <ul className="mt-4 space-y-1.5">
             {[
               "Prescrições e condutas clínicas prontas",
@@ -132,14 +169,18 @@ export default async function CheckoutPage({
           {/* Troca de plano no próprio checkout: o anual fica sempre à vista */}
           <div className="grid grid-cols-2 gap-2">
             {[
-              { id: "anual", nome: "Anual", valor: "R$ 33,33/mês", nota: "Economize R$ 79 · até 12x", selo: "Melhor valor" },
-              { id: "mensal", nome: "Mensal", valor: "R$ 39,90/mês", nota: "Renova no cartão", selo: null },
+              promo
+                ? { id: "anual", nome: "Anual", valor: `${brl(anualFinal / 12)}/mês`, nota: `${brl(anualFinal)} no ano · Pix ou até 12x`, selo: pct ? `${pct}% off` : "Oferta" }
+                : { id: "anual", nome: "Anual", valor: "R$ 33,33/mês", nota: "Economize R$ 79 · até 12x", selo: "Melhor valor" },
+              promo
+                ? { id: "mensal", nome: "Mensal", valor: `${brl(mensalFinal)}/mês`, nota: `Nos ${ciclos} primeiros meses · cartão`, selo: pct ? `${pct}% off` : "Oferta" }
+                : { id: "mensal", nome: "Mensal", valor: "R$ 39,90/mês", nota: "Renova no cartão", selo: null },
             ].map((p) => {
               const ativo = p.id === plano;
               return (
                 <Link
                   key={p.id}
-                  href={`/checkout?plano=${p.id}`}
+                  href={`/checkout?plano=${p.id}${ofQs}`}
                   aria-current={ativo ? "true" : undefined}
                   className={`relative block rounded-xl border-2 px-3 pb-3 pt-4 transition-colors ${
                     ativo ? "border-[#0d9488] bg-[#f0fdfa]" : "border-zinc-300 bg-white hover:border-[#0f2d4a]/40"
@@ -165,10 +206,16 @@ export default async function CheckoutPage({
               userPhone={userProfile?.phone}
               userHasCep={!!userProfile?.cep}
               plano={isMensal ? "mensal" : "anual"}
-              priceCents={product.priceCents}
+              priceCents={finalCents}
+              couponCode={promo?.oferta.couponCode}
+              mensalNote={
+                promo && isMensal
+                  ? `Cobrança de ${brl(finalCents)} por mês nos ${ciclos} primeiros meses, renovada automaticamente; depois, ${brl(product.priceCents)} por mês.`
+                  : undefined
+              }
             />
           ) : (
-            <QuickSignup plano={isMensal ? "mensal" : "anual"} />
+            <QuickSignup plano={isMensal ? "mensal" : "anual"} oferta={promo?.oferta.slug} />
           )}
           <div className="text-center">
             <Link href="/assinatura" className="text-xs text-zinc-700 hover:text-zinc-900 hover:underline transition-colors">

@@ -83,6 +83,8 @@ export default function CheckoutButton({
   userHasCep = true,
   plano,
   priceCents,
+  couponCode,
+  mensalNote,
 }: {
   productId: string;
   userCpf?: string | null;
@@ -92,6 +94,10 @@ export default function CheckoutButton({
   // mensal: cartão recorrente, sem parcelas · anual: pagamento único em até 12x
   plano: "mensal" | "anual";
   priceCents: number;
+  // Oferta por link (?oferta=): o servidor valida o cupom e aplica o desconto;
+  // priceCents já chega com desconto, só para exibição.
+  couponCode?: string;
+  mensalNote?: string;
 }) {
   const isMensal = plano === "mensal";
   const methods = PRIMARY_METHODS.map((m) =>
@@ -189,7 +195,7 @@ export default function CheckoutButton({
         const res = await fetch("/api/checkout/asaas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId, method: "pix", ambassadorCode: code }),
+          body: JSON.stringify({ productId, method: "pix", ambassadorCode: code, couponCode }),
         });
         const data = await res.json();
         if (!res.ok) {
@@ -209,6 +215,7 @@ export default function CheckoutButton({
             productId,
             method: "card",
             ambassadorCode: code,
+            couponCode,
             installments,
             card: {
               holderName: cardName.trim(),
@@ -379,7 +386,7 @@ export default function CheckoutButton({
             </div>
             {isMensal ? (
               <p className="text-xs text-zinc-700">
-                Cobrança de {brl(priceCents)} por mês, renovada automaticamente. Cancele quando quiser.
+                {mensalNote ?? `Cobrança de ${brl(priceCents)} por mês, renovada automaticamente.`} Cancele quando quiser.
               </p>
             ) : (
               <div>

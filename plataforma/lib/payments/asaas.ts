@@ -188,6 +188,17 @@ export async function createAsaasSubscription(params: {
   };
 }
 
+// Muda o valor das próximas cobranças da assinatura (inclusive a já gerada e
+// ainda pendente), usada quando termina o período com desconto.
+export async function updateAsaasSubscriptionValue(subscriptionId: string, valueCents: number): Promise<void> {
+  const res = await fetch(`${base()}/subscriptions/${subscriptionId}`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({ value: valueCents / 100, updatePendingPayments: true }),
+  });
+  if (!res.ok) throw new Error(await firstError(res, "Erro ao atualizar valor da assinatura"));
+}
+
 export async function cancelAsaasSubscription(subscriptionId: string): Promise<void> {
   await fetch(`${base()}/subscriptions/${subscriptionId}`, {
     method: "DELETE",

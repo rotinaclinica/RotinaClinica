@@ -9,7 +9,8 @@ import Link from "next/link";
  * Só nome, e-mail e senha: CPF e CEP, necessários para a nota fiscal, são pedidos
  * na própria tela de pagamento, logo antes de cobrar.
  */
-export default function QuickSignup({ plano }: { plano: "mensal" | "anual" }) {
+export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anual"; oferta?: string }) {
+  const of = oferta ? `&oferta=${oferta}` : "";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +20,7 @@ export default function QuickSignup({ plano }: { plano: "mensal" | "anual" }) {
   const [emailExists, setEmailExists] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const loginHref = `/login?plano=${plano}`;
+  const loginHref = `/login?plano=${plano}${of}`;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,11 +75,11 @@ export default function QuickSignup({ plano }: { plano: "mensal" | "anual" }) {
     const result = await signIn("credentials", { email, password, redirect: false });
     if (result?.error) {
       // Conta criada, mas o login automático falhou: segue pelo login, que volta ao checkout
-      window.location.assign(`/login?registered=1&plano=${plano}`);
+      window.location.assign(`/login?registered=1&plano=${plano}${of}`);
       return;
     }
     // Recarrega o checkout já logado, com as formas de pagamento
-    window.location.assign(`/checkout?plano=${plano}`);
+    window.location.assign(`/checkout?plano=${plano}${of}`);
   }
 
   const inputClass =

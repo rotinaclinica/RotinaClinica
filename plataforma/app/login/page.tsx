@@ -37,6 +37,9 @@ function LoginForm() {
   // O plano pode vir direto (?plano=) ou dentro do destino (/checkout?plano=)
   const planoParam = searchParams.get("plano") ?? (callbackUrl?.startsWith("/checkout") ? new URLSearchParams(callbackUrl.split("?")[1] ?? "").get("plano") : null);
   const plano = planoParam === "anual" || planoParam === "mensal" ? planoParam : null;
+  // Oferta por link (Black Week etc.) segue junto até o checkout
+  const ofertaParam = searchParams.get("oferta");
+  const of = ofertaParam && /^[a-z0-9-]{1,30}$/.test(ofertaParam) ? `&oferta=${ofertaParam}` : "";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,7 +72,7 @@ function LoginForm() {
         const r = await fetch("/api/trial/activate", { method: "POST" }).then((x) => x.json()).catch(() => null);
         router.push(r?.activated ? "/dashboard?teste=ativado" : "/teste");
       } else if (plano) {
-        router.push(`/checkout?plano=${plano}`);
+        router.push(`/checkout?plano=${plano}${of}`);
       } else if (callbackUrl) {
         router.push(callbackUrl);
       } else {
@@ -238,7 +241,7 @@ function LoginForm() {
           <div className="mt-6 space-y-2 text-center">
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Ainda não tem conta?{" "}
-              <Link href={teste ? "/registro?teste=1" : plano ? `/checkout?plano=${plano}` : "/registro"} className="text-[#1a6aad] dark:text-[#3db8d4] font-semibold hover:underline">
+              <Link href={teste ? "/registro?teste=1" : plano ? `/checkout?plano=${plano}${of}` : "/registro"} className="text-[#1a6aad] dark:text-[#3db8d4] font-semibold hover:underline">
                 Criar conta
               </Link>
             </p>

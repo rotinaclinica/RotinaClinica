@@ -5,9 +5,34 @@ import { sendPurchaseConfirmation, sendNewSubscriberNotification, sendEbookSaleN
 import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
-import { verifyAsaasWebhook } from "@/lib/payments/asaas";
+import { verifyAsaasWebhook, updateAsaasSubscriptionValue } from "@/lib/payments/asaas";
+import { ciclosDoCupom } from "@/lib/promocoes";
 import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 import { trackPurchase } from "@/lib/meta/capi";
+
+async function endRecurringDiscountIfDone(orderId: string, asaasSubscriptionId: string, paidCents: number) {
+  const original = await db.order.findUnique({
+    where: { id: orderId },
+    select: { userId: true, couponCode: true, createdAt: true, items: { select: { productId: true, product: { select: { priceCents: true } } } } },
+  });
+  const ciclos = ciclosDoCupom(original?.couponCode);
+  const item = original?.items[0];
+  if (!original || !ciclos || !item || paidCents >= item.product.priceCents) return;
+
+  // Cobranças pagas desta assinatura: o pedido original + um pedido por renovação
+  const pagas = await db.order.count({
+    where: {
+      userId: original.userId,
+      provider: "ASAAS",
+      status: "PAID",
+      createdAt: { gte: original.createdAt },
+      items: { some: { productId: item.productId } },
+    },
+  });
+  if (pagas >= ciclos) {
+    await updateAsaasSubscriptionValue(asaasSubscriptionId, item.product.priceCents);
+  }
+}
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("asaas-access-token");
@@ -104,6 +129,14 @@ export async function POST(req: NextRequest) {
               });
               await createPendingInvoiceForOrder(renewal.id).catch(() => {});
             }
+          }
+
+          // Desconto por tempo limitado (ex.: Black Week, 12 meses no mensal):
+          // ao pagar a última cobrança com desconto, as próximas voltam ao preço cheio.
+          if (existingSub.plan === "MONTHLY" && orderId) {
+            await endRecurringDiscountIfDone(orderId, asaasSubscriptionId, renewalCents).catch((err) =>
+              logError({ route: "/api/webhooks/asaas#promo", method: "POST", error: err })
+            );
           }
 
           // Não envia email de boas-vindas na renovação, só na primeira compra
