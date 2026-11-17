@@ -208,6 +208,7 @@ export default async function CheckoutPage({
               plano={isMensal ? "mensal" : "anual"}
               priceCents={finalCents}
               couponCode={promo?.oferta.couponCode}
+              cardOnly={!!promo && isMensal}
               mensalNote={
                 promo && isMensal
                   ? `Cobrança de ${brl(finalCents)} por mês nos ${ciclos} primeiros meses, renovada automaticamente; depois, ${brl(product.priceCents)} por mês.`

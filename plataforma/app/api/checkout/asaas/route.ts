@@ -13,6 +13,7 @@ import {
 import { grantAccess } from "@/lib/entitlements";
 import { decryptCpf } from "@/lib/crypto/cpf";
 import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
+import { ciclosDoCupom } from "@/lib/promocoes";
 
 const baseSchema = z.object({
   productId: z.string(),
@@ -112,6 +113,11 @@ export async function POST(req: NextRequest) {
         : coupon.discountValue;
     discountCents = Math.min(discountCents, product.priceCents);
     couponId = coupon.id;
+    // Desconto recorrente (ex.: Black Week no mensal) só existe no cartão: no Pix
+    // não há assinatura para manter o preço pelos 12 meses.
+    if (ciclosDoCupom(couponCode) && product.slug === "assinatura-mensal" && base.data.method === "pix") {
+      return NextResponse.json({ error: "Esta oferta do plano mensal é válida apenas no cartão de crédito.", code: "INVALID_COUPON" }, { status: 400 });
+    }
   }
 
   const finalPriceCents = product.priceCents - discountCents;

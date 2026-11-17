@@ -85,6 +85,7 @@ export default function CheckoutButton({
   priceCents,
   couponCode,
   mensalNote,
+  cardOnly = false,
 }: {
   productId: string;
   userCpf?: string | null;
@@ -98,6 +99,8 @@ export default function CheckoutButton({
   // priceCents já chega com desconto, só para exibição.
   couponCode?: string;
   mensalNote?: string;
+  // Oferta do mensal só vale no cartão (recorrente): esconde o Pix
+  cardOnly?: boolean;
 }) {
   const isMensal = plano === "mensal";
   const methods = PRIMARY_METHODS.map((m) =>
@@ -329,7 +332,7 @@ export default function CheckoutButton({
         </div>
 
         {/* No celular o formulário empurra o botão do Pix para longe: avisar logo aqui que ele existe */}
-        {selected === "card" && (
+        {selected === "card" && !cardOnly && (
           <button
             type="button"
             onClick={() => { setError(""); setSelected("pix"); }}
@@ -449,7 +452,7 @@ export default function CheckoutButton({
           )}
         </button>
 
-        <button
+        {!cardOnly && <button
           type="button"
           onClick={() => { setError(""); setSelected(selected === "card" ? "pix" : "card"); }}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 border-[#0f2d4a]/60 bg-white text-[#0f2d4a] hover:bg-[#f0f5f9] transition-colors"
@@ -463,7 +466,7 @@ export default function CheckoutButton({
               <span className="block text-xs text-zinc-700">Renovação manual todo mês</span>
             )}
           </span>
-        </button>
+        </button>}
 
         {/* Depoimento rotativo */}
         <div className="bg-[#f0fdfb] border border-[#32bcad]/40 rounded-xl px-4 py-3">
