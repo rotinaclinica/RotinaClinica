@@ -18,6 +18,7 @@ export interface Novidade {
 
 export const NOVIDADES: Novidade[] = [
   { secao: "casos", titulo: "IAM com supra de ST: por que repetir o ECG", href: "/dashboard/casos?video=BfoV7wLByHI", data: "2026-10-20" },
+  { secao: "casos", titulo: "Aumento progressivo da coxa", href: "/dashboard/casos?caso=aumento-coxa", data: "2026-11-17" },
   { secao: "materiais", titulo: "Osteoporose: abordagem prática", href: "/dashboard/materiais", data: "2026-11-02" },
   { secao: "materiais", titulo: "Ebook: Abordagem da HAS e DM2 na Atenção Primária", href: "/dashboard/materiais", data: "2026-11-02" },
   { secao: "materiais", titulo: "Ebook: O Racional da Prescrição Médica", href: "/dashboard/materiais", data: "2026-11-02" },
@@ -30,7 +31,7 @@ export const SECOES_NOVIDADE: Record<SecaoNovidade, { label: string; singular: s
   condutas: { label: "Condutas clínicas", singular: "Nova conduta", plural: "novas condutas", rota: "/dashboard/prescricoes", acao: "Abrir" },
   evolucoes: { label: "Modelos de evolução", singular: "Novo modelo de evolução", plural: "novos modelos de evolução", rota: "/dashboard/evolucoes", acao: "Abrir" },
   calculadoras: { label: "Calculadoras", singular: "Nova calculadora", plural: "novas calculadoras", rota: "/dashboard/calculadoras", acao: "Abrir" },
-  casos: { label: "Casos clínicos · Vídeo", singular: "Novo vídeo", plural: "novos vídeos de casos clínicos", rota: "/dashboard/casos", acao: "Assistir" },
+  casos: { label: "Casos clínicos", singular: "Novo caso clínico", plural: "novos casos clínicos", rota: "/dashboard/casos", acao: "Ver" },
   cursos: { label: "Cursos e videoaulas", singular: "Nova aula", plural: "novas aulas", rota: "/dashboard/cursos", acao: "Assistir" },
   materiais: { label: "Ebooks e materiais", singular: "Novo material", plural: "novos materiais", rota: "/dashboard/materiais", acao: "Abrir" },
   plataforma: { label: "Plataforma", singular: "Novidade na plataforma", plural: "novidades na plataforma", rota: "/dashboard", acao: "Ver" },

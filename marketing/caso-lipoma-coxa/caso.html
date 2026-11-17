@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caso clínico — Aumento progressivo da coxa</title>
+<!-- Caso clínico para a plataforma (seção Casos Clínicos). Anonimizado: sem nome, data de
+     nascimento, datas dos exames, números de controle, login/senha ou QR dos laudos.
+     Laudos transcritos na íntegra a partir das fotos enviadas por Lucas (17/11/2026). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#081420; --bg2:#0f2d4a; --bg3:#153a5c;
+    --accent:#3db8d4; --accent-soft:rgba(61,184,212,.14);
+    --ink:#061220; --text:#ffffff; --muted:#b9cddd;
+  }
+  @page{size:1080px 1350px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#02070d;font-family:Inter,sans-serif;color:var(--text);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .slide{
+    width:1080px;height:1350px;position:relative;overflow:hidden;
+    background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 45%,var(--bg3) 100%);
+    padding:64px 72px 0;display:flex;flex-direction:column;
+    margin:0 auto 40px;page-break-after:always;break-after:page;
+  }
+  @media print{.slide{margin:0}}
+  .hd{display:flex;justify-content:space-between;align-items:center;height:64px;position:relative;z-index:2}
+  .hd img{height:52px}
+  .topic{font-family:Montserrat;font-weight:800;font-size:26px;letter-spacing:1px;padding-bottom:8px;border-bottom:4px solid var(--accent);display:flex;gap:18px;align-items:baseline}
+  .topic small{font-family:Inter;font-weight:600;font-size:22px;color:var(--muted);letter-spacing:0}
+  h1{font-family:Montserrat;font-weight:900;font-size:96px;line-height:1.02;letter-spacing:-1.5px;margin-top:56px;position:relative;z-index:2}
+  h1 em{font-style:normal;color:var(--accent)}
+  h2{font-family:Montserrat;font-weight:900;font-size:72px;line-height:1.05;letter-spacing:-1px;margin-top:48px}
+  h2 em{font-style:normal;color:var(--accent)}
+  .rule{width:120px;height:7px;background:var(--accent);border-radius:4px;margin:32px 0 36px;position:relative;z-index:2}
+  .ft{margin-top:auto;height:120px;border-top:2px solid rgba(61,184,212,.55);display:flex;justify-content:space-between;align-items:center;font-size:28px;font-weight:600;position:relative;z-index:2}
+  .ft .site{background:var(--accent);color:var(--ink);padding:10px 26px;border-radius:40px;font-weight:700}
+
+  /* capa */
+  .tag{display:inline-block;align-self:flex-start;margin-top:120px;background:var(--accent);color:var(--ink);font-family:Montserrat;font-weight:900;font-size:34px;letter-spacing:4px;padding:14px 30px;border-radius:14px}
+  .cover h1{font-size:104px;margin-top:40px}
+  .sub{font-size:40px;line-height:1.35;font-weight:500;color:var(--muted);max-width:860px}
+  .sub b{color:#fff;font-weight:700}
+  .glow{position:absolute;right:-220px;bottom:120px;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(61,184,212,.28),transparent 65%);z-index:1}
+
+  /* quadro clínico */
+  .card{background:rgba(255,255,255,.06);border:2px solid rgba(61,184,212,.35);border-radius:28px;padding:44px 48px;font-size:40px;line-height:1.45;font-weight:500}
+  .card b{color:var(--accent);font-weight:700}
+  .feats{display:flex;flex-direction:column;gap:20px;margin-top:36px}
+  .feat{font-size:36px;line-height:1.3;font-weight:500;padding:22px 30px;border-left:10px solid var(--accent);background:rgba(61,184,212,.10);border-radius:0 18px 18px 0}
+  .feat b{color:var(--accent);font-weight:700}
+  .ask{margin-top:auto;margin-bottom:44px;background:var(--accent);color:var(--ink);border-radius:28px;padding:34px 44px;font-family:Montserrat;font-weight:800;font-size:40px;line-height:1.25;text-align:center}
+
+  /* imagem */
+  .img-wrap{margin-top:32px;border:4px solid var(--accent);border-radius:26px;overflow:hidden;background:#000;align-self:center;width:790px;height:872px}
+  .img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+  .cap{margin-top:22px;text-align:center;font-size:26px;line-height:1.4;color:var(--muted);font-style:italic}
+
+  /* laudos */
+  .exam{font-family:Montserrat;font-weight:800;font-size:30px;letter-spacing:2px;color:var(--accent);margin-top:44px}
+  .doc{margin-top:22px;background:#f7fafc;color:#14212e;border-radius:24px;padding:40px 46px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+  .doc h3{font-family:Montserrat;font-weight:800;font-size:30px;text-align:center;color:#0f2d4a;margin-bottom:6px}
+  .doc .h3sub{font-family:Montserrat;font-weight:700;font-size:24px;text-align:center;color:#0f2d4a;margin-bottom:24px}
+  .doc .sec{font-family:Montserrat;font-weight:800;font-size:22px;letter-spacing:1.5px;color:#1a6aad;margin:22px 0 8px}
+  .doc p{font-size:27px;line-height:1.5;margin-bottom:12px}
+  .doc.small{padding:30px 40px}
+  .doc.small p{font-size:23px;line-height:1.4;margin-bottom:7px}
+  .doc.small .sec{margin:14px 0 6px}
+  .doc mark{background:rgba(61,184,212,.22);color:inherit;padding:0 4px;border-radius:4px}
+  .fonte{margin-top:18px;font-size:22px;color:var(--muted);font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- 1. Capa -->
+<section class="slide cover">
+  <div class="glow"></div>
+  <div class="hd"><img src="../../plataforma/public/images/logo-branco.png" alt="Rotina Clínica"></div>
+  <span class="tag">CASO CLÍNICO</span>
+  <h1>A calça que <em>deixou de servir</em></h1>
+  <div class="rule"></div>
+  <p class="sub">Mulher de meia-idade com <b>aumento progressivo do volume da coxa esquerda</b>.</p>
+  <div class="ft"><span>@rotina.clinica</span><span class="site">www.rotinaclinica.com</span></div>
+</section>
+
+<!-- 2. Quadro clínico -->
+<section class="slide">
+  <div class="hd"><img src="../../plataforma/public/images/logo-branco.png" alt=""><div class="topic">CASO CLÍNICO <small>01</small></div></div>
+  <h2>Quadro <em>clínico</em></h2>
+  <div class="rule"></div>
+  <div class="card">
+    Mulher de meia-idade procura atendimento por perceber <b>aumento do volume da coxa esquerda</b>, que vem acontecendo <b>de forma progressiva</b>.
+  </div>
+  <div class="feats">
+    <div class="feat">Sem outras queixas.</div>
+    <div class="feat">Relata <b>dificuldade para usar as calças</b> que vestia antes.</div>
+  </div>
+  <div class="ask">Qual exame você pediria primeiro?</div>
+  <div class="ft"><span>@rotina.clinica</span><span class="site">www.rotinaclinica.com</span></div>
+</section>
+
+<!-- 3. Imagem da RM -->
+<section class="slide">
+  <div class="hd"><img src="../../plataforma/public/images/logo-branco.png" alt=""><div class="topic">CASO CLÍNICO <small>02</small></div></div>
+  <h2 style="font-size:64px;margin-top:40px">Ressonância <em>magnética</em></h2>
+  <div class="img-wrap"><img src="img/rm-coronal.jpg" alt="Ressonância magnética das coxas em corte coronal"></div>
+  <p class="cap">RM das coxas, corte coronal. Pela convenção radiológica, a coxa esquerda aparece à direita da imagem.</p>
+  <div class="ft"><span>@rotina.clinica</span><span class="site">www.rotinaclinica.com</span></div>
+</section>
+
+<!-- 4. Laudo do USG -->
+<section class="slide">
+  <div class="hd"><img src="../../plataforma/public/images/logo-branco.png" alt=""><div class="topic">CASO CLÍNICO <small>03</small></div></div>
+  <h2 style="font-size:64px;margin-top:40px">Os <em>laudos</em></h2>
+  <p class="exam">1º EXAME · ULTRASSONOGRAFIA</p>
+  <div class="doc">
+    <h3>ULTRASSONOGRAFIA DA COXA ESQUERDA</h3>
+    <p class="h3sub">(ÊNFASE NA FACE ANTERIOR)</p>
+    <p>Formação ovalada com ecogenicidade de gordura no interior do músculo vasto intermédio com 4,6 x 9,5 x 16,0 cm (espessura x TT x long), bem delimitado e sem sinais de atividade ao power doppler e permite considerar formação de linhagem lipomatosa ou variantes e devido às grandes dimensões <mark>recomenda-se estadiar também com RM</mark>.</p>
+    <p>Pele e tecido subcutâneo sem particularidades.</p>
+    <p>Demais planos musculares avaliados com ecotextura habitual.</p>
+  </div>
+  <p class="fonte">Transcrição do laudo original.</p>
+  <div class="ft"><span>@rotina.clinica</span><span class="site">www.rotinaclinica.com</span></div>
+</section>
+
+<!-- 5. Laudo da RM -->
+<section class="slide">
+  <div class="hd"><img src="../../plataforma/public/images/logo-branco.png" alt=""><div class="topic">CASO CLÍNICO <small>04</small></div></div>
+  <p class="exam" style="margin-top:36px">2º EXAME · RESSONÂNCIA MAGNÉTICA</p>
+  <div class="doc small">
+    <h3 style="margin-bottom:18px">RESSONÂNCIA MAGNÉTICA DA COXA ESQUERDA</h3>
+    <p class="sec">TÉCNICA</p>
+    <p>Exame realizado em equipamento de ressonância magnética de alto campo (1,5 Tesla) com sequências, ponderações e planos específicos para o segmento de interesse.</p>
+    <p class="sec">RELATÓRIO</p>
+    <p>Volumosa imagem com intensidade de sinal de gordura, localizada no interior dos músculos vasto lateral e vasto intermédio, em praticamente toda a extensão da coxa esquerda, de limites bem definidos, em hipersinal T1, hipossinal T2 com supressão de gordura, <mark>medindo até 27,3 x 12,0 x 9,6 cm (CC x LL x AP), com volume aproximado de 1635,0 cm³</mark>, sugerindo lesão de linhagem lipomatosa (<mark>lipoma intramuscular</mark>).</p>
+    <p>Estruturas ósseas de morfologia preservada, com intensidade de sinal habitual.</p>
+    <p>Articulação coxofemoral de amplitude preservada.</p>
+    <p>Discreta tendinopatia na inserção proximal dos isquiotibiais, com esparsos focos de edema adjacente à inserção proximal.</p>
+    <p>Discreta tendinopatia na inserção dos glúteos médio e mínimo no trocanter femoral.</p>
+    <p>Discreta redução da sínfise pubiana, com pequenas irregularidades marginais.</p>
+    <p>Pequeno derrame articular no joelho.</p>
+    <p>Demais grupamentos musculares periarticulares da coxa de aspecto preservado.</p>
+    <p>Feixes neurovasculares de aspecto habitual.</p>
+  </div>
+  <p class="fonte">Transcrição do laudo original.</p>
+  <div class="ft"><span>@rotina.clinica</span><span class="site">www.rotinaclinica.com</span></div>
+</section>
+
+</body>
+</html>

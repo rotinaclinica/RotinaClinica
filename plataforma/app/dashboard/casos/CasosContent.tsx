@@ -4,7 +4,16 @@ import { useState, useEffect } from "react";
 import { isNovo } from "@/lib/novidades";
 
 // ── Adicione novas sequências aqui ──────────────────────────────────
-const SEQUENCIAS = [
+// slug (opcional): link direto /dashboard/casos?caso=SLUG e selo "Novo" via lib/novidades.ts
+const SEQUENCIAS: { titulo: string; slug?: string; images: { src: string; alt: string }[] }[] = [
+  {
+    titulo: "Aumento Progressivo da Coxa",
+    slug: "aumento-coxa",
+    images: Array.from({ length: 5 }, (_, i) => ({
+      src: `/imagens%20lipoma%20coxa/${i + 1}.png`,
+      alt: `Caso clínico: aumento progressivo da coxa ${i + 1}`,
+    })),
+  },
   {
     titulo: "Dicas no Plantão",
     images: Array.from({ length: 10 }, (_, i) => ({
@@ -66,7 +75,15 @@ export default function CasosContent() {
 
   // Link direto vindo das novidades: /dashboard/casos?video=ID abre o vídeo
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("video");
+    const params = new URLSearchParams(window.location.search);
+    const caso = params.get("caso");
+    const seqIdx = caso ? SEQUENCIAS.findIndex((s) => s.slug === caso) : -1;
+    if (seqIdx >= 0) {
+      window.history.replaceState(null, "", window.location.pathname);
+      const t = setTimeout(() => setCarousel({ seq: seqIdx, img: 0 }), 0);
+      return () => clearTimeout(t);
+    }
+    const id = params.get("video");
     if (!id || !VIDEOS.some((v) => v.id === id)) return;
     window.history.replaceState(null, "", window.location.pathname);
     const t = setTimeout(() => {
@@ -141,6 +158,9 @@ export default function CasosContent() {
                     className="w-full object-cover aspect-square bg-[#0f1c2e]"
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                  {s.slug && isNovo(`/dashboard/casos?caso=${s.slug}`) && (
+                    <span className="absolute top-2 left-2 z-10 text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#3db8d4] text-[#0f2d4a] shadow">Novo</span>
+                  )}
                   <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/40 flex items-center justify-center transition-colors">
                     <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
