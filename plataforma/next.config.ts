@@ -27,6 +27,17 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Links curtos para bio/stories. Temporário (307) para poder trocar o destino depois.
+  async redirects() {
+    return [
+      {
+        source: "/bw",
+        destination:
+          "/black-week?utm_source=ig&utm_medium=social&utm_campaign=blackweek_nov26&utm_content=bio",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {
