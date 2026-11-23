@@ -341,6 +341,11 @@ export default function CheckoutButton({
             Prefere Pix? <span className="font-bold text-[#0f2d4a] underline underline-offset-2">Trocar</span>
           </button>
         )}
+        {cardOnly && isMensal && (
+          <p className="text-xs text-center text-zinc-700">
+            O mensal é só no cartão. Prefere Pix? Escolha o plano <strong>Anual</strong> acima.
+          </p>
+        )}
 
         {/* Pix no mensal: lembrar que a renovação é manual */}
         {selected === "pix" && isMensal && (

@@ -64,6 +64,10 @@ export async function POST(req: NextRequest) {
 
   if (product.type === "SUBSCRIPTION") {
     const isAnnual = product.slug === "assinatura-anual";
+    // Mensal só no cartão (assinatura recorrente). Pix fica para o anual.
+    if (!isAnnual && base.data.method === "pix") {
+      return NextResponse.json({ error: "O plano mensal é válido apenas no cartão de crédito. No Pix, escolha o plano anual." }, { status: 400 });
+    }
     if (await hasBlockingSubscription(session.user.id, isAnnual ? "ANNUAL" : "MONTHLY")) {
       return NextResponse.json({ error: "Você já possui esta assinatura ativa." }, { status: 409 });
     }

@@ -89,7 +89,7 @@ function reminderHtml(name: string, step: (typeof STEPS)[number], venceEm: strin
               ✅ Renovação automática: sem lembrar de pagar todo mês<br>
               ✅ Seu acesso nunca é interrompido no meio de um plantão<br>
               ✅ Sem fidelidade: para cancelar, é só escrever para contato@rotinaclinica.com<br>
-              <span style="display:block;margin-top:8px">Prefere Pix ou o plano anual (pague 10 meses e use 12)? <a href="${APP_URL}/assinatura#planos" style="color:#1a6aad;font-weight:600">Ver todos os planos</a></span>
+              <span style="display:block;margin-top:8px">Prefere pagar no Pix? Escolha o plano anual (pague 10 meses e use 12). <a href="${APP_URL}/assinatura#planos" style="color:#1a6aad;font-weight:600">Ver todos os planos</a></span>
             </td></tr>
           </table>
           <p style="margin:24px 0 0;color:#0f2d4a;font-size:14px;line-height:1.6">
