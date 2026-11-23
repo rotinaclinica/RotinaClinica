@@ -92,7 +92,9 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
         <p className="text-sm font-bold text-[#0f2d4a] uppercase tracking-wider">Crie sua conta para assinar</p>
       </div>
       <p className="text-xs text-zinc-700 leading-snug">
-        Leva 20 segundos. Em seguida você escolhe cartão ou Pix e já entra na plataforma.
+        {plano === "mensal"
+          ? "Leva 20 segundos. Em seguida você paga no cartão e já entra na plataforma."
+          : "Leva 20 segundos. Em seguida você escolhe cartão ou Pix e já entra na plataforma."}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
