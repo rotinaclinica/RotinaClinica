@@ -1,21 +1,9 @@
 "use client";
 import { useState } from "react";
+import { SEQUENCIAS as SEQ_REAIS, VIDEOS } from "@/lib/casos-data";
 
-const SEQUENCIAS = [
-  { titulo: "Dicas no Plantão", images: 10, thumb: "/imagens%20dicas%20plant%C3%A3o/1.png" },
-  { titulo: "TV Instável", images: 12, thumb: "/imagens%20tv%20inst%C3%A1vel/1.png" },
-  { titulo: "Infecções de Pele e Partes Moles", images: 15, thumb: "/imagens%20infec%C3%A7%C3%B5es%20de%20pele%20e%20partes%20moles/1.png" },
-  { titulo: "Infecção Fúngica", images: 9, thumb: "/imagem%20infec%C3%A7%C3%A3o%20f%C3%BAngica/1.png" },
-  { titulo: "Piúria no Idoso", images: 10, thumb: "/imagens%20piuria%20idoso/1.png" },
-  { titulo: "Hemorroida Interna", images: 8, thumb: "/imagens%20hemorroida%20interna/1.png" },
-];
-
-const VIDEOS = [
-  { id: "5t4vXXZICXg", titulo: "Pneumonia adquirida na comunidade (PAC)" },
-  { id: "CmWVOHlO2Ww", titulo: "Hipotireoidismo" },
-  { id: "HYdR18O_QF8", titulo: "Uso de insulina" },
-  { id: "QMDZdkN_uyw", titulo: "Nódulo tireoidiano" },
-];
+// Mesma lista da plataforma: o tour acompanha sozinho cada caso novo
+const SEQUENCIAS = SEQ_REAIS.map((s) => ({ titulo: s.titulo, images: s.images.length, thumb: s.images[0]?.src ?? "" }));
 
 export default function TourCasosMockup() {
   const [tab, setTab] = useState<"imagem" | "video">("imagem");
@@ -87,7 +75,7 @@ export default function TourCasosMockup() {
               <div key={v.id} className="rounded-2xl overflow-hidden border border-zinc-200 shadow-sm bg-white text-left w-full">
                 <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
                   <img
-                    src={`https://img.youtube.com/vi/${v.id}/maxresdefault.jpg`}
+                    src={`https://img.youtube.com/vi/${v.id}/${v.vertical ? "hqdefault" : "maxresdefault"}.jpg`}
                     alt={v.titulo}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
