@@ -417,25 +417,21 @@ export default function CheckoutButton({
 
         {error && <p className="text-red-500 text-xs text-center">{error}</p>}
 
-        {/* Código de embaixador */}
-        <div>
-          <button
-            type="button"
-            onClick={() => setShowAmbassador((v) => !v)}
-            className="text-xs text-zinc-800 font-medium hover:text-zinc-600 transition-colors underline underline-offset-2"
-          >
-            {showAmbassador ? "▲ Ocultar código" : "Tenho um código de embaixador"}
-          </button>
-          {showAmbassador && (
-            <input
-              type="text"
-              placeholder="Ex: ALUNO10"
-              value={ambassadorCode}
-              onChange={(e) => setAmbassadorCode(e.target.value.toUpperCase())}
-              className="mt-2 w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-800 placeholder:text-zinc-600 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/30"
-              maxLength={20}
-            />
-          )}
+        {/* Confiança no momento da hesitação: depoimento + garantia logo antes de pagar */}
+        <div className="bg-[#f0fdfb] border border-[#32bcad]/40 rounded-xl px-4 py-3">
+          <div className="flex gap-0.5 mb-1.5">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            ))}
+          </div>
+          <p className="text-xs text-zinc-800 leading-relaxed italic">&ldquo;{TESTIMONIALS[testimonialIdx].text}&rdquo;</p>
+          <p className="text-xs font-bold text-[#0f2d4a] mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
+          <div className="mt-2.5 pt-2.5 border-t border-[#32bcad]/30 flex items-start gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            <p className="text-xs text-emerald-800 leading-snug">
+              <strong>Garantia de 7 dias:</strong> se não gostar, devolvemos 100%. <strong>+900 médicos</strong> já usam.
+            </p>
+          </div>
         </div>
 
         {/* Botão principal */}
@@ -473,24 +469,25 @@ export default function CheckoutButton({
           </span>
         </button>}
 
-        {/* Depoimento rotativo */}
-        <div className="bg-[#f0fdfb] border border-[#32bcad]/40 rounded-xl px-4 py-3">
-          <div className="flex gap-0.5 mb-1.5">
-            {[...Array(5)].map((_, i) => (
-              <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            ))}
-          </div>
-          <p className="text-xs text-zinc-800 leading-relaxed italic">"{TESTIMONIALS[testimonialIdx].text}"</p>
-          <p className="text-xs font-bold text-[#0f2d4a] mt-1.5">— {TESTIMONIALS[testimonialIdx].name}, Aluno(a) do Rotina Clínica</p>
-        </div>
-
-        {/* Garantia em destaque */}
-        <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          <div>
-            <p className="text-xs font-bold text-emerald-800">Garantia de 7 dias</p>
-            <p className="text-xs text-emerald-700">Se não gostar, devolvemos 100% do valor. Sem perguntas.</p>
-          </div>
+        {/* Código de embaixador: discreto, para não mandar ninguém procurar cupom */}
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={() => setShowAmbassador((v) => !v)}
+            className="text-[11px] text-zinc-500 hover:text-zinc-700 transition-colors"
+          >
+            {showAmbassador ? "Ocultar código" : "Tenho um código de embaixador"}
+          </button>
+          {showAmbassador && (
+            <input
+              type="text"
+              placeholder="Ex: ALUNO10"
+              value={ambassadorCode}
+              onChange={(e) => setAmbassadorCode(e.target.value.toUpperCase())}
+              className="mt-2 w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-800 placeholder:text-zinc-600 uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-[#0f2d4a]/30"
+              maxLength={20}
+            />
+          )}
         </div>
 
         {/* Selos de confiança */}

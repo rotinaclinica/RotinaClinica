@@ -179,6 +179,32 @@ export default async function MetricasPage() {
     select: { userId: true },
   })).length;
 
+  // Black Week (OfferVisitTracker): pessoas na página da oferta → abriram o checkout com a oferta → pagaram com o cupom
+  const bwViews = await db.pageView.findMany({
+    where: { path: { startsWith: "/oferta/blackweek" } },
+    select: { userId: true, path: true },
+  });
+  const bwPagina = bwViews.filter((v) => !v.path.startsWith("/oferta/blackweek/checkout"));
+  const bwPessoasPagina = new Set(bwPagina.map((v) => v.userId)).size;
+  const bwPessoasCheckout = new Set(
+    bwViews.filter((v) => v.path.startsWith("/oferta/blackweek/checkout")).map((v) => v.userId)
+  ).size;
+  const bwPorOrigem = new Map<string, Set<string>>();
+  for (const v of bwPagina) {
+    const o = v.path.split("?o=")[1] || "direto";
+    if (!bwPorOrigem.has(o)) bwPorOrigem.set(o, new Set());
+    bwPorOrigem.get(o)!.add(v.userId);
+  }
+  const bwOrigens = [...bwPorOrigem.entries()]
+    .map(([origem, s]) => ({ origem, pessoas: s.size }))
+    .sort((a, b) => b.pessoas - a.pessoas)
+    .slice(0, 10);
+  const bwVendas = await db.order.findMany({
+    where: { ...pago, ...notTestOrder, couponCode: "BLACKWEEK30" },
+    select: { totalCents: true },
+  });
+  const bwReceita = bwVendas.reduce((s, o) => s + o.totalCents, 0);
+
   // Lucro líquido estimado
   const totalFeesAll = allPaidOrders.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
   const totalFees30d = paidOrders30d.reduce((s, o) => s + estimateGatewayFee(o.provider, o.paymentMethod, o.totalCents), 0);
@@ -407,6 +433,29 @@ export default async function MetricasPage() {
             { label: "Ativos", value: subsActive },
           ]} />
         </div>
+      </section>
+
+      {/* ── Black Week ── */}
+      <section>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Black Week (desde 18/11/26)</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <Tile label="Pessoas na /black-week" value={bwPessoasPagina} sub="navegadores únicos" />
+          <Tile label="Abriram o checkout da oferta" value={bwPessoasCheckout} sub={bwPessoasPagina ? `${((bwPessoasCheckout / bwPessoasPagina) * 100).toFixed(0)}% de quem viu a página` : "—"} />
+          <Tile label="Vendas com BLACKWEEK30" value={bwVendas.length} color={bwVendas.length ? "green" : "yellow"} sub={`R$ ${(bwReceita / 100).toFixed(2).replace(".", ",")}`} />
+        </div>
+        {bwOrigens.length > 0 && (
+          <div className="mt-3 rounded-xl border border-zinc-800 bg-zinc-900/60 p-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">De onde vieram (pessoas na página)</p>
+            <ul className="space-y-1 text-sm text-zinc-200">
+              {bwOrigens.map((o) => (
+                <li key={o.origem} className="flex justify-between gap-4">
+                  <span className="truncate font-mono text-xs sm:text-sm">{o.origem}</span>
+                  <span className="font-bold">{o.pessoas}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       {/* ── Crescimento ── */}

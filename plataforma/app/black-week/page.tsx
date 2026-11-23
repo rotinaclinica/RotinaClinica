@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { shareMeta } from "@/lib/seo";
 import Countdown from "./Countdown";
+import OfferVisitTracker from "@/app/_components/OfferVisitTracker";
 
 // Black Week 2026 — página da oferta (pré-venda VIP 20/11, aberta 23–30/11).
 // Fica fora do sitemap e sem links no site até a divulgação. Os botões levam ao
@@ -113,6 +114,7 @@ export default function BlackWeekPage() {
 
   return (
     <main className="min-h-screen bg-black text-white pb-24 sm:pb-0 overflow-x-hidden">
+      <OfferVisitTracker slug="blackweek" />
       <style>{`
         @keyframes bw-marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
         @keyframes bw-pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.04) } }

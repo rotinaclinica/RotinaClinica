@@ -7,6 +7,8 @@ import CheckoutButton from "./CheckoutButton";
 import PageTracker from "@/app/dashboard/_components/PageTracker";
 import QuickSignup from "./QuickSignup";
 import AnonCheckoutTracker from "./AnonCheckoutTracker";
+import OfferVisitTracker from "@/app/_components/OfferVisitTracker";
+import OfferCountdown from "./OfferCountdown";
 import { ofertaPorSlug } from "@/lib/promocoes";
 
 const brl = (cents: number) =>
@@ -104,52 +106,81 @@ export default async function CheckoutPage({
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start px-4 py-8">
       {userId ? <PageTracker /> : <AnonCheckoutTracker />}
-      <img src="/images/turma.jpg" alt="" aria-hidden="true" className="fixed inset-0 w-full h-full object-cover -z-10" />
-      <div className="fixed inset-0 bg-[#0f2d4a]/75 -z-10" />
+      {promo && <OfferVisitTracker slug={promo.oferta.slug} step="checkout" />}
+      {/* No celular a foto quase não aparece e só pesa: fundo liso; foto a partir do tablet */}
+      <img src="/images/turma.jpg" alt="" aria-hidden="true" className="hidden sm:block fixed inset-0 w-full h-full object-cover -z-10" />
+      <div className={`fixed inset-0 -z-10 ${promo ? "bg-[#111111] sm:bg-[#111111]/85" : "bg-[#0f2d4a] sm:bg-[#0f2d4a]/75"}`} />
 
       {/* Card principal de checkout */}
       <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden">
-        <div className="bg-[#0f2d4a] px-6 py-6">
-          <p className="text-[#9ec4de] text-xs font-semibold uppercase tracking-wider mb-1">{head.label}</p>
-          {head.de && <p className="text-[#9ec4de] text-sm line-through">{head.de}</p>}
-          <p className="text-white text-3xl font-extrabold">{head.price}</p>
-          <p className="text-[#9ec4de] text-sm mt-1">{head.detail}</p>
-          <ul className="mt-4 space-y-1.5">
-            {[
-              "Prescrições e condutas clínicas prontas",
-              "Modelos de evolução clínica",
-              "Curso Destravando o Plantão",
-              "Calculadoras e escores clínicos",
-              "E-books e materiais em PDF para download",
-              "Casos clínicos novos toda semana",
-              "Acesso imediato em qualquer dispositivo",
-              "E muito mais — plataforma em constante atualização",
-            ].map((item) => (
+        {/* Oferta: mesma identidade preta/amarela do anúncio e da página, com prazo */}
+        {promo && (
+          <div className="bg-[#ffd60a] px-4 py-2 flex items-center justify-between gap-2 text-[#111111]">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest">Black Week · {pct ? `${pct}% off` : "Oferta"}</span>
+            <span className="text-[11px] font-bold tabular-nums">
+              {promo.coupon.expiresAt
+                ? <OfferCountdown endsAt={promo.coupon.expiresAt.toISOString()} fallback="Até 30/11 às 23h59" />
+                : "Por tempo limitado"}
+            </span>
+          </div>
+        )}
+        <div className={`${promo ? "bg-[#111111]" : "bg-[#0f2d4a]"} px-6 py-5`}>
+          <p className={`${promo ? "text-[#ffd60a]" : "text-[#9ec4de]"} text-xs font-semibold uppercase tracking-wider mb-1`}>{head.label}</p>
+          {head.de && <p className="text-white/60 text-sm line-through">{head.de}</p>}
+          <p className={`${promo ? "text-[#ffd60a]" : "text-white"} text-3xl font-extrabold`}>{head.price}</p>
+          <p className={`${promo ? "text-white/75" : "text-[#9ec4de]"} text-sm mt-1`}>{head.detail}</p>
+          {/* Quem chegou aqui já decidiu: 3 pontos-chave e o resto recolhido, para o pagamento subir */}
+          <ul className="mt-3 space-y-1.5">
+            {["+250 condutas com dose e prescrição", "Modelos de evolução prontos", "Curso Destravando o Plantão"].map((item) => (
               <li key={item} className="flex items-center gap-2 text-sm text-white/90">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#32bcad" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={promo ? "#ffd60a" : "#32bcad"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 {item}
               </li>
             ))}
           </ul>
-          <div className="mt-5 bg-white/10 rounded-xl px-4 py-3 space-y-1.5">
-            <p className="text-[#32bcad] text-[10px] font-bold uppercase tracking-widest mb-2">Tudo isso está incluído</p>
-            {[
-              { title: "Manual Prático de Prescrições: Da UBS à Emergência", price: "R$ 97" },
-              { title: "Sedação, Intubação e Ventilação Mecânica", price: "R$ 47" },
-              { title: "Destravando o Plantão (Curso Online)", price: "R$ 397" },
-            ].map((p) => (
-              <div key={p.title} className="flex items-center justify-between gap-2 text-white/90 text-xs">
-                <span>{p.title}</span>
-                <span className="font-semibold whitespace-nowrap">{p.price}</span>
+          <details className="group mt-3">
+            <summary className="flex items-center gap-1.5 text-xs font-semibold text-white/80 cursor-pointer list-none select-none hover:text-white">
+              Ver tudo o que está incluído
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-open:rotate-180">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <ul className="mt-3 space-y-1.5">
+              {[
+                "Calculadoras e escores clínicos",
+                "E-books e materiais em PDF para download",
+                "Casos clínicos novos toda semana",
+                "Acesso imediato em qualquer dispositivo",
+                "E muito mais — plataforma em constante atualização",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2 text-sm text-white/90">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={promo ? "#ffd60a" : "#32bcad"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 bg-white/10 rounded-xl px-4 py-3 space-y-1.5">
+              <p className={`${promo ? "text-[#ffd60a]" : "text-[#32bcad]"} text-[10px] font-bold uppercase tracking-widest mb-2`}>Tudo isso está incluído</p>
+              {[
+                { title: "Manual Prático de Prescrições: Da UBS à Emergência", price: "R$ 97" },
+                { title: "Sedação, Intubação e Ventilação Mecânica", price: "R$ 47" },
+                { title: "Destravando o Plantão (Curso Online)", price: "R$ 397" },
+              ].map((p) => (
+                <div key={p.title} className="flex items-center justify-between gap-2 text-white/90 text-xs">
+                  <span>{p.title}</span>
+                  <span className="font-semibold whitespace-nowrap">{p.price}</span>
+                </div>
+              ))}
+              <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/20">
+                <span className="text-xs text-white/90">Separado custaria</span>
+                <span className="text-xs font-bold text-white/90 line-through">R$ 541</span>
               </div>
-            ))}
-            <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-white/20">
-              <span className="text-xs text-white/90">Separado custaria</span>
-              <span className="text-xs font-bold text-white/90 line-through">R$ 541</span>
             </div>
-          </div>
+          </details>
         </div>
         <div className="px-6 py-6 space-y-4">
           {userId && (
@@ -187,7 +218,7 @@ export default async function CheckoutPage({
                   }`}
                 >
                   {p.selo && (
-                    <span className="absolute -top-2 left-3 rounded-full bg-[#3db8d4] px-2 py-0.5 text-[10px] font-bold text-[#0f2d4a]">
+                    <span className={`absolute -top-2 left-3 rounded-full ${promo ? "bg-[#ffd60a] text-[#111111]" : "bg-[#3db8d4] text-[#0f2d4a]"} px-2 py-0.5 text-[10px] font-bold`}>
                       {p.selo}
                     </span>
                   )}
@@ -198,6 +229,19 @@ export default async function CheckoutPage({
               );
             })}
           </div>
+          {/* Quem está no mensal: mostrar quanto economiza no anual (e que o Pix fica lá) */}
+          {isMensal && (
+            <Link
+              href={`/checkout?plano=anual${ofQs}`}
+              className={`block rounded-xl px-4 py-2.5 text-xs leading-snug transition-colors ${
+                promo ? "bg-[#fff8d6] text-[#111111] hover:bg-[#fff1b0]" : "bg-[#f0fdfa] text-[#0f2d4a] hover:bg-[#e0f7f3]"
+              }`}
+            >
+              💡 No <strong>anual</strong> você paga <strong>{brl(anualFinal / 12)}/mês</strong> e economiza{" "}
+              <strong>{brl(mensalFinal * 12 - anualFinal)}</strong> no ano.{" "}
+              <span className="font-bold underline underline-offset-2">Trocar para o anual</span>
+            </Link>
+          )}
           {userId ? (
             <CheckoutButton
               key={plano}

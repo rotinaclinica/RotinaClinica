@@ -47,10 +47,48 @@ async function trackAnonCheckout(req: NextRequest, body: unknown) {
   await db.pageView.create({ data: { userId, path: ANON_CHECKOUT_PATH } }).catch(() => {});
 }
 
+// Visita a página de oferta (/black-week) ou ao checkout aberto por ela, com ou
+// sem login. Grava em PageView como "/oferta/<slug>[/checkout]?o=<origem>",
+// com userId "anon_<id do navegador>" para contar pessoas do mesmo jeito para
+// todos (logado ou não). Ler com path startsWith "/oferta/".
+const offerSchema = z.object({
+  path: z.string().regex(/^\/oferta\/[a-z0-9-]{1,30}(\/checkout)?$/),
+  visitorId: z.string().regex(/^[a-f0-9]{16,40}$/),
+  origem: z.string().max(300).optional(),
+});
+
+async function trackOfferVisit(req: NextRequest, body: unknown) {
+  const parsed = offerSchema.safeParse(body);
+  if (!parsed.success) return;
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (!checkRateLimit("track-offer", ip, 20, 60_000)) return;
+  const origem = (parsed.data.origem ?? "direto")
+    .toLowerCase()
+    .replace(/[^a-z0-9_.\-]/g, "")
+    .slice(0, 120) || "direto";
+  const userId = `anon_${parsed.data.visitorId}`;
+  if (shouldDedup(userId, parsed.data.path)) return;
+  await db.pageView
+    .create({ data: { userId, path: `${parsed.data.path}?o=${origem}` } })
+    .catch(() => {});
+}
+
 export async function POST(req: NextRequest) {
+  const raw = await req.text().catch(() => "");
+  let body: unknown = null;
+  try {
+    body = raw ? JSON.parse(raw) : null;
+  } catch {
+    body = null;
+  }
+
+  if (typeof (body as { path?: unknown })?.path === "string" && (body as { path: string }).path.startsWith("/oferta/")) {
+    await trackOfferVisit(req, body);
+    return NextResponse.json({ ok: true });
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
-    const body = await req.json().catch(() => null);
     await trackAnonCheckout(req, body);
     return NextResponse.json({ ok: true }, { status: 200 });
   }
@@ -61,7 +99,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, throttled: true });
   }
 
-  const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ ok: true });
 
