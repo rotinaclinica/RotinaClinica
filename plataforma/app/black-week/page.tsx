@@ -2,6 +2,23 @@ import Link from "next/link";
 import { shareMeta } from "@/lib/seo";
 import Countdown from "./Countdown";
 import OfferVisitTracker from "@/app/_components/OfferVisitTracker";
+import PrescricaoContent from "@/app/dashboard/prescricoes/PrescricaoContent";
+import { prescricoesMeta } from "@/lib/prescricoes-meta";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+// Prova logo no topo: um trecho real de conduta, renderizado igual à plataforma
+const PREVIEW_ID = "2"; // Anafilaxia (mesma prévia do /tour)
+function previewConduta(): string {
+  try {
+    const all: Record<string, string> = JSON.parse(
+      readFileSync(join(process.cwd(), "lib", "prescricoes-content.json"), "utf-8")
+    );
+    return all[PREVIEW_ID] ?? "";
+  } catch {
+    return "";
+  }
+}
 
 // Black Week 2026 — página da oferta (pré-venda VIP 20/11, aberta 23–30/11).
 // Fica fora do sitemap e sem links no site até a divulgação. Os botões levam ao
@@ -96,6 +113,8 @@ const TICKER = ["BLACK WEEK", "-30% OFF", "ANUAL R$ 280", "MENSAL R$ 27,93", "S�
 
 export default function BlackWeekPage() {
   const encerrada = new Date() >= new Date(FIM);
+  const conduta = encerrada ? "" : previewConduta();
+  const totalCondutas = prescricoesMeta.length;
 
   if (encerrada) {
     return (
@@ -192,6 +211,43 @@ export default function BlackWeekPage() {
           </div>
         </div>
       </section>
+
+      {/* Prova: conduta real por dentro */}
+      {conduta && (
+        <section className="px-4 sm:px-6 pb-14 sm:pb-20">
+          <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1fr_1.1fr]">
+            <div className="text-center md:text-left">
+              <p className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: Y }}>Veja por dentro</p>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-black uppercase leading-tight">
+                A conduta pronta, <span style={{ color: Y }}>com dose e diluição</span>
+              </h2>
+              <p className="mt-4 text-white/70 leading-relaxed">
+                Este é um trecho real da conduta de Anafilaxia, do jeito que aparece na plataforma. São{" "}
+                <strong className="text-white">{totalCondutas} condutas</strong> assim, de emergência, PS/UPA e UBS, para abrir no celular no meio do plantão.
+              </p>
+              <div className="mt-6 hidden md:block">
+                <CtaPrincipal>Quero acesso com 30% off</CtaPrincipal>
+              </div>
+            </div>
+            <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-3xl border-4 border-white/15 bg-white text-left shadow-[0_0_60px_-15px_rgba(255,214,10,0.4)]">
+              <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-red-500">Emergência</span>
+                  <p className="text-base font-extrabold leading-tight text-[#0f2d4a]">Anafilaxia</p>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">Rotina Clínica</span>
+              </div>
+              <div data-theme="light" className="pointer-events-none max-h-[380px] overflow-hidden px-5 py-4 text-zinc-900" aria-hidden="true">
+                <PrescricaoContent conteudo={conduta} />
+              </div>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white via-white/90 to-transparent" />
+              <p className="absolute inset-x-0 bottom-3 text-center text-xs font-bold text-[#1a6aad]">
+                + {totalCondutas - 1} condutas na plataforma
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Faixa animada */}
       <div className="-rotate-1 overflow-hidden py-3 text-black" style={{ background: Y }} aria-hidden="true">
