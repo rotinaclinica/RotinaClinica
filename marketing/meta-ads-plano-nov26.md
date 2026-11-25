@@ -101,3 +101,9 @@ Saldo R$ 512,74 (débitos de R$ 16–19/dia). Só Seguidores — Posts Educativo
 - Recomendação pendente (decisão do usuário): pausar os dois conjuntos de seguidores durante a Black Week para liberar saldo para vendas.
 - Lição: arte orgânica com "Link na bio"/"Toque no link" não serve para anúncio; fazer versões ads- com CTA próprio e, no story, deixar os ~20% inferiores livres para o botão da Meta.
 - 22/11 (pergunta do usuário): manter os dois conjuntos de seguidores + BW. Conta com tetos de orçamento total: Posts Educativos R$ 790 (restam ~R$ 96) + Reels R$ 140 (restam ~R$ 95) + BW R$ 250 = ~R$ 441 comprometidos, contra saldo de R$ 467,89 → cabe, folga ~R$ 27, mesmo gastando tudo até 03–04/12. Decisão: manter as três; nada alterado. Não aumentar nenhum orçamento sem aporte.
+
+### 25/11/2026 (reavaliação da Black Week, "Sim, aplica" do usuário)
+- Números 23–25/11: campanha BW R$ 62 gastos (23–24/11), alcance ~1.800, CTR link 0,59%, CPC R$ 3,10, 0 compras. Banco: 18 pessoas na /black-week (17 do anúncio, 4 da bio), 1 checkout real, 0 pedidos BLACKWEEK30, 0 cadastros desde 23/11. E-mails BW: ~4–6% abertura, ~0 cliques.
+- Diagnóstico: falta de tráfego (otimizar Compra sem conversões = Meta sem sinal), criativo só de preço, e-mail não chega, orgânico (motor real de vendas) fora do plano.
+- Página: prévia real da conduta de Anafilaxia + total de condutas logo abaixo do topo (commit 5cf07fc).
+- Meta: meta de desempenho NÃO muda em conjunto publicado; e em campanha com orçamento de campanha todos os conjuntos precisam da mesma otimização (#1885760) → duplicar conjunto em NOVA campanha com meta "Maximizar visualizações da página de destino" e pausar a original.
