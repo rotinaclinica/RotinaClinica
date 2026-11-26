@@ -3,16 +3,19 @@ import { db } from "../lib/db";
 import { unsubscribeUrl } from "../lib/brevo-queue";
 import { getExcludedEmails, ADMIN_TEST_EMAILS } from "../app/admin/_lib/excluded-emails";
 const MODE = process.argv[2] ?? "dry"; // dry | test | schedule
-const SUBJECT = "Até domingo, e amanhã tem um bônus";
-const AT = "2026-11-26T09:00:00-03:00";
-const CAMPAIGN = "bw_reta_final_email1_2026-11-26";
-const LEADS = 200;
+// Uso: npx tsx --env-file=.env --env-file=.env.local scripts/bw-reta-final-agendar.mts <dry|test|schedule> <1|2|3>
+const EMAILS = {
+  "1": { subject: "Até domingo, e amanhã tem um bônus", at: "2026-11-26T09:00:00-03:00", campaign: "bw_reta_final_email1_2026-11-26", file: "email-bw-1-quinta-nov26.html", leads: 200, skip: [] as string[] },
+  "2": { subject: "Só hoje: 14 meses pelo preço de 12", at: "2026-11-27T08:00:00-03:00", campaign: "bw_reta_final_email2_2026-11-27", file: "email-bw-2-sexta-bonus-nov26.html", leads: 225, skip: ["bw_reta_final_email1_2026-11-26"] },
+} as const;
+const CFG = EMAILS[(process.argv[3] ?? "1") as keyof typeof EMAILS];
+const SUBJECT = CFG.subject, AT = CFG.at, CAMPAIGN = CFG.campaign, LEADS = CFG.leads;
 const K = process.env.BREVO_API_KEY!;
 const brevo = async (m: string, p: string, b?: unknown) => {
   const r = await fetch("https://api.brevo.com/v3" + p, { method: m, headers: { "api-key": K, "content-type": "application/json", accept: "application/json" }, body: b ? JSON.stringify(b) : undefined });
   const t = await r.text(); return { ok: r.ok, status: r.status, data: t ? JSON.parse(t) : {} };
 };
-const html = readFileSync("../marketing/email-bw-1-quinta-nov26.html", "utf8").replace(/<!--[\s\S]*?-->\n?/, "");
+const html = readFileSync(`../marketing/${CFG.file}`, "utf8").replace(/<!--[\s\S]*?-->\n?/, "");
 const now = new Date();
 const excl = new Set([...(await getExcludedEmails()), ...ADMIN_TEST_EMAILS].map(e => e.toLowerCase()));
 const users = await db.user.findMany({ select: { email: true, trialEndsAt: true, subscription: { select: { status: true, currentPeriodEnd: true } } } });
@@ -25,7 +28,9 @@ async function blocked(e: string) { const r = await brevo("GET", `/contacts/${en
 const out: string[] = []; let bl = 0, ex = 0;
 for (const e of quentes) { if (excl.has(e)) { ex++; continue; } if (await blocked(e)) { bl++; continue; } out.push(e); }
 const nQ = out.length;
-for (const e of leads) { if (out.length - nQ >= LEADS) break; if (excl.has(e)) { ex++; continue; } if (await blocked(e)) { bl++; continue; } out.push(e); }
+// Leads que já receberam um toque anterior ficam para o próximo lote (os quentes recebem todos)
+const skipLeads = new Set((await db.brevoQueueSent.findMany({ where: { campaignId: { in: [...CFG.skip] } }, select: { email: true } })).map(x => x.email));
+for (const e of leads) { if (skipLeads.has(e)) continue; if (out.length - nQ >= LEADS) break; if (excl.has(e)) { ex++; continue; } if (await blocked(e)) { bl++; continue; } out.push(e); }
 const already = new Set((await db.brevoQueueSent.findMany({ where: { campaignId: CAMPAIGN }, select: { email: true } })).map(x => x.email));
 const todo = out.filter(e => !already.has(e));
 console.log({ quentes: nQ, leads: out.length - nQ, total: out.length, excluidos: ex, descadastrados: bl, jaAgendados: already.size, aAgendar: todo.length });
