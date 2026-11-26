@@ -7,6 +7,7 @@ import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
 import { trackPurchase } from "@/lib/meta/capi";
+import { diasBonusAnual } from "@/lib/promocoes";
 
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
@@ -67,7 +68,7 @@ export async function POST(req: NextRequest) {
           ? new Date(existing.currentPeriodEnd)
           : new Date(now);
         const periodEnd = new Date(base);
-        periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30));
+        periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 + diasBonusAnual(order.createdAt) : 30));
 
         await db.subscription.upsert({
           where: { userId: order.userId },

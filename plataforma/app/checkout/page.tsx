@@ -9,7 +9,7 @@ import QuickSignup from "./QuickSignup";
 import AnonCheckoutTracker from "./AnonCheckoutTracker";
 import OfferVisitTracker from "@/app/_components/OfferVisitTracker";
 import OfferCountdown from "./OfferCountdown";
-import { ofertaPorSlug } from "@/lib/promocoes";
+import { ofertaPorSlug, bonusAnualAtivo, BONUS_ANUAL } from "@/lib/promocoes";
 
 const brl = (cents: number) =>
   (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -22,9 +22,9 @@ const PLANS = {
 export default async function CheckoutPage({
   searchParams,
 }: {
-  searchParams: Promise<{ plano?: string; oferta?: string }>;
+  searchParams: Promise<{ plano?: string; oferta?: string; simular?: string }>;
 }) {
-  const { plano, oferta: ofertaParam } = await searchParams;
+  const { plano, oferta: ofertaParam, simular } = await searchParams;
   const plan = PLANS[plano as keyof typeof PLANS];
 
   if (!plan) redirect("/assinatura");
@@ -70,6 +70,9 @@ export default async function CheckoutPage({
   }
 
   const isMensal = plano === "mensal";
+  // Bônus de sexta (27/11): anual com +2 meses. ?simular=sexta só fora de produção, para testar a tela.
+  const agora = process.env.NODE_ENV !== "production" && simular === "sexta" ? new Date(BONUS_ANUAL.inicio) : new Date();
+  const bonusAnual = !isMensal && bonusAnualAtivo(agora);
   const ciclos = promo?.oferta.ciclosMensal ?? 0;
   const head = !promo
     ? { label: plan.label, price: plan.price, detail: plan.detail, de: null as string | null }
@@ -88,7 +91,7 @@ export default async function CheckoutPage({
     existing?.status === "ACTIVE" && existing.currentPeriodEnd > new Date()
       ? (() => {
           const novoFim = new Date(existing.currentPeriodEnd);
-          novoFim.setDate(novoFim.getDate() + (isMensal ? 30 : 365));
+          novoFim.setDate(novoFim.getDate() + (isMensal ? 30 : 365 + (bonusAnual ? BONUS_ANUAL.dias : 0)));
           const fmt = (d: Date) => d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", timeZone: "America/Sao_Paulo" });
           return { atual: fmt(existing.currentPeriodEnd), novo: fmt(novoFim) };
         })()
@@ -129,6 +132,11 @@ export default async function CheckoutPage({
           {head.de && <p className="text-white/60 text-sm line-through">{head.de}</p>}
           <p className={`${promo ? "text-[#ffd60a]" : "text-white"} text-3xl font-extrabold`}>{head.price}</p>
           <p className={`${promo ? "text-white/75" : "text-[#9ec4de]"} text-sm mt-1`}>{head.detail}</p>
+          {bonusAnual && (
+            <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-[#ffd60a] px-2.5 py-1.5 text-xs font-extrabold text-[#111111]">
+              🎁 Só hoje: +2 meses grátis · 14 meses de acesso
+            </p>
+          )}
           {/* Quem chegou aqui já decidiu: 3 pontos-chave e o resto recolhido, para o pagamento subir */}
           <ul className="mt-3 space-y-1.5">
             {["+250 condutas com dose e prescrição", "Modelos de evolução prontos", "Curso Destravando o Plantão"].map((item) => (

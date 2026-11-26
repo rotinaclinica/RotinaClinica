@@ -4,6 +4,7 @@ import Countdown from "./Countdown";
 import OfferVisitTracker from "@/app/_components/OfferVisitTracker";
 import PrescricaoContent from "@/app/dashboard/prescricoes/PrescricaoContent";
 import { prescricoesMeta } from "@/lib/prescricoes-meta";
+import { bonusAnualAtivo, BONUS_ANUAL } from "@/lib/promocoes";
 import { readFileSync } from "fs";
 import { join } from "path";
 
@@ -111,8 +112,12 @@ function CtaPrincipal({ children = "Garantir meus 30% off" }: { children?: React
 
 const TICKER = ["BLACK WEEK", "-30% OFF", "ANUAL R$ 280", "MENSAL R$ 27,93", "SÓ ATÉ 30/11", "O MENOR PREÇO DO ANO"];
 
-export default function BlackWeekPage() {
+export default async function BlackWeekPage({ searchParams }: { searchParams: Promise<{ simular?: string }> }) {
+  const { simular } = await searchParams;
   const encerrada = new Date() >= new Date(FIM);
+  // Sexta 27/11: anual com +2 meses (14 meses). ?simular=sexta só fora de produção.
+  const agora = process.env.NODE_ENV !== "production" && simular === "sexta" ? new Date(BONUS_ANUAL.inicio) : new Date();
+  const bonus = !encerrada && bonusAnualAtivo(agora);
   const conduta = encerrada ? "" : previewConduta();
   const totalCondutas = prescricoesMeta.length;
 
@@ -145,11 +150,23 @@ export default function BlackWeekPage() {
       {/* Barra de urgência fixa */}
       <div className="sticky top-0 z-50 text-black" style={{ background: Y }}>
         <div className="mx-auto flex max-w-6xl items-center justify-center gap-2 sm:gap-4 px-4 py-2 text-[12px] sm:text-sm font-bold">
-          <span className="hidden sm:inline">🔥 BLACK WEEK: 30% OFF termina em</span>
-          <span className="sm:hidden">🔥 30% OFF acaba em</span>
-          <span className="rounded-md bg-black px-2 py-0.5" style={{ color: Y }}>
-            <Countdown fim={FIM} compact />
-          </span>
+          {bonus ? (
+            <>
+              <span className="hidden sm:inline">🎁 SÓ HOJE: anual com +2 meses grátis (14 meses) acaba em</span>
+              <span className="sm:hidden">🎁 Só hoje: +2 meses grátis</span>
+              <span className="rounded-md bg-black px-2 py-0.5" style={{ color: Y }}>
+                <Countdown fim={BONUS_ANUAL.fim} compact />
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="hidden sm:inline">🔥 BLACK WEEK: 30% OFF termina em</span>
+              <span className="sm:hidden">🔥 30% OFF acaba em</span>
+              <span className="rounded-md bg-black px-2 py-0.5" style={{ color: Y }}>
+                <Countdown fim={FIM} compact />
+              </span>
+            </>
+          )}
         </div>
       </div>
 
@@ -198,6 +215,11 @@ export default function BlackWeekPage() {
             <p className="mt-1 text-sm text-white/70">
               ou R$ 280 à vista no Pix · <strong className="text-white">menos de R$ 0,77 por dia</strong>
             </p>
+            {bonus && (
+              <p className="mt-4 rounded-xl px-3 py-2 text-sm font-black text-black" style={{ background: Y }}>
+                🎁 Só hoje: +2 meses grátis · 14 meses de acesso
+              </p>
+            )}
           </div>
 
           <div className="mt-8">
@@ -303,7 +325,11 @@ export default function BlackWeekPage() {
                 <span className="rounded-lg bg-white/10 px-3 py-1.5 text-sm font-bold text-white/90">R$ 0,77 por dia</span>
               </div>
               <ul className="mt-6 flex-1 space-y-3 text-[15px] text-white/90">
-                <li className="flex gap-2.5"><Check />12 meses de acesso a tudo</li>
+                {bonus ? (
+                  <li className="flex gap-2.5 font-bold text-white"><Check />🎁 Só hoje: 14 meses de acesso (+2 meses grátis)</li>
+                ) : (
+                  <li className="flex gap-2.5"><Check />12 meses de acesso a tudo</li>
+                )}
                 <li className="flex gap-2.5"><Check />Curso, e-books, condutas, evoluções e calculadoras</li>
                 <li className="flex gap-2.5"><Check />Pix à vista ou cartão em até 12x sem juros</li>
                 <li className="flex gap-2.5"><Check />Sem renovação automática</li>
@@ -542,7 +568,9 @@ export default function BlackWeekPage() {
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/95 px-4 py-3 backdrop-blur sm:hidden">
         <Link href={ANUAL} className="flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-black" style={{ background: Y }}>
           <span className="text-left leading-tight">
-            <span className="block text-[11px] font-black uppercase tracking-wider opacity-70">Anual -30% · Black Week</span>
+            <span className="block text-[11px] font-black uppercase tracking-wider opacity-70">
+              {bonus ? "Anual -30% + 2 meses grátis" : "Anual -30% · Black Week"}
+            </span>
             <span className="block text-lg font-black">12x de R$ 23,33</span>
           </span>
           <span className="text-sm font-black uppercase">Garantir →</span>

@@ -6,7 +6,7 @@ import { logError } from "@/lib/error-logger";
 import { createPendingInvoiceForOrder } from "@/lib/nfe";
 import { processReferral } from "@/lib/referral";
 import { verifyAsaasWebhook, updateAsaasSubscriptionValue } from "@/lib/payments/asaas";
-import { ciclosDoCupom } from "@/lib/promocoes";
+import { ciclosDoCupom, diasBonusAnual } from "@/lib/promocoes";
 import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 import { trackPurchase } from "@/lib/meta/capi";
 
@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
               ? new Date(existingSub.currentPeriodEnd)
               : new Date(now);
           const periodEnd = new Date(base);
-          periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30));
+          periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 + diasBonusAnual(order.createdAt) : 30));
 
           await db.subscription.upsert({
             where: { userId: order.userId },
