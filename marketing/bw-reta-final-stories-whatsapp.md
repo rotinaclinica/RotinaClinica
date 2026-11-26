@@ -26,5 +26,18 @@ Ex-assinantes: acrescentar "Desde que você usou, entraram [novidade real: casos
 Domingo 30/11 (fim do dia), apenas para quem respondeu e não comprou:
 > [nome], só passando para avisar que a Black Week termina hoje às 23h59. Depois o anual volta para R$ 400. Link: [link]
 
+## Sexta 27/11: bônus só hoje (anual com 14 meses)
+
+Vale para o anual comprado na sexta, das 00h00 às 23h59 (horário de Brasília). O sistema soma os 2 meses sozinho; a página e o checkout mostram o selo só nesse dia.
+
+Story de abertura (manhã):
+> Só hoje: quem fechar o anual da Black Week leva **14 meses** pelo preço de 12x de R$ 23,33. São 2 meses grátis, até 23h59. [link /bw]
+
+Story à noite (contagem regressiva do Instagram até 23h59):
+> Últimas horas dos 2 meses grátis no anual. Amanhã volta a ser 12 meses.
+
+WhatsApp (só para quem já respondeu ou demonstrou interesse):
+> [nome], hoje tem um bônus que não vai se repetir: o anual da Black Week sai com 14 meses de acesso (2 meses grátis), só até 23h59. Link: [link com utm_content=whatsapp]
+
 ## Embaixadoras
 Pedir que repostem o kit (marketing/embaixadoras/black-week/) na sexta 27/11 e no domingo 30/11.
