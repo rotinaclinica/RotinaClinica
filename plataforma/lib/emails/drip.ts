@@ -35,6 +35,14 @@ function btn(href: string, label: string) {
   </td></tr></table>`;
 }
 
+// Quem se cadastrou e ainda não testou: o caminho que mais converte é o teste grátis
+// (bio do IG: ~47% de quem testa assina), não o checkout direto do anual. O /teste ativa
+// com 1 clique para quem está logado e, para quem não está, ativa logo após o login.
+const TESTE_URL = `${APP_URL}/teste?utm_source=email&utm_medium=drip`;
+function trialNote() {
+  return `<p style="margin:12px 0 0;color:#64748b;font-size:13px;text-align:center;line-height:1.6">Sem cartão e sem compromisso. Condutas, modelos de evolução e calculadoras liberados na hora.</p>`;
+}
+
 export function dripHtml0(name: string) {
   const safe = name ? `, <strong>${escapeHtml(name)}</strong>` : "";
   return base(`
@@ -46,9 +54,10 @@ export function dripHtml0(name: string) {
       A plataforma foi desenvolvida para estar presente em cada etapa da sua jornada — na faculdade, no internato, nos plantões e nos atendimentos da UBS — com modelos de evolução e condutas prontas, calculadoras clínicas, discussão de casos novos toda semana, o curso Destravando o Plantão, conteúdos exclusivos dos nossos parceiros e ebooks disponíveis para uso offline.
     </p>
     <p style="margin:0 0 24px;color:#475569;font-size:15px;line-height:1.7">
-      Tudo isso por <strong>R$ 33,33/mês</strong> no plano anual.
+      Comece testando: são <strong>7 dias grátis</strong> para usar no plantão e ver se faz diferença para você.
     </p>
-    ${btn(`${APP_URL}/checkout?plano=anual`, "Quero assinar agora →")}
+    ${btn(TESTE_URL, "Testar 7 dias grátis →")}
+    ${trialNote()}
     <p style="margin:20px 0 0;color:#94a3b8;font-size:13px;text-align:center">
       Se tiver qualquer dúvida, é só responder este email.<br>Bons plantões, Equipe Rotina Clínica
     </p>
@@ -75,9 +84,10 @@ export function dripHtml2(name: string) {
     ${items}
     <p style="margin:20px 0 24px;color:#475569;font-size:15px;line-height:1.7">
       Da faculdade ao internato, dos plantões à UBS — a plataforma do Rotina Clínica foi feita para estar onde você estiver.<br><br>
-      Tudo isso por menos de <strong>R$ 1,10 por dia</strong>.
+      Você tem <strong>7 dias grátis</strong> para testar e ainda não usou. É só ativar e abrir a primeira conduta.
     </p>
-    ${btn(`${APP_URL}/checkout?plano=anual`, "Acessar a plataforma →")}
+    ${btn(TESTE_URL, "Ativar meus 7 dias grátis →")}
+    ${trialNote()}
     <p style="margin:20px 0 0;color:#94a3b8;font-size:13px;text-align:center">
       Atenciosamente, Equipe Rotina Clínica
     </p>
@@ -95,9 +105,10 @@ export function dripHtml7(name: string) {
       A plataforma foi criada para estar presente em cada momento da sua rotina médica — na faculdade, no internato, nos plantões e nos atendimentos da UBS — com modelos de evolução e condutas prontas, calculadoras clínicas, o curso Destravando o Plantão, conteúdos exclusivos dos nossos parceiros e ebooks para uso offline.
     </p>
     <p style="margin:0 0 24px;color:#475569;font-size:15px;line-height:1.7">
-      Se tiver alguma dúvida ou quiser conhecer melhor antes de assinar, basta responder este email. Estamos aqui.
+      Antes de decidir, teste: seus <strong>7 dias grátis</strong> continuam disponíveis. Se tiver alguma dúvida, basta responder este email.
     </p>
-    ${btn(`${APP_URL}/assinatura`, "Conhecer a plataforma →")}
+    ${btn(TESTE_URL, "Testar 7 dias grátis →")}
+    ${trialNote()}
     <p style="margin:20px 0 0;color:#94a3b8;font-size:13px;text-align:center">
       Esta é nossa última mensagem automática. A partir de agora, só entraremos em contato se você quiser.<br><br>
       Bons plantões, Equipe Rotina Clínica

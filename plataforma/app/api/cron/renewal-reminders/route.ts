@@ -58,6 +58,22 @@ const STEPS: Record<number, { subject: string; title: string; body: (venceEm: st
       `Sua assinatura venceu em <strong>${d}</strong>. Seguimos atualizando condutas, calculadoras e conteúdos — reative no cartão e tenha tudo de volta, com renovação automática.`,
     cta: "Quero voltar →",
   },
+  // Reativação tardia: em nov/26, 9 de 11 vencidas tinham passado dos 15 dias sem
+  // nenhum outro contato. Quem já pagou uma vez é o público mais fácil de trazer de volta.
+  [-30]: {
+    subject: "Suas anotações continuam guardadas no Rotina Clínica",
+    title: "Faz um mês que você saiu",
+    body: (d) =>
+      `Sua assinatura venceu em <strong>${d}</strong>. Nesse tempo seguimos publicando condutas, casos e calculadoras novas, e suas anotações continuam salvas. Volte quando quiser: reativar leva um minuto.`,
+    cta: "Reativar meu acesso →",
+  },
+  [-60]: {
+    subject: "A porta continua aberta no Rotina Clínica",
+    title: "Quando precisar, estamos aqui",
+    body: (d) =>
+      `Desde <strong>${d}</strong> seu acesso está pausado. Se o plantão apertar, tudo continua a um clique: condutas com dose e diluição, modelos de evolução e calculadoras. Este é o nosso último lembrete automático.`,
+    cta: "Voltar para o Rotina Clínica →",
+  },
 };
 
 function reminderHtml(name: string, step: (typeof STEPS)[number], venceEm: string, plano: "mensal" | "anual") {
@@ -142,7 +158,7 @@ export async function GET(req: NextRequest) {
       status: { in: ["ACTIVE", "EXPIRED", "PAST_DUE"] },
       asaasSubscriptionId: null,
       currentPeriodEnd: {
-        gte: new Date(now.getTime() - 17 * 86_400_000),
+        gte: new Date(now.getTime() - 62 * 86_400_000),
         lte: new Date(now.getTime() + 9 * 86_400_000),
       },
       user: { role: "CUSTOMER", isCourtesy: false, anonymizedAt: null },

@@ -5,6 +5,7 @@ import PixelViewContent from "@/app/components/PixelViewContent";
 import { auth } from "@/lib/auth";
 import { trialEligibility, getActiveTrialEnd } from "@/lib/subscription";
 import { shareMeta } from "@/lib/seo";
+import { db } from "@/lib/db";
 
 export const metadata = {
   title: "Planos e Assinatura",
@@ -75,6 +76,26 @@ export default async function AssinaturaPage({
   if (session?.user?.id && !(await getActiveTrialEnd(session.user.id))) {
     podeTestar = (await trialEligibility(session.user.id)).ok;
   }
+  // Quem perdeu o acesso (assinatura vencida ou teste terminado) via só um aviso genérico
+  // e precisava rolar até os planos: agora vê o próprio caso e um botão direto para voltar.
+  let exAssinatura: { venceu: string; plano: "mensal" | "anual" } | null = null;
+  let testeTerminou = false;
+  if (semAcesso && session?.user?.id && !podeTestar) {
+    const u = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { trialStartedAt: true, subscription: { select: { plan: true, currentPeriodEnd: true } } },
+    });
+    if (u?.subscription) {
+      const fim = u.subscription.currentPeriodEnd;
+      exAssinatura = {
+        // Cancelada antes do fim do período: não dá para dizer "venceu em" uma data futura
+        venceu: fim > new Date() ? "" : fim.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }),
+        plano: u.subscription.plan === "ANNUAL" ? "anual" : "mensal",
+      };
+    } else if (u?.trialStartedAt) {
+      testeTerminou = true;
+    }
+  }
   const testeHref = (medium: string) => `/teste?utm_source=site&utm_medium=${medium}&utm_campaign=teste-gratis`;
   return (
     <main className="min-h-screen bg-[#f7fafc]">
@@ -101,7 +122,29 @@ export default async function AssinaturaPage({
           </div>
         </div>
       )}
-      {semAcesso && !(podeTestar && session?.user?.id) && (
+      {(exAssinatura || testeTerminou) && (
+        <div className="bg-[#0f2d4a] border-b border-[#3db8d4]/40 px-4 py-4">
+          <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <p className="text-white text-sm sm:text-base font-semibold">
+              {exAssinatura
+                ? exAssinatura.venceu ? `Sua assinatura venceu em ${exAssinatura.venceu}.` : "Sua assinatura foi encerrada."
+                : "Seu teste grátis terminou."}
+              <span className="block text-[#a9bccd] text-xs sm:text-sm font-normal">
+                {exAssinatura
+                  ? "Suas anotações e seu histórico continuam salvos. Reative e volte de onde parou."
+                  : "Gostou? Assine e continue com condutas, modelos de evolução e calculadoras no plantão."}
+              </span>
+            </p>
+            <Link
+              href={`/checkout?plano=${exAssinatura?.plano ?? "mensal"}`}
+              className="shrink-0 bg-[#3db8d4] hover:bg-[#2fa6c2] text-[#0a1626] font-bold text-sm px-5 py-2.5 rounded-lg transition-colors"
+            >
+              {exAssinatura ? "Reativar meu acesso →" : "Continuar com o Rotina Clínica →"}
+            </Link>
+          </div>
+        </div>
+      )}
+      {semAcesso && !(podeTestar && session?.user?.id) && !exAssinatura && !testeTerminou && (
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-3 text-center">
           <p className="text-amber-800 text-sm font-medium">
             Sua conta não possui uma assinatura ativa.{" "}

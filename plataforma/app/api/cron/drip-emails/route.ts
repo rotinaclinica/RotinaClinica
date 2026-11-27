@@ -18,7 +18,7 @@ const STEPS: { step: number; minHours: number; maxHours: number; subject: string
     step: 2,
     minHours: 48,
     maxHours: 72,
-    subject: "Você ainda não explorou o que preparamos para você",
+    subject: "Seus 7 dias grátis ainda estão esperando por você",
     html: dripHtml2,
   },
   {
