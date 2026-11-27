@@ -10,6 +10,7 @@ import AnonCheckoutTracker from "./AnonCheckoutTracker";
 import OfferVisitTracker from "@/app/_components/OfferVisitTracker";
 import OfferCountdown from "./OfferCountdown";
 import { ofertaPorSlug, bonusAnualAtivo, BONUS_ANUAL } from "@/lib/promocoes";
+import { pixMensalRecorrente } from "@/lib/payments/asaas";
 
 const brl = (cents: number) =>
   (cents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -260,7 +261,7 @@ export default async function CheckoutPage({
               plano={isMensal ? "mensal" : "anual"}
               priceCents={finalCents}
               couponCode={promo?.oferta.couponCode}
-              cardOnly={isMensal}
+              cardOnly={isMensal && !pixMensalRecorrente()}
               mensalNote={
                 promo && isMensal
                   ? `Cobrança de ${brl(finalCents)} por mês nos ${ciclos} primeiros meses, renovada automaticamente; depois, ${brl(product.priceCents)} por mês.`

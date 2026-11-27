@@ -9,6 +9,7 @@ import { verifyAsaasWebhook, updateAsaasSubscriptionValue } from "@/lib/payments
 import { ciclosDoCupom, diasBonusAnual } from "@/lib/promocoes";
 import { captureBuyerSnapshot } from "@/lib/crypto/buyer-snapshot";
 import { trackPurchase } from "@/lib/meta/capi";
+import { sendCobrancaRecusada } from "@/lib/emails/cobranca-recusada";
 
 async function endRecurringDiscountIfDone(orderId: string, asaasSubscriptionId: string, paidCents: number) {
   const original = await db.order.findUnique({
@@ -252,6 +253,31 @@ export async function POST(req: NextRequest) {
           amountCents: Math.round((payment.value ?? 0) * 100),
           paymentMethod: "asaas",
         }).catch(() => {});
+      }
+    } else if (
+      asaasSubscriptionId &&
+      (event === "PAYMENT_CREDIT_CARD_CAPTURE_REFUSED" || event === "PAYMENT_OVERDUE")
+    ) {
+      // Renovação recorrente que não passou: o pedido original já está PAID, então
+      // o bloco abaixo não fazia nada e o assinante só perdia o acesso no vencimento.
+      // Um aviso por cobrança (recusa e atraso da mesma cobrança não duplicam).
+      const dunningKey = `asaas_dunning_${paymentId}`;
+      const already = await db.webhookEvent.findFirst({ where: { externalId: dunningKey } });
+      const sub = already
+        ? null
+        : await db.subscription.findUnique({
+            where: { asaasSubscriptionId },
+            include: { user: { select: { email: true, name: true, role: true, isCourtesy: true, anonymizedAt: true } } },
+          });
+      if (sub?.user?.email && sub.user.role === "CUSTOMER" && !sub.user.isCourtesy && !sub.user.anonymizedAt && payment.invoiceUrl) {
+        await db.webhookEvent.create({ data: { provider: "ASAAS", externalId: dunningKey } });
+        await sendCobrancaRecusada({
+          to: sub.user.email,
+          name: sub.user.name ?? "",
+          valueCents: Math.round((payment.value ?? 0) * 100),
+          invoiceUrl: String(payment.invoiceUrl),
+          motivo: event === "PAYMENT_OVERDUE" ? "vencido" : "recusado",
+        }).catch((err) => logError({ route: "/api/webhooks/asaas#dunning", method: "POST", error: err }));
       }
     } else if (event === "PAYMENT_OVERDUE" || event === "PAYMENT_DELETED") {
       await db.order.updateMany({

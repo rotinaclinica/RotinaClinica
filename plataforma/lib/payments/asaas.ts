@@ -188,6 +188,48 @@ export async function createAsaasSubscription(params: {
   };
 }
 
+/**
+ * Mensal no Pix com cobrança recorrente: o Asaas gera uma cobrança Pix por mês e
+ * avisa o cliente; antes, o mensal no Pix era um pagamento avulso de 30 dias que
+ * quase nunca era renovado. Ligado só com ASAAS_PIX_MENSAL=1 (ver pixMensalRecorrente).
+ * Devolve o QR da 1ª cobrança, que o Asaas cria junto com a assinatura.
+ */
+export async function createAsaasPixSubscription(params: {
+  customerId: string;
+  orderId: string;
+  valueCents: number;
+}): Promise<{ subscriptionId: string; paymentId: string; qrCodeBase64: string; pixCode: string }> {
+  const nextDueDate = new Date().toISOString().slice(0, 10);
+  const res = await fetch(`${base()}/subscriptions`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({
+      customer: params.customerId,
+      billingType: "PIX",
+      value: params.valueCents / 100,
+      nextDueDate,
+      cycle: "MONTHLY",
+      description: "Assinatura Rotina Clínica",
+      externalReference: params.orderId,
+    }),
+  });
+  if (!res.ok) throw new Error(await firstError(res, "Erro ao criar assinatura Pix"));
+  const sub = await res.json();
+
+  const payRes = await fetch(`${base()}/subscriptions/${sub.id}/payments`, { headers: headers() });
+  if (!payRes.ok) throw new Error(await firstError(payRes, "Erro ao obter a cobrança da assinatura Pix"));
+  const first = (await payRes.json())?.data?.[0];
+  if (!first?.id) throw new Error("Assinatura Pix criada sem cobrança inicial");
+
+  const qr = await getAsaasPixQrCode(first.id);
+  if (!qr) throw new Error("Erro ao obter QR code PIX");
+  return { subscriptionId: sub.id as string, paymentId: first.id as string, ...qr };
+}
+
+export function pixMensalRecorrente(): boolean {
+  return process.env.ASAAS_PIX_MENSAL === "1";
+}
+
 // Muda o valor das próximas cobranças da assinatura (inclusive a já gerada e
 // ainda pendente), usada quando termina o período com desconto.
 export async function updateAsaasSubscriptionValue(subscriptionId: string, valueCents: number): Promise<void> {

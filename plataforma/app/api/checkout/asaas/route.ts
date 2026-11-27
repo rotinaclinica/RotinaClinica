@@ -9,6 +9,8 @@ import {
   createAsaasPixPayment,
   createAsaasCardPayment,
   createAsaasSubscription,
+  createAsaasPixSubscription,
+  pixMensalRecorrente,
 } from "@/lib/payments/asaas";
 import { grantAccess } from "@/lib/entitlements";
 import { decryptCpf } from "@/lib/crypto/cpf";
@@ -65,7 +67,7 @@ export async function POST(req: NextRequest) {
   if (product.type === "SUBSCRIPTION") {
     const isAnnual = product.slug === "assinatura-anual";
     // Mensal só no cartão (assinatura recorrente). Pix fica para o anual.
-    if (!isAnnual && base.data.method === "pix") {
+    if (!isAnnual && base.data.method === "pix" && !pixMensalRecorrente()) {
       return NextResponse.json({ error: "O plano mensal é válido apenas no cartão de crédito. No Pix, escolha o plano anual." }, { status: 400 });
     }
     if (await hasBlockingSubscription(session.user.id, isAnnual ? "ANNUAL" : "MONTHLY")) {
@@ -119,7 +121,7 @@ export async function POST(req: NextRequest) {
     couponId = coupon.id;
     // Desconto recorrente (ex.: Black Week no mensal) só existe no cartão: no Pix
     // não há assinatura para manter o preço pelos 12 meses.
-    if (ciclosDoCupom(couponCode) && product.slug === "assinatura-mensal" && base.data.method === "pix") {
+    if (ciclosDoCupom(couponCode) && product.slug === "assinatura-mensal" && base.data.method === "pix" && !pixMensalRecorrente()) {
       return NextResponse.json({ error: "Esta oferta do plano mensal é válida apenas no cartão de crédito.", code: "INVALID_COUPON" }, { status: 400 });
     }
   }
@@ -170,6 +172,22 @@ export async function POST(req: NextRequest) {
       cpfCnpj: userCpfPlain,
       externalReference: session.user.id,
     });
+
+    // Mensal no Pix com cobrança recorrente (só com a chave ligada)
+    if (
+      base.data.method === "pix" &&
+      product.type === "SUBSCRIPTION" &&
+      product.slug !== "assinatura-anual" &&
+      pixMensalRecorrente()
+    ) {
+      const pixSub = await createAsaasPixSubscription({
+        customerId,
+        orderId: order.id,
+        valueCents: finalPriceCents,
+      });
+      await db.order.update({ where: { id: order.id }, data: { providerRef: pixSub.paymentId } });
+      return NextResponse.json({ orderId: order.id, qrCodeBase64: pixSub.qrCodeBase64, pixCode: pixSub.pixCode });
+    }
 
     if (base.data.method === "pix") {
       const pix = await createAsaasPixPayment({

@@ -128,6 +128,13 @@ export async function GET(req: NextRequest) {
   const now = new Date();
   const today = brDay(now);
 
+  // Status em dia: quem venceu e não entrou mais seguia ACTIVE (a expiração só
+  // acontecia no próximo acesso), inflando contagens que olham só o status.
+  const expired = await db.subscription.updateMany({
+    where: { status: "ACTIVE", currentPeriodEnd: { lte: now } },
+    data: { status: "EXPIRED" },
+  });
+
   // Exclui quem tem renovação automática (Asaas recorrente), quem cancelou,
   // cortesias e contas internas.
   const subs = await db.subscription.findMany({
@@ -170,5 +177,5 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ candidates: subs.length, sent, failed });
+  return NextResponse.json({ expired: expired.count, candidates: subs.length, sent, failed });
 }

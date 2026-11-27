@@ -4,10 +4,34 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 
+function maskCpf(v: string) {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return d.replace(/^(\d{3})(\d{0,3})/, "$1.$2");
+  if (d.length <= 9) return d.replace(/^(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
+  return d.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
+}
+
+function maskCep(v: string) {
+  const d = v.replace(/\D/g, "").slice(0, 8);
+  return d.length <= 5 ? d : `${d.slice(0, 5)}-${d.slice(5)}`;
+}
+
+// Dígitos verificadores: evita que o erro de CPF só apareça no Asaas, na hora de cobrar
+function cpfValido(d: string) {
+  if (!/^\d{11}$/.test(d) || /^(\d)\1{10}$/.test(d)) return false;
+  for (const n of [9, 10]) {
+    let s = 0;
+    for (let i = 0; i < n; i++) s += Number(d[i]) * (n + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[n])) return false;
+  }
+  return true;
+}
+
 /**
  * Cadastro curto dentro do checkout, para quem chega sem conta (anúncio, bio, e-mail).
- * Só nome, e-mail e senha: CPF e CEP, necessários para a nota fiscal, são pedidos
- * na própria tela de pagamento, logo antes de cobrar.
+ * Nome, e-mail, senha, CPF e CEP numa tela só: CPF e CEP (nota fiscal) vinham numa
+ * janela surpresa depois do clique em "Pagar"; agora o próximo passo já é pagar.
  */
 export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anual"; oferta?: string }) {
   const of = oferta ? `&oferta=${oferta}` : "";
@@ -15,7 +39,8 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [terms, setTerms] = useState(false);
+  const [cpf, setCpf] = useState("");
+  const [cep, setCep] = useState("");
   const [error, setError] = useState("");
   const [emailExists, setEmailExists] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -28,6 +53,16 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
     setEmailExists(false);
     if (password.length < 8) {
       setError("A senha deve ter pelo menos 8 caracteres.");
+      return;
+    }
+    const cpfDigits = cpf.replace(/\D/g, "");
+    const cepDigits = cep.replace(/\D/g, "");
+    if (!cpfValido(cpfDigits)) {
+      setError("CPF inválido. Confira os 11 dígitos.");
+      return;
+    }
+    if (cepDigits.length !== 8) {
+      setError("CEP inválido. Digite os 8 dígitos.");
       return;
     }
     setLoading(true);
@@ -53,7 +88,7 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quick: true, name, email, password, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl }),
+      body: JSON.stringify({ quick: true, name, email, password, cpf: cpfDigits, cep: cepDigits, utmSource, utmMedium, utmCampaign, utmContent, referrerUrl }),
     }).catch(() => null);
 
     if (!res || !res.ok) {
@@ -93,8 +128,8 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
       </div>
       <p className="text-xs text-zinc-700 leading-snug">
         {plano === "mensal"
-          ? "Leva 20 segundos. Em seguida você paga no cartão e já entra na plataforma."
-          : "Leva 20 segundos. Em seguida você escolhe cartão ou Pix e já entra na plataforma."}
+          ? "Leva 30 segundos. Em seguida você paga no cartão e já entra na plataforma."
+          : "Leva 30 segundos. Em seguida você escolhe cartão ou Pix e já entra na plataforma."}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -120,16 +155,19 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
           </div>
         </div>
 
-        <label className="flex items-start gap-2.5 cursor-pointer">
-          <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} required
-            className="mt-0.5 w-4 h-4 rounded border-zinc-300 accent-[#0f2d4a] flex-shrink-0" />
-          <span className="text-xs text-zinc-700 leading-relaxed">
-            Concordo com os{" "}
-            <Link href="/termos" target="_blank" className="text-[#1a6aad] font-medium hover:underline">Termos de Uso</Link>{" "}
-            e a{" "}
-            <Link href="/privacidade" target="_blank" className="text-[#1a6aad] font-medium hover:underline">Política de Privacidade</Link>.
-          </span>
-        </label>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label htmlFor="qs-cpf" className="block text-xs font-bold text-[#0f2d4a] mb-1">CPF</label>
+            <input id="qs-cpf" type="text" inputMode="numeric" autoComplete="off" required
+              value={cpf} onChange={(e) => setCpf(maskCpf(e.target.value))} placeholder="000.000.000-00" className={inputClass} />
+          </div>
+          <div>
+            <label htmlFor="qs-cep" className="block text-xs font-bold text-[#0f2d4a] mb-1">CEP</label>
+            <input id="qs-cep" type="text" inputMode="numeric" autoComplete="postal-code" required
+              value={cep} onChange={(e) => setCep(maskCep(e.target.value))} placeholder="00000-000" className={inputClass} />
+          </div>
+        </div>
+        <p className="text-[11px] text-zinc-500 -mt-1">CPF e CEP são exigidos para emitir a nota fiscal.</p>
 
         {emailExists && (
           <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-900">
@@ -143,10 +181,16 @@ export default function QuickSignup({ plano, oferta }: { plano: "mensal" | "anua
           </div>
         )}
 
-        <button type="submit" disabled={loading || !terms}
+        <button type="submit" disabled={loading}
           className="w-full bg-[#0d9488] hover:bg-[#0f766e] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 rounded-xl font-bold text-sm transition-colors">
           {loading ? "Criando conta…" : "Continuar para o pagamento"}
         </button>
+        <p className="text-[11px] text-zinc-500 text-center leading-relaxed">
+          Ao continuar, você concorda com os{" "}
+          <Link href="/termos" target="_blank" className="text-[#1a6aad] font-medium hover:underline">Termos de Uso</Link>{" "}
+          e a{" "}
+          <Link href="/privacidade" target="_blank" className="text-[#1a6aad] font-medium hover:underline">Política de Privacidade</Link>.
+        </p>
       </form>
 
       <p className="text-center text-sm text-zinc-700">

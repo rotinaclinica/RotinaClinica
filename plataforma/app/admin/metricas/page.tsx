@@ -254,6 +254,11 @@ export default async function MetricasPage() {
   const ticketMedio = ordersPaid ? Math.round(grossAll / ordersPaid) : 0;
 
   const mrr = subsMonthly * 3990 + Math.round(subsAnnual * 40000 / 12);
+  // Mensal sem cobrança recorrente (Pix avulso) não renova sozinho: em nov/26, 9 de
+  // 11 assinaturas vencidas eram assim. Mostra quantos mensais vigentes estão nessa situação.
+  const mensalSemRenovacao = await db.subscription.count({
+    where: { ...vigente, plan: "MONTHLY", asaasSubscriptionId: null, ...notTestSub, user: { ...notTest, isCourtesy: false } },
+  });
 
   // LTV = receita mensal média por assinante ÷ churn mensal (sem perdas no período, não há base)
   const ltvEstimado = subsActive > 0 && churnFraction > 0 ? Math.round(mrr / subsActive / churnFraction) : null;
@@ -376,7 +381,7 @@ export default async function MetricasPage() {
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-100 mb-3">Indicadores-chave</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Tile label="MRR" value={brl(mrr)} color="green" sub="assinaturas com período vigente" />
-          <Tile label="Assinantes ativos" value={subsActive} color="green" sub={`${subsMonthly} mensal · ${subsAnnual} anual`} />
+          <Tile label="Assinantes ativos" value={subsActive} color="green" sub={`${subsMonthly} mensal · ${subsAnnual} anual · ${mensalSemRenovacao} mensal sem renovação automática`} />
           <Tile label="Churn (30 dias)" value={`${churnRate}%`} color={Number(churnRate) > 5 ? "red" : undefined} sub={churnSub} />
           <Tile label="Ticket médio" value={brl(ticketMedio)} sub="por pedido pago" />
         </div>

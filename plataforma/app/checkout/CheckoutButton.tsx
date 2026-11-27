@@ -347,11 +347,11 @@ export default function CheckoutButton({
           </p>
         )}
 
-        {/* Pix no mensal: lembrar que a renovação é manual */}
+        {/* Pix no mensal (só aparece com ASAAS_PIX_MENSAL=1): cobrança recorrente por Pix */}
         {selected === "pix" && isMensal && (
           <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs text-amber-900 leading-relaxed">
-            <strong>No Pix você precisa renovar manualmente todo mês.</strong> No cartão a renovação é automática,
-            você não corre o risco de perder o acesso no meio de um plantão e pode cancelar quando quiser.
+            <strong>Todo mês chega por e-mail um novo Pix para pagar.</strong> Pague até o vencimento para não perder
+            o acesso. No cartão a renovação é automática e você não precisa se preocupar com isso.
           </div>
         )}
 
